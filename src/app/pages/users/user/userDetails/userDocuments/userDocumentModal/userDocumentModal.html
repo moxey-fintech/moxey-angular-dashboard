@@ -1,0 +1,336 @@
+<div ng-hide="updatingDocument" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Update document</h4>
+    </div>
+    <div class="modal-body">
+        <div class="tabbable">
+            <ul class="nav nav-tabs exports-tab-nav exports-tab">
+                <li ng-class="{'active': documentView == 'document'}" ng-click="displayTab('document')"><a href="" data-target="#documentDetails" data-toggle="tab">Document details</a></li>
+                <li class="tab-divider"> | </li>
+                <li ng-class="{'active': documentView == 'logs'}" ng-click="displayTab('logs')"><a href="" data-target="#documentLogs" data-toggle="tab">Document logs</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="documentDetails" ng-class="{'active': documentView == 'document'}">
+                    <div ng-show="showingDocumentFile" class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding align-items-center">
+                            <a href="{{document.file || defaultImageUrl}}" target="_blank" class="pointer align-items-center" style="align-items: center;">
+                                <img ng-hide="pdfSelected" id="userDocumentImage" class="documentImage" ng-class="{'defaultDocumentLoader': imageNotFinishedLoading}" 
+                                ng-src="{{document.file || defaultImageUrl}}" height="450" width="100%" style="object-fit: contain" ng-load="test($event)">
+                                <div ng-show="pdfSelected" class="align-items-center pdf-review">
+                                    <button class="btn btn-primary pdf-button" style="font-size: 20px; padding: 12px;">
+                                        <i class="far fa-file-pdf fa-2x document-pdf" style="vertical-align: middle;"></i>&nbsp;&nbsp;This document is a PDF, click to view
+                                    </button>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-right-padding">
+                            <div class="divider">
+                                <h4 class="document-info-header">User</h4>
+                                <table class="table user-basic-info-table">
+                                    <tr ng-show="user.email">
+                                        <th width="50%">User email</th>
+                                        <td ng-bind="user.email"></td>
+                                    </tr>
+                                    <tr ng-show="!user.email && user.mobile">
+                                        <th width="50%">User mobile</th>
+                                        <td ng-bind="user.mobile"></td>
+                                    </tr>
+                                    <tr ng-show="!user.email && !user.mobile">
+                                        <th width="50%">User id</th>
+                                        <td ng-bind="user.id"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div ng-show="(document.document_category == 'Proof Of Identity') || document.document_category == 'Advanced Proof Of Identity'">
+                                <h4 class="document-info-header">Basic info</h4>
+                                <table class="table user-basic-info-table">
+                                    <tr>
+                                        <th width="50%">First name</th>
+                                        <td ng-bind="user.first_name || 'None'"></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Last name</th>
+                                        <td ng-bind="user.last_name || 'None'"></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Nationality</th>
+                                        <td ng-bind="user.nationality | isoCountry"></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Language</th>
+                                        <td ng-bind="user.language || 'None'"></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Date of birth</th>
+                                        <td ng-bind="user.birth_date"></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Age</th>
+                                        <td>
+                                            {{user.birth_date | ageCalculator}}
+                                            <span ng-show="userIsUnder18">&nbsp;
+                                                <i tooltip-class="duplicate-transction-tooltip" uib-tooltip-html="'User is under 18.'" 
+                                                class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Id number</th>
+                                        <td ng-bind="user.id_number || 'None'"></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Basic info status</th>
+                                        <td><select class="form-control pointer" ng-model="userInfo.status"
+                                                    ng-options="statusOption for statusOption in documentStatusOptions">
+                                        </select></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div ng-show="document.document_category == 'Proof Of Address'">
+                                <h4 class="document-info-header">Addresses</h4>
+                                <table class="table user-basic-info-table" ng-repeat="address in userAddresses track by $index">
+                                    <tr>
+                                        <th width="50%">Address type</th>
+                                        <td>{{address.type || 'None'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Line 1</th>
+                                        <td>{{address.line_1 || 'None'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Line 2</th>
+                                        <td>{{address.line_2 || 'None'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">City</th>
+                                        <td>{{address.city || 'None'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">State/province</th>
+                                        <td>{{address.state_province || 'None'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Country</th>
+                                        <td>{{address.country || 'None' | isoCountry}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Postal code</th>
+                                        <td>{{address.postal_code || 'None'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%">Address status</th>
+                                        <td><select class="form-control pointer" ng-model="address.status" ng-change="addressStatusTracking(address)"
+                                                    ng-options="statusOption for statusOption in documentStatusOptions">
+                                        </select></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <i ng-show="(document.document_category == 'Proof Of Address') && (userAddresses.length == 0)">No address provided</i>
+                            <div ng-show="metadataExists">
+                                <h4>Extra</h4>
+                                <div>
+                                    <pre>{{editDocument.formatted_metadata}}</pre>
+                                </div>
+                            </div>
+                            <h4 ng-class="{'no-margin-top': document.document_category == 'Other'}">Document</h4>
+                            <form class="custom-form" novalidate>
+                                <!-- <fieldset class="divider-20 custom-file-upload">
+                                    <label>
+                                        <span class="custom-file-upload-span-2"><button>Choose File</button></span>
+                                        <input ng-change="kycDocumentSelected('file')" type="file"
+                                               ng-disabled="document.archived"
+                                               class="divider-6"
+                                               ngf-select ng-model="editDocument.file" name="file"
+                                               accept="image/*" ngf-max-size="5MB" required>
+                                    </label>
+                                    <p class="small">Max size is 5MB.</p>
+                                </fieldset> -->
+                                <div class="form-group divider">
+                                    <table class="table user-basic-info-table">
+                                        <tr>
+                                            <td width="50%">
+                                                <label>Document type</label><br>
+                                                <span>{{editDocument.document_type || '--'}}</span>
+                                            </td>
+                                            <td>
+                                                <label>Document category</label><br>
+                                                <span>{{editDocument.document_category || '--'}}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="form-group divider-20">
+                                    <label>Document status <span class="required-icon">*</span></label>
+                                    <br>
+                                    <select class="form-control pointer" ng-change="documentChanged('status')"
+                                            ng-disabled="document.archived" ng-class="{'archived-text': document.archived}"
+                                            ng-model="editDocument.status" ng-options="status for status in documentStatusOptions" required>
+                                    </select>
+                                </div>
+                                <div class="form-group divider-20">
+                                    <!-- <label>Document status </label>
+                                    <br> -->
+                                    <div>
+                                        <label class="checkbox-inline custom-checkbox nowrap onbaording-email-checkbox divider-10">
+                                            <input type="checkbox" ng-model="rehiveContextData.full_document" ng-change="documentChanged('full_document')">
+                                            <span>&nbsp;&nbsp;&nbsp;Full document</span>
+                                        </label>
+                                        <label class="checkbox-inline custom-checkbox nowrap onbaording-email-checkbox divider-10" style="margin-left: 0;">
+                                            <input type="checkbox" ng-model="rehiveContextData.image_quality" ng-change="documentChanged('image_quality')">
+                                            <span>&nbsp;&nbsp;&nbsp;Image quality sufficient</span>
+                                        </label>
+                                        <label class="checkbox-inline custom-checkbox nowrap onbaording-email-checkbox" style="margin-left: 0;">
+                                            <input type="checkbox" ng-model="rehiveContextData.color_document" ng-change="documentChanged('color_document')">
+                                            <span>&nbsp;&nbsp;&nbsp;Color document</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group divider-20">
+                                    <label>Uploaded on</label>
+                                    <br>
+                                    <p ng-bind="document.created"></p>
+                                </div>
+                                <div class="form-group divider-20">
+                                    <table class="table user-basic-info-table">
+                                        <tr>
+                                            <td width="50%">
+                                                <label>Expiry date
+                                                    <span ng-show="documentHasExpired">&nbsp;
+                                                        <i tooltip-class="duplicate-transction-tooltip" uib-tooltip-html="'Document has expired!'" 
+                                                        class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                                                    </span>
+                                                </label>
+                                                <p ng-bind="document.expires"></p>
+                                            </td>
+                                            <td ng-show="editDocument.document_category === 'Proof Of Identity'">
+                                                <label>Document issuance</label><br>
+                                                <span>{{editDocument.issuance || '--'}}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="form-group">
+                                    <label>Note to user</label>
+                                    <textarea rows="4" type="text" ng-change="documentChanged('note')"
+                                              ng-disabled="document.archived" ng-class="{'archived-text': document.archived}"
+                                              ng-model="editDocument.note" class="form-control"  placeholder='Enter note'></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div ng-hide="showingDocumentFile" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding no-right-padding">
+                            <img class="divider-20" ngf-thumbnail="editDocument.file" height="500px" width="100%">
+                            <form class="custom-form" novalidate>
+                                <fieldset class="divider-20 custom-file-upload">
+                                    <label>
+                                        <span class="custom-file-upload-span-3"><button>Choose File</button></span>
+                                        <input ng-change="kycDocumentSelected('file')" type="file" ngf-select ng-model="editDocument.file" name="file"
+                                               class="divider-6"
+                                               accept=".pdf,image/*" ngf-max-size="5MB" required>
+                                    </label>
+                                    <p class="small">Max size is 5MB.</p>
+                                </fieldset>
+                                <div class="form-group divider-20">
+                                    <label>Document type <span class="required-icon">*</span></label>
+                                    <br>
+                                    <select class="form-control pointer" ng-change="documentChanged('document_type')" ng-model="editDocument.document_type" ng-options="type for type in documentTypeOptions" required>
+                                    </select>
+                                </div>
+                                <div class="form-group divider-20">
+                                    <label>Status <span class="required-icon">*</span></label>
+                                    <br>
+                                    <select class="form-control pointer" ng-change="documentChanged('status')" ng-model="editDocument.status" ng-options="status for status in documentStatusOptions" required>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Note</label>
+                                    <textarea rows="4" type="text" ng-change="documentChanged('note')" ng-model="editDocument.note" class="form-control"  placeholder='Enter note'></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+                <div class="tab-pane" id="documentLogs" ng-class="{'active': documentView == 'logs'}">
+                    <div ng-hide="loadingRequestLogs" class="panel">
+                        <div>
+                            <div class="table-filter-heading">
+                                <div>
+                                    <button ng-click="showRequestLogsFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                                            class="btn btn-default">Filters
+                                        <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                                    </button>
+                                    
+                                    <div ng-show="showingFilters">
+                                        <document-logs-filter></document-logs-filter>
+                                    </div>
+                                    <button ng-click="getRequestLogs('applyFilter')" ng-disabled="loadingRequestLogs"
+                                            class="btn btn-default transactions-btn panel-header-button">Refresh</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body no-left-padding no-right-padding">
+                            <div ng-show="filtersCount > 0" class="divider">
+                                <p class="filter-text">Your results are currently being filtered</p>
+                            </div>
+                            <div ng-show="requestLogs.length > 0" class="divider">
+                                <div class="draggable-table">
+                                    <table class="table custom-table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th width="82%">Action</th>
+                                            <th width="18%">Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="requestLog in requestLogs | orderBy:'-created' track by $index" data-toggle="modal" class="editable-row center pointer user-details-table-hover" 
+                                            ng-class="{'text-danger': requestLog.failed_request}">
+                                            <td class="transactions-list-element"><span ng-bind-html="requestLog.request_action"></span></td>
+                                            <td class="transactions-list-element"><span ng-bind="requestLog.created_date"></span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="userLogsData.count" ng-model="pagination.pageNo"
+                                       max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getRequestLogs()"
+                                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                                </div>
+                            </div>
+                            <div ng-show="requestLogs.length == 0">
+                                <i>No document logs found.</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div ba-panel ng-show="loadingRequestLogs">
+                        <loading-image></loading-image>
+                    </div>
+                </div>
+            </div>                
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div ng-show="documentView == 'document'" class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <button type="button" ng-click="openDeleteUserDocumentModal('app/pages/users/user/userDetails/userDocuments/userDocumentModal/deleteDocumentModal/deleteDocumentModal.html','md')"
+                    ng-disabled="updatingDocument"
+                    class="btn btn-danger no-left-padding dashboard-btn pull-left">Delete</button>
+                <button type="button" ng-click="restoreDocument()"
+                    ng-disabled="updatingDocument" ng-show="document.archived"
+                    class="btn btn-default no-left-padding dashboard-btn pull-left">Restore</button>
+                <span ng-hide="pdfSelected" class="pull-right" style="margin-top: 20px;"><i class="fa fa-search-plus" aria-hidden="true"></i>&nbsp;Click document to view a larger version of it</span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <a ng-show="user" class="pull-left pointer" ng-click="viewUser()" style="margin-top: 20px;">View user</a>
+                <button ng-click="updateDocument()" ng-disabled="updatingDocument || document.archived"
+                     type="button" class="btn btn-primary no-right-padding dashboard-btn pull-right">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="updatingDocument">
+    <loading-image></loading-image>
+</div>

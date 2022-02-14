@@ -1,0 +1,42 @@
+<div ng-hide="fundingassets" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Fund assets</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-center">To fund your assets please fill out the below form:</p>
+        <div class="modal-body">
+            <form class="custom-form" name="addAssetForm" novalidate>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input class="form-control" ng-model="assetParams.amount" placeholder="Enter in the lowest denomination of the asset">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Issuer secret</label>
+                    <input class="form-control" ng-model="assetParams.issuer_secret" placeholder="Enter issuer account secret key">
+                </div>
+            </form>
+            <p class="pull-right currencies-details-heading">
+                Please note that Rehive does NOT store the Issuer secret.
+            </p>
+        </div>
+        <br>
+        <hr>
+        <p class="text-center">or send a manual transaction(for the asset) signed by the issuer to the following address:</p>
+        <br>
+        <p ngclipboard ngclipboard-success="copiedSuccessfully()" data-clipboard-text="{{assetsFundObj.account_address}}"
+           class="text-center pointer"><strong>{{assetsFundObj.account_address}}</strong></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addassets(assetParams)"
+                ng-disabled="addingassets"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="fundingassets">
+    <loading-image></loading-image>
+</div>

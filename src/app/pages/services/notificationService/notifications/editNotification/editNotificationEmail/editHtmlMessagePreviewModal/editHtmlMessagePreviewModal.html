@@ -1,0 +1,19 @@
+<div ng-hide="loadingAccount" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">HTML Preview</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-bind-html="htmlPreview"></div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-click="$dismiss()" class="dashboard-btn btn btn-default pull-right">Close</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccount">
+    <loading-image></loading-image>
+</div>

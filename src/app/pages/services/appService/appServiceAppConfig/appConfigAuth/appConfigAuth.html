@@ -1,0 +1,373 @@
+<div ng-hide="loadingWalletConfig" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Auth</span>
+    </div>
+    <div class="panel-body">
+        <div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Confirm password on register&nbsp;
+                            <span>
+                                <i uib-tooltip-html="'Adds a confirm password field to registration for users.'"
+                                   class="ion-information-circled setup-groups-tooltip"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.confirm_password">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('confirm_password')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.confirm_password">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('confirm_password')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Disable register button&nbsp;
+                            <span>
+                                <i uib-tooltip-html="'Hides the register button on the wallet.'"
+                                   class="ion-information-circled setup-groups-tooltip"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.disableRegister">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('disableRegister')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.disableRegister">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('disableRegister')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Enable public group selection&nbsp;
+                            <span>
+                                <i uib-tooltip-html="'Set to true if you want your users to be able to choose their user group from the public groups when registering.'"
+                                   class="ion-information-circled setup-groups-tooltip"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.group">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('group')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.group">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('group')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>First name required on register</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.first_name">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('first_name')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.first_name">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('first_name')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Last name required on register</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.last_name">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('last_name')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.last_name">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('last_name')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Username required on register&nbsp;
+                            <span>
+                                <i uib-tooltip-html="'Adds the username field to registration for users.'"
+                                   class="ion-information-circled setup-groups-tooltip"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.username">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('username')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.username">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('username')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Require user to select nationality on register</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.nationality">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('nationality')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.nationality">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('nationality')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Allow users to be signed in to multiple sessions</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.auth.sessions">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAuth('sessions')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.auth.sessions">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAuth('sessions')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="form-group divider-15">
+                <div class ="input-group">
+                    <span>Session duration&nbsp; 
+                        <span>
+                            <i uib-tooltip-html="'NB ensure that the setting Allow custom session durations is set to true in Company settings before using this setting. &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Enter a value in seconds to set session duration for app users. 604800 would be 1 week.'" 
+                            class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>&nbsp; <a href="https://dashboard.rehive.com/#/settings/company-settings">Check allow custom session duration setting</a>
+                        </span>
+                    </span>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" style="margin-top: 10px;" ng-model="wallet_config.auth.session_duration" class="form-control" placeholder="Enter a value in seconds e.g. 604800 would be 1 week">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row divider-15">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Require email address verification</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="" ng-model="wallet_config.auth.email">
+                            <span class="custom-radio-btn">Off</span>
+                        </label>
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="optional" ng-model="wallet_config.auth.email">
+                            <span class="custom-radio-btn">Optional</span>
+                        </label>
+
+                        <label class="pointer" >
+                            <input class="pointer" type="radio" value="required" ng-model="wallet_config.auth.email">
+                            <span class="custom-radio-btn">Required</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row divider-15">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Require mobile number verification</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="" ng-model="wallet_config.auth.mobile">
+                            <span class="custom-radio-btn">Off</span>
+                        </label>
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="optional" ng-model="wallet_config.auth.mobile">
+                            <span class="custom-radio-btn">Optional</span>
+                        </label>
+
+                        <label class="pointer" >
+                            <input class="pointer" type="radio" value="required" ng-model="wallet_config.auth.mobile">
+                            <span class="custom-radio-btn">Required</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row divider-15">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Identifier on register&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Select whether you want your users to register using their email address or mobile number.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                        <label class="pointer" style="margin-right: 86px;">
+                            <input class="pointer" type="radio" value="email" ng-model="wallet_config.auth.identifier">
+                            <span class="custom-radio-btn">Email</span>
+                        </label>
+                        <label class="pointer" >
+                            <input class="pointer" type="radio" value="mobile" ng-model="wallet_config.auth.identifier" style="width: 100%;">
+                            <span class="custom-radio-btn">Mobile</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row divider-15">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Require two-factor authentication</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="" ng-model="wallet_config.auth.mfa">
+                            <span class="custom-radio-btn">Off</span>
+                        </label>
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="optional" ng-model="wallet_config.auth.mfa">
+                            <span class="custom-radio-btn">Optional</span>
+                        </label>
+
+                        <label class="pointer" >
+                            <input class="pointer" type="radio" value="required" ng-model="wallet_config.auth.mfa">
+                            <span class="custom-radio-btn">Required</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row divider-15">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Local authentication&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Only available for mobile app. Allows the option to ask users to set a pin on their app for certain actions
+                            such as sending or app load for additional security. Please note that if users clear their cache for the Rehive app it will clear the pin.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="" ng-model="wallet_config.auth.localAuth">
+                            <span class="custom-radio-btn">Off</span>
+                        </label>
+                        <label class="pointer" style="margin-right: 100px;">
+                            <input class="pointer" type="radio" value="optional" ng-model="wallet_config.auth.localAuth">
+                            <span class="custom-radio-btn">Optional</span>
+                        </label>
+
+                        <label class="pointer" >
+                            <input class="pointer" type="radio" value="required" ng-model="wallet_config.auth.localAuth">
+                            <span class="custom-radio-btn">Required</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <label style="color: #022b36; font-weight:600; margin-bottom: 10px;">Default nationality</label>
+                <div class="row divider-top-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="reward-multi-select">
+                            <select chosen
+                                    single
+                                    data-placeholder-text-single="''"
+                                    width="100"
+                                    ng-model="wallet_config.auth.selectedNationality"
+                                    ng-change="trackWalletAuthNationality(wallet_config.auth.selectedNationality)"
+                                    ng-options="country.code + ' - ' + country.name for country in countriesList | orderBy: 'code' track by country.name">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <button class="btn btn-primary dashboard-btn delete-button" ng-click="resetWalletAuthNationality()" style="margin-top: 0px;">Clear</button>
+                    </div>
+                </div>                
+            </div>
+            <div class="form-group divider-15">
+                <label style="color: #022b36; font-weight:600; margin-bottom: 20px;">App access</label>
+                <div class="wallet-accounts-config">
+                    <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                        <input type="checkbox" ng-checked="wallet_config.auth.tierCheckOn" ng-click="toggleTierAuthCheck()">
+                        <span>
+                            &nbsp;&nbsp;&nbsp;Require specific tier level to access the app
+                        </span>
+                    </label>
+                </div>
+                <div class="row divider-top-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <select class="form-control pointer" ng-model="wallet_config.auth.tier" 
+                        ng-options="level for level in tierLevels" ng-disabled="!wallet_config.auth.tierCheckOn">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- <div ng-class="{'disable-pin': wallet_config.auth.localAuth == ''}" style="margin-top: 20px">
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span class="pin-text">Require pin when sending</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.auth.pin.appLoad">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletPin('appLoad')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.auth.pin.appLoad">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletPin('appLoad')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span class="pin-text">Require pin on app load</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.auth.pin.send">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletPin('send')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.auth.pin.send">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletPin('send')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span class="pin-text">Require pin when making withdrawals</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.auth.pin.withdraw">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletPin('withdraw')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.auth.pin.withdraw">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletPin('withdraw')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <button ng-click="updateCompanyConfigAuth()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="loadingWalletConfig">
+    <loading-image></loading-image>
+</div>

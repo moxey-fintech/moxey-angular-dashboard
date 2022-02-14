@@ -1,0 +1,77 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showProductsFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <!--<span click-outside="closeProductsColumnFiltersBox()">-->
+                    <!--<button ng-click="showProductsColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>-->
+                    <!--<div ng-show="showingProductsColumnFilters">-->
+                        <!--<product-column-filters></product-column-filters>-->
+                    <!--</div>-->
+                <!--</span>-->
+                <div ng-show="showingProductsFilters">
+                    <product-filters></product-filters>
+                </div>
+            </div>
+            <button ng-click="getProductsLists('applyFilter')" ng-disabled="loadingProducts"
+                    class="btn btn-default panel-header-user-icon clear-filter-btn" style="margin-right: 0px;">Refresh</button>
+            <button ng-click="goToAddProduct()" class="btn btn-success transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingProducts">
+            <div ng-show="productList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="productPagination.itemsPerPage"  total-items="productListData.count" ng-model="productPagination.pageNo"
+                   max-size="productPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getProductsLists()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="productList.length > 0" class="divider">
+                <div class="draggable-table">
+                    <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                            <tr>
+                                <th ng-repeat="header in headerColumns track by $index" ng-if="header.visible"  ng-bind="header.colName"></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="product in productList track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover" ng-click="openEditProductView(product)">
+                            <td class="transactions-list-element" ng-repeat="header in headerColumns track by $index"
+                                ng-if="header.visible">
+                                <span ng-if="header.fieldName != 'enabled' && header.fieldName != 'instant_buy'">{{product[header.fieldName]}}</span>
+                                <input ng-if="header.fieldName == 'enabled'" class="custom-rehive-checkbox table-checkbox"
+                                       ng-click="toggleProductStatus(product); $event.stopPropagation()"
+                                       ng-model="product[header.fieldName]" type="checkbox">
+                                <input ng-if="header.fieldName == 'instant_buy'" class="custom-rehive-checkbox table-checkbox"
+                                       ng-click="toggleProductInstantBuyStatus(product); $event.stopPropagation()"
+                                       ng-model="product[header.fieldName]" type="checkbox">
+                            </td>
+                            <td class="rehive-table-row-last-child" ng-click="$event.stopPropagation()">
+                                <div class="table-col-two-actions"> 
+                                    <a ng-click="deleteProductConfirm(product)" class="pull-right pointer ">Delete</a>
+                                    <a ng-click="openEditProductView(product)" class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="productList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="productPagination.itemsPerPage"  total-items="productListData.count" ng-model="productPagination.pageNo"
+                       max-size="productPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getProductsLists()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="productList.length > 0">No products are available.</i>
+        </div>
+        <div ng-show="loadingProducts">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,43 @@
+<div>
+    <div ng-hide="loadingHdkeys || addingHdkey" class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Public keys</span>
+            <a ng-click="toggleAddHdkeyView()" class="user-details-panel-link pull-right pointer">Add</a>
+        </div>
+        <div ng-show="hdKeysList.length > 0" class="panel-body">
+            <div class="divider admin-emails">
+                <table class="table custom-table">
+                    <tr>
+                        <th class="no-left-padding">Primary</th>
+                        <th>Address</th>
+                        <th>Key type</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="hdKey in hdKeysList | filter: {key_type : 'xpub'}">
+                        <td class="transactions-list-element no-left-padding" width="10%">
+                            <input class="custom-rehive-checkbox" ng-change="toggleHdKeyPrimaryStatus(hdKey)" ng-model="hdKey.primary" type="checkbox">
+                        </td>
+                        <td class="transactions-list-element" title="{{hdKey.address}}" ng-bind="hdKey.address"></td>
+                        <td class="transactions-list-element" title="{{hdKey.key_type}}" ng-bind="hdKey.key_type"></td>
+                        <td class="transactions-list-element" title="{{hdKey.status}}" ng-bind="hdKey.status"></td>
+                        <td class="rehive-table-row-last-child">
+                            <a ng-click="toggleHdKeyStatus(hdKey,'Active')"
+                               class="pull-right pointer">Activate</a>
+                            <a ng-click="toggleHdKeyStatusPrompt(hdKey,'Disabled')"
+                               class="pull-right pointer  user-address-edit margin-right-30">Disable</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="service-header" ba-panel ng-show="loadingHdkeys">
+        <loading-image></loading-image>
+    </div>
+</div>
+<div ng-show="addingHdkey">
+    <add-hdkey></add-hdkey>
+</div>

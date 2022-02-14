@@ -1,0 +1,17 @@
+<exchange-service-navigation></exchange-service-navigation>
+
+
+<div class="row" >
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <exchange-settings-menu></exchange-settings-menu>
+    </div>
+    <div ng-show="exchangeSettingView == 'companyDetails'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <exchange-company-details></exchange-company-details>
+    </div>
+    <div ng-show="exchangeSettingView == 'secret'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <exchange-secret></exchange-secret>
+    </div>
+    <div ng-show="exchangeSettingView == 'webhooks'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <exchange-webhooks></exchange-webhooks>
+    </div>
+</div>

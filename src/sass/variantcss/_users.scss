@@ -1,0 +1,141 @@
+.pdf-review{
+  height: 450px;
+  width: 100%;
+}
+
+.pdf-button {
+  border: 3px solid $primary;
+  background-color: transparent!important;
+  color: $primary-dark!important;
+}
+
+.document-pdf {
+  color: $danger!important;
+}
+
+.text-success {
+  color: $primary-dark!important;
+}
+
+.text-danger {
+  color: $danger!important;
+}
+
+.transaction-icon {
+  text-align: center;
+  color: #6F6F6F!important;
+  &:hover {
+    color: $primary!important;
+  }
+}
+
+.filter-text{
+  color: $primary;
+}
+
+.system-users-admin{
+  color: #03DBBB!important;
+}
+
+.system-users-service{
+  color: $primary!important;
+}
+
+.system-users-temporary{
+  // color: #ebb434!important;
+  color: #a3c2c2!important;
+}
+
+.sortable-header{
+  color: $primary !important;
+  &:hover {
+    background-color: #f4f4f4 !important;
+  }
+}
+
+.user-metadata-tile {
+  width: 100%;
+  & .user-details-metadata{
+    width: inherit;
+  }
+}
+
+.move-icon{
+  font-size: 12px;
+  cursor: pointer !important;
+}
+
+.column-options-div{
+  line-height: 14px;
+}
+
+.column-option1{
+  display: inline-block;
+}
+
+.column-option2{
+  display: inline-block;
+  margin-left: 13px !important;
+}
+
+.custom-metadata{
+  display: inline-block;
+}
+
+.draggable-table{
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
+.dynamic-columns{
+  margin-left: 22px;
+}
+
+.table-column-filters{
+  z-index: 100;
+  position: absolute;
+  box-shadow: 0 2px 6px #A8A8A8;
+  top: 10px;
+  left: 96px;
+  width: 450px;
+  & > .panel-heading{
+    padding: 8px 8px 8px 17px !important;
+    & .table-filter-heading button{
+      padding: 6px 12px;
+    }
+  }
+  & > .panel-body{
+    padding: 8px 8px 14px 17px !important;
+    max-height: 300px!important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    & > .column-search{
+      box-shadow: none;
+      height: 22px;
+      width: 80%;
+      font-size: 14px;
+      padding: 0 0 0 6px;
+      text-align: left;
+    }
+  }
+}
+
+.columns-restore{
+  font-size: 13px !important;
+  line-height: 0;
+  margin: 17px 0 11px 0;
+  color: $primary;
+  cursor: pointer;
+}
+
+.users-overview-table .table{
+  margin-bottom: 0;
+}
+
+.users-overview-table .table > tbody > tr > td{
+  padding: 0;
+}
+
+.intl-tel-input{
+  width: 100% !important;
+}

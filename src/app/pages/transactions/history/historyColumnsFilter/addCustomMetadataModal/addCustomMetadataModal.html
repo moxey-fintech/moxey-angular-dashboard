@@ -1,0 +1,37 @@
+<div ng-hide="addingCustomMetadata" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add custom metadata columns</h4>
+    </div>
+    <div class="modal-body">
+        <div class="divider">
+            <p>
+                Select metadata columns to display from the searchable list below.
+                If you want to display additional metadata key fields, type them in the metadata columns field below,
+                separated by commas, e.g. name, product. Your selection will be saved.
+            </p>
+        </div>
+        <div class="form-group custom-form">
+            <label>Metadata columns</label>
+            <div class="reward-multi-select">
+                <tags-input ng-model="metadataToAdd.list" placeholder="Enter one or more custom metadata">
+                    <auto-complete class="reward-tag-users-input"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   source="metadataInputChanges($query)">
+                    </auto-complete>
+                </tags-input>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="addMetadataColumns(metadataToAdd.list)"
+                class="btn btn-primary pull-right dashboard-btn">Add
+        </button>
+    </div>
+</div>
+<div ba-panel ng-show="addingCustomMetadata">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,47 @@
+<currency-conversion-service-navigation></currency-conversion-service-navigation>
+
+<div ng-hide="loadingConversionPairsList || deletingConversionPair" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Conversions pairs</span>
+        <button ng-click="openAddNewConversionPairModal('app/pages/services/currencyConversionService/currencyConversionPairs/addConversionPairModal/addConversionPairModal.html','md')" 
+        class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+    </div>
+    <div class="panel-body">
+        <div ng-show="conversionPairList.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th>Key</th>
+                    <th>Rate</th>
+                    <th>Path</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Enabled</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="pair in conversionPairList track by $index"  class="editable-row">
+                    <td class="transactions-list-element" title="{{pair.key}}" ng-bind="pair.key"></td>
+                    <td class="transactions-list-element">{{pair.rate}}</td>
+                    <td class="transactions-list-element">{{pair.path}}</td>
+                    <td><div class="transactions-list-element">{{pair.created | date:'mediumDate'}} {{pair.created | date:'shortTime'}}</div></td>
+                    <td><div class="transactions-list-element">{{pair.updated | date:'mediumDate'}} {{pair.updated | date:'shortTime'}}</div></td>
+                    <td class="transactions-list-element rehive-table-row-first-child" ><input class="custom-rehive-checkbox" ng-model="pair.enabled" type="checkbox" ng-disabled="true"></td>
+                    <td width="15%" class="rehive-table-row-last-child">
+                        <a ng-click="openDeletePairPrompt(pair)" class="pull-right pointer ">Delete</a>
+                        <a ng-click="openEditConversionPairModal('app/pages/services/currencyConversionService/currencyConversionPairs/editCurrencyConversionPairs/editCurrencyConversionPairsModal.html','md', pair)"  class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                    </td>
+                </tr>
+            </table> 
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="conversionListData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getConversionPairsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-hide="conversionPairList.length > 0">
+            <i>No conversion pairs are available</i>
+        </div>
+    </div>
+</div>
+<div ng-show="loadingConversionPairsList || deletingConversionPair" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

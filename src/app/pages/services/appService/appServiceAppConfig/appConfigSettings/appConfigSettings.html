@@ -1,0 +1,288 @@
+<div ng-hide="loadingWalletConfig">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">General settings</span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Hide crypto accounts</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.settings.hideCryptoAccounts">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideCryptoAccounts')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.settings.hideCryptoAccounts">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideCryptoAccounts')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Hide bank accounts</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.settings.hideBankAccounts">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideBankAccounts')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.settings.hideBankAccounts">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideBankAccounts')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Hide primary currency</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.settings.hidePrimaryCurrency">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hidePrimaryCurrency')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.settings.hidePrimaryCurrency">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hidePrimaryCurrency')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Hide notifications</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.settings.hideNotifications">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideNotifications')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.settings.hideNotifications">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideNotifications')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Hide SMS MFA</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.settings.hideSmsMfa">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideSmsMfa')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.settings.hideSmsMfa">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletSetting('hideSmsMfa')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Loop currencies&nbsp;
+                                <span>
+                                    <i uib-tooltip-html="'This toggles whether the currency carousal in the mobile app loops or not.'"
+                                       class="ion-information-circled setup-groups-tooltip"></i>
+                                </span></span>
+                        </div> 
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.settings.loopCurrencies">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletSetting('loopCurrencies')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.settings.loopCurrencies">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletSetting('loopCurrencies')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button ng-click="updateCompanyConfigSettings()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Profile settings</span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="form-group divider-15">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Hide identity number field in profile</span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.profile.hideID">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletProfile('hideID')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.profile.hideID">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletProfile('hideID')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider-15" ng-class="{'divider-10': wallet_config.profile.showLabelEditor}">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span>Override identity number field&nbsp;
+                                <span>
+                                    <i uib-tooltip-html="'Use this to rename the identity number field e.g. Social security number.'"
+                                       class="ion-information-circled setup-groups-tooltip"></i>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                            <div ng-show="wallet_config.profile.showLabelEditor">
+                                <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletProfile('showLabelEditor')"></i>
+                            </div>
+                            <div ng-hide="wallet_config.profile.showLabelEditor">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletProfile('showLabelEditor')"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="wallet_config.profile.showLabelEditor" class="form-group divider-15">
+                    <input type="text" ng-model="wallet_config.profile.labelID" class="form-control" placeholder="Enter override field name">
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <span >Available address types&nbsp;&nbsp;
+                                <span>
+                                    <i uib-tooltip-html="'Select which types of addresses users should be able to add.'"
+                                       class="ion-information-circled setup-groups-tooltip"></i>
+                                </span>
+                            </span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                        <div class="wallet-accounts-config">
+                            <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox" style="margin-left: 2px!important;">
+                                <input type="checkbox" ng-checked="wallet_config.profile.addressTypes.indexOf('permanent') > -1" ng-click="handleProfileAddressType('permanent')">
+                                <span>
+                                        &nbsp;&nbsp;&nbsp;Permanent
+                                    </span>
+                            </label>
+                            <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                                <input type="checkbox" ng-checked="wallet_config.profile.addressTypes.indexOf('shipping') > -1" ng-click="handleProfileAddressType('shipping')">
+                                <span>
+                                        &nbsp;&nbsp;&nbsp;Shipping
+                                    </span>
+                            </label>
+                            <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                                <input type="checkbox" ng-checked="wallet_config.profile.addressTypes.indexOf('billing') > -1" ng-click="handleProfileAddressType('billing')">
+                                <span>
+                                        &nbsp;&nbsp;&nbsp;Billing
+                                    </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button ng-click="updateCompanyConfigProfile()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Product settings</span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="form-group">
+                    <div>Product app config settings can be found in the <a href="/#/extensions">Product Extension</a> settings.</div>
+                    <!-- <label>Default product display currency</label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                single
+                                data-placeholder-text-single="'Choose a currency'"
+                                width="100"
+                                ng-model="wallet_config.product.defaultCurrency"
+                                ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                            <option value=""></option>
+                        </select>
+                    </div> -->
+                <!-- </div>
+                <div class="form-group">
+                    <label>Only show these currency options when browsing products</label>
+                    <div class="reward-multi-select">                        
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more currencies'"
+                                width="100"
+                                ng-model="wallet_config.product.currencies"
+                                ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                        </select>
+                    </div>
+                </div> -->
+                <!-- <div class="form-group">
+                    <button ng-click="updateCompanyConfigProduct()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Sale settings</span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="form-group">
+                    <label>Show "New sale" button for groups</label>
+                    <div class="reward-multi-select">                        
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more groups'"
+                                width="100"
+                                ng-model="wallet_config.product.sales.userGroups"
+                                ng-options="group.label for group in groups | orderBy: 'name' track by group.name">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="divider-20" style="font-size: 14px; font-weight: bold">Invoice configurations</label>
+                    <div class="form-group divider-15">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <span>Show discount on invoice form</span>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                                <div ng-show="wallet_config.product.sales.invoiceConfig.showDiscount">
+                                    <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showDiscount')"></i>
+                                </div>
+                                <div ng-hide="wallet_config.product.sales.invoiceConfig.showDiscount">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showDiscount')"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group divider-15">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <span>Show tax on invoice form</span>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                                <div ng-show="wallet_config.product.sales.invoiceConfig.showTax">
+                                    <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showTax')"></i>
+                                </div>
+                                <div ng-hide="wallet_config.product.sales.invoiceConfig.showTax">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showTax')"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button ng-click="updateCompanyConfigProduct()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+<div ba-panel ng-show="loadingWalletConfig">
+    <loading-image></loading-image>
+</div>

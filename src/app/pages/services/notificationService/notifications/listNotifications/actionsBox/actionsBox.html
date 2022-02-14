@@ -1,0 +1,13 @@
+<div class="panel table-actions">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Select action</span>
+            <button ng-click="notificationActionConfirm(selectedAction)" class="btn btn-primary pull-right">Done</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <select class="form-control select-actions-dropdown pointer" ng-model="selectedAction"
+                ng-options="action for action in actionOptions">
+        </select>
+    </div>
+</div>

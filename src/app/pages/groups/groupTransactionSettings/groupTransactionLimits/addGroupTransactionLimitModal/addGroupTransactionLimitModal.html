@@ -1,0 +1,79 @@
+<div ng-hide="addingTierLimit" class="modal-content" ng-keydown="($event.keyCode === 13)  && addTierLimit(tierLimitsParams)">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add tier limit</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addTierLimitForm" class="custom-form">
+            <div class="divider-20">
+                <label>Select transaction type <span class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="tierLimitsParams.tx_type"
+                                   ng-change="getSubtypesArray(tierLimitsParams)" value="credit">
+                            <span class="custom-radio-btn">Credit</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-change="getSubtypesArray(tierLimitsParams)"
+                                   ng-model="tierLimitsParams.tx_type" value="debit">
+                            <span class="custom-radio-btn">Debit</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Currency <span class="required-icon">*</span>
+                    <span class="no-accounts-available" ng-hide="currenciesOptions.length > 0">No currencies found.
+                        <span ng-click="goToAddCurrencyModal()"> Please add a currency.</span>
+                    </span>
+                </label>
+                <div ng-show="currenciesOptions.length > 0" class="reward-multi-select">
+                    <select chosen
+                            data-placeholder-text-single="'Choose a currency'"
+                            width="100"
+                            allow-single-deselect="true"
+                            ng-model="tierLimitsParams.currency"
+                            ng-options="currency.display_code for currency in currenciesOptions | orderBy: 'code' track by currency.code"
+                            required>
+                            <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Amount</label>
+                <input type="text" class="form-control" ng-model="tierLimitsParams.value" placeholder="Enter value" />
+            </div>
+            <div class="form-group divider-20">
+                <label>Type <span class="required-icon">*</span></label>
+                <br>
+                <select class="form-control pointer" ng-model="tierLimitsParams.type" ng-options="typeOption for typeOption in typeOptions" required>
+                </select>
+            </div>
+            <div class="form-group divider-20">
+                <label class="tier-fees-tooltip">Account definition </label>
+                <select class="form-control pointer" 
+                        ng-model="tierLimitsParams.account_definition" ng-options="accountDef.name for accountDef in accountDefinitions">
+                </select>
+            </div>
+            <div ng-hide="loadingSubtypes" class="form-group">
+                <label>Subtype</label>
+                <select class="form-control pointer" ng-model="tierLimitsParams.subtype" ng-options="subtypeOption for subtypeOption in subtypeOptions">
+                </select>
+            </div>
+            <div ng-show="loadingSubtypes">
+                <loading-image class="custom-subtype-loading"></loading-image>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addTierLimit(tierLimitsParams)" ng-disabled="!addTierLimitForm.$valid"
+                class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingTierLimit">
+    <loading-image></loading-image>
+</div>

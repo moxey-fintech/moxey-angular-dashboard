@@ -1,0 +1,214 @@
+<form name="creditTransactionForm" class="custom-form">
+    <div class="transaction-form" id="creditForm">
+        <div class="divider-20 custom-form">
+            <label>Select account type <span class="required-icon">*</span></label>
+            <div class="divider-20">
+                <div class="custom-radio-groups-btn">
+                    <label class="margin-right-10 pointer">
+                        <input class="pointer" type="radio" ng-model="accountAssociation" value="user">
+                        <span class="custom-radio-btn">User account</span>
+                    </label>
+                    <label class="margin-right-10 pointer">
+                        <input class="pointer" type="radio" ng-model="accountAssociation" value="standalone">
+                        <span class="custom-radio-btn">Standalone account</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div ng-show="accountAssociation == 'user'" class="form-group">
+            <label>User&nbsp;<span class="required-icon">*</span>&nbsp;
+                <i ng-show="retrievedCreditUserObj.id" class="fa fa-user transaction-user-icon" aria-hidden="true"></i>
+                <div class="row transaction-user-details">
+                    <table>
+                        <tr>
+                            <th style="text-align: right" width="30%">Name:</th>
+                            <td style="padding-left: 15px">{{retrievedCreditUserObj.first_name}} {{retrievedCreditUserObj.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Created date:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedCreditUserObj.created">{{retrievedCreditUserObj.created | date:'mediumDate'}}, {{retrievedCreditUserObj.created | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Last login:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedCreditUserObj.last_login">{{retrievedCreditUserObj.last_login | date:'mediumDate'}}, {{retrievedCreditUserObj.last_login | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Group:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedCreditUserObj.groups[0].name"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">KYC status:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedCreditUserObj.kyc.status | capitalizeWord"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">MFA status:</th>
+                            <td style="padding-left: 15px" ng-bind="mfaEnabled" ng-class="{'mfa-enabled': mfaEnabled === 'Enabled', 'mfa-disabled':  mfaEnabled === 'Disabled'}"></td>
+                        </tr>
+                        <tr ng-show="mfaOBj.updated">
+                            <th style="text-align: right" width="40%">MFA last updated:</th>
+                            <td style="padding-left: 15px" ng-show="mfaOBj.updated">{{mfaOBj.updated | date:'mediumDate'}}, {{mfaOBj.updated | date:'shortTime'}}</td>
+                        </tr>
+                        <tr ng-show="retrievedCreditUserObj.metadata">
+                            <th style="text-align: right" width="40%">User metadata:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedCreditUserObj.metadata"></td>
+                        </tr>
+                    </table>
+                </div>
+            </label>
+            <input type="text" ng-model="creditTransactionData.user" placeholder="e.g. email@domain.com" ng-change="check()"
+                   uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                   typeahead-on-select="onCreditReferenceSelect($model)" class="form-control" size="12">
+        </div>
+        <!-- <div ng-hide="loadingAccounts" class="form-group"> -->
+        <div class="form-group">
+            <label>Account <span class="required-icon">*</span>&nbsp;
+                <span ng-hide="accountAssociation == 'standalone' || retrievedCreditUserObj.id">Please choose user first.</span>
+                <i ng-show="creditTransactionData.account && creditTransactionData.account.name" class="fa fa-list-alt transaction-account-icon" aria-hidden="true"></i>
+                <div ng-show="retrievedCreditAccountTransactions.length > 0" class="row transaction-account-details">
+                    <p class="transaction-tooltip-title">Recent transactions:</p>
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <tr ng-repeat="transaction in retrievedCreditAccountTransactions | limitTo: 5 | orderBy: '-created' track by $index">
+                            <td>{{transaction.tx_type}}</td>
+                            <td>{{transaction.currency.code}}</td>
+                            <td>{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td>{{transaction.status | capitalizeWord}}</td>
+                            <td>{{transaction.created | date:'mediumDate'}}, {{transaction.created | date:'shortTime'}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="retrievedCreditAccountTransactions.length == 0"
+                     ng-class="{'no-account-transactions': retrievedCreditAccountTransactions.length == 0}"
+                     class="row transaction-account-details">
+                    <i>No transactions exist for this account.</i>
+                </div>
+                <span ng-show="creditTransactionData.currency.code && creditCurrencyAccountsAvailable
+                 && creditUserAccountsAvailable && !creditTransactionData.account.name">(Please choose an account)</span>
+                <span class="no-accounts-available"
+                      ng-hide="creditUserAccountsAvailable">No accounts found for this user.
+                    <span ng-click="goToCreditUserAccountCreate()"> Add an account here.</span>
+                </span>
+                <!-- <span class="no-accounts-currency-available" ng-show="creditTransactionData.currency.code && !creditCurrencyAccountsAvailable && retrievedCreditUserObj.id">
+                    User has no accounts with selected currency.
+                </span>
+                <span class="no-accounts-currency-available" ng-show="creditTransactionData.currency.code && !creditCurrencyAccountsAvailable && !retrievedCreditUserObj.id">
+                    There are no accounts with selected currency.
+                </span> -->
+            </label>
+            <div ng-show="accountAssociation == 'standalone'" class="overwrite-dropdown-arrow">
+                <div class="reward-multi-select">
+                    <select chosen single
+                            data-placeholder-text-single="'Choose an account'"
+                            width="100"
+                            allow-single-deselect="true"
+                            ng-model="creditTransactionData.account"
+                            ng-disabled="standaloneAccounts.length == 0 || loadingAccounts"
+                            ng-change="creditAccountSelected(creditTransactionData)"
+                            ng-options="account.name + ' - ' + account.reference 
+                            + (accountCurrencyMap[account.reference].length > 0 ? ' (' + accountCurrencyMap[account.reference].slice(0, 7).join() 
+                            + (accountCurrencyMap[account.reference].length > 7 ? ' ...' : '') + ')' : '') 
+                            disable when account.disable for account in standaloneAccounts | orderBy: 'name' track by account.name">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <!-- ng-disabled="!creditTransactionData.currency.code" -->
+            <div ng-show="accountAssociation == 'user'" class="overwrite-dropdown-arrow">
+                <div class="reward-multi-select">
+                    <select chosen single
+                            data-placeholder-text-single="'Choose an account'"
+                            width="100"
+                            allow-single-deselect="true"
+                            ng-model="creditTransactionData.account"
+                            ng-disabled="!retrievedCreditUserObj.id || loadingAccounts"
+                            ng-change="creditAccountSelected(creditTransactionData)"
+                            ng-options="account.name + ' - ' + account.reference 
+                            + (accountCurrencyMap[account.reference].length > 0 ? ' (' + accountCurrencyMap[account.reference].join() + ')' : '') 
+                            disable when account.disable for account in retrievedCreditUserAccountsArray | orderBy: 'name' track by account.name">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Currency <span class="required-icon">*</span>
+                <span ng-hide="!creditTransactionData.account || !creditTransactionData.account.reference">&nbsp;Please choose account first.</span>
+                <span class="no-accounts-available" ng-show="!loadingAccountCurrencies && creditTransactionData.account && creditTransactionData.account.reference && creditCurrencyOptions.length == 0">
+                    &nbsp;No account currencies found.<span ng-click="goToAddCurrencyModal()"> Please add a currency.</span>
+                </span>
+            </label>
+            <br>
+            <!-- <div ng-hide="loadingAccountCurrencies" class="overwrite-dropdown-arrow"> -->
+            <div class="overwrite-dropdown-arrow">
+                <div class="reward-multi-select">
+                    <!-- ng-change="creditCurrencySelected(creditTransactionData)" -->
+                    <select chosen single
+                            data-placeholder-text-single="'Choose a currency'"
+                            width="100"
+                            allow-single-deselect="true"
+                            ng-model="creditTransactionData.currency"
+                            ng-disabled="!creditTransactionData.account"
+                            ng-options="currency.display_code for currency in creditCurrencyOptions | orderBy: 'code' track by currency.code">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div ng-show="loadingAccountCurrencies">
+                <loading-image></loading-image>
+            </div> -->
+        </div>
+        <div class="form-group">
+            <label>Amount <span class="required-icon">*</span>
+                <span ng-hide="creditTransactionData.currency.code">Please choose currency first.</span>
+            </label>
+            <input type="text" ng-model="creditTransactionData.amount" class="form-control"  placeholder="e.g. 100000000" ng-disabled="!creditTransactionData.currency">
+        </div>
+        <div class="form-group">
+            <label>Reference</label>
+            <input type="text" ng-model="creditTransactionData.reference" class="form-control"  placeholder="e.g. # 1234">
+        </div>
+        <div class="form-group">
+            <label>Subtype</label>
+            <select class="form-control pointer" ng-model="creditTransactionData.subtype"
+                    ng-options="subtypeOption.name for subtypeOption in creditSubtypeOptions | filter: {tx_type: 'credit'}">
+                <option value="">No subtype</option>
+            </select>
+        </div>
+        <span>
+            <a class="pointer" ng-hide="showAdvancedCreditOption" ng-click="toggleAdvancedCreditOption()">Advanced options</a>
+            <div ng-show="showAdvancedCreditOption">
+
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea rows="4" type="text" ng-model="creditTransactionData.note" class="form-control"  placeholder='Enter note'></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="creditTransactionData.metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+                <div class="divider">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control pointer" ng-model="creditTransactionData.status"
+                                ng-options="status for status in creditTransactionStatus">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <a class="pointer" ng-show="showAdvancedCreditOption" ng-click="toggleAdvancedCreditOption()">Hide advanced options</a>
+        <button ng-click="toggleConfirmTransaction()"
+                ng-disabled="!creditTransactionData.amount ||
+                 !creditTransactionData.currency ||
+                 !creditTransactionData.currency.code ||
+                 !creditTransactionData.account ||
+                 !creditTransactionData.account.name"
+                class="btn dashboard-btn btn-primary pull-right">Next</button>
+    </div>
+</form>

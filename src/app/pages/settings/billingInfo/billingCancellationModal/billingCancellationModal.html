@@ -1,0 +1,55 @@
+<div ng-hide="updatingPlan" class="modal-content">
+    <div class="modal-header" style="padding-bottom: 10px;">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h5 id="premiumModal" style="text-align: center">Thinking of cancelling your subscription?</h5>
+        <h6 class="text-subtle" style="text-align: center">Check out some alternative options</h6>
+    </div>
+    <div class="modal-body" style="padding-top: 10px;">
+        <h5 class="divider-20" style="text-align: center;">You are currently using a <span class="premium-text"><strong>{{currentPlan}}</strong></span> plan</h5>
+        <div class="form-group divider-20">
+            <div class="custom-radio-groups-btn divider-15">
+                <label class="margin-right-10 pointer">
+                    <input class="pointer" type="radio" ng-model="planCancellation.option" value="downgrade">
+                    <span class="custom-radio-btn">Downgrade plan</span>
+                </label>
+            </div>
+            <div class="reward-multi-select divider-20" >
+                <select chosen
+                        single
+                        ng-model="planCancellation.plan_to_downgrade"
+                        ng-options="plan.name + ' - $' + plan.cost + ' / mo' for plan in rehivePlans">
+                </select>
+            </div>
+        </div>
+        <div class="form-group divider-20">
+            <div class="custom-radio-groups-btn">
+                <label class="margin-right-10 pointer">
+                    <input class="pointer" type="radio" ng-model="planCancellation.option" value="pause">
+                    <span class="custom-radio-btn">Pause plan</span>
+                </label>
+            </div>
+            <span class="premium-text pull-right"><strong>$10</strong> / mo</span>
+            <h6 class="text-subtle">Store all your existing company data and be ready to resume your plan at a later date</h6>
+        </div>
+        <div class="form-group divider-20">
+            <div class="custom-radio-groups-btn">
+                <label class="margin-right-10 pointer">
+                    <input class="pointer" type="radio" ng-model="planCancellation.option" value="cancel">
+                    <span class="custom-radio-btn">Cancel plan</span>
+                </label>
+            </div>
+            <span class="premium-text pull-right"><strong>$0</strong> / mo</span>
+            <h6 class="text-subtle">Stop recurring payments immediately</h6>
+        </div>
+        <div class="divider-20" style="text-align: center; padding-bottom: 25px;">
+            <button class="btn btn-primary dashboard-btn margin-right-15" style="min-width: 145px!important;">Save</button>
+            <button class="btn btn-default dashboard-btn" style="min-width: 145px!important;" ng-click="$dismiss()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="updatingPlan">
+    <loading-image></loading-image>
+</div>

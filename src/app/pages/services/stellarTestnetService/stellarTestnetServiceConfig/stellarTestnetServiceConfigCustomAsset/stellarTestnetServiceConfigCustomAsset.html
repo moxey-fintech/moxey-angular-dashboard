@@ -1,0 +1,112 @@
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Custom asset (optional)</span>
+    </div>
+    <div class="panel-body">
+        <div class=" row divider-25">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <ul class="ul-no-dot">
+                    <li><strong>Custom Asset</strong><br><br>Create a custom asset on Stellar testnet. Read our <a href="https://medium.com/rehive-blog/part-3-all-things-tokens-1ebe934b1977" target="_blank">blog post</a> to learn more about custom assets.</li>
+                    <li>The Stellar Testnet Extension will generate and fund your asset issuer account for you.</li>
+                    <li><br><strong>Step 1: </strong>Fill in the asset details on the right. Click "Create asset".</li>
+                    <li><br><strong>Step 2: </strong>Save your <strong>issuer account private key</strong>. Confirm it is saved.</li>
+                    <li><br><strong>Step 3: </strong>The Stellar Testnet extension will generate a Stellar transaction to fund the issuer account and post the transaction to
+                        <a href="https://www.stellar.org/developers/horizon/reference/" target="_blank">Horizon</a>.</li>
+                    <li><br><br><br></li>
+                    <li>If you do not want to add a custom asset now, click <strong>finish</strong> below to go to your Hot wallet. You can add a custom asset at any time.</li>
+                </ul>
+            </div>
+            <div ng-hide="creatingAsset" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <form name="customAssetForm" style="line-height: 25px;">
+                    <div ng-show="testnetConfig.customAssetStep == '1'">
+                        <label class="no-left-padding"><strong>Step 1</strong></label>
+                        <div class="form-group">
+                            <label>Asset currency code <span class="required-icon">*</span></label>
+                            <input type="text" ng-model="testnetConfig.customAsset.code" class="form-control"
+                                   placeholder="Enter 3-12 character asset code. i.e. TXLM" auto-focus="true" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description <span class="required-icon">*</span></label>
+                            <input type="text" ng-model="testnetConfig.customAsset.description" class="form-control"
+                                   placeholder="Enter description. i.e. Stellar Testnet lumens" auto-focus="true" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Symbol <span class="required-icon">*</span></label>
+                            <input type="text" ng-model="testnetConfig.customAsset.symbol" class="form-control"
+                                   placeholder="Enter symbol. i.e. *" auto-focus="true" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit<span class="required-icon">*</span></label>
+                            <input type="text" ng-model="testnetConfig.customAsset.unit" class="form-control"
+                                   placeholder="Enter unit. i.e. lumens" auto-focus="true" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Supply <span class="required-icon">*</span><span>&nbsp;<i uib-tooltip-html="'This refers to the amount of custom asset that the hotwallet will be funded with.'" class="ion-help-circled setup-groups-tooltip"></i></span></label>
+                            <input type="text" ng-model="testnetConfig.customAsset.supply" class="form-control"
+                                   placeholder="Enter supply" auto-focus="true" required>
+                        </div>
+                        <button ng-click="createIssuer()" ng-disabled="!customAssetForm.$valid" class="btn btn-primary pull-right">Create Asset</button>
+                    </div>
+                    <div ng-show="testnetConfig.customAssetStep == '2'">
+                        <label class="no-left-padding"><strong>Step 2</strong></label>
+                        <p class="required-icon">Keep your issuer key somewhere safe. Confirm once you have saved it.</p>
+                        <div class="form-group">
+                            <label>Public Issuer Address</label>
+                            <div class="stellar-testnet-public-key warmstorage-keys">
+                               <!--<strong>{{issuerAddress}} </strong>--> 
+                                <strong>GCSWCYY3TQG5IWVCFYVEFMEUF5JKRFAZ7OJYNMBMZA6HBVTQHP3LT6QZ</strong>
+                                <span><i ngclipboard ngclipboard-success="copiedMetadataSuccessfully()"
+                                       data-clipboard-text="{{issuerAddress}}"
+                                       class="fa fa-clone pointer metadata-copy-icon stellar-testnet-metadata-icon"></i></span>
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label>Private key</label>-->
+                            <!--<div class="transactions-list-element warmstorage-keys">-->
+                                <!--<strong>{{warmStorage.privateKey}} </strong>-->
+                                <!--<span><i ngclipboard ngclipboard-success="copiedMetadataSuccessfully()"-->
+                                         <!--data-clipboard-text="{{warmStorage.privateKey}}"-->
+                                         <!--class="fa fa-clone pointer metadata-copy-icon" style="top: auto;right: 15px;"></i></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-model="confirmedPrivateKeyCopied">
+                                <span>I have saved my private key</span>
+                            </label>
+                        </div>
+
+                    </div>
+                    <div ng-show="testnetConfig.customAssetStep == '3'" class="no-left-padding">
+                        <label class="no-left-padding"><strong>Step 3</strong></label>
+                        <p ng-show="addingPublicKey">Funding your issuer account... <loading-image></loading-image> </p>
+                        <div ng-hide="addingPublicKey">
+                            <ul class="ul-no-dot">
+                                <li>Your account has been funded and the tranaction has been successfully posted to
+                                    <a href="https://www.stellar.org/developers/horizon/reference/" target="_blank">Horizon</a> <i class="fas fa-check get-started-text-alt"></i>
+                                </li>
+                                <li><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></li>
+                                <li style="padding-top: 9px;">Your custom asset and Stellar testnet extension setup is now complete. Clicking Finish below will take you to your Hot wallet.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+                <button ng-show="testnetConfig.customAssetStep == '2'" ng-click="confirmPrivateKeyCopied()" ng-disabled="!confirmedPrivateKeyCopied" class="btn btn-primary pull-right">Confirm</button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="creatingAsset">
+                <loading-image></loading-image>
+            </div>
+        </div>
+       <hr>
+        <div class="form-group">
+            <button ng-click="goBack('hotwallet warmstorage')"
+                    ng-hide="(testnetConfig.customAssetStep != '1')"
+                    class="btn btn-primary setup-skip-btn pull-left dashboard-btn">Back
+            </button>
+            <button ng-click="addConfigurations()"
+                    ng-disabled="finishDisabled"
+                    class="btn btn-primary pull-right dashboard-btn">Finish
+            </button>
+        </div>
+    </div>
+</div>

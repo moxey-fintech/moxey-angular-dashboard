@@ -1,0 +1,87 @@
+<div ng-hide="editingOrder || loadingProducts">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Edit order</span>
+        </div>
+        <div class="panel-body">
+            <form name="editOrderForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>User<span class="required-icon">*</span></label>
+                    <input type="text" ng-model="editOrderObj.user" ng-disabled="true"
+                           class="form-control" size="12">
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <label>Currency<span class="required-icon">*</span></label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                data-placeholder-text-single="'Choose a currency'"
+                                width="100"
+                                ng-disabled="true"
+                                ng-model="editOrderObj.currency"
+                                ng-options="currency.code for currency in currencyOptions | orderBy: 'code'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <div class="row">
+                        <div ng-hide="editOrderObj.items.length > 0" class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            Products
+                            <i class="fa fa-plus-square-o order-items-add-icon"
+                               ng-hide="editOrderObj.items.length > 0"
+                               ng-class="{'order-items-add-icon-near-title': editOrderObj.items.length == 0}"
+                               ng-click="addOrderItem()">
+                            </i>
+                        </div>
+                        <div ng-show="editOrderObj.items.length > 0" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Products </div>
+                        <div ng-show="editOrderObj.items.length > 0" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Qty</div>
+                        <div ng-show="editOrderObj.items.length > 0" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Status</div>
+                    </div>
+                    <div class="row divider product-service-headers" ng-repeat="item in editOrderObj.items track by $index" >
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="reward-multi-select">
+                                <select chosen
+                                        data-placeholder-text-single="'Choose a product'"
+                                        ng-model="item.product"
+                                        ng-disabled="item.id"
+                                        ng-options="product.name for product in products">
+                                    <option value=""></option>
+                                </select>
+                                <!--allow-single-deselect="true"-->
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                            <input type="text" ng-model="item.quantity" class="form-control" ng-change="quantityCheck(item)" placeholder="Enter quantity">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="reward-multi-select">
+                                <select class="form-control pointer" data-placeholder-text-single="'Choose an order item status'" 
+                                    width="100" ng-model="item.status">
+                                    <option value="shipped">Shipped</option>
+                                    <option value="fulfilled">Fulfilled</option>
+                                    <option value="complete">Complete</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 product-buttons-container">
+                            <i class="fa fa-minus-square-o product-prices-remove-icon"
+                               ng-click="removeAddOrderItem(item)"></i>
+                            <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addOrderItem()"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" ng-click="editOrder(editOrderObj)" ng-disabled="!editOrderForm.$valid"
+                             class="btn btn-primary dashboard-btn pull-right">Edit</button>
+                    <button type="button" ng-click="backToOrderList()" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="editingOrder || loadingProducts" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

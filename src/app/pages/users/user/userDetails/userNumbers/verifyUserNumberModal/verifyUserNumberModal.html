@@ -1,0 +1,18 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Verify mobile number</h4>
+    </div>
+    <div class="modal-body">
+        <p class="divider">Are you sure you want to manually verify <strong>{{mobile.number}}</strong>
+            for this user</p>
+        <p>By verifying this mobile number the transaction backlog associated to <strong>{{mobile.number}}</strong>
+            will also be credited to this user.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" ng-disabled="verifyingMobile" class="btn btn-primary pull-left user-accounts-btn" ng-click="resendMobileVerification()">Resend</button>
+        <button ng-click="verifyMobile()" ng-disabled="verifyingMobile" type="button" class="btn btn-primary pull-right user-accounts-btn">Verify</button>
+    </div>
+</div>

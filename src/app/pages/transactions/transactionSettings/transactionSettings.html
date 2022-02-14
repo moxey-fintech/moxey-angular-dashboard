@@ -1,0 +1,306 @@
+<h1 class="currencies-title">Transactions</h1>
+<transaction-navigation></transaction-navigation>
+<div ng-hide="loadingTransactionSettings" class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div ng-hide="updatingGlobalSubtypeSetting" class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Global subtype controls</span>
+            </div>
+            <div class="panel-body">
+                <div ng-show="disallowedTransactionSubtypes.length > 0">
+                    <div style="margin-bottom: 15px!important">
+                        <label>Subtype management&nbsp;&nbsp;
+                            <span><i uib-tooltip-html="'Manage whether subtypes are allowed for all currencies, disallowed for all currencies, or disallowed only for specific currencies. Any setting here will apply globally.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                        </label>
+                    </div>
+                    <div class="form-group row" style="margin-bottom: 10px!important">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><label>Type</label></div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding"><label>Name</label></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 no-right-padding">
+                            <div class="row" style="margin-left: -40px;">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 no-right-padding" style="margin-left: -12px"></div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">
+                                    <span ng-show="totalDisabledSubtypeCount > 0" class="pull-right">
+                                        <a ng-hide="displayedDisabledSubtypeCount < totalDisabledSubtypeCount" 
+                                            class="pointer" ng-click="toggleDisplayOfAllCustomSettings(false)">Hide all</a>
+                                        <a ng-show="displayedDisabledSubtypeCount < totalDisabledSubtypeCount" 
+                                            class="pointer" ng-click="toggleDisplayOfAllCustomSettings(true)">Show all</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-repeat="subtype in disallowedTransactionSubtypes track by $index" style="margin-bottom: 10px!important">
+                        <div class="row row-striped" ng-class="{'alt-background': subtype.odd_row}">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" ng-bind="subtype.tx_type | capitalizeWord"></div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding tier-subtype-labels">
+                                <span class="long-subtype-labels" ng-bind="subtype.name"></span>&nbsp;&nbsp;
+                                <div class="row tier-subtype-descriptions">
+                                    <span ng-show="subtype.description && subtype.description !== ''"><strong>Used for:&nbsp;&nbsp;</strong>{{subtype.description}}</span>
+                                    <span ng-hide="subtype.description && subtype.description !== ''" class="required-info"><i>No subtype description available</i></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding pull-right">
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 no-right-padding">
+                                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                                        <label class="margin-right-10 pointer">
+                                            <input class="pointer" type="radio" value="allow" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                            <span class="custom-radio-btn">Allow</span>
+                                        </label>
+                                        <label class="margin-right-10 pointer" style="margin-left: -55px;">
+                                            <input class="pointer" type="radio" value="disallow" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                            <span class="custom-radio-btn">Disallow</span>
+                                        </label>
+                                        <label class="margin-right-10 pointer" style="margin-left: -35px;">
+                                            <input class="pointer" type="radio" value="custom" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                            <span class="custom-radio-btn">Set disallow rules&nbsp;&nbsp;<span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="margin-top: -6px;">
+                                    <div ng-show="subtype.setting !== 'custom' || subtype.custom_settings.length > 0">&nbsp;</div>
+                                    <div ng-hide="subtype.setting !== 'custom' || subtype.custom_settings.length > 0" ng-click="addCustomRule(subtype)">
+                                        <i class="fa fa-plus-square-o product-prices-add-icon pointer"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 no-left-padding" style="margin-left: -12px;">
+                                    <span class="pull-right" ng-disabled="subtype.setting !== 'custom'">
+                                        <a ng-show="subtype.show_settings" ng-class="{'anchor-disabled': subtype.setting !== 'custom'}" class="pointer" ng-click="trackDisplayOfDisallowedCurrencies(subtype, false)">Hide</a>
+                                        <a ng-hide="subtype.show_settings" ng-class="{'anchor-disabled': subtype.setting !== 'custom'}" class="pointer" ng-click="trackDisplayOfDisallowedCurrencies(subtype, true)">Show</a>
+                                    </span>
+                                </div>
+                            </div>                                
+                            </div>
+                        </div>
+                         <div ng-show="subtype.setting === 'custom' && subtype.show_settings" class="row divider" style="background-color: white;" ng-repeat="customSetting in subtype.custom_settings track by $index" ng-style="$first && {'margin-top': '10px'}">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reward-multi-select">
+                                    <!-- <select class="form-control pointer" ng-model="customSetting.setting">
+                                        <option value="currency">Currencies</option>
+                                        <option value="account">Accounts</option>
+                                        <option value="combo">Currency and account combo</option>
+                                    </select> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding pull-right">
+                                <div ng-show="customSetting.setting == 'account'" class="row">    
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div style="width: 100%;">
+                                            <div class="reward-multi-select">
+                                                <select chosen
+                                                        multiple
+                                                        data-placeholder-text-multiple="'Choose one or more account definitions'"
+                                                        width="100"
+                                                        ng-model="customSetting.accounts"
+                                                        ng-options="accDef.name for accDef in accountDefinitions | orderBy: 'name' track by accDef.name">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">
+                                        <div class="pointer" style="margin-left: 10px;">
+                                            <i class="fa fa-minus-square-o product-prices-remove-icon" 
+                                            ng-click="removeCustomRule(subtype, $index)" style="line-height: 1.2; padding-top: 3px"></i>
+                                            <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" 
+                                            ng-click="addCustomRule(subtype)" style="line-height: 1.2; padding-top: 3px"></i>                                 
+                                        </div>
+                                    </div>                            
+                                </div>
+                                <div ng-show="customSetting.setting == 'combo'" class="row divider">    
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div style="width: 100%;">
+                                            <div class="reward-multi-select">
+                                                <select chosen
+                                                        single
+                                                        data-placeholder-text-single="'Choose an account definition'"
+                                                        width="100"
+                                                        ng-model="customSetting.account"
+                                                        ng-options="accDef.name for accDef in accountDefinitions | orderBy: 'name' track by accDef.name">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">&nbsp;</div>                            
+                                </div>
+                                <div ng-show="customSetting.setting == 'combo' || customSetting.setting == 'currency'" class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div style="width: 100%;">
+                                            <div class="reward-multi-select">
+                                                <select chosen
+                                                        multiple
+                                                        data-placeholder-text-multiple="'Choose one or more currencies'"
+                                                        width="100"
+                                                        ng-model="customSetting.currencies"
+                                                        ng-options="currency.code for currency in companyCurrencies | orderBy: 'code' track by currency.code">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">
+                                        <div class="pointer" style="margin-left: 10px;">
+                                            <i class="fa fa-minus-square-o product-prices-remove-icon" 
+                                            ng-click="removeCustomRule(subtype, $index)" style="line-height: 1.2; padding-top: 3px"></i>
+                                            <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" 
+                                            ng-click="addCustomRule(subtype)" style="line-height: 1.2; padding-top: 3px"></i>                                 
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-right: -5px;">
+                        <button class="btn btn-primary dashboard-btn pull-right" ng-click="updateDisallowedSubtypeChange()">Save</button>
+                    </div>
+                </div>
+                <div ng-hide="disallowedTransactionSubtypes.length > 0" class="divider"><i>No subtypes have been added to the company.</i></div>
+            </div>
+        </div>
+        <div ng-show="updatingGlobalSubtypeSetting" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div ng-hide="updatingGlobalTransactionSetting" class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Global transaction switches</span>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                            Allow transactions 
+                        </td>
+                        <td class="rehive-table-row-last-child">
+                            <div ng-show="transactionSettingsObj.allow_transactions">
+                                <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateGlobalTransactionSettings(false, 'allow_transactions')"></i>
+                            </div>
+                            <div ng-hide="transactionSettingsObj.allow_transactions">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateGlobalTransactionSettings(true, 'allow_transactions')"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                            Allow debit transactions
+                        </td>
+                        <td class="rehive-table-row-last-child">
+                            <div ng-show="transactionSettingsObj.allow_debit_transactions">
+                                <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateGlobalTransactionSettings(false, 'allow_debit_transactions')"></i>
+                            </div>
+                            <div ng-hide="transactionSettingsObj.allow_debit_transactions">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateGlobalTransactionSettings(true, 'allow_debit_transactions')"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                            Allow credit transactions
+                        </td>
+                        <td class="rehive-table-row-last-child">
+                            <div ng-show="transactionSettingsObj.allow_credit_transactions">
+                                <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateGlobalTransactionSettings(false, 'allow_credit_transactions')"></i>
+                            </div>
+                            <div ng-hide="transactionSettingsObj.allow_credit_transactions">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateGlobalTransactionSettings(true, 'allow_credit_transactions')"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div ng-show="updatingGlobalTransactionSetting" ba-panel>
+            <loading-image></loading-image>
+        </div>
+        <div ng-hide="updatingCryptoTransactionSetting || !transactionSettingsObj.crypto_urls" class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Crypto transaction switches</span>
+            </div>
+            <div class="panel-body">
+                <div  class="divider">
+                    <table class="table">
+                        <tr ng-hide="!transactionSettingsObj.crypto_urls.bitcoin_service">
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow Bitcoin Mainnet withdrawals
+                            </td>
+                            <td class="rehive-table-row-last-child">
+                                <div ng-hide="transactionSettingsObj.crypto_urls.bitcoin_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateCryptoTransactionSettings('bitcoin_service')"></i>
+                                </div>
+                                <div ng-show="transactionSettingsObj.crypto_urls.bitcoin_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateCryptoTransactionSettings('bitcoin_service')"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="!transactionSettingsObj.crypto_urls.bitcoin_testnet_service">
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow Bitcoin Testnet withdrawals
+                            </td>
+                            <td class="rehive-table-row-last-child">
+                                <div ng-hide="transactionSettingsObj.crypto_urls.bitcoin_testnet_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateCryptoTransactionSettings('bitcoin_testnet_service')"></i>
+                                </div>
+                                <div ng-show="transactionSettingsObj.crypto_urls.bitcoin_testnet_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateCryptoTransactionSettings('bitcoin_testnet_service')"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="!transactionSettingsObj.crypto_urls.stellar_service">
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow Stellar Mainnet withdrawals
+                            </td>
+                            <td class="rehive-table-row-last-child">
+                                <div ng-hide="transactionSettingsObj.crypto_urls.stellar_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateCryptoTransactionSettings('stellar_service')"></i>
+                                </div>
+                                <div ng-show="transactionSettingsObj.crypto_urls.stellar_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateCryptoTransactionSettings('stellar_service')"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="!transactionSettingsObj.crypto_urls.stellar_testnet_service">
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow Stellar Testnet withdrawals
+                            </td>
+                            <td class="rehive-table-row-last-child">
+                                <div ng-hide="transactionSettingsObj.crypto_urls.stellar_testnet_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="updateCryptoTransactionSettings('stellar_testnet_service')"></i>
+                                </div>
+                                <div ng-show="transactionSettingsObj.crypto_urls.stellar_testnet_service.disable_withdrawals">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="updateCryptoTransactionSettings('stellar_testnet_service')"></i>
+                                </div>
+                            </td>
+                        </tr>                                      
+                    </table>
+                </div>
+                 <div ng-hide="transactionSettingsObj.crypto_urls"><i>No crypto extensions have been added to the company.</i></div>
+            </div>           
+        </div>
+        <div ng-show="updatingCryptoTransactionSetting" ba-panel>
+            <loading-image></loading-image>
+        </div>
+        <div ng-hide="updatingGlobalTransactionSetting" class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Group subtype controls</span>
+            </div>
+            <div class="panel-body">
+                <table class="table" style="margin-bottom: 15px!important">
+                    <tr ng-repeat="group in groups track by $index" ng-hide="group.name === 'admin' || group.name === 'service'">
+                        <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                            <a class="pointer" ng-click="goToGroupTransactionSetting(group.name)">{{group.label}} group subtype controls</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div ng-show="updatingCryptoTransactionSetting" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>
+<div ng-show="loadingTransactionSettings" ba-panel>
+    <loading-image></loading-image>
+</div>

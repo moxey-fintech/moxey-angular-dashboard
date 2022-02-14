@@ -1,0 +1,162 @@
+<div ng-hide="loadingRequestLog" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Request log</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Id:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.id"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Key:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.key"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Scheme:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.scheme"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Method:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.method"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Url:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.path"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Status code:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.status_code"></span>
+                </div>
+            </div>
+            <div ng-show="requestLog.resource" class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Resource:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.resource"></span>
+                </div>
+            </div>
+            <div ng-show="requestLog.resource_id" class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Resource id:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.resource_id"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Content type:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="requestLog.content_type"></span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Updated:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        {{requestLog.updated | date:'mediumDate'}} {{requestLog.updated | date:'shortTime'}}
+                    </span>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Created:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        {{requestLog.created | date:'mediumDate'}} {{requestLog.created | date:'shortTime'}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Response: </p>
+                </div>
+                <div class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div ng-show="headers">
+                        <pre>{{response}}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Headers: </p>
+                </div>
+                <div class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div ng-show="headers">
+                        <pre>{{headers}}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-class="{'divider': !body}">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Body: </p>
+                </div>
+                <div class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div ng-show="body">
+                        <pre>{{body}}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row divider">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">Params: </p>
+                </div>
+                <div class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div ng-show="params">
+                        <pre>{{params}}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <p class="text-subtle">User: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <span>
+                            <a class="pointer" href="#/user/{{requestLog.user.id}}/details" ng-bind="requestLog.user.email"></a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$dismiss()" class="btn btn-default pull-right dashboard-btn">
+            Close
+        </button>
+    </div>
+</div>
+<div ba-panel ng-show="loadingRequestLog">
+    <loading-image></loading-image>
+</div>

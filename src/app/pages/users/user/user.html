@@ -1,0 +1,103 @@
+<!--<button ng-csv="getCSVArray" filename="{{getFileName}}"-->
+        <!--class="btn pull-right btn-primary user-accounts-btn user-btn-export">Export</button>-->
+<div class="user-details-view" ng-hide="loadingUser" style="">
+    <div ng-show="user.archived" class="row divider" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider">
+            <div class="user-status-banner user-archived">
+                <i>Archived user</i>
+            </div>
+        </div>
+    </div>
+    <div ng-show="!user.archived && user.deactivated" class="row divider" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider">
+            <div class="user-status-banner user-deactivated">
+                <i>Deactivated user</i>
+            </div>
+        </div>
+    </div>
+    <div ng-show="!user.archived && !user.deactivated && user.temporary" class="row divider" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider">
+            <div class="user-status-banner user-temporary">
+                <i>Temporary user</i>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <span class="user-details-breadcrumb"><span ng-click="goToBreadCrumbsView('/users')" class="pointer">Users</span>&nbsp; /&nbsp;
+                <span ng-click="goToBreadCrumbsView('/user/' + user.id + '/details')" ng-class="{'text-bold': trackedLocation == 'details'}" class="pointer">Current user</span>
+                <span ng-show="(trackedLocation == 'accounts' || trackedLocation == 'account')" ng-class="{'text-bold': trackedLocation == 'accounts','pointer': trackedLocation == 'account'}"
+                      ng-click="goToBreadCrumbsView('/user/' + user.id + '/accounts')">&nbsp;/&nbsp; Accounts</span>
+                <span ng-show="(trackedLocation == 'permissions')" ng-class="{'text-bold': trackedLocation == 'permissions'}"
+                      ng-click="goToBreadCrumbsView('/user/' + user.id + '/permissions')">&nbsp;/&nbsp; Permissions</span>
+                <span ng-show="trackedLocation == 'transactions'" ng-class="{'text-bold': trackedLocation == 'transactions'}">&nbsp;/&nbsp; Transactions</span>
+                <span ng-show="trackedLocation == 'user-logs'" ng-class="{'text-bold': trackedLocation == 'user-logs'}">&nbsp;/&nbsp; Logs</span>
+                <span ng-show="secondaryTrackedLocation == 'limits'" ng-class="{'text-bold': secondaryTrackedLocation == 'limits'}">&nbsp;/&nbsp; {{accountBreadCrumbTitle}} limits</span>
+                <span ng-show="secondaryTrackedLocation == 'fees'" ng-class="{'text-bold': secondaryTrackedLocation == 'fees'}">&nbsp;/&nbsp; {{accountBreadCrumbTitle}} fees</span>
+                <span ng-show="secondaryTrackedLocation == 'settings'" ng-class="{'text-bold': secondaryTrackedLocation == 'settings'}">&nbsp;/&nbsp; {{accountBreadCrumbTitle}} settings</span>
+            </span>
+        </div>
+    </div>
+    <div ng-show="user.first_name || user.last_name" class="row" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <span class="user-details-name">{{user.first_name}} {{user.last_name}}</span>
+        </div>
+    </div>
+    <div class="row" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user-details-first-row">
+            <div ng-hide="user.profile">
+                <div class="alternatePhoto pointer" ng-click="openUserProfilePictureModal('app/pages/users/user/userProfilePictureModal/userProfilePictureModal.html','md',user)">{{user.first_name | limitTo: 1 | uppercase}}{{user.last_name | uppercase | limitTo: 1}}</div>
+            </div>
+            <img ng-show="user.profile" class="pointer user-profile-picture" ng-click="openUserProfilePictureModal('app/pages/users/user/userProfilePictureModal/userProfilePictureModal.html','md',user)"
+                 ng-src="{{user.profile}}"  width="90" height="90" alt="token Image">
+            <div ng-hide="updatingUser" style="width: 100%;">
+                <p class="user-details-info">
+                    <span ngclipboard ngclipboard-success="copiedSuccessfully()" data-clipboard-text="{{user.id}}" class="pointer">
+                        <strong style="color: #999999;">id:</strong> {{user.id}}
+                    </span>&nbsp;&nbsp;
+                   <span ng-hide="user.archived"><a ng-click="showUserArchiveActionPrompt(true)" class="pointer">Archive</a>&nbsp;&nbsp;</span>
+                   <span ng-show="user.archived"><a ng-click="showUserArchiveActionPrompt(false)" class="pointer">Restore</a>&nbsp;&nbsp;</span>
+                   <span ng-hide="user.archived || user.deactivated"><a ng-click="showUserDeactivateActionPrompt(false)" class="pointer">Deactivate</a></span>
+                   <span ng-show="!user.archived && user.deactivated"><a ng-click="showUserDeactivateActionPrompt(true)" class="pointer">Reactivate</a></span>
+                   <span class="pull-right"><a ng-click="creditUser()" class="pointer">Credit user</a></span>
+                </p>
+                <p class="user-details-info">
+                    <span><strong style="color: #999999;">email:</strong> {{user.email}}</span>                                  
+                </p>
+                <p class="user-details-info">
+                    <span><strong style="color: #999999;">user for {{beenAUser}}</strong></span>
+                    <span class="pull-right"><a ng-click="debitUser()" class="pointer">Debit user</a></span>                           
+                </p>
+                <p class="user-details-info">
+                    <strong style="color: #999999;">group:</strong> {{user.groups[0].name || 'None'}}
+                </p>
+                <p class="user-details-info">
+                    <strong style="color: #999999;">tier:</strong> {{userGroup.tier.name || 'None'}}, level {{userGroup.tier.level}}
+                    <span class="pull-right"><a ng-click="transferUser()" class="pointer">Create transfer</a></span>
+                </p>
+                <!-- <p class="user-details-info">   -->
+                    <!-- <strong style="color: #999999;">kyc status:</strong> {{user.kyc.status}} -->
+                    <!-- <span>&nbsp;</span>
+                </p> -->
+            </div>
+            <div ng-show="updatingUser">
+                <loading-image></loading-image>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding: 0 10px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="user-details-nav-bar">
+                <li><a href="/#/user/{{user.id}}/details" ng-class="{'transaction-location': locationIndicator == 'details'}">Details</a></li>
+                <li><a href="/#/user/{{user.id}}/accounts" ng-class="{'transaction-location': locationIndicator == 'accounts'}">Accounts</a></li>
+                <li><a href="/#/user/{{user.id}}/transactions" ng-class="{'transaction-location': locationIndicator == 'transactions'}">Transactions</a></li>
+                <li><a href="/#/user/{{user.id}}/permissions" ng-class="{'transaction-location': locationIndicator == 'permissions'}">Permissions</a></li>
+                <li><a href="/#/user/{{user.id}}/user-logs" ng-class="{'transaction-location': locationIndicator == 'user-logs'}">Logs</a></li>
+            </ul>
+        </div>
+    </div>
+    <div ui-view="userDetailsView" style="padding: 0 10px;"></div>
+</div>
+<div ba-panel ng-show="loadingUser">
+    <loading-image></loading-image>
+</div>

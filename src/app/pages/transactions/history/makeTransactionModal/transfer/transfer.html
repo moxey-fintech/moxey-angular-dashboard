@@ -1,0 +1,235 @@
+<form name="transactionForm" class="custom-form">
+    <div class="transaction-form" id="transferForm">
+        <div class="form-group">
+            <label>Sender&nbsp;
+                <i ng-show="retrievedSenderUserObj.id" class="fa fa-user transaction-transfer-sender-user-icon" aria-hidden="true"></i>
+                <div class="row transaction-transfer-sender-user-details">
+                    <table>
+                        <tr>
+                            <th style="text-align: right" width="30%">Name:</th>
+                            <td style="padding-left: 15px">{{retrievedSenderUserObj.first_name}} {{retrievedSenderUserObj.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Created date:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedSenderUserObj.created">{{retrievedSenderUserObj.created | date:'mediumDate'}}, {{retrievedSenderUserObj.created | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Last login:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedSenderUserObj.last_login">{{retrievedSenderUserObj.last_login | date:'mediumDate'}}, {{retrievedSenderUserObj.last_login | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Group:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedSenderUserObj.groups[0].name"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">KYC status:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedSenderUserObj.kyc.status | capitalizeWord"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">MFA status:</th>
+                            <td style="padding-left: 15px" ng-bind="senderMfaEnabled" ng-class="{'mfa-enabled': senderMfaEnabled === 'Enabled', 'mfa-disabled':  senderMfaEnabled === 'Disabled'}"></td>
+                        </tr>
+                        <tr ng-show="senderMfaOBj.updated">
+                            <th style="text-align: right" width="40%">MFA last updated:</th>
+                            <td style="padding-left: 15px" ng-show="senderMfaOBj.updated">{{senderMfaOBj.updated | date:'mediumDate'}}, {{senderMfaOBj.updated | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="40%">User metadata:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedSenderUserObj.metadata"></td>
+                        </tr>
+                    </table>
+                </div>
+                <span>(optional)</span>
+            </label>
+            <input type="text" ng-model="transferTransactionData.user" placeholder="e.g. email@domain.com" typeahead-on-select="onSendEmailSelect($model)"
+                   uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                   class="form-control" size="12">
+        </div>
+        <div class="form-group">
+            <label>Recipient
+                <i ng-show="retrievedRecipientObj.id" class="fa fa-user transaction-transfer-recipient-user-icon" aria-hidden="true"></i>
+                <div class="row transaction-transfer-recipient-user-details">
+                    <table>
+                        <tr>
+                            <th style="text-align: right" width="30%">Name:</th>
+                            <td style="padding-left: 15px">{{retrievedRecipientObj.first_name}} {{retrievedRecipientObj.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Created date:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedRecipientObj.created">{{retrievedRecipientObj.created | date:'mediumDate'}}, {{retrievedRecipientObj.created | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Last login:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedRecipientObj.last_login">{{retrievedRecipientObj.last_login | date:'mediumDate'}}, {{retrievedRecipientObj.last_login | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Group:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedRecipientObj.groups[0].name"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">KYC status:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedRecipientObj.kyc.status | capitalizeWord"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">MFA status:</th>
+                            <td style="padding-left: 15px" ng-bind="recipientMfaEnabled" ng-class="{'mfa-enabled': recipientMfaEnabled === 'Enabled', 'mfa-disabled':  recipientMfaEnabled === 'Disabled'}"></td>
+                        </tr>
+                        <tr ng-show="recipientMfaOBj.updated">
+                            <th style="text-align: right" width="40%">MFA last updated:</th>
+                            <td style="padding-left: 15px" ng-show="recipientMfaOBj.updated">{{recipientMfaOBj.updated | date:'mediumDate'}}, {{recipientMfaOBj.updated | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="40%">User metadata:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedRecipientObj.metadata"></td>
+                        </tr>
+                    </table>
+                </div>
+            </label>
+            <input type="text" ng-model="transferTransactionData.recipient" placeholder="e.g. email@domain.com" typeahead-on-select="onRecipientEmailSelect($model)"
+                   uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                   class="form-control" size="12">
+        </div>
+        <div class="form-group">
+            <label>Amount <span class="required-icon">*</span></label>
+            <input type="text" ng-model="transferTransactionData.amount" class="form-control"  placeholder="e.g. 100000000">
+        </div>
+        <div class="form-group">
+            <label>Currency <span class="required-icon">*</span>
+                <span ng-hide="(retrievedSenderUserObj.id)">Please choose sender first.</span>
+            </label>
+            <br>
+            <div class="reward-multi-select">
+                <!-- ng-disabled="(!retrievedSenderUserObj.id)" -->
+                <select chosen
+                        data-placeholder-text-single="'Choose a currency'"
+                        width="100"
+                        allow-single-deselect="true"
+                        ng-model="transferTransactionData.currency"
+                        ng-change="currencySelected(transferTransactionData,'recipient')"
+                        ng-options="currency.display_code for currency in transferCurrencyOptions | orderBy: 'code' track by currency.code">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Sender account &nbsp;
+                <i ng-show="transferTransactionData.account && transferTransactionData.account.name" class="fa fa-list-alt transaction-sender-account-icon" aria-hidden="true"></i>
+                <div ng-show="retrievedSenderAccountTransactions.length > 0" class="row transaction-sender-account-details">
+                    <p class="transaction-tooltip-title">Recent transactions:</p>
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <tr ng-repeat="transaction in retrievedSenderAccountTransactions | orderBy: '-created' track by $index">
+                            <td>{{transaction.tx_type}}</td>
+                            <td>{{transaction.currency.code}}</td>
+                            <td>{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td>{{transaction.status | capitalizeWord}}</td>
+                            <td>{{transaction.created | date:'mediumDate'}}, {{transaction.created | date:'shortTime'}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="retrievedSenderAccountTransactions.length == 0"
+                     ng-class="{'no-account-transactions': retrievedSenderAccountTransactions.length == 0}"
+                     class="row transaction-sender-account-details">
+                    <i>No transactions exist for this account.</i>
+                </div>
+            </label>
+            <select class="form-control pointer" ng-model="transferTransactionData.account" ng-change="accountSelected(transferTransactionData)" ng-disabled="(!transferTransactionData.currency.code)"
+                    ng-options="account.name + ' - ' + account.reference disable when account.disable for account in retrievedSenderUserAccountsArray | orderBy: 'name' track by account.name">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Recipient account&nbsp;
+                <i ng-show="transferTransactionData.credit_account && transferTransactionData.credit_account.name" class="fa fa-list-alt transaction-recipient-account-icon" aria-hidden="true"></i>
+                <div ng-show="retrievedRecipientAccountTransactions.length > 0" class="row transaction-recipient-account-details">
+                    <p class="transaction-tooltip-title">Recent transactions:</p>
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <tr ng-repeat="transaction in retrievedRecipientAccountTransactions | orderBy: '-created' track by $index">
+                            <td>{{transaction.tx_type}}</td>
+                            <td>{{transaction.currency.code}}</td>
+                            <td>{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td>{{transaction.status | capitalizeWord}}</td>
+                            <td>{{transaction.created | date:'mediumDate'}}, {{transaction.created | date:'shortTime'}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="retrievedRecipientAccountTransactions.length == 0"
+                     ng-class="{'no-account-transactions': retrievedRecipientAccountTransactions.length == 0}"
+                     class="row transaction-recipient-account-details">
+                    <i>No transactions exist for this account.</i>
+                </div>
+                <span class="no-accounts-available margin-left-10"
+                      ng-show="retrievedRecipientAccountsArray.length == 0 &&
+                      retrievedRecipientObj.id  && transferTransactionData.currency &&
+                       transferTransactionData.currency.code">
+                    No accounts found for this user.
+                    <span ng-click="goToTransferUserAccountCreate(retrievedRecipientObj.id)"> Add an account here.</span>
+                </span>
+            </label>
+            <select class="form-control pointer" ng-model="transferTransactionData.credit_account" ng-change="accountSelected(transferTransactionData,'recipient')" ng-disabled="!transferTransactionData.currency.code"
+                    ng-options="account.name + ' - ' + account.reference disable when account.disable for account in retrievedRecipientAccountsArray | orderBy: 'name' track by account.name">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Sender note</label>
+            <textarea rows="4" type="text" ng-model="transferTransactionData.debit_note" class="form-control"  placeholder='Enter sender note'></textarea>
+        </div>
+        <div class="form-group">
+            <label>Recipient note</label>
+            <textarea rows="4" type="text" ng-model="transferTransactionData.credit_note" class="form-control"  placeholder='Enter recipient note'></textarea>
+        </div>
+        <div class="form-group">
+            <label>Sender reference</label>
+            <input type="text" ng-model="transferTransactionData.debit_reference" class="form-control"  placeholder="e.g. # 1234">
+        </div>
+        <div class="form-group">
+            <label>Recipient reference</label>
+            <input type="text" ng-model="transferTransactionData.credit_reference" class="form-control"  placeholder="e.g. # 1234">
+        </div>
+        <div class="form-group">
+            <label>Debit subtype</label>
+            <select class="form-control pointer" ng-model="transferTransactionData.debit_subtype"
+                    ng-options="subtypeOption.name for subtypeOption in allSubtypes | filter: {tx_type: 'debit'}">
+                <option value="">No subtype</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Credit subtype</label>
+            <select class="form-control pointer" ng-model="transferTransactionData.credit_subtype"
+                    ng-options="subtypeOption.name for subtypeOption in allSubtypes | filter: {tx_type: 'credit'}">
+                <option value="">No subtype</option>
+            </select>
+        </div>
+        <span>
+            <a class="pointer" ng-hide="showAdvancedTransferOption" ng-click="toggleAdvancedTransferOption()">Advanced options</a>
+            <div ng-show="showAdvancedTransferOption">
+                <div class="form-group">
+                    <label>Sender metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="transferTransactionData.credit_metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Recipient metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="transferTransactionData.debit_metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+            </div>
+        </span>
+        <a class="pointer" ng-show="showAdvancedTransferOption" ng-click="toggleAdvancedTransferOption()">Hide advanced options</a>
+        <button ng-click="toggleConfirmTransaction()"
+                ng-disabled="!transferTransactionData.amount ||
+                 !transferTransactionData.currency ||
+                 !transferTransactionData.currency.code"
+                class="btn dashboard-btn btn-primary pull-right">Next</button>
+    </div>
+</form>

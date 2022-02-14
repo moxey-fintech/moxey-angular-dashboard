@@ -1,0 +1,47 @@
+<currency-conversion-service-navigation></currency-conversion-service-navigation>
+
+<div ng-hide="loadingRates" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Rate pairs</span>
+        <button ng-click="goToAddRatesView('app/pages/services/currencyConversionService/currencyConversionRates/addCurrencyConversionRatesModal/addCurrencyConversionRatesModal.html','md')" 
+        class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+    </div>
+    <div class="panel-body">
+        <div ng-show="ratePairsList.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th width="15%" class="rehive-table-row-first-child">Key</th>
+                    <th width="15%">Rate</th>
+                    <th width="15%">Path</th>
+                    <th width="20%">Created</th>
+                    <th width="20%">Updated</th>
+                    <th width="15%"></th>
+                </tr>
+                <tr ng-repeat="ratePair in ratePairsList | orderBy: 'created' track by $index" class="editable-row">
+                    <td width="15%" class="transactions-list-element rehive-table-row-first-child" title="{{ratePair.key}}" ng-bind="ratePair.key"></td>
+                    <td width="15%" class="transactions-list-element" title="{{ratePair.rate}}" ng-bind="ratePair.rate"></td>
+                    <td width="15%"><div title="{{ratePair.path}}" ng-bind="ratePair.path" class="transactions-list-element"></div></td>
+                    <td width="20%"><div title="{{ratePair.created}}" ng-bind="ratePair.created" class="transactions-list-element" ></div></td>
+                    <td width="20%"><div title="{{ratePair.updated}}" ng-bind="ratePair.updated" class="transactions-list-element" ></div></td>
+                    <td width="15%" class="rehive-table-row-last-child">
+                        <a ng-click="openDeleteRatesModal('app/pages/services/currencyConversionService/currencyConversionRates/deleteCurrencyConversionRatesModal/deleteCurrencyConversionRatesModal.html','md',ratePair)"
+                           class="pull-right pointer ">Delete</a>
+                        <a ng-click="openEditRatesModal('app/pages/services/currencyConversionService/currencyConversionRates/editCurrencyConversionRatesModal/editCurrencyConversionRatesModal.html','md',ratePair)"
+                           class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="ratesListData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getRatePairsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-hide="ratePairsList.length > 0">
+            <i>No rates are available</i>
+        </div>
+    </div>
+</div>
+<div ng-show="loadingRates" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

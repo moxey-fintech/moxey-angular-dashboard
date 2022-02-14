@@ -1,0 +1,24 @@
+<div ng-hide="loadingUserStellarInfo" class="panel panel-default">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Stellar address info</span>
+    </div>
+    <div class="panel-body">
+        <table class="table user-basic-info-table">
+            <tr>
+                <th width="25%">Public address</th>
+                <td>{{ user.stellar_public_address ? user.stellar_public_address : "--" }}</td>
+            </tr>
+            <tr>
+                <th width="25%">Memo</th>
+                <td >{{ user.stellar_memo ? user.stellar_memo : "--" }}</td>
+            </tr>  
+            <tr>
+                <th width="25%">Federation address</th>
+                <td >{{ user.federation_address ? user.federation_address : "--" }}</td>
+            </tr>  
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserStellarInfo">
+    <loading-image></loading-image>
+</div>

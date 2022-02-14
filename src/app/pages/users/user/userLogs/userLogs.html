@@ -1,0 +1,54 @@
+<div ng-hide="loadingRequestLogs" class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showRequestLogsFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                
+                <div ng-show="showingFilters">
+                    <user-logs-filters></user-logs-filters>
+                </div>
+            </div>
+            <button ng-click="getRequestLogs('applyFilter')" ng-disabled="loadingRequestLogs"
+                    class="btn btn-default transactions-btn panel-header-button">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="userLogs.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="82%">Action</th>
+                        <th width="18%">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="userLog in userLogs | orderBy:'-created' track by $index" data-toggle="modal" class="editable-row center pointer user-details-table-hover" 
+                        ng-class="{'text-danger': userLog.failed_request}" ng-click="goToRequestLog('app/pages/developers/requestLogs/requestLogModal/requestLogModal.html','md',userLog)">
+                        <td class="transactions-list-element"><span ng-bind-html="userLog.request_action"></span></td>
+                        <td class="transactions-list-element"><span ng-bind="userLog.created_date"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="userLogsData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getRequestLogs()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="userLogs.length == 0">
+            <i>No request logs found.</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingRequestLogs">
+    <loading-image></loading-image>
+</div>

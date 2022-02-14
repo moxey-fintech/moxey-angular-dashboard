@@ -1,0 +1,111 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Quote details</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Quote id:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="quote.id"></span>
+                    <i ng-hide="editingQuote" ng-click="toggleEditingQuote()" class="fa fa-pencil-square-o transaction-edit-btn pull-right pointer" aria-hidden="true"></i>
+                    <i ng-show="editingQuote" ng-click="editQuote()" class="fa fa-floppy-o transaction-edit-btn pull-right pointer" aria-hidden="true"></i>
+                    <i ng-show="editingQuote" ng-click="toggleEditingQuote()" class="fa fa-arrow-circle-o-left transaction-edit-btn pull-right pointer margin-right-10" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">User:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <a class="pointer" ng-bind="quote.user" ng-click="goToUserView(quote.user)"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Conversion:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="quote.conversion || 'None'"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">From currency:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="quote.from_currency.code"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">To currency:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span ng-bind="quote.to_currency.code"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">From total amount:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>{{quote.from_currency.symbol}} {{quote.from_total_amount  | currencyModifiersFilter: quote.from_currency.divisibility | commaSeperateNumberFilter}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">From amount:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>{{quote.from_currency.symbol}} {{quote.from_amount  | currencyModifiersFilter: quote.from_currency.divisibility | commaSeperateNumberFilter}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">From fee:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>{{quote.from_currency.symbol}} {{quote.from_fee  | currencyModifiersFilter: quote.from_currency.divisibility | commaSeperateNumberFilter}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">To amount:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>{{quote.to_currency.symbol}} {{quote.to_amount  | currencyModifiersFilter: quote.to_currency.divisibility | commaSeperateNumberFilter}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Rate:</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>{{quote.rate}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                    <p class="text-subtle">Metadata:</p>
+                </div>
+                <div class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <div ng-show="formatted.metadata">
+                        <pre ng-hide="editingQuote">{{formatted.metadata}}</pre>
+                    </div>
+                    <textarea ng-show="editingQuote" rows="4" type="text" ng-model="updateQuoteObj.metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-disabled="deletingQuote" type="button" class="btn btn-danger dashboard-btn pull-left" ng-click="deleteQuoteConfirm()">Delete</button>
+        <button ng-disabled="deletingQuote" ng-click="goToConvertQuoteView('app/pages/services/currencyConversionService/currencyConversionQuotes/convertCurrencyConversionQuotesModal/convertCurrencyConversionQuotesModal.html','md')"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Convert</button>
+    </div>
+</div>

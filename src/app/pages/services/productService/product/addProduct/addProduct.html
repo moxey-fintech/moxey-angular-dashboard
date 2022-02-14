@@ -1,0 +1,569 @@
+<div ng-hide="addingProduct">
+    <div class="panel-heading" style="padding: 2px 2px 2px 0">
+        <span class="user-details-panel-title">Add product</span>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Product details</span>
+        </div>
+        <div class="panel-body">
+            <form name="addProductForm" class="custom-form">
+                <div class="form-group">
+                    <label>Product name <span class="required-icon">*</span></label>
+                    <input type="text" ng-model="newProductParams.name" class="form-control"
+                           placeholder="Enter product name" required>
+                </div>
+                <div class="form-group">
+                    <label>Product description <span class="small">(max 255 characters)</span><span class="pull-right">{{newProductParams.description.length || 0}} / 255</span></label>
+                    <textarea rows="4" type="text" ng-model="newProductParams.description"
+                              ng-change="countCharacters()"
+                              class="form-control"  placeholder='Enter product description'></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Product short description&nbsp;&nbsp;<span >{{newProductParams.shortDescription.length || 0}}/100</span></label>
+                    <input type="text" ng-model="newProductParams.shortDescription"
+                            ng-change="trackShortDescription()" class="form-control"  placeholder='Enter a short description for the product' />
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <label><strong class="strong-headers">Images</strong>
+                        <i class="fa fa-plus-square-o product-prices-add-icon left-margin-12"
+                           ng-hide="newProductParams.images.length > 0"
+                           ng-class="{'product-prices-add-icon-near-title': newProductParams.images.length == 0}"                           
+                           ng-click="addImage()"></i>
+                    </label>
+                    <br>
+                    <div class="divider" ng-repeat="image in newProductParams.images track by $index">
+                        <div class="divider-20">
+                            <div ng-show="image.file.name">
+                                <img ngf-thumbnail="image.file" width="150" height="150" alt="product Image" style="object-fit: contain;">
+                            </div>
+                        </div>
+                        <form name="myForm" class="divider">
+                            <fieldset class="custom-file-upload">
+                                <label>
+                                    <span class="custom-file-upload-span"><button class="btn btn-primary">Choose File</button></span>
+                                    <input class="product-images-input"
+                                        type="file" ngf-select ng-model="image.file" name="file"
+                                        accept="image/*" ngf-max-size="5MB" required>
+                                </label>
+                            </fieldset>
+                        </form>
+                        <div class="product-images-icon-container">                            
+                            <i class="fa fa-minus-square-o product-prices-remove-icon"
+                               ng-click="removeImage(image)"></i>
+                            <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addImage()"></i>
+                        </div>
+                    </div>
+                    <p class="small" ng-style="{'margin-top': newProductParams.images.length > 0 ? '0px':'12px'}">Max size is 5MB. Recommended dimensions are 2048 x 2048px</p>
+                </div>
+                <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.enabled" type="checkbox">&nbsp;Enabled&nbsp;</label>
+                </div>
+                <!-- <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.instantBuy" type="checkbox">&nbsp;Instant buy&nbsp;</label>
+                </div> -->
+                <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.requires_billing_address" type="checkbox">&nbsp;Requires billing address&nbsp;</label>
+                </div>
+                <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.requires_shipping_address" type="checkbox">&nbsp;Requires shipping address</label>
+                </div>
+                <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.requires_contact_mobile" type="checkbox">&nbsp;Requires contact mobile</label>
+                </div>
+                <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.requires_contact_email" type="checkbox">&nbsp;Requires contact email</label>
+                </div>
+                <div class="form-group custom-form">
+                    <label>Integration &nbsp;</label>
+                    <div ng-show="productIntegrations.length > 0" class="reward-multi-select">
+                        <select chosen single
+                                data-placeholder-text-single="'Choose a product integration'"
+                                width="100"
+                                ng-model="newProductParams.integration"
+                                ng-options="integration.name + ' ( ' + integration.slug + ' )' for integration in productIntegrations | orderBy: 'name' track by integration.slug">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div ng-hide="productIntegrations.length > 0" class="reward-multi-select">
+                        No product integrations added to the company&nbsp;&nbsp;&nbsp;
+                        <a class="pointer" 
+                            ng-click="openAddProductIntegrationModal('app/pages/services/productService/productSettings/productIntegrations/addProductIntegrationModal/addProductIntegrationModal.html', 'md')">
+                            Add an integration
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group custom-form">
+                    <label>Countries &nbsp;<i uib-tooltip-html="'Set which countries your product is available in. This is used in frontend applications to filter which products 
+                    are available to users. Leave this blank if you want your product to be available to all countries.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i></label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more countries'"
+                                width="100"
+                                ng-model="newProductParams.allowedCountries"
+                                ng-options="country.code + ' - ' + country.name for country in countriesList | orderBy: 'code' track by country.code">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="newProductParams.metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Product type and category</span>
+        </div>
+        <div class="panel-body">
+            <form class="custom-form">
+                <div class="divider-20 setup-groups-tooltip-div">
+                    <label>Product type
+                            &nbsp;<i uib-tooltip-html="'A categorical tag to label products / items of the same type.'"
+                                    class="ion-information-circled setup-groups-tooltip"></i></label>
+                    <div class="divider-20">
+                        <div class="custom-radio-groups-btn">
+                            <label class="pointer" style="margin-right: 15px;">
+                                <input class="pointer" type="radio" ng-model="newProductParams.type" value="physical">
+                                <span class="custom-radio-btn">Physical</span>
+                            </label>
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" ng-model="newProductParams.type" value="virtual">
+                                <span class="custom-radio-btn">Virtual</span>
+                            </label>
+                        </div>
+                    </div>                    
+                </div>
+                <div ng-show="newProductParams.type == 'virtual'" class="divider-20 setup-groups-tooltip-div">
+                    <div class="form-group setup-groups-tooltip-div">
+                        <label>Format</label>
+                        <div class="reward-multi-select">
+                            <select class="form-control pointer" ng-model="newProductParams.virtual_format" ng-options=" format for format in virtualFormats"> </select>
+                        </div>
+                    </div>
+                    <div class="setup-groups-tooltip-div">
+                        <label>Virtual type </label>
+                        <div class="divider-20">
+                            <div class="custom-radio-groups-btn">
+                                <label class="pointer" style="margin-right: 15px;">
+                                    <input class="pointer" type="radio" ng-model="newProductParams.virtual_type" value="internal">
+                                    <span class="custom-radio-btn">Internal</span>
+                                </label>
+                                <label class="margin-right-10 pointer">
+                                    <input class="pointer" type="radio" ng-model="newProductParams.virtual_type" value="external">
+                                    <span class="custom-radio-btn">External</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setup-groups-tooltip-div">
+                        <label>Virtual redemption
+                            &nbsp;<i uib-tooltip-html="'Defines whether only the admin user can redeem a voucher associated with this product or whether it can be 
+                            redeemed by the end user too.'"
+                                     class="ion-information-circled setup-groups-tooltip"></i></label>
+                        <div class="divider-20">
+                            <div class="custom-radio-groups-btn">
+                                <label class="pointer" style="margin-right: 15px;">
+                                    <input class="pointer" type="radio" ng-model="newProductParams.virtual_redemption" value="user">
+                                    <span class="custom-radio-btn">User and admin</span>
+                                </label>
+                                <label class="margin-right-10 pointer">
+                                    <input class="pointer" type="radio" ng-model="newProductParams.virtual_redemption" value="admin">
+                                    <span class="custom-radio-btn">Admin only</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+                <div class="form-group custom-form">
+                    <label>Categories</label>
+                    <a ng-hide="showCategoriesPopUp" class="pointer" ng-click="openCategorySelector()">Edit categories</a>
+                    <div ng-show="showCategoriesPopUp">
+                        <div class="modal-content product-category-modal" ng-show="productCategories.length > 0">
+                            <div class="modal-header">
+                                <button type="button" class="close" ng-click="hideCategorySelector()" aria-label="Close">
+                                    <em class="ion-ios-close-empty sn-link-close"></em>
+                                </button>
+                                <h4 class="modal-title">Select categories to add</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div ng-repeat="parent in productCategories track by $index" class="form-group divider-20 setup-groups-tooltip-div">
+                                    <label class="products-checkbox-label">
+                                        <input class="custom-rehive-checkbox" ng-model="parent.isChecked" ng-change="trackCategoryChecked(parent)" type="checkbox">&nbsp;{{parent.name}}
+                                    </label>
+                                    <div ng-show="parent.subCategories.length > 0" 
+                                        ng-repeat="subCategory in parent.subCategories track by $index" class="form-group setup-groups-tooltip-div product-subcategories">
+                                        <label class="products-checkbox-label">
+                                            <input class="custom-rehive-checkbox" ng-model="subCategory.isChecked" ng-change="trackCategoryChecked(subCategory)" type="checkbox">&nbsp;{{subCategory.name}}
+                                        </label> 
+                                        <div ng-show="subCategory.subCategories.length > 0"
+                                             ng-repeat="child in subCategory.subCategories track by $index" class="form-group setup-groups-tooltip-div product-subcategories">
+                                            <label class="products-checkbox-label">
+                                                <input class="custom-rehive-checkbox" ng-model="child.isChecked" ng-change="trackCategoryChecked(child)" type="checkbox">&nbsp;{{child.name}}
+                                            </label>                                        
+                                        </div>                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ba-panel ng-hide="productCategories.length > 0">
+                            <span>No categories added for the company. Please add a category <a ng-click="goToAddCategories(); $event.stopPropagation()" class="pointer">here</a>.</span>
+                        </div>
+                    </div>
+                </div>              
+            </form>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Pricing, quantity and variants</span>
+        </div>
+        <div class="panel-body">
+            <form class="custom-form">
+                <div class="row"> 
+                    <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 form-group setup-groups-tooltip-div no-right-padding">
+                        <label class="products-checkbox-label">Quantity and pricing type</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-2 col-xs-2 no-left-padding">
+                        <div class="divider-20">
+                            <div class="custom-radio-groups-btn">
+                                <label class="pointer" style="width: 100px;">
+                                    <input class="pointer" type="radio" ng-model="newProductParams.has_variants" value="{{false}}">
+                                    <span class="custom-radio-btn">Simple</span>
+                                </label>
+                                <label class="margin-right-10 pointer" style="width: 100px;">
+                                    <input class="pointer" type="radio" ng-model="newProductParams.has_variants" value="{{true}}">
+                                    <span class="custom-radio-btn">Variants</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+                <div ng-show="newProductParams.has_variants == 'true'">
+                    <div class="form-group setup-groups-tooltip-div">
+                        <div ng-hide="deletingProductOptions">
+                            <label ng-class="{'divider-20': newProductParams.product_variants.options.length > 0}">
+                                <strong class="strong-headers">Options</strong>
+                                <a class="pointer pull-right" 
+                                    ng-click="openAddOptionModal('app/pages/services/productService/product/productOptionsModals/addProductOptionsModal/addProductOptionsModal.html', 'md')">
+                                    <strong>Add option</strong>
+                                </a>
+                            </label>
+                            <div>
+                                <div ng-show="newProductParams.product_variants.options.length > 0" class="form-group">
+                                    <table class="table custom-table" width="100%">
+                                        <tbody>
+                                            <tr  ng-repeat="option in newProductParams.product_variants.options track by $index">
+                                                <td width="15%" class="transactions-list-element no-left-padding">
+                                                    {{option.name | capitalizeWord}}
+                                                </td>
+                                                <td width="70%" class="transactions-list-element">
+                                                    <span ng-repeat="optionValue in option.values track by $index">
+                                                        {{optionValue}}<span ng-show="!$last">,&nbsp;</span>
+                                                    </span>
+                                                </td>
+                                                <td width="15%" class="transactions-list-element no-left-padding no-right-padding" style="padding-right: 10px;">
+                                                    <a ng-click="showDeleteProductOptionPrompt($index)" class="pull-right pointer ">Delete</a>
+                                                    <a ng-click="openEditOptionModal(
+                                                        'app/pages/services/productService/product/productOptionsModals/editProductOptionsModal/editProductOptionsModal.html','md', $index
+                                                        )" class="pull-right pointer user-address-edit margin-right-25">Edit</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div ng-hide="newProductParams.product_variants.options.length > 0">
+                                    <i>No product options added</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="deletingProductOptions" class="row">
+                            <loading-image></loading-image>
+                        </div>
+                    </div>
+                    <div class="form-group setup-groups-tooltip-div">
+                        <label ng-class="{'divider-20': newProductParams.product_variants.variants.length > 0}">
+                            <strong class="strong-headers">Variants</strong>
+                            <a ng-disabled="newProductParams.product_variants.options.length == 0"
+                             class="pointer pull-right" ng-click="openAddVariantModal('app/pages/services/productService/product/productVariantModals/addProductVariantModal/addProductVariantModal.html', 'md')">
+                                <strong>Add variant</strong>
+                            </a>
+                        </label>
+                        <div>
+                            <div ng-show="newProductParams.product_variants.variants.length > 0" class="form-group">
+                                <table class="table custom-table" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="no-left-padding" style="min-width: 50px;">Label</th>
+                                            <th style="min-width: 50px;">SKU</th>
+                                            <th style="min-width: 50px;">Quantity</th>
+                                            <th style="min-width: 50px;" ng-repeat="option in newProductParams.product_variants.options track by $index">
+                                                <span>{{option.name | capitalizeWord}}</span>
+                                            </th>
+                                            <th style="min-width: 50px;">Prices</th>
+                                            <th style="min-width: 50px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="variant in newProductParams.product_variants.variants track by $index">
+                                            <td style="min-width: 50px;" class="transactions-list-element">{{variant.label}}</td>
+                                            <td style="min-width: 50px;" class="transactions-list-element">{{variant.code || '--'}}</td>
+                                            <td style="min-width: 50px;" class="transactions-list-element">{{variant.quantity || (variant.tracked ? '--' : '∞')}}</td>
+                                            <td style="min-width: 50px;" class="transactions-list-element" ng-repeat="option in newProductParams.product_variants.options track by $index">
+                                                <span>{{variant.options[option.name] || '--' | capitalizeWord}}</span>
+                                            </td>
+                                            <!-- <td width="20%" class="transactions-list-element">
+                                                <span ng-repeat="(option, value) in variant.options track by $index">
+                                                    <strong>{{option}}</strong>&nbsp;-&nbsp;{{value}}<span ng-show="!$last">,&nbsp;</span>
+                                                </span>                                                
+                                            </td> -->
+                                            <td style="min-width: 50px;" class="transactions-list-element" style="word-break: break-all;">
+                                                <span ng-hide="variant.allow_custom_amount" ng-repeat="price in variant.prices track by $index">
+                                                    <span ng-show="price.amount">
+                                                        {{price.currency.symbol}}{{price.amount}}
+                                                    </span>
+                                                    <span ng-show="!$last">,&nbsp;</span>
+                                                </span>                                                
+                                                <span ng-show="variant.allow_custom_amount">Custom price range</span>
+                                            </td>
+                                            <td style="min-width: 50px;" class="transactions-list-element no-left-padding">
+                                                <a ng-click="showDeleteProductVariantPrompt($index)" class="pull-right pointer" style="margin-right: -5px;">Delete</a>
+                                                <a ng-click="openEditVariantModal(
+                                                    'app/pages/services/productService/product/productVariantModals/editProductVariantModal/editProductVariantModal.html','md', $index
+                                                    )" class="pull-right pointer user-address-edit margin-right-25">Edit</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div ng-hide="newProductParams.product_variants.variants.length > 0">
+                                <i>No product variants added</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="newProductParams.has_variants == 'true'">
+                    <div class="row"> 
+                        <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 form-group setup-groups-tooltip-div no-right-padding">
+                            <label class="products-checkbox-label">Product quantity</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-2 col-xs-2 no-left-padding">
+                            <div class="divider-20">
+                                <div class="custom-radio-groups-btn">
+                                    <label class="pointer" style="width: 100px;">
+                                        <input class="pointer" type="radio" ng-model="newProductParams.tracked" value="{{true}}">
+                                        <span class="custom-radio-btn">Tracked</span>
+                                    </label>
+                                    <label class="margin-right-10 pointer" style="width: 100px;">
+                                        <input class="pointer" type="radio" ng-model="newProductParams.tracked" value="{{false}}">
+                                        <span class="custom-radio-btn">Untracked</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>                   
+                    </div>
+                    <div class="row"> 
+                        <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 form-group setup-groups-tooltip-div no-right-padding">
+                            <label class="products-checkbox-label">Allow custom amounts</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-2 col-xs-2 no-left-padding">
+                            <div class="form-group divider-20 setup-groups-tooltip-div">
+                                <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newProductParams.allow_custom_amount" 
+                                    ng-change="updateAllowCustomAmountOnPrices()" type="checkbox"></label>
+                            </div>
+                        </div>                   
+                    </div>
+                    <div ng-show="newProductParams.tracked == 'true'" class="form-group setup-groups-tooltip-div">
+                        <label>Quantity
+                            &nbsp;<i uib-tooltip-html="'The amount of stock held for this product / item.'"
+                                     class="ion-information-circled setup-groups-tooltip"></i></label>
+                        <input type="text" ng-model="newProductParams.quantity" class="form-control"  placeholder="Enter quantity">
+                    </div>
+                    <div class="form-group setup-groups-tooltip-div">
+                        <label>Code (SKU)
+                            &nbsp;<i uib-tooltip-html="'A barcode or unique code so that the product / item can be referenced from systems outside the Rehive environment.'"
+                                     class="ion-information-circled setup-groups-tooltip"></i></label>
+                        <input type="text" ng-model="newProductParams.code" class="form-control"  placeholder="Enter code">
+                    </div>
+                    <div class="form-group setup-groups-tooltip-div">
+                        <label><strong class="strong-headers">Prices</strong>
+                            <i class="fa fa-plus-square-o product-prices-add-icon left-margin-12"
+                               ng-hide="newProductParams.prices.length > 0"
+                               ng-class="{
+                               'product-prices-add-icon-near-title': newProductParams.prices.length == 0}"
+                               style="left: 8px;"
+                               ng-click="addPriceRow()"></i>
+                        </label>
+                        <div ng-show="newProductParams.prices.length > 0" class="row product-service-headers">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label>Currency</label>
+                            </div>
+                            <div ng-hide="newProductParams.allow_custom_amount" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <label>Amount</label>
+                            </div>
+                            <div ng-show="newProductParams.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label>Min amount</label>
+                            </div>
+                            <div ng-show="newProductParams.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label>Max amount</label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label></label>
+                            </div>
+                        </div>
+                        <div class="row divider" ng-repeat="price in newProductParams.prices track by $index">
+                            <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2">
+                                <div class="reward-multi-select">
+                                    <select chosen
+                                            data-placeholder-text-single="'Choose a currency'"
+                                            width="40"
+                                            ng-model="price.currency"
+                                            ng-options="(currency.display_code || currency.code) for currency in currencyOptions | excludeSelectedCurrencies:price.currency:newProductParams.prices | orderBy: 'code' ">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div ng-hide="price.allow_custom_amount" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input type="number" ng-model="price.amount" min="0" class="form-control" placeholder="Enter amount">
+                            </div>
+                            <div ng-show="price.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <input type="number" ng-model="price.min_custom_amount" class="form-control" placeholder="Enter min amount">
+                            </div>
+                            <div ng-show="price.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <input type="number" ng-model="price.max_custom_amount" class="form-control" placeholder="Enter max amount">
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2 product-buttons-container">
+                                <i class="fa fa-minus-square-o product-prices-remove-icon"
+                                   ng-click="removeAddPriceRow($index)"></i>
+                                <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addPriceRow()"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Accounting details</span>
+        </div>
+        <div class="panel-body">
+            <form class="custom-form">
+                <div class="divider-20 setup-groups-tooltip-div">
+                    <label style="margin-bottom: 10px;">Operational account&nbsp;
+                        <span class="required-icon">*</span>&nbsp;&nbsp;
+                        <i uib-tooltip-html="'An account which the credit portion of a purchase will go to.'" 
+                        class="ion-information-circled setup-groups-tooltip"></i>
+                    </label>
+                    <div class="row divider-15">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 no-right-padding" style="max-width: 90px;">
+                            <span>Search by:&nbsp;</span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="max-width: 350px;">
+                            <div class="custom-radio-groups-btn" style="width: 100%;">
+                                <label class="pointer" style="margin-right: auto;">
+                                    <input class="pointer" type="radio" value="user" ng-model="searchAccountBy">
+                                    <span class="custom-radio-btn">User email address</span>
+                                </label>
+                                <label class="pointer">
+                                    <input class="pointer" type="radio" value="reference" ng-model="searchAccountBy">
+                                    <span class="custom-radio-btn">Account reference</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"></div>
+                    </div>
+                    <div ng-hide="searchAccountBy === 'user'" class="form-group row">
+                        <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label>Account reference&nbsp;&nbsp;<i uib-tooltip-html="'Type an account reference then select an account and press &#8217;search&#8217;'" 
+                                class="ion-information-circled setup-groups-tooltip"></i>
+                            </label>
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input class="form-control" ng-model="supplierAccountReference"
+                                    type="text" placeholder="Enter account reference to list accounts"
+                                    uib-typeahead="account for account in getAccountsReferenceTypeahead($viewValue)"
+                                    ng-change="referenceChanging()"
+                                    typeahead-on-select="onRefSelect($model)" ng-model-options='{ debounce: 30 }' >
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding no-right-padding">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <button ng-disabled="!searchAccount" class="btn dashboard-btn" ng-click="triggerSearchByReference()"
+                                        ng-class="{'btn-primary': searchAccount}" style="margin-top: 0">Search</button>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div ng-show="showRefSearchAccounts && supplierAccountReference != ''" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="reward-multi-select">
+                                <label>Accounts</label>
+                                <select chosen
+                                        data-placeholder-text-single="'Choose an account'"
+                                        width="100"
+                                        allow-single-deselect="false"
+                                        ng-model="newProductParams.account"
+                                        ng-options="account.name + ' - ' + account.reference for account in accountOptions | orderBy: 'name'">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="searchAccountBy === 'user'" class="form-group row">
+                        <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label>User email&nbsp;&nbsp;<i uib-tooltip-html="'Type an email address then select a user and press &#8217;search&#8217;'" 
+                                class="ion-information-circled setup-groups-tooltip"></i>
+                            </label>
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input class="form-control" ng-model="newProductParams.supplier"
+                                        ng-change="emailChanging()"
+                                        type="text" placeholder="Enter email of user to list accounts"
+                                        uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                                        typeahead-on-select="onSelect($model)" ng-model-options='{ debounce: 30 }' >
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding no-right-padding">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <button ng-disabled="!searchUser" class="btn dashboard-btn" ng-click="triggerSearchByUser()"
+                                        ng-class="{'btn-primary': searchUser}" style="margin-top: 0">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="showUserAccounts && newProductParams.supplier != ''" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label>Accounts</label>
+                            <div ng-show="productUserAccounts.length > 0" class="reward-multi-select">
+                                <select chosen
+                                        data-placeholder-text-single="'Choose an account'"
+                                        width="100"
+                                        allow-single-deselect="false"
+                                        ng-model="newProductParams.account"
+                                        ng-options="account.name + ' - ' + account.reference for account in productUserAccounts | orderBy: 'name'">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div ng-hide="productUserAccounts.length > 0" style="margin-top: 10px;">
+                                <span class="required-icon">No accounts found for this user.&nbsp;</span>
+                                <span><a class="pointer" ng-click="openAddAccountModal('app/pages/accounts/accountsList/newAccountModal/newAccountModal.html','md')">Add an account here</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button ng-click="addNewProduct('save_close')" class="btn btn-primary btn-primary-dark pull-right" ng-disabled="!addProductForm.$valid">Save and close</button>
+                    <button ng-click="addNewProduct('save_add')" class="btn btn-primary pull-right margin-right-10" ng-disabled="!addProductForm.$valid">Save and add another</button>
+                    <button ng-click="addNewProduct('save_continue')" class="btn btn-primary pull-right margin-right-10" ng-disabled="!addProductForm.$valid">Save and keep editing</button>
+                    <button ng-click="backToProductList()" class="btn btn-default dashboard-btn pull-left" style="margin-top: 0px;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="addingProduct" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

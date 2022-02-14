@@ -1,0 +1,18 @@
+<p>
+    You are deleting group <span class="get-started-text">{{groupObj.group.name}}</span> for the <span class="get-started-text">{{accDefName}}</span> account definition. Deleting this group will also delete 
+    the accounts associated with <span class="get-started-text">{{accDefName}}</span> account definition for <span class="get-started-text">{{groupObj.group.name}}</span> group. Any transactions associated 
+    with this account definition for <span class="get-started-text">{{groupObj.group.name}}</span> and the <span class="get-started-text">{{accDefName}}</span> account definition will also be deleted.
+</p>
+<p class="custom-form">
+    Deleting is <span class="required-icon">PERMANENT</span> and cannot be undone. You may add the group again at a later stage, but any associated deleted
+     transactions will remain deleted, and the accounts generated for this group will be new ones with different account references.
+</p>
+<p>
+    Do you want to proceed?
+</p>
+<form name="promptForm">
+    <div class="form-group divider">
+        <input class="form-control" type="text" ng-model="accDefGroupDeleteText"
+               placeholder="Type DELETE to confirm" required auto-focus="true">
+    </div>
+</form>

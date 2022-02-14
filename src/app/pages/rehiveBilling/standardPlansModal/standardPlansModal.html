@@ -1,0 +1,81 @@
+<div ng-hide="loadingPlans" class="modal-content">
+    <div class="modal-header" style="padding-bottom: 10px;">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h5 id="premiumModal">Additional&nbsp;<span class="premium-text">Standard</span>&nbsp;white-label options</h5>
+        <h6 class="text-subtle">Manual handover within 1-3 business days</h6>
+    </div>
+    <div class="modal-body">
+        <div class="row divider-20" style="margin-bottom: 50px!important;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                    <input type="checkbox" ng-model="whiteLabelOptions.android_hosting" ng-checked="whiteLabelOptions.android_hosting" ng-change="onOptionSelected('android_hosting')">
+                    <span>&nbsp;&nbsp;&nbsp;Android App Hosting</span>
+                </label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="font-size: 15px">
+                <span class="premium-text pull-right"><strong>$250</strong> / mo</span>
+            </div>
+        </div>
+        <div class="row divider-20" style="margin-bottom: 50px!important;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                    <input type="checkbox" ng-model="whiteLabelOptions.ios_hosting" ng-checked="whiteLabelOptions.ios_hosting" ng-change="onOptionSelected('ios_hosting')">
+                    <span>&nbsp;&nbsp;&nbsp;iOS App Hosting</span>
+                </label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="font-size: 15px">
+                <span class="premium-text pull-right"><strong>$250</strong> / mo</span>
+            </div>
+        </div>
+        <div class="row divider-20" style="margin-bottom: 50px!important;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                    <input type="checkbox" ng-model="whiteLabelOptions.web_hosting" ng-checked="whiteLabelOptions.web_hosting" ng-change="onOptionSelected('web_hosting')">
+                    <span>&nbsp;&nbsp;&nbsp;Web App Hosting</span>
+                </label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="font-size: 15px">
+                <span class="premium-text pull-right"><strong>$250</strong> / mo</span>
+            </div>
+        </div>
+        <div class="row divider-20" style="margin-bottom: 50px!important;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                    <input type="checkbox" ng-model="whiteLabelOptions.merchant_doc" ng-checked="whiteLabelOptions.merchant_doc" ng-change="onOptionSelected('merchant_doc')">
+                    <span>&nbsp;&nbsp;&nbsp;Merchant Documentation</span>
+                </label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="font-size: 15px">
+                <span class="premium-text pull-right"><strong>$250</strong> / mo</span>
+            </div>
+        </div>
+        <div class="row divider-20">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                    <input type="checkbox" ng-model="whiteLabelOptions.merchant_sdk" ng-checked="whiteLabelOptions.merchant_sdk" ng-change="onOptionSelected('merchant_sdk')">
+                    <span>&nbsp;&nbsp;&nbsp;Merchant SDK Hosting</span>
+                </label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="font-size: 15px">
+                <span class="premium-text pull-right"><strong>$250</strong> / mo</span>
+            </div>
+        </div>
+        <hr>
+        <div class="row divider-20">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding" style="font-size: 16px">
+                Total<span class="premium-text pull-right"><strong>${{total_price}}</strong> / mo</span>
+            </div>
+        </div>
+        <div class="divider-20 premium-confirm" style="text-align: center" ng-click="confirmStandardSubscription()">
+            <button class="btn btn-primary">CONFIRM</button>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="loadingPlans">
+    <loading-image></loading-image>
+</div>

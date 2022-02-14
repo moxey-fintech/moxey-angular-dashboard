@@ -1,0 +1,15 @@
+<bitcoin-service-navigation></bitcoin-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <bitcoin-service-settings-menu></bitcoin-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <bitcoin-service-user-defaults ng-show="bitcoinSettingView == 'user defaults'"></bitcoin-service-user-defaults>
+        <bitcoin-settings ng-show="bitcoinSettingView == 'settings'"></bitcoin-settings>
+        <bitcoin-service-setup-subtypes ng-show="bitcoinSettingView == 'subtypes'"></bitcoin-service-setup-subtypes>
+        <!-- 
+        <bitcoin-hd-keys ng-show="bitcoinSettingView == 'hdkeys'"></bitcoin-hd-keys>
+        -->
+        <bitcoin-deactivation ng-show="bitcoinSettingView == 'deactivation'"></bitcoin-deactivation>
+    </div>
+</div>

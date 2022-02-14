@@ -1,0 +1,95 @@
+<div ng-hide="loadingUserBasicInfo" class="panel panel-default">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Basic info</span>
+        <a ng-click="openUserBasicInfoModal('app/pages/users/user/userDetails/userBasicInfo/basicInfoModal/basicInfoModal.html','md',user)" class="user-details-panel-link pull-right pointer">Edit</a>
+    </div>
+    <div class="panel-body">
+        <table class="table user-basic-info-table">
+            <tr>
+                <th width="50%">First name</th>
+                <td ng-bind="user.first_name"></td>
+            </tr>
+            <tr>
+                <th width="50%">Last name</th>
+                <td ng-bind="user.last_name"></td>
+            </tr>
+            <tr>
+                <th width="50%">Title</th>
+                <td ng-bind="user.title | capitalizeWord"></td>
+            </tr>
+            <tr>
+                <th width="50%">Gender</th>
+                <td ng-bind="user.gender | formatUnderscoreToWhitespacedFilter | capitalizeWord"></td>
+            </tr>
+            <tr>
+                <th width="50%">Father's name</th>
+                <td ng-bind="user.fathers_name"></td>
+            </tr>
+            <tr>
+                <th width="50%">Mother's name</th>
+                <td ng-bind="user.mothers_name"></td>
+            </tr>
+            <tr>
+                <th width="50%">Grandfather's name</th>
+                <td ng-bind="user.grandfathers_name"></td>
+            </tr>
+            <tr>
+                <th width="50%">Grandmother's name</th>
+                <td ng-bind="user.grandmothers_name"></td>
+            </tr>
+            <tr>
+                <th width="50%">Username</th>
+                <td ng-bind="user.username"></td>
+            </tr>
+            <tr>
+                <th width="50%">Nationality</th>
+                <td ng-bind="user.nationality | isoCountry"></td>
+            </tr>
+            <tr>
+                <th width="50%">Language</th>
+                <td ng-bind="user.language"></td>
+            </tr>
+            <tr>
+                <th width="50%">Date of birth</th>
+                <td>
+                    {{user.birth_date}}
+                    <span ng-show="userIsUnder18">&nbsp;
+                        <i tooltip-class="duplicate-transction-tooltip" uib-tooltip-html="'User is under 18.'" 
+                        class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th width="50%">Age</th>
+                <td ng-bind="user.birth_date | ageCalculator"></td>
+            </tr>
+            <tr>
+                <th width="50%">Marital status</th>
+                <td ng-bind="user.marital_status | capitalizeWord"></td>
+            </tr>
+            <tr>
+                <th width="50%">Central bank number</th>
+                <td ng-bind="user.central_bank_number"></td>
+            </tr>
+            <tr>
+                <th width="50%">Id number</th>
+                <td ng-bind="user.id_number"></td>
+            </tr>
+            <tr>
+                <th width="50%">Website</th>
+                <td ng-bind="user.website"></td>
+            </tr>
+            <tr>
+                <th width="50%">Status</th>
+                <td>{{user.status | capitalizeWord}}</td>
+            </tr>
+            <tr>
+                <th width="50%">Display currency</th>
+                <td>{{userDisplayCurrency.display_currency}}</td>
+            </tr>
+            </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserBasicInfo">
+    <loading-image></loading-image>
+</div>

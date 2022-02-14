@@ -1,0 +1,41 @@
+<div ng-hide="loadingWarmstorage" class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="dashboard-currencies-code">
+                    ETH
+                </div>
+            </div>
+            <div class="currencies-page-row">
+                <div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div>
+                            <span><strong>{{warmstorageObj.rehive_account_reference}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Account reference</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div>
+                            <span><strong>{{ethereumCurrency.symbol}} {{warmstorageObj.balance | currencyModifiersFilter: ethereumCurrency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Total</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-click="toggleCurrenciesOptions(); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                        <div>
+                            <span class="fa fa-ellipsis-h pull-right pointer currencies-options"></span>
+                            <ul ng-show="showOptionsAccountRef" class="currencies-options-box">
+                                <li ng-click="toggleCurrenciesOptions()"><i class="dropdown-arr"></i></li>
+                                <a class="group-options-link" ng-click="goToWarmstorageTransactions()"><li>View transactions</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingWarmstorage">
+    <loading-image></loading-image>
+</div>

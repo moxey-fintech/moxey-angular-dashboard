@@ -1,0 +1,129 @@
+<div ng-hide="addingOrder || loadingProducts">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Create order</span>
+        </div>
+        <div class="panel-body">
+            <form name="addOrderForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>User<span class="required-icon">*</span></label>
+                    <input type="text" ng-model="newOrderParams.user" placeholder="Enter user email"
+                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                           class="form-control" size="12">
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <label>Currency<span class="required-icon">*</span></label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                data-placeholder-text-single="'Choose a currency'"
+                                width="100"
+                                ng-change="updateProductList()"
+                                ng-model="newOrderParams.currency"
+                                ng-options="currency.code for currency in currencyOptions | orderBy: 'code'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group setup-groups-tooltip-div" ng-show="newOrderParams.currency">
+                <!-- <div class="form-group setup-groups-tooltip-div"> -->
+                    <div ng-show="products.length > 0">
+                        <div class="row divider">
+                            <div ng-hide="newOrderParams.items.length > 0" class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <lable>Product items</lable>
+                                <i class="fa fa-plus-square-o order-items-add-icon"
+                                   ng-hide="newOrderParams.items.length > 0"
+                                   ng-class="{'order-items-add-icon-near-title': newOrderParams.items.length == 0}"
+                                   ng-click="addOrderItem()">
+                                </i>
+                            </div>
+                            <div ng-show="newOrderParams.items.length > 0" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><lable><strong>Product items</strong></lable></div>
+                            <div ng-show="newOrderParams.items.length > 0" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding"><lable><strong>Qty</strong></lable></div>
+                            <div ng-show="newOrderParams.items.length > 0" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding"><lable><strong>Select variant</strong></lable></div>
+                            <div ng-show="newOrderParams.items.length > 0" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding"><lable><strong>Price</strong></lable></div>
+                        </div>
+                        <div class="row divider-20 product-service-headers" ng-repeat="item in newOrderParams.items track by $index">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 align-items-center no-right-padding">
+                                <div class="pull-left">{{$index+1}}.&nbsp;&nbsp;</div>
+                                <div class="reward-multi-select" style="width: 95%;">
+                                    <select class="form-control pointer"
+                                            ng-model="item.product"
+                                            ng-change="trackHasVariant($index)"
+                                            ng-options="product.name for product in products">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding" style="position: relative;">
+                                <span ng-show="item.variant && item.variant.tracked && item.variant.quantity" class="small" style="position: absolute; top: -18px;">
+                                    Available qty: {{item.variant.quantity}}
+                                </span>
+                                <span ng-show="!item.variant && item.product.tracked && item.product.quantity" class="small" style="position: absolute; top: -18px;">
+                                    Available qty: {{item.product.quantity}}
+                                </span>
+                                <input type="text" ng-model="item.quantity" class="form-control" placeholder="Enter quantity">
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                                <div ng-show="item.product.variants.length > 0" class="reward-multi-select">
+                                    <select class="form-control pointer"
+                                            ng-model="item.variant"
+                                            ng-options="variant.label for variant in item.product.variants">
+                                    </select>
+                                </div>
+                                <div ng-hide="item.product.variants.length > 0" style="margin-top: 10px;">Product doesn't have variants</div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                                <div ng-show="item.product.prices[0].allow_custom_amount || (item.variant && item.variant.prices[0].allow_custom_amount)"
+                                    style="position: relative;">
+                                    <span ng-show="item.variant" class="small" style="position: absolute; top: -18px;">Between 
+                                        {{newOrderParams.currency.symbol}}{{item.variant.prices[0].min_custom_amount | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}} - 
+                                        {{newOrderParams.currency.symbol}}{{item.variant.prices[0].max_custom_amount | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}}
+                                    </span>
+                                    <span ng-hide="item.variant" class="small" style="position: absolute; top: -18px;">Between
+                                        {{newOrderParams.currency.symbol}}{{item.product.prices[0].min_custom_amount | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}} - 
+                                        {{newOrderParams.currency.symbol}}{{item.product.prices[0].max_custom_amount | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}}
+                                    </span>
+                                    <input type="text" ng-model="item.custom_amount" class="form-control" placeholder="Enter custom amount">
+                                </div>
+                                <div ng-hide="(item.variant && item.variant.prices[0].allow_custom_amount) || item.product.prices[0].allow_custom_amount" style="margin-top: 10px;">
+                                    <span ng-show="item.variant">{{newOrderParams.currency.symbol}} {{item.variant.prices[0].amount | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}}</span>
+                                    <span ng-hide="item.variant">{{newOrderParams.currency.symbol}} {{item.product.prices[0].amount | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}}</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 product-buttons-container">
+                                <i class="fa fa-minus-square-o product-prices-remove-icon"
+                                   ng-click="removeAddOrderItem(item)"></i>
+                                <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addOrderItem()"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-hide="products.length > 0">No products with prices in this currency</div>
+                </div>
+                <div class="pull-right" style="margin-top: 5px;">
+                    <div ng-hide="!orderInfoCorrect">
+                        <br>
+                        <hr class="no-margin">
+                        <br>
+                        <div>
+                            <strong>Total price:&nbsp;&nbsp;&nbsp;&nbsp;</strong><span class="pull-right">
+                                {{newOrderParams.currency.symbol}} {{orderTotal | currencyModifiersFilter: newOrderParams.currency.divisibility | commaSeperateNumberFilter}}</span>
+                        </div>
+                        <br>
+                    </div>
+                    <button ng-click="calculateOrderTotal(newOrderParams)" ng-disabled="newOrderParams.items.length == 0"
+                        class="btn btn-primary pull-right">Calculate total</button>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer" style='background-color: white; height: 80px; line-height: 20px; font-size: 14px; margin: 0 15px;'>
+            <div class="form-group">
+                <button  ng-click="addNewOrder(newOrderParams)" ng-disabled="!addOrderForm.$valid"
+                         class="btn btn-primary dashboard-btn pull-right">Create</button>
+                <button ng-click="backToOrderList()" class="btn btn-default dashboard-btn pull-right margin-right-30">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="addingOrder || loadingProducts" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

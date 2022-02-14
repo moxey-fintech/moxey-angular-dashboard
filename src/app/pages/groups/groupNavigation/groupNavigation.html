@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="user-details-nav-bar">
+            <li><a href="/#/groups/{{groupName}}/details" ng-class="{'transaction-location': locationIndicator == 'details'}">Details</a></li>
+            <li><a href="/#/groups/{{groupName}}/users" ng-class="{'transaction-location': locationIndicator == 'users'}">Users</a></li>
+            <li><a href="/#/groups/{{groupName}}/permissions" ng-class="{'transaction-location': locationIndicator == 'permissions'}">Permissions</a></li>
+            <!-- <li><a ng-click="goToGroupManagementTiersSettings('list')" ng-class="{'transaction-location': locationIndicator == 'tiers'}">Tiers</a></li> -->
+            <li><a href="/#/groups/{{groupName}}/tiers" ng-class="{'transaction-location': locationIndicator == 'tiers'}">Tiers</a></li>
+            <!-- <li><a href="/#/groups/{{groupName}}/account-configurations" ng-class="{'transaction-location': locationIndicator == 'account-configurations'}">Account configurations</a></li> -->
+            <li><a href="/#/groups/{{groupName}}/transaction-settings" ng-class="{'transaction-location': locationIndicator == 'transaction-settings'}">Fees, limits and subtype controls</a></li>
+            <li><a href="/#/groups/{{groupName}}/stats" ng-class="{'transaction-location': locationIndicator == 'stats'}">Stats</a></li>
+        </ul>
+    </div>
+</div>

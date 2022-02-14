@@ -1,0 +1,82 @@
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">User defaults</span>
+    </div>
+    <div class="panel-body">
+        <div class=" row divider-25">
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                <ul class="ul-no-dot">
+                    <li>In order for users to transact using the Stellar Extension their accounts need to have testnet lumens (TXLM) as a currency. Moxey's default setup is to add TXLM to your default group's primary account.</li>
+                    <li>You can use the default setup provided on the right or choose your own.</li>
+                    <li><strong>Note: You must have multiple non-admin and non-extension groups to add them to the config.</strong></li>
+                </ul>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 custom-form" ng-hide="loadingAccountConfigs">
+                <div class="form-group setup-groups-tooltip-div">
+                    <div ng-show="maxOptions > 0" class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <label>Group</label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-10 col-xs-10 no-left-padding">
+                            <label>Account configuration</label>
+                        </div>
+                        <!--<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>-->
+                    </div>
+                    <div ng-show="maxOptions > 0" class="row divider" ng-repeat="group in testnetConfig.userDefaults.groups track by $index">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <div class="reward-multi-select">
+                                <select class="form-control pointer"
+                                        ng-model="group.group"
+                                        ng-change="trackGroupChange(group)"
+                                        ng-options="group.name for group in groupOptions | excludeSelectedGroups:group.group:testnetConfig.userDefaults.groups | orderBy: 'name'">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 no-right-padding no-left-padding">
+                            <div ng-show="group.hasAccountConfigs">
+                                <select class="form-control pointer">
+                                    <option ng-repeat="config in group.groupAccountConfigs | orderBy: 'name' track by $index" ng-model="group.config">{{config.name}}</option>
+                                </select> 
+                            </div>
+                            <div ng-hide="group.hasAccountConfigs">
+                                <a class="pull-right divider pointer edit-transaction-divider"
+                                   ng-click="addGroupAccountConfig(group.group)"><i class="fa fa-pencil"></i> No account configuration exists for this group. Add one?</a>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 product-buttons-container">
+                            <i ng-show="testnetConfig.userDefaults.groups.length > 1" class="fa fa-minus-square-o product-prices-remove-icon stellar-testnet-minus-icon"                           
+                               ng-click="removeGroupConfig(group)"></i>
+
+                            <i ng-show="$last && group.hasAccountConfigs && addedCount < maxOptions" class="fa fa-plus-square-o product-prices-last-child stellar-testnet-plus-icon"
+                               ng-class="{
+                                   'stellar-testnet-plus-initial': $first && group.group == testnetConfig.userDefaults.defaultGroup && group.config.primary,
+                                   'stellar-testnet-plus-icon-last': $last
+                                   }"
+                               ng-disbled="group.group.default && group.config.primary"
+                               ng-click="addGroupConfig()"></i>                            
+                        </div>
+                    </div>
+                    <div ng-hide="maxOptions > 0" class="row divider">
+                        <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider pointer edit-transaction-divider"
+                           ng-click="openAddGroupModal()"><i class="fa fa-pencil"></i>  No groups found to be used. Add a default group</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 custom-form" ng-show="loadingAccountConfigs">
+                <loading-image></loading-image>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button ng-click="goToNext('user defaults', 'hotwallet warmstorage')"
+                    ng-disabled="!hasAccountConfigs || maxOptions < 1"
+                    class="btn btn-primary setup-skip-btn pull-left dashboard-btn">Skip
+            </button>
+            <button ng-click="goToNext('user defaults', 'hotwallet warmstorage')" ng-disabled="!hasAccountConfigs || maxOptions < 1" class="btn btn-primary pull-right dashboard-btn">Next
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<div ng-hide="updatingHotwalletSettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Settings</span>
+    </div>
+    <div class="panel-body">
+        <div>
+            <label class="divider-20" style="font-size:15px; font-weight: bold">Confirmations</label>
+            <p class="no-margin">
+                The confirmation limit value indicates how many block confirmations the extension will wait for before confirming a transaction.
+                We have set the default confirmation limit to the recommended limit of 6 blocks.
+                <br>
+                <a href="https://en.bitcoin.it/wiki/Confirmation" target="_blank">Read more about confirmation limits.</a>
+            </p>
+        </div>
+        <div style="margin-top: 20px;">
+            <span>Confirmation limit </span>
+            <div class ="input-group">
+                <input type="number" ng-model="confirmations" class="form-control delete-button-lifted"
+                    ng-change="changeConfirmations()" ng-blur="revertConfirmations()"
+                    placeholder="e.g. 6" style="width: 20%">&emsp;<button ng-disabled="updatingHotwalletSettings" ng-click="updateBitcoinConfirmations()"
+                    class="btn btn-primary dashboard-btn">Save</button>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label class="divider-20" style="font-size:15px; font-weight: bold">Allow withdrawals</label>
+            <div style='display: flex; align-items: center;'>
+                <span class="transaction-helper-label">Allow hotwallet withdrawals</span>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                    <div ng-hide="withdrawalsDisabled">
+                        <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                    </div>
+                    <div ng-show="withdrawalsDisabled">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- <div>
+            <label class="divider-20" style="font-size:15px; font-weight: bold">Address settings</label>
+            <div style='display: flex; align-items: center;'>
+                <span class="transaction-helper-label">Allow multiple addresses per user</span>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                    <div ng-show="multiAddressesDisabled">
+                        <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleMultiAddresses()"></i>
+                    </div>
+                    <div ng-hide="multiAddressesDisabled">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleMultiAddresses()"></i>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<div ba-panel ng-show="updatingHotwalletSettings" class="service-header">
+    <loading-image></loading-image>
+</div>

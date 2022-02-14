@@ -1,0 +1,21 @@
+<div ng-hide="updatingHotwalletSettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Disable send</span>
+    </div>
+    <div class="panel-body crypto-disable-withdrawals-panel">
+        <div style='display: flex; align-items: center;'>
+            <span class="transaction-helper-label">Allow hotwallet withdrawals</span>
+            <span style="float: right;  margin: 0px 15px auto auto;">
+                <div ng-hide="withdrawalsDisabled">
+                    <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                </div>
+                <div ng-show="withdrawalsDisabled">
+                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                </div>
+            </span>
+        </div>        
+     </div>
+</div>
+<div ba-panel ng-show="updatingHotwalletSettings" class="service-header">
+    <loading-image></loading-image>
+</div>

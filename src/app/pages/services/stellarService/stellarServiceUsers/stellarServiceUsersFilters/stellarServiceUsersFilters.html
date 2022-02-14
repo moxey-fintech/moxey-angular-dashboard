@@ -1,0 +1,71 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getAllUsers('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="emailFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.emailFilter">
+                    <span>Email</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.emailFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.emailFilter.selectedEmail" ng-model-options='{ debounce: 800 }'
+                           placeholder="Enter email address"
+                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="idFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.idFilter">
+                    <span>Id</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.idFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.idFilter.selectedId"
+                           placeholder="Enter id" class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <!--
+        <div id="addressFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.addressFilter">
+                    <span>Address</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.addressFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.addressFilter.selectedAddress"
+                           placeholder="Enter address" class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        -->
+        <div id="filterPageSize">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.pageSizeFilter">
+                    <span>Page size</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.pageSizeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="usersPagination.itemsPerPage" ng-change="pageSizeChanged()"
+                           placeholder="Enter page size" class="transaction-page-size-input">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

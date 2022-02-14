@@ -1,0 +1,76 @@
+<notification-service-navigation></notification-service-navigation>
+<div ng-hide="loadingNotifications" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit notification</span>
+    </div>
+    <div class="panel-body">
+        <form name="editNotificationPushForm" novalidate>
+            <div class="form-group">
+                <label>Name <span class="required-icon">*</span></label>
+                <input type="text" ng-change="notificationChanged('name')" ng-model="editNotificationPush.name"
+                       class="form-control" placeholder="Enter notification name" required>
+            </div>
+            <div class="form-group">
+                <label>Title <span class="required-icon">*</span></label>
+                <input type="text" ng-change="notificationChanged('subject')" ng-model="editNotificationPush.subject" class="form-control"  placeholder="Enter title" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea rows="4" type="text" ng-change="notificationChanged('description')"
+                          ng-model="editNotificationPush.description" class="form-control"
+                          placeholder='Enter description'></textarea>
+            </div>
+            <div class="form-group">
+                <label>Push message ( Type <b>{{</b> to see variable options for this event )</label>
+                <textarea type="text" ng-model="editNotificationPush.push_message"
+                          ui-codemirror ui-codemirror-opts="editNotificationPushEditorOptions"
+                          ng-codemirror-dictionary-hint="pushTags.tags"
+                          ng-change="notificationChanged('push_message')"
+                          ui-refresh="editorEnabled"
+                          class="form-control"  placeholder='Enter push message'></textarea>
+            </div>
+            <div class="form-group">
+                <label>Enabled</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-change="notificationChanged('enabled')"
+                       ng-model="editNotificationPush.enabled" type="checkbox">
+            </div>
+            <div class="form-group">
+                <label>Event <span class="required-icon">*</span></label>
+                <br>
+                <select class="form-control pointer" ng-change="notificationChanged('event')"
+                        ng-model="editNotificationPush.event"  ng-options="event for event in eventOptions">
+                </select>
+            </div>
+            <div class="form-group">
+                <label>To user</label>
+                <input type="text" ng-change="notificationChanged('to_user')" ng-model="editNotificationPush.to_user"
+                       class="form-control"  placeholder="Enter to_user">
+            </div>
+            <div class="form-group codemirror-md">
+                <label>Expression <span class="pull-right">{{editNotificationPush.expression.length || 0}}/250</span></label>
+                <textarea type="text" ng-model="editNotificationPush.expression"
+                          ui-codemirror ui-codemirror-opts="editNotificationPushEditorOptions"
+                          ng-change="notificationChanged('expression')"
+                          ui-refresh="editorEnabled"
+                          class="form-control"  placeholder='Enter expression'></textarea>
+            </div>
+            <div class="form-group">
+                <label>Preference enable&nbsp;<span><i uib-tooltip-html="'If this field is checked, users will be able to opt-out of this notification.
+                Do not check this for password reset or verification emails.'" class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i></span></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-change="notificationChanged('preference_enabled')"
+                       ng-model="editNotificationPush.preference_enabled" type="checkbox">
+            </div>
+            <div class="form-group">
+                <button ng-disabled="!editNotificationPushForm.$valid || editNotificationPush.expression.length > 250" ng-click="updateNotification()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                <button ng-disabled="!editNotificationPushForm.$valid || editNotificationPush.expression.length > 250" ng-click="updateNotification('add')" class="btn btn-primary delete-button pull-right margin-right-10">Save and add another</button>
+                <button ng-disabled="!editNotificationPushForm.$valid || editNotificationPush.expression.length > 250" ng-click="updateNotification('continue')" class="btn btn-primary delete-button pull-right margin-right-10">Save and continue editing</button>
+                <button ng-click="goToNotificationListView()" class="btn btn-default dashboard-btn pull-left margin-right-10">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="loadingNotifications" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

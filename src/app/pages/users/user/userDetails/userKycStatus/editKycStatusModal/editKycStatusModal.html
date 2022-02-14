@@ -1,0 +1,25 @@
+<div class="panel panel-default" ng-hide="updatingUserKycStatus">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit kyc status</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="editUserKycStatusForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control pointer" ng-model="editUserKycStatus.status"
+                        ng-options="statusOption for statusOption in kycStatusOptions">
+                </select>
+            </div>
+            <div class="form-group">
+                <button ng-click="updateUserKycStatus()" ng-disabled="!editUserKycStatusForm.$valid" class="btn btn-primary user-accounts-btn pull-right">Save</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="updatingUserKycStatus">
+    <loading-image></loading-image>
+</div>

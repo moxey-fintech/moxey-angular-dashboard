@@ -1,0 +1,202 @@
+<div ng-hide="loadingHotwalletTransactions || loadingTransactions">
+    <!-- <div ng-show="hotwalletObjLength > 0" class="panel">
+        <div class="panel-body">
+            <i>No active hotwallet created. To enable this feature please create a hotwallet.</i>
+            <a ng-click="openAddHotwalletModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetHotwallet/addStellarTestnetHotwalletModal/addStellarTestnetHotwalletModal.html','md')" class="pull-right pointer">Create</a>
+        </div>
+    </div> -->
+
+    <div ng-hide="hotwalletSetupStep > 3" class="panel">
+        <div class="panel-body">
+            <div ng-show="hotwalletSetupStep == 1">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <h2 class="text-subtle" style="margin-top: 0"><strong>Get started</strong></h2>
+                        <p>To use the Stellar Testnet Extension you'll need to activate your Hot Wallet.</p><br>
+                        <h3 class="text-subtle" style="margin-top: 10px;"><strong>What is a Hot Wallet?</strong></h3>
+                        <p>A Hot Wallet is a transactional account that acts as a float - it's used to make on-chain transactions on behalf of your users.</p>
+                        <p>It exists to minimize risk and allows you to keep a small amount of your total cryptocurrency value in a "live" state at any one point in time.</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="text-align: right;">
+                            <img src="../../../../../../assets/img/hot-wallet-stellar.svg" width="198" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <!-- Remove this and add back in line 29 when this article is written -->
+                        <!-- <p><a class="pointer" href="">Read more about Hot Wallets</a></p><br> -->
+                        <h4 class="text-subtle"><strong>Testnet</strong></h4>
+                        <p>This extension will use only the Stellar test network and testnet lumens (TXLM).</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="margin-top: 50px;">
+                            <button class="btn btn-primary btn-primary-dark pull-right" ng-click="hotwalletSetupStep = 2"
+                            style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                                Activate Hot Wallet&nbsp;&nbsp;&nbsp;
+                                <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="hotwalletSetupStep == 2">
+                <h2 class="text-subtle" style="margin-top: 0"><strong>Activate your Hot Wallet account</strong></h2><br>
+                <p>Moxey's Stellar Testnet Extension has generated an account on the Stellar test network on your behalf for use as your app's Hot Wallet.</p>
+                <p>The Stellar test network requires an account to be funded with at least 1.5 TXLM in order to activate it. Read more about this 
+                    <a class="pointer" href="https://developers.stellar.org/docs/glossary/accounts/#stellar-docsearch-form" target="_blank">here</a>
+                    and <a class="pointer" href="https://developers.stellar.org/docs/glossary/minimum-balance/" target="_blank">here</a>
+                </p>
+                <h5 class="get-started-text" style="text-align: center; margin-top: 25px; line-height: 1.4;">
+                    To activate your account, send at least 1.5 TXLM to your Hot Wallet's public key, then confirm when you have funded it.
+                </h5><br>
+                <div style="text-align: center">
+                    <img class="stellar-hotwallet-qr-code" ng-src="{{hotWalletFundObj.qr_code}}" style="width: 270px; height: 270px;">
+                    <span class="text-subtle"><strong>Hot wallet account public key</strong></span><br>
+                </div>                
+                <h4 class="get-started-text" style="text-align: center; margin-top: 25px; position: relative;">
+                    {{hotwalletObj.primary_stellar_account.account_address}}
+                    <i ngclipboard ngclipboard-success="copiedMetadataSuccessfully()" data-clipboard-text="{{hotwalletObj.primary_stellar_account.account_address}}" 
+                    class="fa fa-clone metadata-copy-icon pointer bank-object-clipboard" style="right: auto; margin-left: 10px;"></i>
+                </h4>
+                <div style="margin-top: 24px; padding-right: 15px;">
+                    <div class="pull-left">
+                        <label class="text-subtle"><strong>Help center</strong></label>
+                        <div>
+                            <a class="small pointer" href="http://rehive.intercom.help/en/articles/5374179-where-can-i-get-testnet-lumens" target="_blank">Where can I get testnet lumens?</a>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-primary-dark pull-right" ng-click="updateCompanySettings(true)"
+                    style="min-height: 40px; border-radius: 6px; min-width: 180px; margin: 8px -14px auto auto;">
+                        My account is funded&nbsp;&nbsp;&nbsp;
+                        <span class="template-arrow"><i class="fa fa-check"></i></span>
+                    </button>
+                </div>
+            </div>
+            <div ng-show="hotwalletSetupStep == 3" class="row">
+                <h1 class="text-subtle" style="text-align: center; margin: 0 auto 20px auto;"><strong>Success!</strong></h1>
+                <div class="align-items-center">
+                    <img src="../../../../../../assets/img/setup-complete-stellar.svg" style="max-width: 375px;"/>
+                </div>                
+                <h5 class="get-started-text" style="text-align: center; margin-top: 25px;">Your Hot Wallet setup is now complete. It may take up to 2 minutes
+                     for the funding to reflect in the Dashboard.</h5>
+                <h5 class="get-started-text" style="text-align: center; margin-top: 25px;">If you did not fund your account or if it did not work for any reason,
+                     you can still fund the account from the Hot Wallet page.</h5>
+                <div style="text-align: center; margin-top: 25px;">
+                    <img src="../../../../../../assets/img/stellar-fund-help.png"/>
+                </div>                
+                <div style="margin-top: 24px; padding-right: 15px;">
+                    <button class="btn btn-primary btn-primary-dark pull-right" ng-click="goToHotWalletPage()"
+                    style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                        Go to Hot Wallet&nbsp;&nbsp;&nbsp;
+                        <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div ng-show="hotwalletSetupStep > 3">
+        <div ng-show="!onchainData" uib-alert class="pending-withdrawals-alert">Hot wallet is not funded. To activate your hot wallet please fund it with 1.5XLM.</div>
+        <div ng-show="pendingWithdrawlCount > 0" uib-alert class="pending-withdrawals-alert pointer" ng-click="searchHotwalletWithdrawals()">
+            There are {{pendingWithdrawlCount}} pending withdrawals. Click here to approve or decline them.
+        </div>
+        <div class="panel">
+            <div class="panel-body crypto-disable-withdrawals-panel">
+                <div class='row crypto-withdrawal-toggle-div' >
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding  margin-left-10">
+                        <span><strong>{{hotwalletObj.rehive_account_reference}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Account reference</span>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding margin-left-10">
+                        <span style='overflow-wrap: break-word;'><strong>{{hotwalletObj.primary_stellar_account.account_address}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Public address</span>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 crypto-withdrawal-toggle-div margin-left-10">
+                        <span>Allow crypto sends</span>
+                        <span style="float: right;  margin: 0px 12px auto 10px;">
+                            <div ng-hide="withdrawalsDisabled">
+                                <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                            </div>
+                            <div ng-show="withdrawalsDisabled">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel" ng-repeat="currency in hotWalletCurrencies track by $index">
+            <div class="panel-body" >
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="dashboard-currencies-code">
+                            {{currency.currency.code}}
+                        </div>
+                    </div>
+                    <div class="currencies-page-row">
+                        <div>                        
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div>
+                                    <!--<span><strong>{{stellarCurrency.symbol}} {{hotwalletObj.balance | currencyModifiersFilter: stellarCurrency.divisibility | commaSeperateNumberFilter}}</strong></span>-->
+                                    <span><strong>{{currency.currency.symbol}} {{currency.balance | currencyModifiersFilter: currency.currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Rehive balance</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding">
+                                <div>
+                                    <span><strong>{{currency.onchain_balance ? currency.currency.symbol + ' ' + currency.onchain_balance : '--'}}</strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Onchain balance</span>
+                                </div>
+                            </div>
+                            <div ng-show="currency.currency.code == 'TXLM'" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding">
+                                <div>
+                                    <span><strong>{{hotwalletObj.total_fees | currencyModifiersFilter: currency.currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Total fees</span>
+                                </div>
+                            </div>
+                            <div ng-hide="currency.currency.code == 'TXLM'" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right no-right-padding no-left-padding">
+                                <button class="btn btn-primary dashboard-btn pull-right" style="margin-top: 5px!important;"
+                                        ng-click="openFundHotwalletModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetHotwallet/fundStellarTestnetHotwalletModal/fundStellarTestnetHotwalletModal.html','md')">
+                                    Fund
+                                </button>
+                                <button class="btn btn-primary dashboard-btn pull-right" style="margin: 5px 10px auto auto!important;"
+                                        ng-click="openSendFromHotwalletModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetHotwallet/sendStellarTestnetHotwalletModal/sendStellarTestnetHotwalletModal.html','md')">
+                                    Withdraw
+                                </button>
+                            </div>  
+                            <div ng-show="currency.currency.code == 'TXLM'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-right-padding no-left-padding">
+                                <button class="btn btn-primary dashboard-btn pull-right" style="margin-top: 5px!important;"
+                                        ng-click="openFundHotwalletModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetHotwallet/fundStellarTestnetHotwalletModal/fundStellarTestnetHotwalletModal.html','md')">
+                                    Fund
+                                </button>
+                                <button class="btn btn-primary dashboard-btn pull-right" style="margin: 5px 10px auto auto!important;"
+                                        ng-click="openSendFromHotwalletModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetHotwallet/sendStellarTestnetHotwalletModal/sendStellarTestnetHotwalletModal.html','md')">
+                                    Withdraw
+                                </button>
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" style='background-color: white;height: 40px; line-height: 20px; font-size: 14px;'>
+                <a class="pointer pull-right" ng-click="goToHotwalletTransactions(currency.currency.code)">
+                    View transactions
+                </a>
+                <a ng-show="currency.currency.code == 'TXLM'" class="pointer pull-right" ng-click="searchHotwalletFees()" style='margin-right: 20px;'>
+                    View fees
+                </a>
+            </div>
+        </div>    
+    </div>
+</div>
+<div ba-panel ng-show="loadingHotwalletTransactions || loadingTransactions">
+    <loading-image></loading-image>
+</div>

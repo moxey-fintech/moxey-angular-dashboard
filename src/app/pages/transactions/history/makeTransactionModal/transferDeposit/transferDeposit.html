@@ -1,0 +1,245 @@
+<form name="transactionForm" class="custom-form">
+    <div class="transaction-form" id="transferForm">
+        <div class="form-group">
+            <label>Currency <span class="required-icon">*</span></label>
+            <br>
+            <div class="reward-multi-select">
+                <select chosen
+                        data-placeholder-text-single="'Choose a currency'"
+                        width="100"
+                        allow-single-deselect="true"
+                        ng-model="transferDepositTransactionData.currency"
+                        ng-change="depositCurrencySelected(transferDepositTransactionData)"
+                        ng-options="currency.display_code for currency in transferDepositCurrencyOptions | orderBy: 'code' track by currency.code">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Recipient account reference<span class="required-icon">*</span>&nbsp;
+                <span ng-if="!recipientDepositCurrencyAccountsAvailable" class="no-accounts-available">Searched account is not associated with selected currency.</span>
+                <a ng-show="retrievedDepositRecipientAccountsArray.length > 0" class="pull-right divider pointer edit-transaction-divider"
+                     ng-click="resetTransferDepositData('recipient')" style="margin-bottom: 0px!important;">Clear search </a>&nbsp;
+                <i ng-show="transferDepositTransactionData.credit_account && transferDepositTransactionData.credit_account.name" class="fa fa-list-alt transaction-recipient-account-icon" aria-hidden="true"></i>
+                <div ng-show="retrievedDepositRecipientAccountTransactions.length > 0" class="row transaction-recipient-account-details transfer-deposit-recipient-transaction-details">
+                    <p class="transaction-tooltip-title">Recent transactions:</p>
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <tr ng-repeat="transaction in retrievedDepositRecipientAccountTransactions | orderBy: '-created' track by $index">
+                            <td>{{transaction.tx_type}}</td>
+                            <td>{{transaction.currency.code}}</td>
+                            <td>{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td>{{transaction.status | capitalizeWord}}</td>
+                            <td>{{transaction.created | date:'mediumDate'}}, {{transaction.created | date:'shortTime'}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="retrievedDepositRecipientAccountTransactions.length == 0"
+                     ng-class="{'no-account-transactions': retrievedDepositRecipientAccountTransactions.length == 0}"
+                     class="row transaction-recipient-account-details transfer-deposit-recipient-transaction-details">
+                    <i>No transactions exist for this account.</i>
+                </div>
+                <span class="no-accounts-available margin-left-10"
+                      ng-show="retrievedDepositRecipientAccountsArray.length == 0 &&
+                      retrievedDepositRecipientObj.id  && transferDepositTransactionData.currency &&
+                       transferDepositTransactionData.currency.code">
+                    No accounts found for this reference.
+                    <span ng-click="goToTransferUserAccountCreate(retrievedDepositRecipientObj.id)"> Add an account here.</span>
+                </span>
+            </label>
+            <input ng-hide="retrievedDepositRecipientAccountsArray.length > 0" type="text" ng-model="searchRecipient" placeholder="Search by user email, mobile or account reference e.g.ZRSJRYFGL8"
+                ng-disabled="!transferDepositTransactionData.currency.code"
+                uib-typeahead="account for account in getTransferUsersAccountTypeahead($viewValue)" 
+                typeahead-on-select="searchRecipientAccountWithReference($model)" ng-model-options='{ debounce: 800 }'
+                class="form-control" size="12">
+            <select ng-show="retrievedDepositRecipientAccountsArray.length > 0" class="form-control pointer" ng-model="transferDepositTransactionData.credit_account" ng-change="depositAccountSelected(transferDepositTransactionData,'recipient')" 
+                ng-disabled="!transferDepositTransactionData.currency.code"
+                ng-options="account.name + ' - ' + account.reference disable when account.disable for account in retrievedDepositRecipientAccountsArray | orderBy: 'name' track by account.name">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Recipient: &nbsp;<span ng-show="transferDepositTransactionData.recipient" class="welcome-label3 transaction-helper-label" style="margin-right: 0px;">{{transferDepositTransactionData.recipient}}</span>&nbsp;
+                <span style="position: relative">
+                    <i ng-show="retrievedDepositRecipientObj.id" class="fa fa-user transaction-transfer-recipient-user-icon" aria-hidden="true"></i>
+                    <div class="row transaction-transfer-recipient-user-details transfer-deposit-recipient-details">
+                        <table>
+                            <tr>
+                                <th style="text-align: right" width="30%">Name:</th>
+                                <td style="padding-left: 15px">{{retrievedDepositRecipientObj.first_name}} {{retrievedDepositRecipientObj.last_name}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">Created date:</th>
+                                <td style="padding-left: 15px" ng-show="retrievedDepositRecipientObj.created">{{retrievedDepositRecipientObj.created | date:'mediumDate'}}, {{retrievedDepositRecipientObj.created | date:'shortTime'}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">Last login:</th>
+                                <td style="padding-left: 15px" ng-show="retrievedDepositRecipientObj.last_login">{{retrievedDepositRecipientObj.last_login | date:'mediumDate'}}, {{retrievedDepositRecipientObj.last_login | date:'shortTime'}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">Group:</th>
+                                <td style="padding-left: 15px" ng-bind="retrievedDepositRecipientObj.groups[0].name"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">KYC status:</th>
+                                <td style="padding-left: 15px" ng-bind="retrievedDepositRecipientObj.kyc.status | capitalizeWord"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">MFA status:</th>
+                                <td style="padding-left: 15px" ng-bind="recipientMfaEnabled" ng-class="{'mfa-enabled': recipientMfaEnabled === 'Enabled', 'mfa-disabled':  recipientMfaEnabled === 'Disabled'}"></td>
+                            </tr>
+                            <tr ng-show="recipientMfaOBj.updated">
+                                <th style="text-align: right" width="40%">MFA last updated:</th>
+                                <td style="padding-left: 15px" ng-show="recipientMfaOBj.updated">{{recipientMfaOBj.updated | date:'mediumDate'}}, {{recipientMfaOBj.updated | date:'shortTime'}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="40%">User metadata:</th>
+                                <td style="padding-left: 15px" ng-bind="retrievedDepositRecipientObj.metadata"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>                
+            </label>
+        </div>
+        <div class="form-group">
+            <label>Sender account reference<span class="required-icon">*</span>&nbsp;
+                <span ng-if="!senderDepositCurrencyAccountsAvailable" class="no-accounts-available">Searched account is not associated with selected currency.</span>
+                <a ng-show="retrievedDepositSenderUserAccountsArray.length > 0" class="pull-right divider pointer edit-transaction-divider"
+                     ng-click="resetTransferDepositData()" style="margin-bottom: 0px!important;">Clear search </a>&nbsp;
+                <i ng-show="transferDepositTransactionData.account && transferDepositTransactionData.account.name" class="fa fa-list-alt transaction-sender-account-icon" aria-hidden="true"></i>
+                <div ng-show="retrievedDepositSenderAccountTransactions.length > 0" class="row transaction-sender-account-details transfer-deposit-sender-transaction-details">
+                    <p class="transaction-tooltip-title">Recent transactions:</p>
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <tr ng-repeat="transaction in retrievedDepositSenderAccountTransactions | orderBy: '-created' track by $index">
+                            <td>{{transaction.tx_type}}</td>
+                            <td>{{transaction.currency.code}}</td>
+                            <td>{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td>{{transaction.status | capitalizeWord}}</td>
+                            <td>{{transaction.created | date:'mediumDate'}}, {{transaction.created | date:'shortTime'}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="retrievedDepositSenderAccountTransactions.length == 0"
+                     ng-class="{'no-account-transactions': retrievedDepositSenderAccountTransactions.length == 0}"
+                     class="row transaction-sender-account-details transfer-deposit-sender-transaction-details">
+                    <i>No transactions exist for this reference.</i>
+                </div>
+            </label>
+            <input ng-hide="retrievedDepositSenderUserAccountsArray.length > 0" type="text" ng-model="searchSender" placeholder="Search by account reference e.g.ZRSJRYFGL8"
+                ng-disabled="!transferDepositTransactionData.currency.code"
+                uib-typeahead="account for account in getTransferUsersAccountTypeahead($viewValue)" 
+                typeahead-on-select="searchSenderAccountWithReference($model)" ng-model-options='{ debounce: 800 }'
+                class="form-control" size="12">
+            
+            <select ng-show="retrievedDepositSenderUserAccountsArray.length > 0" class="form-control pointer" ng-model="transferDepositTransactionData.account" ng-change="depositAccountSelected(transferDepositTransactionData)" 
+                ng-disabled="(!transferDepositTransactionData.currency.code)"
+                ng-options="account.name + ' - ' + account.reference disable when account.disable for account in retrievedDepositSenderUserAccountsArray | orderBy: 'name' track by account.name">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Sender: &nbsp;<span ng-show="transferDepositTransactionData.user" class="welcome-label3 transaction-helper-label" style="margin-right: 0px;">{{transferDepositTransactionData.user}}</span>&nbsp;
+                <span style="position: relative">
+                    <i ng-show="retrievedDepositSenderUserObj.id" class="fa fa-user transaction-transfer-sender-user-icon" aria-hidden="true"></i>
+                    <div class="row transaction-transfer-sender-user-details transfer-deposit-sender-details">
+                        <table>
+                            <tr>
+                                <th style="text-align: right" width="30%">Name:</th>
+                                <td style="padding-left: 15px">{{retrievedDepositSenderUserObj.first_name}} {{retrievedDepositSenderUserObj.last_name}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">Created date:</th>
+                                <td style="padding-left: 15px" ng-show="retrievedDepositSenderUserObj.created">{{retrievedDepositSenderUserObj.created | date:'mediumDate'}}, {{retrievedDepositSenderUserObj.created | date:'shortTime'}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">Last login:</th>
+                                <td style="padding-left: 15px" ng-show="retrievedDepositSenderUserObj.last_login">{{retrievedDepositSenderUserObj.last_login | date:'mediumDate'}}, {{retrievedDepositSenderUserObj.last_login | date:'shortTime'}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">Group:</th>
+                                <td style="padding-left: 15px" ng-bind="retrievedDepositSenderUserObj.groups[0].name"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">KYC status:</th>
+                                <td style="padding-left: 15px" ng-bind="retrievedDepositSenderUserObj.kyc.status | capitalizeWord"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="30%">MFA status:</th>
+                                <td style="padding-left: 15px" ng-bind="senderMfaEnabled" ng-class="{'mfa-enabled': senderMfaEnabled === 'Enabled', 'mfa-disabled':  senderMfaEnabled === 'Disabled'}"></td>
+                            </tr>
+                            <tr ng-show="senderMfaOBj.updated">
+                                <th style="text-align: right" width="40%">MFA last updated:</th>
+                                <td style="padding-left: 15px" ng-show="senderMfaOBj.updated">{{senderMfaOBj.updated | date:'mediumDate'}}, {{senderMfaOBj.updated | date:'shortTime'}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right" width="40%">User metadata:</th>
+                                <td style="padding-left: 15px" ng-bind="retrievedDepositSenderUserObj.metadata"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>
+                
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Amount <span class="required-icon">*</span></label>
+            <input type="text" ng-model="transferDepositTransactionData.amount" class="form-control"  placeholder="e.g. 100000000">
+        </div>    
+               
+        <div class="form-group">
+            <label>Sender reference</label>
+            <input type="text" ng-model="transferDepositTransactionData.debit_reference" class="form-control"  placeholder="e.g. # 1234">
+        </div>
+        <div class="form-group">
+            <label>Recipient reference</label>
+            <input type="text" ng-model="transferDepositTransactionData.credit_reference" class="form-control"  placeholder="e.g. # 1234">
+        </div>
+        <span>
+            <a class="pointer" ng-hide="showAdvancedTransferDepositOption" ng-click="toggleAdvancedTransferDepositOption()">Advanced options</a>
+            <div ng-show="showAdvancedTransferDepositOption">
+                <div class="form-group">
+                    <label>Debit subtype</label>
+                    <select class="form-control pointer" ng-model="transferDepositTransactionData.debit_subtype"
+                            ng-options="subtypeOption.name for subtypeOption in allDepositSubtypes | filter: {tx_type: 'debit'}">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Credit subtype</label>
+                    <select class="form-control pointer" ng-model="transferDepositTransactionData.credit_subtype"
+                            ng-options="subtypeOption.name for subtypeOption in allDepositSubtypes | filter: {tx_type: 'credit'}">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sender metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="transferDepositTransactionData.credit_metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Recipient metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="transferDepositTransactionData.debit_metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+            </div>
+        </span>
+        <a class="pointer" ng-show="showAdvancedTransferDepositOption" ng-click="toggleAdvancedTransferDepositOption()">Hide advanced options</a>
+        <button ng-click="toggleConfirmTransaction()"
+                ng-disabled="!transferDepositTransactionData.user || !transferDepositTransactionData.recipient 
+                || !transferDepositTransactionData.amount || !transferDepositTransactionData.currency 
+                || !transferDepositTransactionData.currency.code || !retrievedDepositRecipientAccountsArray.length > 0
+                || !retrievedDepositSenderUserAccountsArray.length > 0 || !transferDepositTransactionData.account 
+                || !transferDepositTransactionData.credit_account"
+                class="btn dashboard-btn btn-primary pull-right">Next</button>
+    </div>
+</form>

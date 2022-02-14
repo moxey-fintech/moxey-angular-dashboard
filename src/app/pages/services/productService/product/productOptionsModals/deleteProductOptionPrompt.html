@@ -1,0 +1,15 @@
+<p>
+    Are you sure you want to delete this product option? Deleting the option will remove this from the 
+    options in the product variants that use this.
+</p>
+<p>
+    <span>
+        <strong>Name:</strong>&nbsp;{{deleteOptionObj.name}}
+    </span><br>
+    <span>
+        <strong>Values:</strong>&nbsp;
+        <span ng-repeat="optionValue in deleteOptionObj.values track by $index">
+            {{optionValue}}<span ng-show="!$last">,&nbsp;</span>
+        </span>
+    </span>
+</p>

@@ -1,0 +1,48 @@
+<div ng-hide="updatingStripeDetails">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Settings</span><a target="_blank" href ="https://support.stripe.com/questions/locate-api-keys-in-the-dashboard" class="user-details-panel-link pull-right pointer ">How to find your Stripe API keys &nbsp;<i class="fa fa-external-link pointer"></i></a>
+        </div>
+        <div class="panel-body">
+            <form name="stripeSettingsForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>Stripe publishable API key <span class="required-icon">*</span></label>
+                    <input type="text" ng-model="stripeCompanySettings.stripe_publishable_api_key" ng-change="trackUpdatedStripeSetting('stripe_publishable_api_key')" class="form-control"
+                           placeholder="Enter publishable stripe api key" required>
+                </div>
+                <div class="form-group">
+                    <label>Stripe secret API key<span class="required-icon">*</span></label>
+                    <input type="text" ng-model="stripeCompanySettings.stripe_api_key" ng-change="trackUpdatedStripeSetting('stripe_api_key')" class="form-control"
+                           placeholder="Enter stripe api key" required>
+                </div>
+
+                <div class="form-group custom-form">
+                    <label>Stripe currencies &nbsp;
+                        <!-- <i uib-tooltip-html="'Set which countries your product is available in. This is used in frontend applications to filter which products 
+                    are available to users. Leave this blank if you want your product to be available to all countries.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i> -->
+                    </label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more currencies'"
+                                width="100"
+                                ng-model="stripeCompanySettings.stripe_currencies" 
+                                ng-change="trackUpdatedStripeSetting('stripe_currencies')"
+                                ng-options="currency.code for currency in currenciesList | orderBy: 'code' track by currency.code">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>               
+                <div class="form-group">
+                    <button  ng-click="updateStripeCompanySettings()" class="btn btn-primary btn-primary-dark dashboard-btn pull-right" ng-disabled="!stripeSettingsForm.$valid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="updatingStripeDetails" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

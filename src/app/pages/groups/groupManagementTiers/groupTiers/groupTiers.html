@@ -1,0 +1,41 @@
+<div ng-hide="editingTiers || loadingTiers">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Tiers</span>
+            <a ng-click="openCreateGroupTierModal('app/pages/groups/groupManagementTiers/groupTiers/addGroupTierModal/addGroupTierModal.html','md')"
+               class="user-details-panel-link pull-right pointer">Add tier</a>
+        </div>
+        <div class="panel-body">
+            <table ng-show="tiersList.length > 0" class="table">
+                <tr class="user-switches-table-header divider">
+                    <th class="rehive-table-row-first-child">Tier</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="tier in tiersList | orderBy: 'level' track by $index">
+                    <td ng-class="{'archived-text': tier.archived}" class="table-row-center transactions-list-element rehive-table-row-first-child" ng-bind="tier.level"></td>
+                    <td ng-class="{'archived-text': tier.archived}" class="table-row-center transactions-list-element" title="{{tier.name}}" ng-bind="tier.name"></td>
+                    <td ng-class="{'archived-text': tier.archived}" class="table-row-center transactions-list-element" title="{{tier.description}}" ng-bind="tier.description || 'None'"></td>
+                    <td class="rehive-table-row-last-child pull-right">
+                        <a ng-click="openDeleteTierModal('app/pages/groups/groupManagementTiers/groupTiers/deleteGroupTierModal/deleteGroupTierModal.html','md',tier)"
+                           class="pull-right pointer ">Delete</a>
+                        <a ng-click="openEditTierModal('app/pages/groups/groupManagementTiers/groupTiers/editGroupTierModal/editGroupTierModal.html','md',tier)"
+                           class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                        <a ng-show="tier.archived" ng-click="restoreTier(tier)"
+                           class="pull-right pointer user-address-edit margin-right-30">Restore</a>
+                    </td>
+                </tr>
+            </table>
+            <div ng-hide="tiersList.length > 0">
+                <i>No tiers are available for this group.</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingTiers">
+    <loading-image></loading-image>
+</div>
+<div ng-show="editingTiers">
+    <edit-tier></edit-tier>
+</div>

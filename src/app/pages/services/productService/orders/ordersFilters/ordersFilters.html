@@ -1,0 +1,119 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getOrdersLists('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearOrdersFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="availableCategories.length > 0" id="filterCategories" class="column-filters-dropdown">
+            <label class="checkbox-inline custom-checkbox nowrap">
+                <input type="checkbox" ng-model="filtersObj.categoryFilter">
+                    <span>Categories</span>
+            </label>
+            <div ng-if="filtersObj.categoryFilter" class="accounts-column-multi-select category-filter-dropdown">
+                <select chosen
+                    multiple
+                    data-placeholder-text-multiple="'Choose one or more product categories'"
+                    width="100"
+                    ng-model="applyFiltersObj.categoryFilter.selectedCategories"
+                    ng-options="category.name for category in availableCategories | orderBy: 'name' track by category.id">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div id="filterCurrency">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="ordersFiltersObj.currencyFilter">
+                    <span>Currency</span>
+                </label>
+            </div>
+            <div ng-if="ordersFiltersObj.currencyFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyOrdersFiltersObj.currencyFilter.selectedCurrency"
+                            ng-options="currency.code for currency in currencyOptions | orderBy: 'code' track by currency.code">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="filterId">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="ordersFiltersObj.idFilter">
+                    <span>Id</span>
+                </label>
+            </div>
+            <div ng-if="ordersFiltersObj.idFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyOrdersFiltersObj.idFilter.selectedId" placeholder="Enter order id"
+                           auto-focus="ordersFiltersObj.idFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div ng-show="sellersList.length > 0" id="filterSeller" class="column-filters-dropdown">
+            <label class="checkbox-inline custom-checkbox nowrap">
+                <input type="checkbox" ng-model="ordersFiltersObj.sellerFilter">
+                    <span>Seller</span>
+            </label>
+            <div ng-if="ordersFiltersObj.sellerFilter" class="accounts-column-multi-select category-filter-dropdown">
+                <select chosen
+                    single
+                    data-placeholder-text-single="'Choose a seller'"
+                    width="100"
+                    ng-model="applyOrdersFiltersObj.sellerFilter.selectedSeller"
+                    ng-options="seller.name for seller in sellersList | orderBy: 'name' track by seller.id">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div id="filterStatus">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="ordersFiltersObj.statusFilter">
+                    <span>Status</span>
+                </label>
+            </div>
+            <div ng-if="ordersFiltersObj.statusFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyOrdersFiltersObj.statusFilter.selectedStatus"
+                            ng-options="option for option in statusOptions">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="filterTotalPrice">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="ordersFiltersObj.totalPriceFilter">
+                    <span>Total price</span>
+                </label>
+            </div>
+            <div ng-if="ordersFiltersObj.totalPriceFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyOrdersFiltersObj.totalPriceFilter.selectedTotalPrice" placeholder="Enter total price"
+                           auto-focus="ordersFiltersObj.totalPriceFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="userFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="ordersFiltersObj.userFilter">
+                    <span>User</span>
+                </label>
+            </div>
+            <div ng-if="ordersFiltersObj.userFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyOrdersFiltersObj.userFilter.selectedUser" ng-model-options='{ debounce: 800 }'
+                           placeholder="Enter user" auto-focus="ordersFiltersObj.userFilter"
+                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

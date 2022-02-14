@@ -1,0 +1,45 @@
+<div ng-hide="loadingAPITokens" class="panel">
+    <div class="panel-heading">
+        <button type="button" class="close new-transaction-close-btn" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <span class="user-details-panel-title">Add token</span>
+    </div>
+    <div class="panel-body">
+        <form name="addTokenForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Enter your password&nbsp;
+                    <span class="required-icon">*</span>&nbsp;&nbsp;
+                    <i uib-tooltip-html="'The password for the account you used to log in to dashboard.'" class="ion-information-circled setup-groups-tooltip"></i>
+                </label>
+                <br>
+                <input type="password" autocomplete="new-password" class="form-control" placeholder="Enter password" ng-model="createTokenData.tokenPassword" required>
+            </div>
+            <div class="form-group divider-20">
+                <label>Token type</label>
+                <div class="custom-radio-groups-btn" style="width: 100%;">
+                    <label class="pointer" style="max-width: 125px;">
+                        <input class="pointer" type="radio" ng-model="selectedTokenOption" value="permanent">
+                        <span class="custom-radio-btn">Permanent</span>
+                    </label>
+                    <label class="margin-right-10 pointer">
+                        <input class="pointer" type="radio" ng-model="selectedTokenOption" value="custom">
+                        <span class="custom-radio-btn">Custom duration&nbsp;
+                            <i uib-tooltip-html="'Duration is in seconds.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                    </label>
+                </div>          
+            </div>
+            <div ng-show="selectedTokenOption === 'custom'" class="form-group" style="margin-top: -5px;">
+                <input type="number" class="form-control" placeholder="Enter a duration in seconds e.g. 900" ng-model="createTokenData.tokenDuration">
+            </div>
+            <div class="form-group">
+                <button ng-disabled="!addTokenForm.$valid 
+                ||(selectedTokenOption === 'custom' && (!createTokenData.tokenDuration || createTokenData.tokenDuration === ''))" 
+                ng-click="addToken()" class="btn btn-primary pull-right dashboard-btn">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAPITokens">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,59 @@
+<div ng-hide="loadingTierLimits && (tierLevelsForLimits.length > 0)" class="tier-limits">
+    <uib-tabset active="activeTabIndex">
+        <uib-tab ng-repeat="tierLevel in tierLevelsForLimits track by $index" select="selectTier(tierLevel)" heading="Tier {{tierLevel}}">
+            <a ng-click="openAddGroupTierLimitModal('app/pages/groups/groupTransactionSettings/groupTransactionLimits/addGroupTransactionLimitModal/addGroupTransactionLimitModal.html','md')"
+               class="tier-add-header-link">Add limit</a>
+          <div>
+              <div ng-show="tiersLimitsList.length > 0" class="panel">
+                  <div class="panel-heading">
+                      <span class="user-details-panel-title">Tier limits</span>
+                  </div>
+                  <div class="panel-body">
+                      <table class="table">
+                          <tr class="user-switches-table-header divider">
+                              <th class="rehive-table-row-first-child">Tx type</th>
+                              <th>Currency</th>
+                              <th>Amount</th>
+                              <th>Type</th>
+                              <th>Subtype</th>
+                              <th>Account definition</th>
+                              <th></th>
+                          </tr>
+                          <tr ng-repeat="tierLimit in tiersLimitsList track by $index">
+                              <td class="transactions-list-element rehive-table-row-first-child"
+                                  title="{{tierLimit.tx_type | capitalizeWord}}" ng-bind="tierLimit.tx_type | capitalizeWord | limitTo: '35'"></td>
+                              <td title="{{tierLimit.currency.display_code}}"
+                                  ng-bind="tierLimit.currency.display_code"></td>
+                              <!--<td title="{{tierLimit.value | currencyModifiersFilter: tierLimit.currency.divisibility | commaSeperateNumberFilter}}"-->
+                              <!--ng-bind="tierLimit.value | currencyModifiersFilter: tierLimit.currency.divisibility | commaSeperateNumberFilter"></td>-->
+                              <td title="{{tierLimit.value | commaSeperateNumberFilter}}"
+                                  ng-bind="tierLimit.value | commaSeperateNumberFilter"></td>
+                              <td title="{{tierLimit.type}}"
+                                  ng-bind="tierLimit.type | capitalizeWord | limitTo: '35'"></td>
+                              <td title="{{tierLimit.subtype ? tierLimit.subtype : 'None'}}"
+                                  ng-bind="tierLimit.subtype ? tierLimit.subtype : 'None'| limitTo: '35'"></td>
+                                  <td title="{{tierLimit.account_definition ? tierLimit.account_definition : 'None'}}"
+                                  ng-bind="tierLimit.account_definition ? tierLimit.account_definition : 'None'| limitTo: '35'"></td>
+                              <td class="rehive-table-row-last-child pull-right">
+                                  <a ng-click="deleteTierLimitsConfirm(tierLimit)"
+                                     class="pull-right pointer ">Delete</a>
+                                  <a ng-click="openEditGroupTierLimitModal('app/pages/groups/groupTransactionSettings/groupTransactionLimits/editGroupTransactionLimitModal/editGroupTransactionLimitModal.html','md',tierLimit)"
+                                     class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+              <div ba-panel ng-show="tiersLimitsList.length == 0">
+                <i>No limits are available for this tier.</i>
+              </div>
+          </div>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div ba-panel ng-show="!loadingTierLimits && tierLevelsForLimits.length == 0">
+    <i>No tiers are available for this group.</i>
+</div>
+<div ba-panel ng-show="loadingTierLimits">
+    <loading-image></loading-image>
+</div>

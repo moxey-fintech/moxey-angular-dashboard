@@ -1,0 +1,132 @@
+<div ng-hide="updatingDocument" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Update document</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-show="showingDocumentFile" class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding align-items-center">
+                <a href="{{editDocument.file || defaultImageUrl}}" target="_blank" class="pointer align-items-center" style="align-items: center;">
+                    <img ng-hide="pdfSelected" id="userDocumentImage" class="documentImage" ng-class="{'defaultDocumentLoader': imageNotFinishedLoading}" 
+                    ng-src="{{editDocument.file || defaultImageUrl}}" height="450" width="100%" style="object-fit: contain" ng-load="test($event)">
+                    <div ng-show="pdfSelected" class="align-items-center pdf-review">
+                        <button class="btn btn-primary pdf-button" style="font-size: 20px; padding: 12px;">
+                            <i class="far fa-file-pdf fa-2x document-pdf" style="vertical-align: middle;"></i>&nbsp;&nbsp;This document is a PDF, click to view
+                        </button>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-right-padding">
+                <div class="form-group">
+                    <div class="row" style="min-height: 40px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-subtle">Business name</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">{{businessName || 'None'}}</div>
+                    </div>
+                    <div class="row" style="min-height: 40px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-subtle">Document type</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">{{editDocument.type || '--' | formatUnderscoreToWhitespacedFilter | capitalizeWord }}</div>
+                    </div>
+                    <div class="row" style="min-height: 40px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-subtle">Created date</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">{{editDocument.created | date:'mediumDate'}} {{editDocument.created | date:'shortTime'}}</div>
+                    </div>
+                    <div class="row" style="min-height: 40px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-subtle">Updated date</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">{{editDocument.updated | date:'mediumDate'}} {{editDocument.updated | date:'shortTime'}}</div>
+                    </div>
+                    <div class="row" style="min-height: 40px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-subtle">Document status</div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <select class="form-control pointer" ng-change="documentChanged('status')"
+                                    ng-disabled="editDocument.archived" ng-class="{'archived-text': editDocument.archived}"
+                                    ng-model="editDocument.status" ng-options="status for status in documentStatusOptions" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="min-height: 40px;">
+                        <h4>Metadata</h4>
+                        <div>
+                            <pre>{{editDocument.formatted_metadata}}</pre>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group divider-20">
+                        <table class="table user-basic-info-table">
+                            <tr>
+                                <td width="50%">
+                                    <label>Expiry date
+                                        <span ng-show="documentHasExpired">&nbsp;
+                                            <i tooltip-class="duplicate-transction-tooltip" uib-tooltip-html="'Document has expired!'" 
+                                            class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                                        </span>
+                                    </label>
+                                    <p ng-bind="document.expires"></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div> -->
+                    <div class="form-group">
+                        <label>Note</label>
+                        <textarea rows="4" type="text" ng-change="documentChanged('note')"
+                                  ng-disabled="document.archived" ng-class="{'archived-text': document.archived}"
+                                  ng-model="editDocument.note" class="form-control"  placeholder='Enter note'></textarea>
+                    </div>
+                </div>
+            </div>
+        <!-- </div>
+        <div class="row">
+            <div ng-hide="showingDocumentFile" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding no-right-padding">
+                <img class="divider-20" ngf-thumbnail="editDocument.file" height="500px" width="100%">
+                <form class="custom-form" novalidate>
+                    <fieldset class="divider-20 custom-file-upload">
+                        <label>
+                            <span class="custom-file-upload-span-3"><button>Choose File</button></span>
+                            <input ng-change="kycDocumentSelected('file')" type="file" ngf-select ng-model="editDocument.file" name="file"
+                                   class="divider-6"
+                                   accept=".pdf,image/*" ngf-max-size="5MB" required>
+                        </label>
+                        <p class="small">Max size is 5MB.</p>
+                    </fieldset>
+                    <div class="form-group divider-20">
+                        <label>Document type <span class="required-icon">*</span></label>
+                        <br>
+                        <select class="form-control pointer" ng-change="documentChanged('document_type')" ng-model="editDocument.document_type" ng-options="type for type in documentTypeOptions" required>
+                        </select>
+                    </div>
+                    <div class="form-group divider-20">
+                        <label>Status <span class="required-icon">*</span></label>
+                        <br>
+                        <select class="form-control pointer" ng-change="documentChanged('status')" ng-model="editDocument.status" ng-options="status for status in documentStatusOptions" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Note</label>
+                        <textarea rows="4" type="text" ng-change="documentChanged('note')" ng-model="editDocument.note" class="form-control"  placeholder='Enter note'></textarea>
+                    </div>
+                </form>
+            </div> -->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row" style="padding: 0 12px;">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <button type="button" ng-click="openDeleteUserDocumentModal('app/pages/services/businessService/businessServiceBusinesses/businessServiceBusinessView/viewBusinessDocumentsModal/businessDocumentDeletePrompt.html')"
+                    ng-disabled="updatingDocument"
+                    class="btn btn-danger no-left-padding dashboard-btn pull-left">Delete</button>
+                <button type="button" ng-click="restoreDocument()"
+                    ng-disabled="updatingDocument" ng-show="editDocument.archived"
+                    class="btn btn-default no-left-padding dashboard-btn pull-left">Restore</button>
+                <span ng-hide="pdfSelected" class="pull-right" style="margin-top: 20px;"><i class="fa fa-search-plus" aria-hidden="true"></i>&nbsp;Click document to view a larger version of it</span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button ng-click="updateDocument()" ng-disabled="updatingDocument || editDocument.archived"
+                     type="button" class="btn btn-primary no-right-padding dashboard-btn pull-right">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="updatingDocument">
+    <loading-image></loading-image>
+</div>

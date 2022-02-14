@@ -1,0 +1,15 @@
+<bitcoin-testnet-service-navigation></bitcoin-testnet-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <bitcoin-testnet-service-settings-menu></bitcoin-testnet-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <bitcoin-testnet-settings ng-show="bitcoinTestnetSettingView == 'settings'"></bitcoin-testnet-settings>
+        <bitcoin-testnet-service-user-defaults ng-show="bitcoinTestnetSettingView == 'user defaults'"></bitcoin-testnet-service-user-defaults>
+        <bitcoin-testnet-service-setup-subtypes ng-show="bitcoinTestnetSettingView == 'subtypes'"></bitcoin-testnet-service-setup-subtypes>
+        <!--
+        <bitcoin-testnet-hd-keys ng-show="bitcoinSettingView == 'hdkeys'"></bitcoin-testnet-hd-keys>
+        -->
+        <bitcoin-testnet-deactivation ng-show="bitcoinTestnetSettingView == 'deactivation'"></bitcoin-testnet-deactivation>
+    </div>
+</div>

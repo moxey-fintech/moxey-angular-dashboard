@@ -1,0 +1,36 @@
+<div ng-hide="loadingUserCryptoAccounts"
+     class="panel">
+    <div class="panel-heading">
+            <span class="user-details-panel-title">Crypto accounts</span>
+        <a ng-click="openAddUserCryptoAccountsModal('app/pages/users/user/userDetails/userCryptoAccounts/addUserCryptoAccountsModal/addUserCryptoAccountsModal.html','md')" class="user-details-panel-link pull-right pointer">Add crypto account</a>
+    </div>
+    <div class="panel-body">
+        <table ng-show="userCryptoAccountsList.length > 0" class="table">
+            <tr class="user-switches-table-header divider">
+                <th class="rehive-table-row-first-child">Address</th>
+                <th>Crypto type</th>
+                <th>Network type</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="cryptoAccount in userCryptoAccountsList | orderBy: 'crypto_type' track by $index">
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child" title="{{cryptoAccount.address}}" ng-bind="cryptoAccount.address"></td>
+                <td class="table-row-center transactions-list-element" title="{{cryptoAccount.crypto_type}}" ng-bind="cryptoAccount.crypto_type"></td>
+                <td class="table-row-center transactions-list-element" title="{{cryptoAccount.network}}" ng-bind="cryptoAccount.network"></td>
+                <td class="rehive-table-row-last-child pull-right">
+                    <a ng-click="openUserCryptoAccountsModal('app/pages/users/user/userDetails/userCryptoAccounts/userCryptoAccountsModal/userCryptoAccountsModal.html','md',cryptoAccount)"
+                       class="pull-right pointer ">Delete</a>
+                    <a ng-click="openEditUserCryptoAccountsModal('app/pages/users/user/userDetails/userCryptoAccounts/editUserCryptoAccountsModal/editUserCryptoAccountsModal.html','md',cryptoAccount)" class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                    <span ng-class="{'status-pending': cryptoAccount.status == 'pending','status-verified': cryptoAccount.status == 'verified',
+                    'status-incomplete-declined': cryptoAccount.status == 'incomplete' || cryptoAccount.status == 'declined' || cryptoAccount.status == 'obsolete'}"
+                          class="user-address-status margin-right-30">{{cryptoAccount.status | uppercase}}</span>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="userCryptoAccountsList.length == 0 && !loadingUserCryptoAccounts">
+            <i>No crypto accounts are available</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserCryptoAccounts">
+    <loading-image></loading-image>
+</div>

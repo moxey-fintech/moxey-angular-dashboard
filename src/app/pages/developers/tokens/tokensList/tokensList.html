@@ -1,0 +1,60 @@
+<div ng-hide="loadingAPITokens" class="panel">
+    <div class="panel-heading align-items-spaced">
+        <span class="user-details-panel-title">API tokens list</span>
+        <button ng-click="openAddTokenModal('app/pages/developers/tokens/addTokenModal/addTokenModal.html', 'md')" class="btn btn-primary pull-right pointer">Add</button>
+    </div>
+    <div class="panel-body">
+        <div>
+            <table class="table custom-table">
+                <tbody>
+                    <tr>
+                        <td class="rehive-table-row-first-child">This is a list of tokens for the user you are currently logged in as: <i class="get-started-text">{{adminEmail}}</i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th class="rehive-table-row-first-child">Token</th>
+                    <th>Created</th>
+                    <th>Expires</th>
+                    <th>Service</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="token in tokensList track by $index" class="editable-row">
+                    <td class="rehive-table-row-first-child"><div title="{{token.token_key}}" class="transactions-list-element" ng-bind="token.token_key"></div></td>
+                    <td>
+                        <div title="{{token.created | date:'mediumDate'}} {{token.created | date:'shortTime'}}"
+                             class="transactions-list-element">
+                            <div ng-show="token.created">
+                                {{token.created | date:'mediumDate'}} {{token.created | date:'shortTime'}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div title="{{token.expires | date:'mediumDate'}} {{token.expires | date:'shortTime'}}"
+                             class="transactions-list-element">
+                            <div ng-show="token.expires">
+                                {{token.expires | date:'mediumDate'}} {{token.expires | date:'shortTime'}}
+                            </div>
+                            <div ng-show="!token.expires">
+                                Permanent Key
+                            </div>
+                        </div>
+                    </td>
+                    <td><div title="{{token.service}}" class="transactions-list-element" ng-bind="token.service"></div></td>
+                    <td class="rehive-table-row-last-child">
+                        <a ng-click="openDeleteTokenModal('app/pages/developers/tokens/deleteTokenModal/deleteTokenModal.html','md',token)"
+                           class="pull-right pointer">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAPITokens">
+    <loading-image></loading-image>
+</div>

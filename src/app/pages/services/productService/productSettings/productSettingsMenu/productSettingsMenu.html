@@ -1,0 +1,31 @@
+<div ba-panel class="service-header menu-box" ba-panel-class="light-text">
+    <!--<div class="menu-hex-container">-->
+        <!--<div class="hexagon"></div>-->
+        <!--<div class="hex-over">&nbsp;</div>-->
+    <!--</div>-->
+    <hr class="no-margin">
+    <div ng-click="goToProductsSetting('app-config')"
+         ng-class="{'selected-settings-menu': productSettingView == 'app-config' }"
+         class="pointer menu-box-options">
+        <h5>App config options <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToProductsSetting('integrations')"
+         ng-class="{'selected-settings-menu': productSettingView == 'integrations' }"
+         class="pointer menu-box-options">
+        <h5>Integrations <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToProductsSetting('settings')"
+         ng-class="{'selected-settings-menu': productSettingView == 'settings' }"
+         class="pointer menu-box-options">
+        <h5>Settings <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToProductsSetting('deactivation')"
+         ng-class="{'selected-settings-menu': productSettingView == 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>

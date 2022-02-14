@@ -1,0 +1,59 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingFilters">
+                    <ethereum-service-transactions-filter></ethereum-service-transactions-filter>
+                </div>
+            </div>
+            <button ng-click="getLatestTransactions('applyFilter')" ng-disabled="loadingTransactions"
+                    class="btn btn-default dynamic-columns panel-header-button">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="transactions.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th>Email</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Transaction hash</th>
+                    <th>Confirmations</th>
+                    <th>Rehive code</th>
+                    <th>Status</th>
+                    <th class="align-right">Created</th>
+                </tr>
+                <tr ng-repeat="transaction in transactions | orderBy: '-created' track by $index" data-toggle="modal"
+                    ng-click="openModal('app/pages/services/ethereumService/ethereumServiceTransactions/ethereumServiceTransactionsModal/ethereumServiceTransactionsModal.html', 'lg',transaction)"
+                    class="editable-row center pointer user-details-table-hover">
+                    <td class="transactions-list-element" title="{{transaction.user.email}}"  ng-bind="transaction.user.email"></td>
+                    <td  class="transactions-list-element" title="{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter}}"
+                         ng-bind="transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter"></td>
+                    <td class="transactions-list-element" title="{{transaction.tx_type}}"  ng-bind="transaction.tx_type | capitalizeWord"></td>
+                    <td class="transactions-list-element" title="{{transaction.transaction_hash}}"  ng-bind="transaction.transaction_hash"></td>
+                    <td class="transactions-list-element" title="{{transaction.confirmations}}"  ng-bind="transaction.confirmations"></td>
+                    <td class="transactions-list-element" title="{{transaction.rehive_code}}"  ng-bind="transaction.rehive_code"></td>
+                    <td class="transactions-list-element" title="{{transaction.status}}"  ng-bind="transaction.status"></td>
+                    <td class="transactions-list-element align-right" title="{{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}">
+                        {{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}</td>
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="transactionsData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getLatestTransactions()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="transactions.length == 0">
+            <i ng-hide="transactionsStateMessage == ''" ng-bind="transactionsStateMessage"></i>
+            <loading-image ng-show="transactionsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>

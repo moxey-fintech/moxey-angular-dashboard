@@ -1,0 +1,32 @@
+<div ng-hide="addingDonationRecipient" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add donation recipient</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addDonateRecipientForm" class="custom-form">
+            <div class="form-group divider-20">
+                <label>Name&nbsp;<span class="required-icon">*</span></label>
+                <input type="text" class="form-control" ng-model="newRecipientParams.name" placeholder="Enter recipient name" required/>
+            </div>
+            <div class="form-group divider-20">
+                <label class="tier-fees-tooltip">Profile</label>
+                <textarea rows="4" class="form-control" style="height: 125px!important;" ng-model="newRecipientParams.profile"
+                 placeholder="Add a link to the recipient's online profile."></textarea>
+            </div>
+            <div class="form-group divider-20">
+                <label>Email</label>
+                <input type="text" class="form-control" ng-model="newRecipientParams.email" placeholder="Enter recipient email" />
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addDonationRecipient()" ng-disabled="!addDonateRecipientForm.$valid" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingDonationRecipient">
+    <loading-image></loading-image>
+</div>

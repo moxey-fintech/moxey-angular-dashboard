@@ -1,0 +1,57 @@
+<div ng-hide="addingPublicKey" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Warm storage</span>
+    </div>
+    <div class="panel-body">
+        <div class=" row divider-25">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <ul class="ul-no-dot">
+                    <li>Warm storage is a deposit account on the Stellar testnet network.
+                        If you want users to be able to deposit or move funds onto your system, it's best to setup a warm storage.
+                        Rehive keeps track of the balance and transactions associated with the account.</li>
+                    <li>
+                        You will need an active account on the Stellar testnet. Active accounts are accounts with at least 1 TXLM in them. You can generate a keypair via Stellar Labs <b><a target="_blank" href="https://www.stellar.org/laboratory/#account-creator?network=test">
+                        here</a></b>.
+                    </li>
+                </ul>
+                <ul class="group-setup-ul">
+                    <li>Create an account on the Stellar testnet network by generating a keypair.</li>
+                    <li>You will receive a Public Key and a Secret Key.
+                        <strong>Store the Secret Key somewhere safe.
+                            If this key is lost you will lose the funds.</strong></li>
+                    <li>Fund the account with at the <b><a target="_blank" href="https://www.stellar.org/laboratory/#account-creator?network=test">Friendbot</a></b>. Confirm on the right when your account is funded.</li>
+                    <li>Add your Public Key to Rehive so its transactions can be tracked. Rehive does not have access to the funds.</li>
+                </ul>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 custom-form">
+                <button ng-click="warmStorageHasBeenFunded = true; showHelpMessage = true;"
+                        ng-disabled="warmStorageHasBeenFunded"
+                        ng-class="{'btn-primary': !warmStorageHasBeenFunded,'disable-btn': warmStorageHasBeenFunded}" class="btn divider-20">
+                    My account is funded <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+                <form class="custom-form">
+                    <div class="form-group">
+                        <label>Public key &nbsp;&nbsp;<span ng-show="showHelpMessage"
+                                                            class="stellar-public-key-help-message">Add your Public key</span></label>
+                        <textarea class="form-control" ng-disabled="!warmStorageHasBeenFunded"
+                                  ng-model="warmStorage.publicKey" ng-change="onPublicKeyChange(warmStorage)"
+                                  placeholder="e.g. GAKRQV46ETFITW4TRPYECTTGN7IRPUET5NJPDAA7BH7RPG3BIQTPCYJ7"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr class="no-margin-horizontal divider-25">
+        <div class="form-group">
+            <button ng-click="goToConfigView('finish')"
+                    class="btn btn-primary setup-skip-btn pull-left dashboard-btn">Skip
+            </button>
+            <button ng-click="addWarmStoragePublicKey()" ng-disabled="!warmStoragePublicKeyLengthValid"
+                    class="btn btn-primary pull-right dashboard-btn">Next
+            </button>
+            <button ng-click="goToConfigView('hot wallet')" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="addingPublicKey">
+    <loading-image></loading-image>
+</div>

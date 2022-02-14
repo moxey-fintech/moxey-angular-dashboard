@@ -1,0 +1,133 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getProductsLists('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="availableCategories.length > 0" id="filterCategories" class="column-filters-dropdown">
+            <label class="checkbox-inline custom-checkbox nowrap">
+                <input type="checkbox" ng-model="filtersObj.categoryFilter">
+                    <span>Categories</span>
+            </label>
+            <div ng-if="filtersObj.categoryFilter" class="accounts-column-multi-select category-filter-dropdown">
+                <select chosen
+                    multiple
+                    data-placeholder-text-multiple="'Choose one or more product categories'"
+                    width="100"
+                    ng-model="applyFiltersObj.categoryFilter.selectedCategories"
+                    ng-options="category.name for category in availableCategories | orderBy: 'name' track by category.id">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>       
+        <div id="filterCode">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.codeFilter">
+                    <span>Code</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.codeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.codeFilter.selectedCode" placeholder="Enter product code"
+                           auto-focus="filtersObj.codeFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>  
+        <div id="filterEnabled">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.enabledFilter">
+                    <span>Enabled</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.enabledFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.enabledFilter.selectedEnabled"
+                            ng-options="enabledStatus for enabledStatus in enabledOptions">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="filterId">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.idFilter">
+                    <span>Id</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.idFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.idFilter.selectedId" placeholder="Enter product id"
+                           auto-focus="filtersObj.idFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterName">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.nameFilter">
+                    <span>Name</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.nameFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.nameFilter.selectedName" placeholder="Enter product name"
+                           auto-focus="filtersObj.nameFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterQuantity">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.quantityFilter">
+                    <span>Quantity</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.quantityFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.quantityFilter.selectedQuantity" placeholder="Enter product quantity"
+                           auto-focus="filtersObj.quantityFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div ng-show="sellersList.length > 0" id="filterSeller" class="column-filters-dropdown">
+            <label class="checkbox-inline custom-checkbox nowrap">
+                <input type="checkbox" ng-model="filtersObj.sellerFilter">
+                    <span>Seller</span>
+            </label>
+            <div ng-if="filtersObj.sellerFilter" class="accounts-column-multi-select category-filter-dropdown">
+                <select chosen
+                    single
+                    data-placeholder-text-single="'Choose a seller'"
+                    width="100"
+                    ng-model="applyFiltersObj.sellerFilter.selectedSeller"
+                    ng-options="seller.name for seller in sellersList | orderBy: 'name' track by seller.id">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div id="filterType">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.typeFilter">
+                    <span>Type</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.typeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.typeFilter.selectedType" placeholder="Enter product type"
+                           auto-focus="filtersObj.typeFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>

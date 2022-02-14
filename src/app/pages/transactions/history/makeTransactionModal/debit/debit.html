@@ -1,0 +1,158 @@
+<form name="debitTransactionForm" class="custom-form">
+    <div class="transaction-form" id="debitForm">
+        <div class="form-group">
+            <label>User&nbsp;
+                <i ng-show="retrievedDebitUserObj.id" class="fa fa-user transaction-user-icon" aria-hidden="true"></i>
+                <div class="row transaction-user-details">
+                    <table>
+                        <tr>
+                            <th style="text-align: right" width="30%">Name:</th>
+                            <td style="padding-left: 15px">{{retrievedDebitUserObj.first_name}} {{retrievedDebitUserObj.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Created date:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedDebitUserObj.created">{{retrievedDebitUserObj.created | date:'mediumDate'}}, {{retrievedDebitUserObj.created | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Last login:</th>
+                            <td style="padding-left: 15px" ng-show="retrievedDebitUserObj.last_login">{{retrievedDebitUserObj.last_login | date:'mediumDate'}}, {{retrievedDebitUserObj.last_login | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">Group:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedDebitUserObj.groups[0].name"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">KYC status:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedDebitUserObj.kyc.status | capitalizeWord"></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="30%">MFA status:</th>
+                            <td style="padding-left: 15px" ng-bind="mfaEnabled" ng-class="{'mfa-enabled': mfaEnabled === 'Enabled', 'mfa-disabled':  mfaEnabled === 'Disabled'}"></td>
+                        </tr>
+                        <tr ng-show="mfaOBj.updated">
+                            <th style="text-align: right" width="40%">MFA last updated:</th>
+                            <td style="padding-left: 15px" ng-show="mfaOBj.updated">{{mfaOBj.updated | date:'mediumDate'}}, {{mfaOBj.updated | date:'shortTime'}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right" width="40%">User metadata:</th>
+                            <td style="padding-left: 15px" ng-bind="retrievedDebitUserObj.metadata"></td>
+                        </tr>
+                    </table>
+                </div>
+                <span>(optional)</span>
+            </label>
+            <input type="text" ng-model="debitTransactionData.user" placeholder="e.g. email@domain.com"
+                   uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                   class="form-control" size="12">
+        </div>
+        <div class="form-group">
+            <label>Amount <span class="required-icon">*</span></label>
+            <input type="text" ng-model="debitTransactionData.amount" class="form-control"  placeholder="e.g. 100000000">
+        </div>
+        <div class="form-group">
+            <label>Currency <span class="required-icon">*</span>
+                <!-- <span ng-hide="retrievedDebitUserObj.id">Please choose user first.</span> -->
+            </label>
+            <br>
+            <div class="reward-multi-select">
+                <!-- ng-disabled="!retrievedDebitUserObj.id" -->
+                <select chosen
+                        data-placeholder-text-single="'Choose a currency'"
+                        width="100"
+                        allow-single-deselect="true"
+                        ng-model="debitTransactionData.currency"
+                        ng-change="debitCurrencySelected(debitTransactionData)"
+                        ng-options="currency.display_code for currency in debitCurrencyOptions | orderBy: 'code' track by currency.code">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Account <span class="required-icon">*</span>&nbsp;
+                <i ng-show="debitTransactionData.account && debitTransactionData.account.name" class="fa fa-list-alt transaction-account-icon" aria-hidden="true"></i>
+                <div ng-show="retrievedDebitAccountTransactions.length > 0"
+                     class="row transaction-account-details">
+                    <p class="transaction-tooltip-title">Recent transactions:</p>
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <tr ng-repeat="transaction in retrievedDebitAccountTransactions | orderBy: '-created' track by $index">
+                            <td>{{transaction.tx_type}}</td>
+                            <td>{{transaction.currency.code}}</td>
+                            <td>{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td>{{transaction.status | capitalizeWord}}</td>
+                            <td>{{transaction.created | date:'mediumDate'}}, {{transaction.created | date:'shortTime'}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="retrievedDebitAccountTransactions.length == 0"
+                     ng-class="{'no-account-transactions': retrievedDebitAccountTransactions.length == 0}"
+                     class="row transaction-account-details">
+                    <i>No transactions exist for this account.</i>
+                </div>
+                <span ng-hide="debitTransactionData.currency.code">Please choose currency first.</span>
+                <span ng-show="debitTransactionData.currency.code && debitCurrencyAccountsAvailable
+                 && debitUserAccountsAvailable && !debitTransactionData.account.name">(Please choose an account)</span>
+                <span class="no-accounts-available"
+                      ng-hide="debitUserAccountsAvailable">No accounts found for this user.
+                    <span ng-click="goToDebitUserAccountCreate()"> Add an account here.</span>
+                </span>
+                <span class="no-accounts-currency-available" ng-show="!debitCurrencyAccountsAvailable && retrievedDebitUserObj.id">
+                    User has no accounts with selected currency.
+                </span>
+                <span class="no-accounts-currency-available" ng-show="!debitCurrencyAccountsAvailable && !retrievedDebitUserObj.id">
+                    There are no accounts with selected currency.
+                </span>
+            </label>
+            <select class="form-control pointer" ng-model="debitTransactionData.account" ng-change="debitAccountSelected(debitTransactionData)" 
+                ng-disabled="!debitTransactionData.currency.code"
+                ng-options="account.name + ' - ' + account.reference disable when account.disable for account in retrievedDebitUserAccountsArray | orderBy: 'name' track by account.name">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Reference</label>
+            <input type="text" ng-model="debitTransactionData.reference" class="form-control"  placeholder="e.g. # 1234">
+        </div>
+        <div class="form-group">
+            <label>Subtype</label>
+            <select class="form-control pointer" ng-model="debitTransactionData.subtype"
+                    ng-options="subtypeOption.name for subtypeOption in debitSubtypeOptions | filter: {tx_type: 'debit'}">
+                <option value="">No subtype</option>
+            </select>
+        </div>
+        <span>
+            <a class="pointer" ng-hide="showAdvancedDebitOption" ng-click="toggleAdvancedDebitOption()">Advanced options</a>
+            <div ng-show="showAdvancedDebitOption">
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea rows="4" type="text" ng-model="debitTransactionData.note" class="form-control"  placeholder='Enter note'></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Metadata <i uib-tooltip-html="'<strong>Metadata should be entered in JSON format. e.g. {&#34;Hello&#34;: &#34;World&#34;}</strong>'" class="ion-information-circled"></i></label>
+                    <textarea rows="4" type="text" ng-model="debitTransactionData.metadata" class="form-control"  placeholder='e.g. {"Hello" : "World"}'></textarea>
+                </div>
+                <div class="divider">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control pointer" ng-model="debitTransactionData.status"
+                                ng-options="status for status in debitTransactionStatus">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <a class="pointer" ng-show="showAdvancedDebitOption" ng-click="toggleAdvancedDebitOption()">Hide advanced options</a>
+        <button ng-click="toggleConfirmTransaction()"
+                ng-disabled="!debitTransactionData.amount ||
+                 !debitTransactionData.currency ||
+                 !debitTransactionData.currency.code ||
+                 !debitTransactionData.account ||
+                 !debitTransactionData.account.name"
+                class="btn dashboard-btn btn-primary pull-right">Next</button>
+    </div>
+</form>

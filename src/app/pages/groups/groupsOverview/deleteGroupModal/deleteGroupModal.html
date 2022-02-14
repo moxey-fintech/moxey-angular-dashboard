@@ -1,0 +1,25 @@
+<div ng-hide="deletingGroups" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Delete group</h4>
+    </div>
+    <div class="modal-body">
+        <p class="divider"><span class="text-subtle">Group name:</span> {{group.name}}</p>
+        <p class="divider"><span class="text-subtle">Group label:</span> {{group.label}}</p>
+        <p class="divider"><span class="text-subtle">Group default:</span> {{group.default | capitalizeWord}}</p>
+        <p class="divider"><span class="text-subtle">Group public:</span> {{group.public | capitalizeWord}}</p>
+    </div>
+    <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>-->
+        <button ng-click="deleteCompanyGroupPrompt()" ng-disabled="deletingGroups"
+                type="button" class="btn btn-default delete-button-lifted pull-right margin-left-12">Delete permanently</button>
+        <button ng-click="archiveGroup()" ng-disabled="group.archived"
+                ng-class="{'btn-primary': !group.archived,'btn-gray': group.archived}"
+                type="button" class="btn dashboard-btn pull-right">Archive</button>
+    </div>
+</div>
+<div ba-panel ng-show="deletingGroups">
+    <loading-image></loading-image>
+</div>

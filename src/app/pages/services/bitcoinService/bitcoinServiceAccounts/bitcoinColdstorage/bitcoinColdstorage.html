@@ -1,0 +1,73 @@
+<div ng-hide="loadingColdstorage" class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="dashboard-currencies-code">
+                    XBT
+                </div>
+            </div>
+            <div class="currencies-page-row">
+                <div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div>
+                            <span><strong>{{coldstorageObj.rehive_account_reference}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Account reference</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div>
+                            <span><strong>{{bitcoinCurrency.symbol}} {{coldstorageObj.balance | currencyModifiersFilter: bitcoinCurrency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Total</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" ng-click="toggleCurrenciesOptions(); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                        <div>
+                            <span class="fa fa-ellipsis-h pull-right pointer currencies-options"></span>
+                            <ul ng-show="showOptionsAccountRef" class="currencies-options-box">
+                                <li ng-click="toggleCurrenciesOptions()"><i class="dropdown-arr"></i></li>
+                                <li ng-click="addPublicAddressModal('app/pages/services/bitcoinService/bitcoinServiceAccounts/bitcoinColdstorage/addPublicAddressModal/addPublicAddressModal.html', 'md')">
+                                    Add address</li>
+                                <li ng-click="goToDebit()">Create debit</li>
+                                <li ng-click="goToCredit()">Create credit</li>
+                                <a class="group-options-link" ng-click="goToColdstorageTransactions()"><li>View transactions</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Public addresses</span>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingPublicAddresses">
+            <div ng-hide="publicAddressesList.length == 0">
+                <table class="table custom-table">
+                    <tr>
+                        <th class="no-left-padding">Address</th>
+                    </tr>
+                    <tr ng-repeat="publicAddress in publicAddressesList track by $index" data-toggle="modal"
+                        class="editable-row center">
+                        <td class="no-left-padding"><div title="{{publicAddress.address}}" ng-bind="publicAddress.address"></div></td>
+                    </tr>
+                </table>
+                <div>
+                    <p uib-pagination boundary-links="true" items-per-page="publicAddressPagination.itemsPerPage"  total-items="publicAddressData.count" ng-model="publicAddressPagination.pageNo"
+                       max-size="publicAddressPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getPublicAddresses()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+        </div>
+        <div ng-show="loadingPublicAddresses">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingColdstorage">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,75 @@
+<div ng-hide="addingVoucher || loadingProducts">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Add voucher codes</span>
+        </div>
+        <div class="panel-body">
+            <form name="addVoucherForm" class="custom-form" >
+                <div class="form-group setup-groups-tooltip-div">
+                    <label>Select product&nbsp;<span class="required-icon">*</span></label>
+                    <div class="reward-multi-select">
+                        <select class="form-control pointer" data-placeholder-text-single="'Choose a product'" width="100" 
+                            ng-model="newVoucherParams.product" ng-change="trackVirtualFormat()"ng-options="product.name for product in productList | orderBy: 'name'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <strong>Format: {{virtualFormat}}</strong>
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <label style="margin-bottom: 10px;">Upload voucher codes CSV&nbsp;
+                        <i uib-tooltip-html="'<div class=&ldquo;csv-tooltip&rdquo;><strong>CSV format:</strong><br><div style=&ldquo;align:center;&rdquo;><label>code</label><br>0001<br>0002<br>0003<br>0004</div></div>'"
+                                    class="ion-information-circled setup-groups-tooltip"></i>&nbsp;
+                                    <a style="display: inline-flex" target="_blank" href="assets/files/Voucher code example.csv">example.csv</a>            
+                    </label>
+                    <div ng-show="newVoucherParams.csv.name" class="divider-20">
+                        <div style="margin-top: 10px;">
+                            <div ng-src="{{newVoucherParams.csv}}" width="200" height="200">{{newVoucherParams.csv.name}}</div>
+                        </div>
+                    </div>
+                    <fieldset class="custom-file-upload">
+                        <label>
+                            <span class="custom-file-upload-span"><button class="btn btn-default upload-button">Choose File</button></span>
+                            <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                    type="file" ngf-select ng-model="newVoucherParams.csv" name="file"
+                                    accept=".csv" ngf-max-size="5MB" required>
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="form-group setup-groups-tooltip-div">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <strong>Add more voucher codes</strong>
+                            <i class="fa fa-plus-square-o order-items-add-icon"
+                               ng-hide="newVoucherParams.codes.length > 0"
+                               ng-class="{'order-items-add-icon-near-title': newVoucherParams.codes.length == 0}"
+                               ng-click="addVoucherCode()">
+                            </i>
+                        </div>
+                    </div>
+                    <div class="row divider product-service-headers" ng-repeat="voucher in newVoucherParams.codes track by $index">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <input type="text" ng-model="voucher.code" class="form-control"  placeholder='Enter a voucher code' />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 product-buttons-container">
+                            <i class="fa fa-minus-square-o product-prices-remove-icon"
+                               ng-click="removeVoucherCode(voucher)"></i>
+                            <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addVoucherCode()"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button  ng-click="addNewVoucher(newVoucherParams)" ng-disabled="(newVoucherParams.code.length == 0 && !newVoucherParams.csv.name)"
+                             class="btn btn-primary dashboard-btn pull-right">Create</button>
+                    <button ng-click="backToVoucherList()" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="addingVoucher || loadingProducts" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

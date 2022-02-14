@@ -1,0 +1,54 @@
+<div ng-hide="loadingUserCryptoAccounts" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Add crypto account</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="userCryptoAccountsForm" class="custom-form">
+            <div class="form-group">
+                <label>Crypto type <span class="required-icon">*</span></label>
+                <br>
+                <select class="form-control pointer" ng-model="userCryptoAccountParams.crypto_type" ng-options="option for option in userCryptoTypeOptions" required>
+                </select>
+            </div>
+            <div class="divider-20 setup-groups-tooltip-div">
+                <label>Network type <span class="required-icon">*</span></label>
+                <br>                
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class=" pointer">
+                            <input class="pointer" type="radio" ng-model="userCryptoAccountParams.network" value="mainnet">
+                            <span class="custom-radio-btn">Mainnet</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="userCryptoAccountParams.network" value="testnet">
+                            <span class="custom-radio-btn">Testnet</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address  <span class="required-icon">*</span></label>
+                <input type="text" class="form-control" ng-model="userCryptoAccountParams.address" placeholder="Enter crypto address" required/>
+            </div>
+            <div class="form-group">
+                <label>Metadata</label>
+                <textarea row="4" type="text" class="form-control" ng-model="userCryptoAccountParams.metadata" placeholder="e.g. {hello:world}"/>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control pointer" ng-model="userCryptoAccountParams.status" ng-options="statusOption for statusOption in cryptoStatusOptions">
+                </select>
+            </div>
+            <div class="form-group">
+                <button ng-click="addUserCryptoAccount(userCryptoAccountParams)" ng-disabled="!userCryptoAccountsForm.$valid" class="btn btn-primary user-accounts-btn pull-right">Add</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserCryptoAccounts">
+    <loading-image></loading-image>
+</div>

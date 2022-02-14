@@ -1,0 +1,275 @@
+<div ng-hide="loadingOrder" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">View order</h4>
+    </div>
+    <div class="modal-body padding-bottom-25">
+        <div class="row">
+            <a ng-hide="editingOrder" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingOrder()"><i class="fa fa-pencil"></i> Quick edit</a>
+            <a ng-show="editingOrder" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingOrder()"><i class="fa fa-times"></i> Cancel edit</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Order id: </p>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <span ng-bind="orderObj.id"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">User: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="orderObj.user"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">User email: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="orderUserObj.email"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div ng-hide="editingOrder" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="orderObj.status | capitalizeWord"></p>
+            </div>
+            <div ng-show="editingOrder" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding">
+                 <div class="reward-multi-select" style="margin-bottom: 10px!important; margin-left: 13px!important;">
+                    <select class="form-control pointer" data-placeholder-text-single="'Choose an order status'" width="100" 
+                        ng-model="orderObj.status" ng-change="orderStatusChanged()">
+                        <option ng-disabled="disablePending" value="pending">Pending</option>
+                        <option ng-disabled="disablePending" value="placed">Placed</option>
+                        <option value="failed">Failed</option>
+                        <option value="complete">Complete</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Currency: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="orderObj.currency.code"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Required information: </p>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-right-padding no-left-padding">
+                <table class="table custom-table table-striped">
+                    <tr ng-show="billingAddressRequired"class="required-order-info-tr">
+                        <td width="25%" class="required-order-info-td">Billing address:&nbsp;</td>
+                        <td width="75%">
+                            <span ng-show="billingAddressProvided">
+                                {{orderObj.billing_address.line_1 ? orderObj.billing_address.line_1  + ',': ''}}
+                                {{orderObj.billing_address.line_2 ? orderObj.billing_address.line_2  + ',': ''}}
+                                {{orderObj.billing_address.city ? orderObj.billing_address.city  + ',': ''}}
+                                {{orderObj.billing_address.state_province ? orderObj.billing_address.state_province  + ',': ''}}
+                                {{orderObj.billing_address.country ? orderObj.billing_address.country  + ',': ''}}
+                                {{orderObj.billing_address.postal_code ? orderObj.billing_address.postal_code: ''}}
+                            </span>
+                            <span class="required-symbol" ng-hide="billingAddressProvided">Not provided</span>
+                        </td>
+                    </tr>
+                    <tr ng-show="shippingAddressRequired"class="required-order-info-tr">
+                        <td width="25%" class="required-order-info-td">Shipping address:&nbsp;</td>
+                        <td width="75%">
+                            <span ng-show="shippingAddressProvided">
+                                {{orderObj.shipping_address.line_1 ? orderObj.shipping_address.line_1  + ',': ''}}
+                                {{orderObj.shipping_address.line_2 ? orderObj.shipping_address.line_2  + ',': ''}}
+                                {{orderObj.shipping_address.city ? orderObj.shipping_address.city  + ',': ''}}
+                                {{orderObj.shipping_address.state_province ? orderObj.shipping_address.state_province  + ',': ''}}
+                                {{orderObj.shipping_address.country ? orderObj.shipping_address.country  + ',': ''}}
+                                {{orderObj.shipping_address.postal_code ? orderObj.shipping_address.postal_code: ''}}
+                            </span>
+                            <span class="required-symbol" ng-hide="shippingAddressProvided">Not provided</span>
+                        </td>
+                    </tr>
+                    <tr ng-show="contactMobileRequired"class="required-order-info-tr">
+                        <td width="25%" class="required-order-info-td">Contact mobile:&nbsp;</td>
+                        <td width="75%">
+                            <span ng-show="contactMobileProvided">
+                                {{orderObj.contact_mobile}}
+                            </span>
+                            <span class="required-symbol"  ng-hide="contactMobileProvided">Not provided</span>
+                        </td>
+                    </tr>
+                    <tr ng-show="contactEmailRequired" class="required-order-info-tr">
+                        <td width="25%" class="required-order-info-td" >Contact email:&nbsp;</td>
+                        <td width="75%">
+                            <span ng-show="contactEmailProvided">
+                                {{orderObj.contact_email}}
+                            </span>
+                            <span class="required-symbol"  ng-hide="contactEmailProvided">Not provided</span>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date created: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{orderObj.created | date:'mediumDate'}} {{orderObj.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date placed: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{orderObj.placed | date:'mediumDate'}} {{orderObj.placed | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date updated: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{orderObj.updated | date:'mediumDate'}} {{orderObj.updated | date:'shortTime'}}</p>
+            </div>
+        </div>
+
+        <div class="row" ng-show="orderObj.items.length > 0">
+            <br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding divider">
+                <p class="text-subtle">Items: </p>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <strong>Product</strong>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <strong>Qty</strong>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 order-modal-prices" style="padding-right: 0px;">
+                    <strong>Status</strong>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 order-modal-prices" style="padding-left: 0px;">
+                    <strong>Price</strong>
+                </div>
+                
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding">
+                    <strong>Total</strong>
+                </div>
+            </div>
+            <div class="row" ng-repeat="item in orderObj.items track by $index">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p>{{item.name}}
+                        <span ng-show="item.has_custom_amount">
+                            &nbsp;&nbsp;<i uib-tooltip-html="'Has custom price'" class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <p>{{item.quantity}}</p>
+                </div>
+                <div ng-hide="editingOrder" class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-right: 0px;margin-left: -13px!important;">
+                    <p ng-bind="item.status | capitalizeWord"></p>
+                </div>
+                <div ng-show="editingOrder" class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-right: 0px;margin-left: -13px!important;">
+                    <div class="reward-multi-select">
+                        <select class="form-control pointer order-status-dropdown" data-placeholder-text-single="'Choose an order item status'" width="80" height="50"
+                            ng-model="item.status" ng-change="orderItemStatusChanged(item)">
+                            <option value="shipped">Shipped</option>
+                            <option value="fulfilled">Fulfilled</option>
+                            <option value="complete">Complete</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 order-modal-prices" style="padding-left: 0px; margin-left: -13px!important; width: 110px;">
+                    <p>{{orderObj.currency.symbol}} {{item.price | currencyModifiersFilter: orderObj.currency.divisibility | commaSeperateNumberFilter}}</p>
+                </div>                
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding" style="margin-left: -17px!important; width: 110px;">
+                    <p>{{orderObj.currency.symbol}} {{item.total_price | currencyModifiersFilter: orderObj.currency.divisibility | commaSeperateNumberFilter}}</p>
+                </div>
+            </div>
+            <div class="row divider-20">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 no-left-padding divider">
+                    <strong><p>Total price</p></strong>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding"  style="margin-left: -24px!important; width: 110px;">
+                    <strong><p>{{orderObj.currency.symbol}} {{orderObj.total_price | currencyModifiersFilter: orderObj.currency.divisibility | commaSeperateNumberFilter}}</p></strong>
+                </div>
+            </div>
+            <div ng-show="orderObj.payments.length > 0" class="divider">
+                <div>
+                    <strong><p>Payment information</p></strong>
+                </div>
+                <br>
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                            <tr>
+                                <th class="rehive-table-row-first-child">Amount</th>
+                                <!-- <th>Debit transaction</th> -->                                
+                                <th>Status</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="payment in orderObj.payments | orderBy: '-created' track by $index" class="editable-row center pointer user-details-table-hover">
+                                <td class="table-row-center transactions-list-element">{{orderObj.currency.symbol}} {{payment.amount | currencyModifiersFilter: orderObj.currency.divisibility | commaSeperateNumberFilter}}</td>
+                                <!-- <td class="table-row-center transactions-list-element">{{payment.debit_tx}}</td> -->                                
+                                <td ng-hide="editingOrder && ( $index == 0 )" class="table-row-center transactions-list-element">
+                                    {{payment.status | capitalizeWord}}
+                                </td>
+                                <td ng-show="editingOrder && ( $index == 0 )" class="table-row-center transactions-list-element">
+                                    <div class="reward-multi-select">
+                                        <select class="form-control pointer order-status-dropdown" width="80" height="40"
+                                            ng-model="payment.status" ng-change="orderPaymentStatusChanged(payment)" style="height: 25px; width: 105px; padding: 2px 12px; background-color: white">
+                                            <option value="complete">Complete</option>
+                                            <option value="failed">Failed</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td class="table-row-center transactions-list-element">{{payment.created | date:'mediumDate'}} {{payment.created | date:'shortTime'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="orderObj.payments.length > 0" class="divider">
+                    <div>
+                        <strong><p>Associated transactions</p></strong>
+                    </div>
+                    <div>
+                        <span ng-repeat="payment in orderObj.payments | orderBy: '-created' track by $index">
+                            <p style="padding: 5px 0" ng-repeat="id in payment.txns track by $index">
+                                <a ng-click="goToTransactions(id)" class="pointer">{{id}}</a> <br>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-show="editingOrder" ng-disabled="!orderChanged && !itemStatusChanged && !changedPaymentStatus" id="transaction-modal-save-button"
+                ng-click="updateOrderStatus()" ng-class="{'setup-next-btn': ( !itemStatusChanged && !orderChanged && !changedPaymentStatus), 'btn-primary': ( itemStatusChanged || orderChanged || changedPaymentStatus )}"
+                class="dashboard-btn btn pull-right">Save</button>
+            <button type="button" ng-hide="editingOrder || completedPayment" ng-click="completePayment()" class="btn btn-primary pull-left">Create payment</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingOrder">
+    <loading-image></loading-image>
+</div>

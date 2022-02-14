@@ -1,0 +1,20 @@
+<div ba-panel class="service-header menu-box" ba-panel-class="light-text">
+    <hr class="no-margin">
+    <div ng-click="goToKrakenSetting('settings')"
+         ng-class="{'selected-settings-menu': krakenSettingView === 'settings' }"
+         class="pointer menu-box-options">
+        <h5>Setttings <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <div ng-click="goToKrakenSetting('pairs')"
+         ng-class="{'selected-settings-menu': krakenSettingView === 'pairs' }"
+         class="pointer menu-box-options">
+        <h5>Exchange pairs <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToKrakenSetting('deactivation')"
+         ng-class="{'selected-settings-menu': krakenSettingView === 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>

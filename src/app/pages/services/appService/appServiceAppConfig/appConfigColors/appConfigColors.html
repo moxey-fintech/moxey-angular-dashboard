@@ -1,0 +1,267 @@
+<div ng-hide="loadingWalletConfig" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Colors</span>
+    </div>
+    <div class="panel-body">
+        <div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Primary color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Dark brand color, used for most of the app (headers, drawers, main buttons).'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('primary')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="primaryWalletColor" ng-style="{'background-color': wallet_config.colors.primary}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.primary"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Secondary color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Light brand color, used anywhere else color is needed and usually provides contrast to the primary color.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('secondary')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="secondaryWalletColor" ng-style="{'background-color': wallet_config.colors.secondary}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.secondary"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Tertiary color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Lighter brand color, used sparingly.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('tertiary')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="tertiaryWalletColor" ng-style="{'background-color': wallet_config.colors.tertiary}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.tertiary"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Focus color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Something bright or eye-catching that is used to relay important information to the user or draw their attention.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('focus')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="focusWalletColor" ng-style="{'background-color': wallet_config.colors.focus}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.focus"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Primary contrast color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Color for any text or item that needs to be legible against the primary color.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('primaryContrast')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="primaryWalletContrast" ng-style="{'background-color': wallet_config.colors.primaryContrast}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.primaryContrast"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Secondary contrast color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Color for any text or item that needs to be legible against the secondary color.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('secondaryContrast')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="secondaryWalletColor" ng-style="{'background-color': wallet_config.colors.secondaryContrast}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.secondaryContrast"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Tertiary contrast color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Color for any text or item that needs to be legible against the tertiary color.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('tertiaryContrast')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="tertiaryContrastWalletColor" ng-style="{'background-color': wallet_config.colors.tertiaryContrast}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.tertiaryContrast"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Focus contrast color&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Color for any text or item that needs to be legible against the focus color.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('focusContrast')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="focusContrastWalletColor" ng-style="{'background-color': wallet_config.colors.focusContrast}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.focusContrast"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Warning color</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('warning')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="warningWalletColor" ng-style="{'background-color': wallet_config.colors.warning}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.warning"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Error color</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('error')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="errorWalletColor" ng-style="{'background-color': wallet_config.colors.error}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.error"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Success color</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('success')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="successWalletColor" ng-style="{'background-color': wallet_config.colors.success}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.success"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Positive color</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('positive')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="positiveWalletColor" ng-style="{'background-color': wallet_config.colors.positive}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.positive"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Negative color</span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -8px;">
+                    <div class="undo-color-div align-items-center pointer pull-left" ng-click="resetColorConfig('negative')"><i class="fas fa-undo-alt"></i></div>
+                    <div>
+                        <div class="color-container pull-left" id="negativeWalletColor" ng-style="{'background-color': wallet_config.colors.negative}">&nbsp;</div>
+                        <button color-picker color-picker-show-value="false" color-picker-model="wallet_config.colors.negative"
+                                color-picker-position="right"
+                                class="btn btn-primary color-selector">
+                            <span class=".template-edit-icon-container"><i class="fa fa-pencil"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-click="resetColorConfig()" class="btn btn-default delete-button pull-left">Reset all to default</button>
+                <button ng-click="updateCompanyConfigColors()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="loadingWalletConfig">
+    <loading-image></loading-image>
+</div>

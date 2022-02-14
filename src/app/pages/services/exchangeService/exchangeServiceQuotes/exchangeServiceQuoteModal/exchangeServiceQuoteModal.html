@@ -1,0 +1,49 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Transactions associated with the quote</h4>
+    </div>
+    <div class="modal-body">
+        <loading-image ng-show="loadingTransactions"></loading-image>
+        <div ng-show="transactions.length > 0 && !loadingTransactions" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th>Id</th>
+                    <th>User</th>
+                    <th>Type</th>
+                    <th>Subtype</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Fee</th>
+                    <th>Status</th>
+                    <th class="align-right">Date</th>
+                </tr>
+                <tr ng-repeat="transaction in transactions | orderBy: orderByFunction track by $index" data-toggle="modal"
+                    class="editable-row center">
+                    <td ng-click="goToTransactionHistoryFromExchange(transaction.id)"><div title="{{transaction.id}}" class="transactions-list-element pointer">
+                        <a>{{transaction.id}}</a>
+                    </div></td>
+                    <td ng-click="goToUserFromExchange(transaction.user.id)"><div title="{{transaction.user.email || transaction.user.mobile}}"
+                        class="transactions-list-element pointer">
+                        <a>{{transaction.user.email || transaction.user.mobile | limitTo: '100'}}</a>
+                    </div></td>
+                    <td><div title="{{transaction.tx_type}}" class="transactions-list-element" ng-bind="transaction.tx_type | capitalizeWord"></div></td>
+                    <td><div title="{{transaction.subtype}}" class="transactions-list-element" ng-bind="transaction.subtype || 'None'"></div></td>
+                    <td><div title="{{transaction.currency.code}}" class="transactions-list-element" ng-bind="transaction.currency.code"></div></td>
+                    <td><div title="{{transaction.amount  | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}" 
+                        class="transactions-list-element" ng-bind="transaction.amount  | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter"></div></td>
+                    <td><div title="{{transaction.fee | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}"
+                             class="transactions-list-element" ng-bind="transaction.fee | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter"></div></td>
+                    <td><div title="{{transaction.status | capitalizeWord}}" class="transactions-list-element" ng-bind="transaction.status | capitalizeWord"></div></td>
+                    <td class="align-right"><div title="{{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}">
+                        {{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}</div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+    </div>
+</div>

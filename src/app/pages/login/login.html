@@ -1,0 +1,51 @@
+<div class="auth-main">
+    <div class="auth-block text-center">
+        <div ng-show="suspendedService" uib-alert class="banner-danger suspended-login-banner">This service has been suspended. Please contact <a href="https://rehive.com/support/">support</a>.</div>
+        <h1 class="auth-header">Dashboard log in</h1>
+        <form class="form-horizontal">
+          <div ng-keydown="($event.keyCode === 13) && login(login.user,login.company,login.password)">
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <label><span class="pull-left login-labels">App id</span></label>
+                    <select class="form-control pointer custom-select" ng-model="login.company"
+                            ng-options="option for option in companyOptions"
+                            ng-init="login.company = 'moxey_test'">
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <label><span class="pull-left login-labels">Email</span></label>
+                    <input type="text" ng-model="login.user" class="form-control" id="inputEmail1"
+                           name="email" placeholder="e.g. hello@moxey.ai" auto-focus="gotCompanyName">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <label><span class="pull-left login-labels">Password</span></label>
+                    <input ng-attr-type="{{ showLoginPassword ? 'text' : 'password' }}" ng-model="login.password"
+                           name="password" class="form-control" id="inputPassword1" placeholder="Please enter your password">
+                    <i ng-click="toggleLoginPassword()" ng-show="showLoginPassword" class="fa fa-eye-slash pull-right register-password-icon pointer"></i>
+                    <i ng-click="toggleLoginPassword()" ng-hide="showLoginPassword" class="fa fa-eye pull-right register-password-icon-show pointer"></i>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <button ng-click="login(login.user,login.company,login.password)" 
+                        class="btn btn-lg btn-primary btn-auth pull-right"
+                        ng-disabled="suspendedService" >Log in</button>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <a href="/#/password/reset" class="forgot-pass pull-left">Forgot password?</a>
+                </div>
+            </div>
+          </div>
+          <div ba-panel ng-show="isCheckingCompany">
+              <loading-image></loading-image>
+          </div>
+        </form>
+
+    </div>
+</div>

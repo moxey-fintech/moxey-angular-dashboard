@@ -1,0 +1,71 @@
+<div ng-hide="loadingWalletConfig" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Accounts</span>
+    </div>
+    <div class="panel-body">
+        <div class="form-group divider-15">
+            <label style="font-size: 15px; font-weight: bold">Layout</label>
+        </div>
+        <div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Group currencies by account</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.accounts.layout === 'accounts'">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAccountConfigs('layout', '')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.accounts.layout === 'accounts'">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAccountConfigs('layout', 'accounts')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span>Show text instead of icons on account actions (mobile only)</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="wallet_config.accounts.actionVariant === 'text'">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleWalletAccountConfigs('actionVariant', '')"></i>
+                        </div>
+                        <div ng-hide="wallet_config.accounts.actionVariant === 'text'">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleWalletAccountConfigs('actionVariant', 'text')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row divider-15">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <span>Account identifier for URL&nbsp;&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Set which property would be used to identify accounts via URL.'"
+                               class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="custom-radio-groups-btn" style="width: 100%;">
+                        <label class="margin-right-10 pointer" style="margin-right: 35px!important;">
+                            <input class="pointer" type="radio" value="name" ng-model="wallet_config.accounts.identifier">
+                            <span class="custom-radio-btn">Account name</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" value="none" ng-model="wallet_config.accounts.identifier">
+                            <span class="custom-radio-btn">Account reference</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-click="updateCompanyConfigAccounts()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="loadingWalletConfig">
+    <loading-image></loading-image>
+</div>

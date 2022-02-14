@@ -1,0 +1,20 @@
+<div ng-hide="fundingHotwallet" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Fund hotwallet</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-center">To fund your hotwallet please make a transaction to the following address:</p>
+        <img class="verification-button" ng-src="{{hotWalletFundObj.qr_code}}">
+        <p ngclipboard ngclipboard-success="copiedSuccessfully()" data-clipboard-text="{{hotWalletFundObj.address}}"
+           class="text-center pointer"><strong>{{hotWalletFundObj.address}}</strong></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-right" ng-click="$dismiss()">Close</button>
+    </div>
+</div>
+<div ba-panel ng-show="fundingHotwallet">
+    <loading-image></loading-image>
+</div>

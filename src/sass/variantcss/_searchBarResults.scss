@@ -1,0 +1,180 @@
+.search-bar-credit-user{
+  font-size: 12px;
+  padding: 0 5px 5px 5px;
+  // margin-left: 5vw;
+}
+
+.global-search-loading-panel{
+  padding: 20px;
+}
+
+.search-bar-main{
+  width: 54vw;
+  margin: 15px 0 15px 218px;
+  display: inline-block;
+  &::before{
+    content: '';
+    position: absolute;
+    top: 26px;
+    left: 250px;
+    display: block;
+    background-image: url('../../assets/img/magnifyingglass.svg');
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    z-index: 1000;
+  }
+  & .task-icon{
+    position: absolute;
+    top: 10px;
+    display: inline-block;
+    font-size: 22px;
+    color: #b5c7bf;
+    margin-left: 20px
+  }
+  & .task-icon-circle-1{
+    position: absolute;
+    font-size: 10px;
+    display: inline-block;
+    color: #03DBBB;
+    top: 23px;
+    margin-left: 37px;
+  }
+  & .task-icon-circle-2{
+    color: #ed675A;
+    position: absolute;
+    font-size: 10px;
+    display: inline-block;
+    top: 23px;
+    margin-left: 37px;
+  }
+}
+
+.search-bar-div{
+  position: absolute;
+  top: 62px;
+}
+
+.search-bar-results-box{
+  z-index: 100;
+  width: 550px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 2px 6px #A8A8A8;
+  & .panel-body{
+    padding: 0!important;
+  }
+  & .search-title{
+    width: 100%;
+    height: 50px;
+    line-height: 22px;
+    vertical-align: middle;
+    color: #A8A8A8;
+    background-color: #ECF0F5;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 15px 25px;
+  }
+  & .search-user-body{
+    border-bottom: 1px solid #efefef;
+    padding: 20px 25px;
+    &:hover{
+      background-color: #f9f9f9;
+    }
+  }
+  & .search-user-result-title{
+    font-size: 14px;
+    font-weight: bold;
+  }
+  & .search-user-result-extra{
+    font-size: 12px;
+    font-weight: 600;
+    color: #A8A8A8;
+  }
+  & .search-list-details{
+    list-style: none;
+    padding: 15px 0 0 0;
+    line-height: 16px;
+    margin: 0;
+  }
+  & .search-list-name{
+    color: #A8A8A8;
+    font-size: 12px;
+  }
+  & .search-list-value{
+    font-size: 12px;
+  }
+  & .search-user-result-header{
+    color: $primary;
+    font-size: 12px;
+    margin-bottom: 2px;
+    width: 100%;
+  }
+  & .show-more-results{
+    padding: 12px 25px;
+    color: $primary;
+    font-size: 14px;
+    font-weight: bold;
+    &:hover{
+      background-color: #f9f9f9;
+    }
+  }
+}
+
+.search-bar-main-below-1200{
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .search-bar-main-below-1200{
+    width: 50vw;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    &::before{
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: block;
+      background-image: url('../../assets/img/magnifyingglass.svg');
+      background-repeat: no-repeat;
+      width: 18px;
+      height: 18px;
+      z-index: 1000;
+    }
+    & .page-top-search-below-1200{
+      width: 50vw;
+      height: 40px;
+      border-radius: 5px;
+      background-color: $sidebar;
+      color: $default-text;
+      border: none;
+      padding: 15px 15px 15px 35px;
+      &::placeholder{
+        color: $default-text;
+        font-weight: 100;
+      }
+      &:hover{
+        background-color: #ffffff;
+        border: 1px solid #EAEAEF;
+        outline: none;
+      }
+      &:focus{
+        background-color: #ffffff;
+        border: 1px solid #EAEAEF;
+        outline: none;
+      }
+      &:active{
+        background-color: #ffffff;
+        border: 1px solid #EAEAEF;
+      }
+    }
+    & .search-bar-div-below-1200{
+      position: absolute;
+      top: 48px;
+    }
+  }
+}

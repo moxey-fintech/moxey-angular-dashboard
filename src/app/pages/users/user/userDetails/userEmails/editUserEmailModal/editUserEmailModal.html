@@ -1,0 +1,33 @@
+<div ng-hide="loadingUserEmails" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit user email</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="userEmailForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Email <span class="required-icon">*</span></label>
+                <input type="email" ng-model="editUserEmailObj.email" class="form-control"  placeholder="Enter email" disabled>
+            </div>
+            <div class="form-group">
+                <label>Verified</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="editUserEmailObj.verified" type="checkbox" disabled>
+            </div>
+            <div class="form-group">
+                <label>Primary</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="editUserEmailObj.primary" type="checkbox">
+            </div>
+            <div class="form-group">
+                <button ng-disabled="!userEmailForm.$valid" ng-click="editUserEmail(editUserEmailObj)" class="btn btn-primary pull-right user-accounts-btn">Save</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserEmails">
+    <loading-image></loading-image>
+</div>

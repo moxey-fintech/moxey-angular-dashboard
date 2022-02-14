@@ -1,0 +1,99 @@
+<h1 class="group-details-page-title">{{groupName}}</h1>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 groups-breadcrumb">
+        <span ng-click="goToGroupView('groups/overview')" class="pointer">Groups</span>
+        <span><strong>&nbsp;/&nbsp; Group permissions</strong></span>
+    </div>
+</div>
+<div ng-class="{'user-details-view': !loadingGroup}">
+    <!--<div class="row">-->
+        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user-details-first-row divider-30">-->
+            <!--<div class="group-hexagon"></div>-->
+            <!--<div class="group-overview-details">-->
+                <!--<span class="group-details-name">{{groupName}}</span>-->
+                <!--<p class="user-details-info"><strong>{{totalUsersCount}}</strong> Total users</p>-->
+                <!--<p class="user-details-info"><strong>{{totalUsersCount - deactiveUsersCount}}</strong> Active users</p>-->
+                <!--<p class="user-details-info"><strong>{{deactiveUsersCount}}</strong> Deactivated users</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <group-navigation></group-navigation>
+    <div ng-hide="loadingPermissions" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class="small"><strong>Admin</strong> permissions define what actions users are allowed to take on other users. <strong>User</strong> permissions define what actions users are allowed to take on themselves.</p>
+            <div class="panel" ng-repeat="(key,value) in totalPermissionsObj track by $index">
+                <div>
+                    <div class="group-permissions-table">
+                        <table class="table">
+                            <tr>
+                                <th width="40%">
+                                    {{totalPermissionsObj[key].permissionsName}}
+                                    <input type="checkbox" ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+                                           ng-class="{'permissions-select-all-disabled': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension')}"
+                                           ng-checked="editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="totalPermissionsObj[key].enableAll" ng-click="toggleAllPermissions(key,totalPermissionsObj[key].enableAll)">
+                                </th>
+                                <th width="12%" class="text-center">View
+                                    <input type="checkbox" ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+                                               ng-class="{'checkbox-disabled': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension')}"
+                                               ng-checked="enabledColumns[key].view || editGroupObj.name == 'admin'"
+                                               class="custom-rehive-checkbox" ng-model="enabledColumns[key].view" ng-change="toggleAllLevelsByType('view', key)">
+                                </th>
+                                <th width="12%" class="text-center">Add
+                                    <input type="checkbox" ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+                                          ng-class="{'checkbox-disabled': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension')}"
+                                          ng-checked="enabledColumns[key].add || editGroupObj.name == 'admin'"
+                                          class="custom-rehive-checkbox" ng-model="enabledColumns[key].add" ng-change="toggleAllLevelsByType('add', key)">
+                                </th>
+                                <th width="12%" class="text-center">Change
+                                    <input type="checkbox" ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+                                           ng-class="{'checkbox-disabled': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension')}"
+                                           ng-checked="enabledColumns[key].change || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="enabledColumns[key].change" ng-change="toggleAllLevelsByType('change', key)">
+                                </th>
+                                <th width="12%" class="text-center">Delete
+                                    <input type="checkbox" ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+                                           ng-class="{'checkbox-disabled': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension')}"
+                                           ng-checked="enabledColumns[key].delete || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="enabledColumns[key].delete" ng-change="toggleAllLevelsByType('delete', key)">
+                                </th>
+                                <th width="12%" class="text-center">All</th>
+                            </tr>
+                            <tr ng-repeat="permission in totalPermissionsObj[key].permissions track by $index">
+                                <td>
+                                    <span class="no-margin" ng-bind="permission.type"></span>
+                                    <span ng-if="permission.section == 'admin'">
+                                        <i ng-if="permission.type == 'Bank account'" uib-tooltip-html="'This refers to an user\'s bank account.'"
+                                            class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i>
+                                        <i ng-if="permission.type == 'Request'" uib-tooltip-html="'This refers to request logs.'"
+                                            class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i>
+                                        <i ng-if="permission.type == 'Service'" uib-tooltip-html="'This refers to activating a service.'"
+                                            class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i>
+                                    </span>
+
+                                </td>
+                                <td class="text-center group-permission-td" ng-repeat="level in permission.levels track by $index">
+                                    <input type="checkbox" ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+                                           ng-class="{'checkbox-disabled': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension')}"
+                                           ng-checked="level.enabled || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="level.enabled" ng-change="trackPermissions(permission,level,key)">
+                                    <div ng-show="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'" class="group-permission-tooltip">
+                                        Rehive system group permissions cannot be edited.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button ng-hide="loadingPermissions" ng-click="separateCheckedLevels()"
+            ng-disabled="editGroupObj.name == 'admin' || editGroupObj.name == 'extension'"
+            ng-class="{'btn-gray': (editGroupObj.name == 'admin'  || editGroupObj.name == 'extension'),
+            'btn-primary': (editGroupObj.name != 'admin'  || editGroupObj.name != 'extension')}"
+            class="pull-right btn dashboard-btn">Save</button>
+</div>
+<div ba-panel ng-show="loadingPermissions">
+    <loading-image></loading-image>
+</div>

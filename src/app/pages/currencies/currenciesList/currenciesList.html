@@ -1,0 +1,210 @@
+<h1 class="currencies-title">Currencies</h1>
+<currencies-navigation></currencies-navigation>
+<div class="panel" >
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <!-- <div click-outside="hideFilters()"> -->
+            <div>
+                <button ng-click="showFilters()" ng-class="{
+                    'transactions-filter-btn-large-filters': (filtersCount >= 10),
+                    'transactions-filter-btn': (filtersCount > 0 && filtersCount < 10),
+                    'transactions-btn': (filtersCount == 0)}" class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <!-- <button ng-click="showFilters()" class="currencies-page-button-filter btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button> -->
+                <div ng-show="showingFilters">
+                    <currencies-filter></currencies-filter>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary pull-right panel-header-button currencies-page-buttons-add"
+                        ng-click="openAddCurrenciesModal('app/pages/currencies/currenciesList/addCurrencyModal/addCurrencyModal.html','md')">Add currency</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="small subtle" style="margin: -18px 0 12px 0;">Currency totals do not include recon accounts.</div>
+<div ng-hide="loadingCurrencies || (currencies.length == 0)" ng-repeat="currency in currencies | orderBy:'code' track by $index" class="pointer" ng-click="toggleRowsVisibility(currency)">
+    <div class="panel currencies-panel-rows">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <div ng-show="!currency.icon" class="dashboard-currencies-code"
+                         ng-class="{'long-text': (currency.display_code.length > 4), 'very-long-text': (currency.display_code.length > 6)}">{{currency.display_code}}
+                    </div>
+                    <div ng-show="currency.icon" style="background-repeat: no-repeat;border: none;">
+                        <img ng-src="{{currency.icon}}" width="58" height="58" alt="icon Image" style="border-radius: 30px;">
+                    </div>
+                </div>
+                <div class="currencies-page-row">
+                    <div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div class="currency-value-size">
+                                <span><strong>{{currency.symbol}} {{currency.available_balance_total | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Total available balance</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div class="currency-value-size">
+                                <span><strong>{{currency.symbol}} {{currency.balance_total | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Total balance</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div class="currency-value-size">
+                                <span><strong>{{currency.symbol}} {{currency.balance_24h | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">24h volume</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div class="currency-value-size">
+                                <span><strong>{{currency.symbol}} {{currency.sum_debits_pending | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Pending debits</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div class="currency-value-size">
+                                <span><strong>{{currency.symbol}} {{currency.sum_credits_pending | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Pending credits</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" ng-click="showCurrenciesOptions(currency.code); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                        <div>
+                            <span class="fa fa-ellipsis-h pull-right pointer currencies-options"></span>
+                            <ul ng-show="currency.code == optionsCode" class="currencies-options-box">
+                                <li ng-click="showCurrenciesOptions(currency.code)"><i class="dropdown-arr"></i></li>
+                                <li ng-click="goToView('/currency/' + currency.code + '/overview')">View more details</li>
+                                <li ng-click="goToUsersState(currency.code)">View users</li>
+                                <li ng-click="goToHistoryState(currency.code)">View transactions</li>
+                                <li ng-click="goToTransactionsModalView('debit')">Create debit</li>
+                                <li ng-click="goToTransactionsModalView('credit')">Create credit</li>
+                                <li ng-click="openDeleteCurrencyModal('app/pages/currencies/currenciesList/deleteCurrencyModal/deleteCurrencyModal.html','md',currency)">Archive or delete currency</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row currency-details-row currencies-page-row" ng-show="findIndexOfCode(currency) >= 0">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">&nbsp;</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.symbol}} {{currency.sum_debits_complete | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Debits completed</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.symbol}} {{currency.sum_credits_complete | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Credits completed</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.symbol}} {{currency.sum_24h_debits_complete | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">24h debits completed</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.symbol}} {{currency.sum_24h_credits_complete | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">24h credits completed</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.symbol}} {{currency.sum_24h_debits_pending | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">24h pending debits</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row currency-details-row currencies-page-row" ng-show="findIndexOfCode(currency) >= 0">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">&nbsp;</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.symbol}} {{currency.sum_24h_credits_pending | currencyModifiersFilter: currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">24h pending credits</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.count_debits_complete}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Debits completed count</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.count_credits_complete}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Credits completed count</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.count_debits_pending}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Pending debits count</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.count_credits_pending}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Pending credits count</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row currencies-page-row currencies-panel-last-row" ng-show="findIndexOfCode(currency) >= 0">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">&nbsp;</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.count_24h}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">24h count</span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="currency-value-size">
+                        <span><strong>{{currency.count_total}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Total count</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-hide="loadingCurrencies || (currencies.length == 0)" class="currencies-pagination">
+    <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="currenciesData.count" ng-model="pagination.pageNo"
+       max-size="pagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getCompanyCurrencies()"
+       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+</div>
+<div ng-hide="loadingCurrencies || (currencies.length > 0)">
+    <div class="panel">
+        <div ng-hide="currencyOptions.length > 0" class="panel-body">
+            <i><a class="pointer" ng-click="openAddCurrenciesModal('app/pages/currencies/currenciesList/addCurrencyModal/addCurrencyModal.html','md')">
+                Add currencies</a> in order to do transactions</i>
+        </div>
+        <div ng-show="currencyOptions.length > 0" class="panel-body">
+            <p class="filter-text">Your results are currently being filtered</p>
+            <span><i>No currencies to display</i></span>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingCurrencies">
+    <loading-image></loading-image>
+</div>

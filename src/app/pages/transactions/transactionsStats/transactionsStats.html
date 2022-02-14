@@ -1,0 +1,83 @@
+<h1 class="currencies-title">Transactions</h1>
+<transaction-navigation></transaction-navigation>
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingFilters">
+                    <transactions-stats-filters></transactions-stats-filters>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="small subtle" style="margin: -18px 0 12px 0;">Stats totals do not include recon accounts by default. Use filters to either include or show only recon account stats.</div>
+<div>
+    <div ng-hide="loadingStats" style="display: inline-flex;">
+        <!--<div class="panel transaction-stat-panel">-->
+            <!--<div class="panel-body">-->
+                <!--<div class="transaction-stat-contents">-->
+                    <!--<div class="transaction-stat-icon stat-icon-1"-->
+                         <!--ng-class="{'long-text': (transactionTotalObj.currency.length > 4), 'very-long-text': (transactionTotalObj.currency.length > 6)}">-->
+                        <!--{{transactionTotalObj.currency}}-->
+                    <!--</div>-->
+                    <!--<div class="transaction-stats-details">-->
+                        <!--Currency-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+        <div class="panel transaction-stat-panel">
+            <div class="panel-body">
+                <div class="transaction-stat-contents">
+                    <div class="transaction-stat-icon stat-icon-2">
+                        {{filtersObj.currencyFilter ? currencyObj.symbol : " "}}
+                    </div>
+                    <div class="transaction-stats-details-2">
+                        <!--<p class="divider-6 pull-right"><strong>{{transactionTotalObj.amount | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</strong></p>-->
+                        <p class="divider-6 pull-right"><strong>{{transactionTotalObj.total_amount | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</strong></p>
+                        <br>
+                        <span class="pull-right">Total amount</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel transaction-stat-panel left-margin-30">
+            <div class="panel-body">
+                <div class="transaction-stat-contents">
+                    <div class="transaction-stat-icon stat-icon-3">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                    </div>
+                    <div class="transaction-stats-details-2">
+                        <p class="divider-6 pull-right"><strong>{{transactionTotalObj.fees | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</strong></p>
+                        <br>
+                        <span class="pull-right">Total fees</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel transaction-stat-panel left-margin-30">
+            <div class="panel-body">
+                <div class="transaction-stat-contents">
+                    <div class="transaction-stat-icon stat-icon-4">
+                        <i class="fa fa-list-ol" aria-hidden="true"></i>
+                    </div>
+                    <div class="transaction-stats-details-2">
+                        <p class="divider-6 pull-right"><strong>{{transactionTotalObj.count}}</strong></p>
+                        <br>
+                        <span class="pull-right">Total count</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingStats">
+    <loading-image></loading-image>
+</div>

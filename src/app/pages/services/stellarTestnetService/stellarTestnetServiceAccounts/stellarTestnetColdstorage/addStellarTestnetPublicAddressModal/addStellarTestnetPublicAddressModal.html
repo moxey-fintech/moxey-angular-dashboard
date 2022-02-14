@@ -1,0 +1,23 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add public key</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" name="publicAddressForm" novalidate>
+            <div class="form-group">
+                <label>Key</label>
+                <input class="form-control" ng-model="publicAddressParams.account_address" placeholder="Enter key" required>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-click="$dismiss()" class="dashboard-btn btn btn-default pull-left">Close</button>
+            <button type="button" ng-disabled="!publicAddressParams.account_address || addingPublicAddress" ng-click="addPublicAddress(publicAddressParams)"
+                    class="dashboard-btn btn btn-primary pull-right">Add</button>
+        </div>
+    </div>
+</div>

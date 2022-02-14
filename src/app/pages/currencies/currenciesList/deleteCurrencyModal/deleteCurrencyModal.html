@@ -1,0 +1,30 @@
+<div ng-hide="deletingCurrencies" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Archive or delete currency</h4>
+    </div>
+    <div class="modal-body">
+        <p>
+            Do you want to archive or delete this currency permanently? An archived currency can be reinstated, a deleted one cannot.
+        </p>
+        <br>
+        <p class="divider"><span class="text-subtle">Currency display code:</span> {{currency.display_code}}</p>
+        <p class="divider"><span class="text-subtle">Currency code:</span> {{currency.code}}</p>
+        <p class="divider"><span class="text-subtle">Currency description:</span> {{currency.description}}</p>
+        <p class="divider"><span class="text-subtle">Currency symbol:</span> {{currency.symbol}}</p>
+        <p class="divider"><span class="text-subtle">Currency unit:</span> {{currency.unit}}</p>
+    </div>
+    <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>-->
+        <button ng-click="deleteCompanyCurrencyPrompt()" ng-disabled="deletingCurrencies"
+                type="button" class="btn btn-default delete-button-lifted pull-right margin-left-12">Delete permanently</button>
+        <button ng-click="archiveCurrency()" ng-disabled="currency.archived"
+                ng-class="{'btn-primary': !currency.archived,'btn-gray': currency.archived}"
+                type="button" class="btn dashboard-btn pull-right">Archive</button>
+    </div>
+</div>
+<div ba-panel ng-show="deletingCurrencies">
+    <loading-image></loading-image>
+</div>

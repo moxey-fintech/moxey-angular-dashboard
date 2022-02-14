@@ -1,0 +1,264 @@
+<div ng-hide="hideSearchBar || displayOptions" class="panel search-bar-results-box">
+    <div class="panel-body" ng-hide="loadingResults">
+        <div ng-show="showAllReferences || showAccountsOnly">
+            <div ng-show="searchedAccounts.length > 0">
+                <div>
+                    <div class="search-title">ACCOUNTS</div>
+                </div>
+                <div class="search-user-body pointer" ng-repeat="account in searchedAccounts track by $index" ng-click="goToAccounts(account)">
+                    <div class="search-user-result">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <span class="search-user-result-title pull-left">{{account.name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="search-user-result-extra">reference {{account.reference}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="search-accounts-table">
+                                <tr>
+                                    <td width="25%"><span class="search-list-name">Currencies</span></td>
+                                    <td width="42%">
+                                        <span class="search-list-value" ng-show="account.currencies.length > 0" ng-repeat="item in account.currencies track by $index">
+                                            {{item.currency.code}}<span ng-hide="$last">,&nbsp;</span>
+                                        </span>
+                                        <span class="search-list-value" ng-hide="account.currencies.length > 0">
+                                            <i>No currencies added to account</i>
+                                        </span>
+                                    </td>
+                                    <td width="33%">
+                                        <a ng-show="account.currencies.length > 0" ng-click="goToCreditUserAccount(account, account.user); $event.stopPropagation()" 
+                                            class="search-bar-credit-user pull-right">Credit account</a>
+                                        <span ng-hide="account.currencies.length > 0" class="search-bar-credit-user pull-right" style="padding: 5px 0 0 0">&nbsp;</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="25%"><span class="search-list-name">User</span></td>
+                                    <td width="42%"><a ng-click="goToUserProfile(account.user); $event.stopPropagation()" class="search-list-value">{{account.user.email}}</a></td>
+                                    <td width="33%">
+                                        <a ng-show="account.currencies.length > 0" ng-click="goToCreditDepositAccountTransaction(account); $event.stopPropagation()" 
+                                            class="search-bar-credit-user pull-right">Create credit deposit</a>
+                                       
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="25%"><span class="search-list-name">Group</span></td>
+                                    <td width="42%"><span class="search-list-value" ng-repeat="group in account.user.groups track by $index">{{group.name}}</span></td>
+                                    <td width="33%"><a ng-click="goToAccountTransactionWithdrawls(account.reference); $event.stopPropagation()" class="search-bar-credit-user pull-right">Process withdrawals</a></td>
+                                </tr>
+                            </table>
+                            <!-- 
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <ul class="search-list-details">
+                                    <li>
+                                        <span class="search-list-name">Currencies</span>
+                                    </li>
+                                    <li>
+                                        <span class="search-list-name">User</span>
+                                    </li>
+                                    <li>
+                                        <span class="search-list-name">Group</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <ul class="search-list-details">
+                                    <li>
+                                        <span class="search-list-value" ng-show="account.currencies.length > 0" ng-repeat="item in account.currencies track by $index">
+                                            {{item.currency.code}}<span ng-hide="$last">,&nbsp;</span>
+                                        </span>
+                                        <span class="search-list-value" ng-hide="account.currencies.length > 0">
+                                            <i>No currencies added to account</i>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a ng-click="goToUserProfile(account.user); $event.stopPropagation()" class="search-list-value">{{account.user.email}}</a>
+                                    </li>
+                                    <li>
+                                        <span class="search-list-value" ng-repeat="group in account.user.groups track by $index">{{group.name}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <ul class="search-list-details">
+                                    <li>
+                                        <a ng-click="goToCreditUserAccount(account.reference, account.user); $event.stopPropagation()" class="search-bar-credit-user pull-right">Credit user</a>                                   
+                                    </li>
+                                    <li>
+                                        <a ng-click="goToCreditDepositAccountTransaction(account); $event.stopPropagation()" class="search-bar-credit-user pull-right">Create credit deposit</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="goToAccountTransactionWithdrawls(account.reference); $event.stopPropagation()" class="search-bar-credit-user pull-right">Process withdrawals</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+                <div class="show-more-results pointer" ng-click="viewMoreResults('accounts')">
+                    Show more results...
+                </div>
+            </div>
+        </div>
+        <div ng-show="showAllReferences || showTransactionsOnly">
+            <div ng-show="searchedTransactions.length > 0">
+                <div>
+                    <div class="search-title">TRANSACTIONS</div>
+                </div>
+                <div class="search-user-body pointer" ng-repeat="transaction in searchedTransactions track by $index" ng-click="goToTransactionsHistory(transaction)">
+                    <div>
+                        <div class="search-user-result-header pull-left">
+                            <span>{{transaction.tx_type | uppercase}}</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <span class="search-user-result-title pull-left">{{transaction.amount  | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="search-user-result-extra">transID {{transaction.id}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <ul class="search-list-details">
+                                <li>
+                                    <span class="search-list-name">User</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-name">Status</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-name">Currency</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-name">Created</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-name">Subtype</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pul-left">
+                            <ul class="search-list-details">
+                                <li>
+                                    <span class="search-list-value">{{transaction.user.email}}</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-value">{{transaction.status | capitalizeWord}}</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-value">{{transaction.currency.symbol}} {{transaction.currency.code}}</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-value">{{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}</span>
+                                </li>
+                                <li>
+                                    <span class="search-list-value">{{transaction.subtype}}</span>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="show-more-results pointer" ng-click="viewMoreResults('transactions')">
+                    Show more results...
+                </div>
+            </div>
+        </div>
+        <div ng-show="showAllReferences || showUsersOnly">
+            <div ng-show="searchedUsers.length > 0">
+                <div>
+                    <div class="search-title">USERS</div>
+                </div>
+                <div class="search-user-body pointer" ng-repeat="user in searchedUsers track by $index" ng-click="goToUserProfile(user)">
+                    <div class="search-user-result">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <span class="search-user-result-title pull-left">{{user.email}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="search-user-result-extra">id {{user.id}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <ul class="search-list-details">
+                                    <li>
+                                        <span class="search-list-name">Name</span>
+                                    </li>
+                                    <li>
+                                        <span class="search-list-name">Created</span>
+                                    </li>
+                                    <li>
+                                        <span class="search-list-name">Last login</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <ul class="search-list-details">
+                                    <li>
+                                        <span class="search-list-value">{{user.first_name}} {{user.last_name}}</span>                                                                        
+                                    </li>
+                                    <li>
+                                        <span class="search-list-value">{{user.created | date:'mediumDate'}} {{user.created | date:'shortTime'}}</span>                                    
+                                    </li>
+                                    <li>
+                                        <span class="search-list-value">{{user.last_login | date:'mediumDate'}} {{user.last_login | date:'shortTime'}}</span>                                    
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <ul class="search-list-details">
+                                    <li>
+                                        <a ng-click="goToCreditUser(user.email); $event.stopPropagation()" class="search-bar-credit-user pull-right">Credit user</a>                                   
+                                    </li>
+                                    <li>
+                                        <a ng-click="goToCreditDepositTransaction(); $event.stopPropagation()" class="search-bar-credit-user pull-right">Create credit deposit</a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="goToTransactionWithdrawls(user.email); $event.stopPropagation()" class="search-bar-credit-user pull-right">Process withdrawals</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="show-more-results pointer" ng-click="viewMoreResults('users')">
+                    Show more results...
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="global-search-loading-panel" ng-show="!displayOptions && searchedUsers.length == 0 && searchedTransactions.length == 0 && searchedAccounts.length == 0 && !loadingResults ">
+        <i>No results found for "{{searchString}}"</i>
+    </div>
+    <div class="global-search-loading-panel" ng-show="loadingResults">
+        <loading-image></loading-image>
+    </div>
+</div>
+
+
+<!--<div>-->
+    <!--<div>-->
+        <!--<div class="search-title">Currencies</div>-->
+    <!--</div>-->
+    <!--<div class="search-user-body">-->
+        <!--<div>-->
+            <!--<div class="search-user-result-header pull-left">-->
+                <!--<span>South African Rand</span>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">-->
+                    <!--<span class="search-user-result-title pull-left">ZAR</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="show-more-results">-->
+        <!--Show more results...-->
+    <!--</div>-->
+<!--</div>-->

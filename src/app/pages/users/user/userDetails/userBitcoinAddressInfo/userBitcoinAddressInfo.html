@@ -1,0 +1,16 @@
+<div ng-hide="loadingUserBitcoinInfo" class="panel panel-default">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Bitcoin address info</span>
+    </div>
+    <div class="panel-body">
+        <table class="table user-basic-info-table">
+            <tr>
+                <th width="25%">Public address</th>
+                <td>{{ user.bitcoin_public_address ? user.bitcoin_public_address : "--" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserBitcoinInfo">
+    <loading-image></loading-image>
+</div>

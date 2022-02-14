@@ -1,0 +1,61 @@
+<content-top></content-top>
+<div ng-hide="loadingAccessControl">
+    <div class="setting-bank-accounts panel">
+        <div class="panel-heading">
+            <div class="table-filter-heading">
+                <!--<div>-->
+                    <!--<button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"-->
+                            <!--class="btn btn-default">Filters-->
+                        <!--<span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>-->
+                    <!--</button>-->
+                <!--</div>-->
+                <!--<div ng-show="showingFilters">-->
+                    <!--&lt;!&ndash;<webhooks-filters></webhooks-filters>&ndash;&gt;-->
+                <!--</div>-->
+                <button ng-click="openAddAccessControlModal('app/pages/developers/accessControl/addAccessControlModal/addAccessControlModal.html','md')"
+                        class="btn btn-success transactions-btn panel-transaction-newTx-button">Add</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div ng-show="accessControlRules.length > 0">
+                <table class="table custom-table">
+                    <tr class="divider">
+                        <th class="no-left-padding">Type</th>
+                        <th>Value</th>
+                        <th>Action</th>
+                        <th>Label</th>
+                        <th>User</th>
+                        <th>Group</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="rule in accessControlRules track by $index">
+                        <td class="table-row-center transactions-list-element no-left-padding" title="{{rule.type | uppercase}}" ng-bind="rule.type | uppercase"></td>
+                        <td class="table-row-center transactions-list-element" title="{{rule.value}}" ng-bind="rule.value"></td>
+                        <td class="table-row-center transactions-list-element" title="{{rule.action | capitalizeWord}}" ng-bind="rule.action | capitalizeWord"></td>
+                        <td class="table-row-center transactions-list-element" title="{{rule.label}}" ng-bind="rule.label"></td>
+                        <td class="table-row-center transactions-list-element" title="{{rule.user.email || rule.user.mobile || rule.user.id}}"
+                            ng-bind="rule.user.email || rule.user.mobile || rule.user.id"></td>
+                        <td class="table-row-center transactions-list-element" title="{{rule.group.name}}" ng-bind="rule.group.name"></td>
+                        <td width="30%" class="rehive-table-row-last-child">
+                            <a ng-click="openDeleteAccessControlModal('app/pages/developers/accessControl/deleteAccessControlModal/deleteAccessControlModal.html','md',rule)"
+                               class="pull-right pointer ">Delete</a>
+                            <a ng-click="openEditAccessControlModal('app/pages/developers/accessControl/editAccessControlModal/editAccessControlModal.html','md',rule)"
+                               class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="accessControlRulesData.count" ng-model="pagination.pageNo"
+                       max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getAccessControlRules()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <div ng-hide="accessControlRules.length > 0">
+                <i>No access control rules added yet.</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccessControl">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,69 @@
+<div ng-hide="updatingKrakenSettings">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Secret</span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <p>This secret gets used when adding an integration on the conversion extension.</p>
+                <br>
+                <p class="no-margin" style="background-color: #d9d9d9; padding: 10px;">
+                    {{krakenCompanySettings.secret}}  
+                    <i ngclipboard ngclipboard-success="copiedSecretSuccessfully()" data-clipboard-text="{{krakenCompanySettings.secret}}" class="fa fa-clone pointer pull-right"></i> 
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-hide="updatingKrakenSettings">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Kraken settings</span>
+        </div>
+        <div class="panel-body">
+            <form name="krakenSettingsForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>Kraken API key</label>
+                    <input type="text" ng-model="krakenCompanySettings.kraken_api_key" ng-change="trackUpdatedKrakenSetting('kraken_api_key')" class="form-control"
+                           placeholder="Enter Kraken API key" required>
+                </div>
+                <div class="form-group">
+                    <label>Kraken private key</label>
+                    <input type="text" ng-model="krakenCompanySettings.kraken_private_key" ng-change="trackUpdatedKrakenSetting('kraken_private_key')" class="form-control"
+                           placeholder="Enter Kraken private key" required>
+                </div>
+                <div class="form-group">
+                    <label>Rate difference threshold percent</label>
+                    <input type="text" ng-model="krakenCompanySettings.rate_difference_threshold_percent" ng-change="trackUpdatedKrakenSetting('rate_difference_threshold_percent')" class="form-control"
+                           placeholder="Enter rate difference threshold percent" required>
+                </div>
+                <div class="form-group custom-form">
+                    <label>Kraken currencies &nbsp;
+                        <!-- <i uib-tooltip-html="''"
+                                        class="ion-information-circled setup-groups-tooltip"></i> -->
+                    </label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more currencies'"
+                                width="100"
+                                ng-model="krakenCompanySettings.kraken_currencies" 
+                                ng-change="trackUpdatedKrakenSetting('kraken_currencies')"
+                                ng-options="currency.code for currency in currenciesList | orderBy: 'code' track by currency.code">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <button  ng-click="updateKrakenSettings()" class="btn btn-primary btn-primary-dark dashboard-btn pull-right" ng-disabled="!krakenSettingsForm.$valid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div ng-show="updatingKrakenSettings" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

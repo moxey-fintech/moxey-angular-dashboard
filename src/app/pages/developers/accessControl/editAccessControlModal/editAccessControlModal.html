@@ -1,0 +1,82 @@
+<div ng-hide="editingAccessControlRules" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit access control rule</h4>
+    </div>
+    <div class="modal-body">
+        <form name="EditAccessControlForm" class="custom-form">
+            <div class="form-group transaction-radio-inputs divider-20">
+                <label>Type <span style="color: #ed675A !important;" class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editAccessControlParams.type" ng-change="accessControlRuleChanged('type')" value="ip">
+                            <span class="custom-radio-btn">IP</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="transaction-radio-inputs divider-20">
+                <label>Action <span style="color: #ed675A !important;" class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editAccessControlParams.action" ng-change="accessControlRuleChanged('action')" value="allow">
+                            <span class="custom-radio-btn">Allow</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editAccessControlParams.action" ng-change="accessControlRuleChanged('action')" value="deny">
+                            <span class="custom-radio-btn">Deny</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Value <span class="required-icon">*</span></label>
+                <input type="text" ng-model="editAccessControlParams.value" class="form-control" ng-change="accessControlRuleChanged('value')"
+                       placeholder="Please enter a single IP address." required>
+            </div>
+            <div class="form-group divider-20">
+                <label>Label</label>
+                <input type="text" ng-model="editAccessControlParams.label" class="form-control" ng-change="accessControlRuleChanged('label')"
+                       placeholder="Please enter label">
+            </div>
+            <div class="access-control-radio-inputs">
+                <label>Who should this rule apply to?</label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn" style="margin-right: 13px!important;">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editAccessControlParams.applyRuleTo" ng-change="accessControlRuleChanged('applyRuleTo')" value="everyone">
+                            <span class="custom-radio-btn">Everyone</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editAccessControlParams.applyRuleTo" ng-change="accessControlRuleChanged('applyRuleTo')" value="user">
+                            <span class="custom-radio-btn">User</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editAccessControlParams.applyRuleTo" ng-change="accessControlRuleChanged('applyRuleTo')" value="group">
+                            <span class="custom-radio-btn">Group</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="editAccessControlParams.applyRuleTo === 'user'" class="form-group">
+                <input type="text" ng-model="editAccessControlParams.user" class="form-control" ng-change="accessControlRuleChanged('user')"
+                       placeholder="Please enter email/mobile/id/username">
+            </div>
+            <div ng-show="editAccessControlParams.applyRuleTo === 'group'" class="form-group">
+                <input type="text" ng-model="editAccessControlParams.group" class="form-control" ng-change="accessControlRuleChanged('group')"
+                       placeholder="Please enter group name">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="updateAccessControlRule()" ng-disabled="!EditAccessControlForm.$valid"
+                class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="editingAccessControlRules">
+    <loading-image></loading-image>
+</div>

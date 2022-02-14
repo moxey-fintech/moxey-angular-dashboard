@@ -1,0 +1,152 @@
+<div ng-hide="addingassets || submitted" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add asset</h4>
+    </div>
+    <div ng-hide="isCustomAsset" class="modal-body">
+        <form class="custom-form" name="addStellarAssetForm">
+            <div class="form-group">
+                <a class="pull-right pointer" ng-click="isCustomAsset = true">Add custom asset</a>
+            </div>
+            <br>
+            <div class="form-group divider">
+                <label>Prelisted assets</label>
+                <div class="overwrite-dropdown-arrow">
+                    <div class="reward-multi-select">
+                        <select chosen single data-placeholder-text-single="'Choose a prelisted asset'"
+                                width="100" 
+                                ng-model="selectedPreListedAsset"
+                                ng-options="asset.code for asset in preListedAssetsList" required>
+                        </select>
+                    </div>                
+                </div>
+            </div>
+            <br>
+            <div ng-show="selectedPreListedAsset" style="padding: 15px 35px;">
+                <p style="vertical-align: middle;">
+                    <img ng-src="{{selectedPreListedAsset.icon}}" style="width: 45px; margin-left: -8px; margin-top: -8px;">
+                    <label class="text-subtle"><span style="font-size: 22px;">{{selectedPreListedAsset.name}}</span> ({{selectedPreListedAsset.code}})</label>
+                </p>
+                <p>{{selectedPreListedAsset.description}}</p><br>
+                <p>Issuer: <a>{{selectedPreListedAsset.address}}</a></p><br>
+                <p>Website: <a class="pointer" href="{{selectedPreListedAsset.website}}" target="_blank">{{selectedPreListedAsset.website}}</a></p>
+            </div>
+        </form>
+    </div>
+    <div ng-show="isCustomAsset" class="modal-body">
+        <form class="custom-form" name="addCustomStellarAssetForm">
+            <div ng-hide="preListedAssetsList.length == 0" class="form-group">
+                <a class="pull-right pointer" ng-click="isCustomAsset = false">Add prelisted asset</a>
+            </div>
+            <br>
+            <div class="form-group">
+                <label>Asset currency code</label>
+                <input class="form-control" ng-model="assetParams.currency_code" ng-change="checkBasicDetailsFilled()" placeholder="Enter 3-12 character asset code" required>
+            </div>
+            <br>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>Issuer address
+                    &nbsp;<i uib-tooltip-html="'The public address of the Stellar issuer account for the asset.'"
+                                              class="ion-information-circled setup-groups-tooltip"></i></label>
+                <input class="form-control" ng-model="assetParams.address" 
+                placeholder="Enter the account address of the asset Issuer" required>
+            </div>
+            <!--
+                <input class="form-control" ng-model="assetParams.address" ng-change="checkBasicDetailsFilled()"  ng-model-options='{ debounce: 800 }' 
+                placeholder="Enter the account address of the asset Issuer" required>
+            </div>
+             <div ng-show="basicDetailsFilled"> -->
+            <div>
+                <br>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input class="form-control" ng-model="assetParams.description" placeholder="Enter description">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Symbol</label>
+                    <input class="form-control" ng-model="assetParams.symbol" placeholder="Enter symbol" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Unit</label>
+                    <input class="form-control" ng-model="assetParams.unit" placeholder="Enter unit" required>
+                </div>                
+                <br ng-if="assetParams.org_name">
+                <div ng-if="assetParams.org_name" class="form-group">
+                    <label>Organization name</label>
+                    <input class="form-control" ng-model="assetParams.org_name" placeholder="Enter your organization name">
+                </div>                
+                <br ng-if="assetParams.name">
+                <div ng-if="assetParams.name" class="form-group">
+                    <label>Currency name</label>
+                    <input class="form-control" ng-model="assetParams.name" placeholder="Enter currency name">
+                </div>                
+                <br ng-if="assetParams.logo">
+                <div ng-if="assetParams.logo" class="form-group">
+                    <label>Currency logo</label>
+                    <img ng-src="{{assetParams.logo}}" width="60" height="60" alt="currency logo" style="object-fit: contain;">
+                </div>
+                <br>
+            </div>
+            <div ba-panel ng-show="fetchingIssuerDetails">
+                <loading-image></loading-image>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="padding-top: 0;">
+        <button ng-click="submitted = true"
+                ng-disabled="addingassets || (isCustomAsset && !addCustomStellarAssetForm.$valid) || (!isCustomAsset && !addStellarAssetForm.$valid)"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ng-hide="addingassets || !submitted" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form">
+            <div>
+                <p class="divider">
+                    You are adding <strong>{{isCustomAsset ? assetParams.currency_code : selectedPreListedAsset.code}}</strong> to your company. Your hot wallet 
+                    will trust the issuer of the asset and your users will be able to transact with that token on the Stellar chain.
+                </p>
+                <span class="divider">Asset details:</span>
+                <br>
+                <br>
+                <div class="row divider-10">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Currency code</label></div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.currency_code : selectedPreListedAsset.code}}</div>
+                </div>
+                <div class="row divider-10">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Description</label></div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.description : selectedPreListedAsset.name}}</div>
+                </div>
+                <div class="row divider-10">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Issuer</label></div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.address : selectedPreListedAsset.address}}</div>
+                </div>
+                <div class="row divider-10">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Unit</label></div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.unit : selectedPreListedAsset.unit}}</div>
+                </div>
+                <div class="row divider-10">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Symbol</label></div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.symbol : selectedPreListedAsset.symbol}}</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="padding-top: 0;">
+        <button class="btn btn-default dashboard-btn pull-left" type="button" ng-click="submitted = false">Back</button>
+        <button ng-click="addAssets()" type="button" class="btn btn-primary dashboard-btn pull-right">Confirm</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingassets">
+    <loading-image></loading-image>
+</div>

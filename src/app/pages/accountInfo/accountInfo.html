@@ -1,0 +1,163 @@
+<h1 class="currencies-title">Profile</h1>
+<div ng-hide="loadingAccountInfo" class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">User details</span>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <!--<button ng-click="viewAllEmails()" class="btn btn-primary dashboard-btn pull-right">View emails</button>-->
+                                <label>Primary email</label>
+                                <p class="text-muted" ng-bind="administrator.email"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <label>Primary mobile number</label>
+                                <p class="text-muted" ng-bind="administrator.mobile || 'N/A'"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>First name</label>
+                        <input type="text" ng-change="accountInfoChanged('first_name')" ng-model="administrator.first_name" class="form-control" placeholder="e.g. Satoshi">
+                    </div>
+                    <div class="form-group">
+                        <label>Last name</label>
+                        <input type="text" ng-change="accountInfoChanged('last_name')" ng-model="administrator.last_name" class="form-control" placeholder="e.g. Nakomoto">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload profile picture</label>
+                        <div class="divider-20">
+                            <div ng-hide="hasProfileImage || imageFile.file.name">
+                                <img src="../../../assets/img/_rehiveLogo.svg" width="100" height="100" style="margin: 2px 0px -5px -9px">
+                            </div>
+                            <div ng-show="hasProfileImage || imageFile.file.name" style="margin-top: 10px;">
+                                <img ng-hide="imageFile.file.name" ng-src="{{profileImage}}" width="200" height="200" alt="profile Image" style="object-fit: contain;">
+                                <img ng-show="imageFile.file.name" ngf-thumbnail="imageFile.file" width="200" height="200" alt="profile Image" style="object-fit: contain; height: auto; margin: auto">
+                            </div>
+                        </div>
+                        <form name="uploadPicture" class="divider">
+                            <fieldset class="custom-file-upload">
+                                <label>
+                                    <span class="custom-file-upload-span"><button class="btn btn-default upload-button">Choose File</button></span>
+                                    <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                           type="file" ngf-select ng-model="imageFile.file" name="file"
+                                           accept="image/*" ngf-max-size="5MB" required>
+                                </label>
+                            </fieldset>
+                        </form>
+                        <p class="small">Max size is 5MB. Recommended dimensions are 200 x 200px.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Nationality</label>
+                        <country-select class="form-control pointer" ng-change="accountInfoChanged('nationality')" data-ng-model="administrator.nationality"></country-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Identity/passport number</label>
+                        <input type="text" ng-change="accountInfoChanged('id_number')" ng-model="administrator.id_number" class="form-control" placeholder="e.g. 891218666987">
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="updateAdministratorAccount();upload();" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+        <div ng-hide="loadingAdminEmails || addingEmail" class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Manage email addresses</span>
+                <a ng-click="openAddEmailModal('app/pages/accountInfo/addEmailModal/addEmailModal.html', 'md')" class="user-details-panel-link pull-right pointer">Add</a>
+            </div>
+            <div class="panel-body">
+                <div class="divider admin-emails">
+                    <table class="table admin-emails-table custom-table">
+                        <tr class="divider">
+                            <th>Primary</th>
+                            <th>Email</th>
+                            <th>Verified</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="email in adminEmailsList track by $index">
+                            <td>
+                                <input class="custom-rehive-checkbox" ng-change="updateEmail(email)" ng-model="email.primary" type="checkbox">
+                            </td>
+                            <td title="{{email.email}}" ng-bind="email.email | limitTo: '24'"></td>
+                            <td>
+                            <span ng-show="email.verified">
+                                <span ng-show="email.verified" class="status-verified user-address-status margin-right-30">VERIFIED</span>
+                            </span>
+                                <span ng-hide="email.verified">
+                                <span ng-hide="email.verified" class="user-primary-account user-address-status margin-right-30 status-incomplete-declined">NOT VERIFIED</span>
+                            </span>
+                            </td>
+                            <td class="rehive-table-row-last-child">
+                                <span ng-hide="email.verified">
+                                <a ng-click="resendEmailVerification(email)"
+                                   class="pull-right pointer ">Resend verification
+                                </a>
+                                </span>
+                            </td>
+                            <td class="rehive-table-row-last-child">
+                                <a ng-click="deleteEmail(email)"
+                                   class="pull-right pointer ">Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ba-panel ng-show="loadingAdminEmails">
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Change password</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Current password</label>
+                    <input type="password" ng-model="passwordChangeParams.old_password" class="form-control" id="inputPasswordOld"
+                           placeholder="Current password">
+                </div>
+                <div class="form-group">
+                    <label>New password</label>
+                    <input type="password" ng-model="passwordChangeParams.new_password1" class="form-control" id="inputPassword1"
+                           placeholder="New password">
+                </div>
+                <div class="form-group">
+                    <label>Repeat new password</label>
+                    <input type="password" ng-model="passwordChangeParams.new_password2" class="form-control" id="inputPassword2"
+                           placeholder="Repeat new password">
+                </div>
+                <div class="form-group">
+                    <button ng-click="changePassword(passwordChangeParams)" ng-disabled="changingPassword" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Set up multi-factor authentication</span>
+                <a ng-click="enableMultiFactorAuth()" class="user-details-panel-link pull-right pointer">Next</a>
+            </div>
+            <div class="panel-body">
+                <span class="no-margin"><span class="text-subtle">Enabled multi-factor authentication:</span> {{activatedMfa == 'sms' ? (activatedMfa | uppercase) : (activatedMfa | capitalizeWord)}}</span>
+                <a class="pull-right pointer" ng-click="goToDisableMFA()" ng-hide="activatedMfa == 'None'">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccountInfo">
+    <loading-image></loading-image>
+</div>

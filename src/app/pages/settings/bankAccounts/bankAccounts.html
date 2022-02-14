@@ -1,0 +1,63 @@
+<div ng-hide="loadingBankAccounts">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Bank accounts</span>
+            <a ng-click="openAddBankAccountModal('app/pages/settings/bankAccounts/addBankAccountModal/addBankAccountModal.html','md')" class="user-details-panel-link pull-right pointer">Add bank account</a>
+        </div>
+        <div class="panel-body">
+            <table ng-show="bankAccounts.length > 0" class="table setting-bank-accounts-table">
+                <tr>
+                    <th class="rehive-table-row-first-child">Bank name</th>
+                    <th>Account name</th>
+                    <th>Account number</th>
+                    <th>Currencies</th>
+                    <th>Branch address</th>
+                </tr>
+                <tr ng-repeat="bankAccount in bankAccounts track by $index">
+                    <td ng-class="{'archived-text': bankAccount.archived}" width="15%" class="table-row-center transactions-list-element rehive-table-row-first-child">{{bankAccount.bank_name}}</td>
+                    <td ng-class="{'archived-text': bankAccount.archived}" width="20%" class="table-row-center transactions-list-element">{{bankAccount.name}}</td>
+                    <td ng-class="{'archived-text': bankAccount.archived}" width="20%" class="table-row-center transactions-list-element">{{bankAccount.number}}</td>
+                    <td ng-class="{'archived-text': bankAccount.archived}" width="10%" class="bank-account-currencies-td">
+                        <div class="transactions-list-element">
+                            <span ng-repeat="currency in bankAccount.currencies | orderBy: 'code' track by $index" class="bank-account-currencies">
+                                {{$index > 4 ? ' ' : $index == 4 ? ' ' + '...' : $last ? ' ' + (currency.display_code || currency.code) : (currency.display_code || currency.code) + ',' }}
+                            </span>
+                            <div ng-show="bankAccount.currencies.length > 0" class="bank-tooltip">
+                                <span ng-repeat="currency in bankAccount.currencies | orderBy: 'code' track by $index">
+                                {{$last ? ' ' + (currency.display_code || currency.code) : (currency.display_code || currency.code) + ',' }}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-class="{'archived-text': bankAccount.archived}" width="20%" class="table-row-center transactions-list-element">
+                        <span>{{bankAccount.branch_address.line_1 ? bankAccount.branch_address.line_1  + ',': ''}}
+                        {{bankAccount.branch_address.line_2 ? bankAccount.branch_address.line_2  + ',': ''}}
+                        {{bankAccount.branch_address.city ? bankAccount.branch_address.city  + ',': ''}}
+                        {{bankAccount.branch_address.state_province ? bankAccount.branch_address.state_province  + ',': ''}}
+                        {{bankAccount.branch_address.country ? bankAccount.branch_address.country  + ',': ''}}
+                        {{bankAccount.branch_address.postal_code ? bankAccount.branch_address.postal_code: ''}}
+                        {{bankAccount.branch_address.state_code ? bankAccount.branch_address.state_code: ''}}</span></td>
+                    <td width="35%" class="rehive-table-row-last-child">
+                        <a ng-click="openBankAccountModal('app/pages/settings/bankAccounts/bankAccountModal/bankAccountModal.html','md',bankAccount)"
+                           class="pull-right pointer ">Delete</a>
+                        <a ng-click="openEditBankAccountModal('app/pages/settings/bankAccounts/editBankAccountModal/editBankAccountModal.html','md',bankAccount)"
+                           class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                        <a ng-show="bankAccount.archived" ng-click="restoreBankAccount(bankAccount)"
+                           class="pull-right pointer user-address-edit margin-right-30">Restore</a>
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="bankAccounts.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="bankAccountsData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getBankAccounts()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="bankAccounts.length == 0">
+                <i>No bank accounts have been added yet.</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingBankAccounts">
+    <loading-image></loading-image>
+</div>

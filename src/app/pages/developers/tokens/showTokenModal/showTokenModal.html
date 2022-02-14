@@ -1,0 +1,16 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">API key created</h4>
+    </div>
+    <div class="modal-body">
+        <p>Please copy this key and save it somewhere safe.
+            For security reasons, we cannot show it to you again.</p>
+        <p style="background-color: #d9d9d9; padding: 10px; margin-top: 20px">{{token.token}}</p>
+    </div>
+    <div class="modal-footer">
+        <button ngclipboard ngclipboard-success="copiedSuccessfully()" data-clipboard-text="{{token.token}}" type="button" class="btn btn-primary dashboard-btn pull-right">Copy</button>
+    </div>
+</div>

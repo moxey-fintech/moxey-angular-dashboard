@@ -1,0 +1,77 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Quote details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Id:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="quote.id"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">User:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <a class="pointer" ng-click="goToUser()" ng-bind="quote.user"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Phase:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="quote.phase"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Deposit amount:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="quote.deposit_amount  | currencyModifiersFilter: quote.deposit_currency.divisibility | commaSeperateNumberFilter">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Deposit currency:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="quote.deposit_currency.code"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Token amount:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="quote.token_amount  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Rate:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="quote.rate  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Created:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p>{{quote.created | date:'mediumDate'}} {{quote.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="dashboard-btn btn btn-default pull-right" ng-click="$dismiss()">Close</button>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div ng-hide="deletingBankAccount" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Delete bank account</h4>
+    </div>
+    <div class="modal-body">
+        <p class="divider"><span class="text-subtle">Bank name:</span> {{bankAccount.bank_name}}</p>
+        <p class="divider"><span class="text-subtle">Bank number:</span> {{bankAccount.number}}</p>
+    </div>
+    <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>-->
+        <button ng-click="deleteBankAccountPrompt()" ng-disabled="deletingBankAccount" type="button"
+                class="btn btn-default pull-right margin-left-12">Delete permanently</button>
+        <button ng-click="archiveBankAccount()" ng-disabled="bankAccount.archived"
+                ng-class="{'btn-primary': !bankAccount.archived,'btn-gray': bankAccount.archived}"
+                type="button" class="btn dashboard-btn pull-right">Archive</button>
+    </div>
+</div>
+<div ba-panel ng-show="deletingBankAccount">
+    <loading-image></loading-image>
+</div>

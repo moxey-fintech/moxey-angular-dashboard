@@ -1,0 +1,55 @@
+<div ng-hide="loadingUserAccountsList" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit account</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="userAccountForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Name  <span class="required-icon">*</span></label>
+                <input type="text" class="form-control"
+                       ng-change="editUserAccountParams.name = editUserAccountParams.name.toLowerCase()"
+                       ng-model="editUserAccountParams.name" placeholder="Enter account name" required/>
+            </div>
+            <div class="form-group">
+                <label>Primary</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="editUserAccountParams.primary" type="checkbox" ng-disabled="!editUserAccountParams.user">
+            </div>
+            <div class="form-group divider-20">
+                <label>Recon&nbsp;<i class="ion-information-circled setup-groups-tooltip" uib-tooltip-html="'The recon field is used to designate an account as a 
+                    tracking account for accounting and recon purposes. A recon account on Rehive is any account that is a 1 to 1 duplication of an external 
+                    account.'"></i></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="editUserAccountParams.recon" ng-disabled="editUserAccountParams.definition" type="checkbox">
+            </div>
+            <div class="form-group">
+                <label>Currencies</label>
+                <div class="reward-multi-select divider">
+                    <select chosen
+                            multiple
+                            data-placeholder-text-multiple="'Choose one or more currencies'"
+                            width="100"
+                            ng-model="newAccountCurrencies.list"
+                            ng-options="currency.display_code for currency in currencyOptions | orderBy: 'code' track by currency.code">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <p>Currencies already added:
+                    <span ng-repeat="currencyObj in currenciesList | orderBy: 'currency.code' track by $index">
+                    {{$last ? '' + currencyObj.currency.display_code : currencyObj.currency.display_code + ',&nbsp;'}}
+                </span>
+                </p>
+            </div>
+            <div class="form-group">
+                <button ng-click="editUserAccountFunction(editUserAccountParams)" ng-disabled="!userAccountForm.$valid" class="btn btn-primary user-accounts-btn pull-right">Save</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserAccountsList">
+    <loading-image></loading-image>
+</div>

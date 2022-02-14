@@ -1,0 +1,40 @@
+<!--<h1 class="currencies-title">Stellar Testnet Service</h1>-->
+<h1 class="currencies-title">Stellar Testnet Extension</h1>
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div ng-hide="loadingStellarTestnetService" class="panel">
+            <div class="panel-heading">
+                <!--<span class="user-details-panel-title">Configuring Stellar Testnet Service</span>-->
+                <span class="user-details-panel-title">Configuring Stellar Testnet Extension</span>
+            </div>
+            <div class="panel-body">
+                <div ng-hide="stellarTestnetConfigComplete">
+                    <div class="divider-20">
+                        <!--<p>Welcome to the Stellar Testnet Service. This setup will guide you through configuration.</p>-->
+                        <p>Welcome to the Stellar Testnet Extension. This setup will guide you through configuration.</p>
+                        <!-- 
+                        <p>The Stellar Testnet Extension will create the following if they do not exist already: </p>
+                        <ul class="stellar-setup-ul no-margin">
+                            <li>A <strong>TXLM</strong> currency on your default group's primary account.</li>
+                        </ul>
+                        -->
+                    </div>
+                </div>
+                <div>
+                    <div class="divider">
+                        <ul class="ul-no-dot">
+                            <!--<li>Please refer to the <a target="_blank" href="https://stellar-testnet.services.rehive.io/redoc/">Stellar Testnet service documentation</a>-->
+                            <li>Please refer to the <a target="_blank" href="https://stellar-testnet.services.rehive.io/">Stellar Testnet extension documentation</a>
+                                if you would like to integrate Stellar Testnet into your own front-end or extension.</li>
+                                <!--if you would like to integrate Stellar Testnet into your own front-end or service.</li>-->
+                        </ul>
+                    </div>
+                    <button ng-click="checkTXLMCurrency()" class="btn btn-primary dashboard-btn pull-right">Start</button>
+                </div>
+            </div>
+        </div>
+        <div class="service-header" ba-panel ng-show="loadingStellarTestnetService">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

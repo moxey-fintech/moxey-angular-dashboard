@@ -1,0 +1,108 @@
+<div ng-hide="loadingVoucher" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Voucher code</h4>
+    </div>
+    <div class="modal-body padding-bottom-25">
+        <div class="row">
+            <a ng-hide="editingVoucher" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingVoucher()"><i class="fa fa-pencil"></i> Quick edit</a>
+            <a ng-show="editingVoucher" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingVoucher()"><i class="fa fa-times"></i> Cancel edit</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Code id: </p>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <span ng-bind="voucherObj.id"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Product name: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="voucherObj.product_or_item.name"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Format: </p>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <span ng-bind="voucherObj.product_or_item.virtual_format"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div ng-hide="editingVoucher" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="voucherObj.status | capitalizeWord"></p>
+            </div>
+            <div ng-show="editingVoucher" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding">
+                 <div class="reward-multi-select" style="margin-bottom: 10px!important; margin-left: 13px!important;">
+                    <select class="form-control pointer" data-placeholder-text-single="'Choose voucher status'" width="100" 
+                        ng-model="voucherObj.status" ng-change="voucherStatusChanged()" ng-disabled="voucherObj.status !== 'purchased'">
+                        <option ng-hide="disableAvailable" value="available">Available</option>
+                        <option value="purchased">Purchased</option>
+                        <option value="redeemed">Redeemed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Voucher code: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="voucherObj.code"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date created: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{voucherObj.created | date:'mediumDate'}} {{voucherObj.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date modified: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{voucherObj.updated | date:'mediumDate'}} {{voucherObj.updated | date:'shortTime'}}</p>
+            </div>
+        </div>
+
+        <div class="row" ng-show="voucherObj.order">
+            <br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding divider">
+                <strong>Order: </strong>                    
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Order id: </p>
+                </div>
+                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                   <p>{{voucherObj.order.id}}</p>
+                </div>
+            </div>           
+        </div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-show="editingVoucher" ng-disabled="!voucherChanged" id="transaction-modal-save-button"
+                ng-click="updateVoucherStatus()" ng-class="{'setup-next-btn': !voucherChanged, 'btn-primary': voucherChanged}"
+                class="dashboard-btn btn pull-right">Save</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingVoucher">
+    <loading-image></loading-image>
+</div>

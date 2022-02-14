@@ -1,0 +1,222 @@
+<div ng-hide="loadingCompanySettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Company settings</span>
+    </div>
+    <div class="panel-body">
+        <div class="group-permissions-table">
+            <table class="table custom-table table-striped">
+                <tr></tr>
+                <tr></tr>
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Require verification&nbsp;&nbsp;<span><i uib-tooltip-html="'Enabling this will require users to have at least 1 verified mobile number or 1 verified
+                         email address before they can transact.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.require_verification">
+                            <i class="fa fa-toggle-on user-switch-active no-margin"  ng-click="toggleCompanySettings(companySettingsObj.require_verification,'require_verification')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.require_verification">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"  ng-click="toggleCompanySettings(companySettingsObj.require_verification,'require_verification')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Require registration&nbsp;&nbsp;<span 
+                        ><i uib-tooltip-html="'Enabling this will require users to be registered before any transactions can be made to them. When transferring, it will require that the recipient
+                         already exists in the system. This will prevent temporary users from being created via transfers.'" 
+                         class="ion-information-circled setup-groups-tooltip"></i></span>
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.require_registration">
+                            <i class="fa fa-toggle-on user-switch-active no-margin"  ng-click="toggleCompanySettings(companySettingsObj.require_registration,'require_registration')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.require_registration">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"  ng-click="toggleCompanySettings(companySettingsObj.require_registration,'require_registration')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Require transaction subtype&nbsp;&nbsp;<span><i uib-tooltip-html="'If this is set to true then subtypes are required in order to create transactions.'" 
+                            class="ion-information-circled setup-groups-tooltip"></i></span>
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.require_transaction_subtypes">
+                            <i class="fa fa-toggle-on user-switch-active no-margin" 
+                            ng-click="toggleCompanySettings(companySettingsObj.require_transaction_subtypes,'require_transaction_subtypes')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.require_transaction_subtypes">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" 
+                            ng-click="toggleCompanySettings(companySettingsObj.require_transaction_subtypes,'require_transaction_subtypes')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Allow registrations
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.allow_registrations">
+                            <i class="fa fa-toggle-on user-switch-active no-margin"  ng-click="toggleCompanySettings(companySettingsObj.allow_registrations,'allow_registrations')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.allow_registrations">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"  ng-click="toggleCompanySettings(companySettingsObj.allow_registrations,'allow_registrations')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Allow overdrafts
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.allow_overdrafts">
+                            <i class="fa fa-toggle-on user-switch-active no-margin"  ng-click="toggleCompanySettings(companySettingsObj.allow_overdrafts,'allow_overdrafts')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.allow_overdrafts">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"  ng-click="toggleCompanySettings(companySettingsObj.allow_overdrafts,'allow_overdrafts')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <!--<tr>-->
+                <!--<td class="table-row-center transactions-list-element rehive-table-row-first-child">-->
+                <!--Auto complete transactions-->
+                <!--</td>-->
+                <!--<td class="rehive-table-row-first-child" pull-right" style="padding-top: 6px; border: white;">-->
+                <!--<div ng-show="companySettingsObj.auto_complete_transactions">-->
+                <!--<i class="fa fa-toggle-on user-switch-active no-margin"  ng-click="toggleCompanySettings(companySettingsObj.auto_complete_transactions,'auto_complete_transactions')"></i>-->
+                <!--</div>-->
+                <!--<div ng-hide="companySettingsObj.auto_complete_transactions">-->
+                <!--<i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"  ng-click="toggleCompanySettings(companySettingsObj.auto_complete_transactions,'auto_complete_transactions')"></i>-->
+                <!--</div>-->
+                <!--</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td class="table-row-center divider transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Require terms and conditions
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.require_terms_and_conditions">
+                            <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleCompanySettings(companySettingsObj.require_terms_and_conditions,'require_terms_and_conditions')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.require_terms_and_conditions">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"
+                               ng-click="toggleCompanySettings(companySettingsObj.require_terms_and_conditions,'require_terms_and_conditions')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-row-center divider transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Require privacy policy
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.require_privacy_policy">
+                            <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleCompanySettings(companySettingsObj.require_privacy_policy,'require_privacy_policy')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.require_privacy_policy">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"
+                               ng-click="toggleCompanySettings(companySettingsObj.require_privacy_policy,'require_privacy_policy')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-repeat="notification in notifications track by $index">
+                    <td class="table-row-center divider transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        {{notification.description}}&nbsp;&nbsp;
+                        <span ng-show="notification.description == 'Send password set/reset notifications'" class="large">
+                            <i id="sendResetNotification" class="ion-information-circled setup-groups-tooltip"
+                               uib-tooltip-html="'
+                                Sends password set and reset notifications to users.<br><br>
+                                To use a custom page for password set and reset, add your custom page URLs on the Company info page.<br><br>
+                                To send these notifications from your company\'s email address, enter a company email address on the Company info page.<br><br>
+                                To override these emails entirely with your own custom emails, activate the Notifications Service.<br><br>'"
+                               class="ion-information-circled setup-groups-tooltip">
+                            </i>
+                        </span>
+    
+                        <span ng-show="notification.description == 'Send email/mobile verification notifications'" class="large">
+                            <i uib-tooltip-html="'
+                                Sends email and mobile verification notifications to users.<br><br>
+                                To use a custom page for email verification, add your custom page URLs on the Company info page.<br><br>
+                                To send these notifications from your company\'s email address, enter a company email address on the Company info page.<br><br>
+                                To override these emails entirely with your own custom emails, activate the Notifications Service.<br><br>'"
+                               class="ion-information-circled setup-groups-tooltip">
+                            </i>
+                        </span>
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="notification.enabled">
+                            <i class="fa fa-toggle-on user-switch-active no-margin"
+                               ng-click="toggleNotificationEnabled(notification)"></i>
+                        </div>
+                        <div ng-hide="notification.enabled">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"
+                               ng-click="toggleNotificationEnabled(notification)"></i>
+                        </div>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                        Default transaction status
+                    </td>
+                    <td class="rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        <select class="form-control pointer company-setting-dropdown"  ng-model="companySettingsObj.default_transaction_status"
+                                ng-change="toggleCompanySettings(companySettingsObj.default_transaction_status,'default_transaction_status')"
+                                ng-options="status for status in statusOptions">
+                        </select>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Allow custom session durations&nbsp; 
+                        <span>
+                            <i uib-tooltip-html="'Set this to true in order to edit the session duration. Enter a value in seconds to set session duration for app users. 604800 would be 1 week.'" 
+                            class="ion-information-circled setup-groups-tooltip "></i>&nbsp;
+                        </span>
+                    </td>
+                    <td class="rehive-table-row-first-child pull-right" style="padding-top: 6px; border: white;">
+                        <div ng-show="companySettingsObj.allow_session_durations">
+                            <i class="fa fa-toggle-on user-switch-active no-margin" 
+                            ng-click="toggleCompanySettings(companySettingsObj.allow_session_durations,'allow_session_durations')"></i>
+                        </div>
+                        <div ng-hide="companySettingsObj.allow_session_durations">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" 
+                            ng-click="toggleCompanySettings(companySettingsObj.allow_session_durations,'allow_session_durations')"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="85%" class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 8px; padding-right: 8px; border: white;">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span>Default session duration</span></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" ng-model="companySettingsObj.default_session_duration" class="form-control" 
+                                placeholder="Enter a value in seconds e.g. 604800 would be 1 week">
+                            </div>
+                        </div>
+                    </td>
+                    <td width="15%" class="rehive-table-row-last-child" style="padding: 6px 20px 6px 10px; border: white;">
+                        <button class="btn btn-primary pull-right" style="margin: 4.5px auto 5px auto; width: 100%;"
+                        ng-click="toggleCompanySettings(companySettingsObj.default_session_duration,'default_session_duration')">
+                            Save duration
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" style="padding-left: 10px; border: white;">
+                        Company date format
+                    </td>
+                    <td class="rehive-table-row-last-child" style="padding: 6px 20px 6px 10px; border: white;">
+                        <select class="form-control pointer pull-right company-setting-date-dropdown" ng-model="companyDateFormatString"
+                                ng-change="companyDateFormatChanged(companyDateFormatString)"
+                                ng-options="dateFormat for dateFormat in companyDateFormat" style="margin: 4.5px auto 5px auto;">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div ng-show="loadingCompanySettings" ba-panel>
+    <loading-image></loading-image>
+</div>

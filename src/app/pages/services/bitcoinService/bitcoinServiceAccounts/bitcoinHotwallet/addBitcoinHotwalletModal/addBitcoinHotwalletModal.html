@@ -1,0 +1,22 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add hotwallet</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" name="rateForm" novalidate>
+            <div class="form-group">
+                <label>Low balance percentage</label>
+                <input class="form-control" ng-model="hotwalletParams.low_balance_percentage" placeholder="Enter decimal ex: 0.1, 0.2">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addHotwallet(hotwalletParams)"
+                ng-disabled="addingHotwallet"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>

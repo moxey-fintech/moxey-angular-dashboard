@@ -1,0 +1,89 @@
+<div ng-hide="updatingMassSendSettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Mass send</span>
+    </div>
+    <div class="panel-body">
+        <h3 style="margin-top: 0px;">Using the Mass Send Extension</h3><br>
+        <div style="margin-bottom: 20px;"><p><a target="_blank"  href="https://rehive.intercom.help/en/articles/4367876-the-mass-send-extension-explained">How to use the Mass Send Extension</a>.</p></div>
+        <form name="uploadMassSendForm" class="custom-form">
+            <div class="form-group setup-groups-tooltip-div">
+                <div style="margin-bottom: 10px;">
+                    <p class="no-margin">
+                        Upload your CSV file containing your mass send transaction details. Download an <a href="assets/files/Mass send example csv.csv" target="_blank">example csv file</a>. 
+                        <p class="small">Example last updated October 2021.</p>
+                    </p>
+                    <br>
+                </div>
+                <fieldset class="custom-file-upload">
+                    <label>
+                        <span class="custom-file-upload-span"><button class="btn btn-default upload-button">Choose File</button></span>
+                        <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                        type="file" ngf-select ng-model="massSendCsv" name="file"
+                        accept=".csv" ngf-max-size="5MB" required>
+                    </label>
+                    <div ng-show="massSendCsv.name"  ng-src="{{massSendCsv}}" width="200" height="200"
+                    style="margin-top: -20px;margin-left: 120px;">{{massSendCsv.name}}</div>
+                </fieldset>
+                <button ng-show="massSendCsv.name" class="btn btn-primary dashboard-btn pull-right" ng-click="uploadCsv()"
+                style="margin-top: -20px; width: 120px!important;">Run mass send</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="updatingMassSendSettings" class="service-header">
+    <loading-image></loading-image>
+</div>
+<div ng-hide="loadingMassSendHistory" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Mass send history</span>
+        <button ng-click="getMassSendHistory()" ng-disabled="loadingMassSendHistory"
+                    class="btn btn-default pull-right">Refresh</button>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingMassSendHistory">
+            <div ng-show="massSendHistory.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="massSendPagination.itemsPerPage"  total-items="massSendHistoryData.count" ng-model="massSendPagination.pageNo"
+                   max-size="massSendPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getMassSendHistory()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="massSendHistory.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Created date</th>
+                            <th>Updated date</th>
+                            <th>Total txns</th>
+                            <th>Failed txns</th>
+                            <th>Successful txns</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="history in massSendHistory | orderBy: '-created' track by $index" class="editable-row center user-details-table-hover">
+                            <td class="table-row-center transactions-list-element">{{history.created | date:'mediumDate'}}{{history.created | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{history.updated | date:'mediumDate'}}{{history.updated | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{history.transactions_total}}</td>
+                            <td class="table-row-center transactions-list-element">{{history.transactions_failed}}</td>
+                            <td class="table-row-center transactions-list-element">{{history.transactions_succeeded}}</td>
+                            <td class="table-row-center transactions-list-element">{{history.status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="massSendHistory.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="massSendPagination.itemsPerPage"  total-items="massSendHistoryData.count" ng-model="massSendPagination.pageNo"
+                       max-size="massSendPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getMassSendHistory()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="massSendHistory.length > 0">No mass send history to display.</i>
+        </div>
+        <div ng-show="loadingMassSendHistory">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingMassSendHistory" class="service-header">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,11 @@
+<kraken-service-navigation></kraken-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <kraken-service-settings-menu></kraken-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <kraken-service-settings-item ng-show="krakenSettingView == 'settings'"></kraken-service-settings-item>
+        <kraken-service-settings-exchange-pairs ng-show="krakenSettingView == 'pairs'"></kraken-service-settings-exchange-pairs>
+        <kraken-service-deactivation ng-show="krakenSettingView == 'deactivation'"></kraken-service-deactivation>
+    </div>
+</div>

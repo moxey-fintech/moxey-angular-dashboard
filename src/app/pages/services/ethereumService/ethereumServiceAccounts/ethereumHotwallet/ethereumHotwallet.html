@@ -1,0 +1,54 @@
+<div ng-show="hotwalletObjLength > 0" class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="dashboard-currencies-code">
+                    ETH
+                </div>
+            </div>
+            <div class="currencies-page-row">
+                <div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div>
+                            <span><strong>{{hotwalletObj.rehive_account_reference}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Account reference</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div>
+                            <span><strong>{{ethereumCurrency.symbol}} {{hotwalletObj.balance | currencyModifiersFilter: ethereumCurrency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Total</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div>
+                            <span><strong>{{hotwalletObj.low_balance_percentage + '%'}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Low balance percentage</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <button class="btn btn-primary dashboard-btn pull-right" style="margin-top: 0px;"
+                          ng-click="openFundHotwalletModal('app/pages/services/ethereumService/ethereumServiceAccounts/ethereumHotwallet/fundEthereumHotwalletModal/fundEthereumHotwalletModal.html','md')">
+                            Fund
+                        </button>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" ng-click="toggleCurrenciesOptions(); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                        <div>
+                            <span class="fa fa-ellipsis-h pull-right pointer currencies-options"></span>
+                            <ul ng-show="showOptionsAccountRef" class="currencies-options-box">
+                                <li ng-click="toggleCurrenciesOptions()"><i class="dropdown-arr"></i></li>
+                                <a class="group-options-link" ng-click="goToHotwalletTransactions()"><li>View transactions</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingHotwalletTransactions">
+    <loading-image></loading-image>
+</div>

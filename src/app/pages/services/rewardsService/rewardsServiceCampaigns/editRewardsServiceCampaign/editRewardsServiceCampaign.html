@@ -1,0 +1,434 @@
+<div ng-hide="updatingCampaign" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit campaign</span>
+    </div>
+    <div class="panel-body">
+        <form name="editCampaignForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Campaign name <span class="required-icon">*</span></label>
+                <input type="text" ng-model="editCampaignParams.name" ng-change="campaignChanged('name')"
+                       class="form-control" placeholder="Enter campaign name" required>
+            </div>
+            <div class="form-group">
+                <label>Campaign description  <span class="required-icon">*</span></label>
+                <textarea rows="4" type="text" ng-model="editCampaignParams.description" ng-change="campaignChanged('description')"
+                          class="form-control"  placeholder='Enter campaign description' required></textarea>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>Currency <span class="required-icon">*</span>
+                    &nbsp;<i uib-tooltip-html="'Reward currency that will be credited to the user account.'"
+                             class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            data-placeholder-text-single="'Choose a currency'"
+                            width="100"
+                            ng-model="editCampaignParams.currency"
+                            ng-change="campaignChanged('currency')"
+                            ng-options="currency.code + ' - ' + currency.description for currency in currencyOptions | orderBy: 'code'">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>Timeframe</span></label>
+                <div class="reward-multi-select">
+                    <select chosen single
+                            width="100"
+                            ng-model="editCampaignParams.timeframe"
+                            ng-change="campaignChanged('timeframe')"
+                            ng-options="option for option in timeframeOptions">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>Start date <span class="required-icon">*</span>
+                    &nbsp;<i uib-tooltip-html="'The starting date of the campaign.'"
+                             class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="rewards-date">
+                    <input type="text" class="form-control rewards-date-input custom-datepicker"
+                           uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                           ng-model="editCampaignParams.start_date"
+                           ng-change="campaignChanged('start_date')"
+                           show-button-bar="false" datepicker-options="{showWeeks: false}"
+                           placeholder="{{companyDateFormatString | lowercase}}" is-open="popup1.opened" close-text="Close" required/>
+                    <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open1()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                </div>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>End date <span class="required-icon">*</span>
+                    &nbsp;<i uib-tooltip-html="'The ending date of the campaign.'"
+                             class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="rewards-date">
+                    <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                           uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                           ng-model="editCampaignParams.end_date"
+                           ng-change="campaignChanged('end_date')"
+                           show-button-bar="false" datepicker-options="{showWeeks: false}"
+                           placeholder="{{companyDateFormatString | lowercase}}" is-open="popup2.opened" close-text="Close" required/>
+                    <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open2()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                </div>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>Total campaign budget <span class="required-icon">*</span>
+                    &nbsp;<i uib-tooltip-html="'The total amount of funds available in the campaign that can be issued to users.'"
+                                             class="ion-information-circled setup-groups-tooltip"></i></label>
+                <br>
+                <input class="form-control" ng-change="campaignChanged('total')" ng-model="editCampaignParams.total" type="text" required>
+            </div>
+            <div class="divider-20 setup-groups-tooltip-div">
+                <label style="margin-bottom: 10px;">Campaign type &nbsp;<i uib-tooltip-html="'Determines how rewards are earned and issued to users. If `Claim` is selected, users will 
+                have to manually claim a reward via the front-end applications. If `Event` is selected, users will be automatically rewarded when a Rehive event is triggered. Event type 
+                campaigns can be evaluated for certain conditions using an expression.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editCampaignParams.reward_type" ng-change="campaignChanged('reward_type')" value="claim" ng-click="setCampaignType('claim')">
+                            <span class="custom-radio-btn">Claim</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editCampaignParams.reward_type" ng-change="campaignChanged('reward_type')" value="event" ng-click="setCampaignType('event')">
+                            <span class="custom-radio-btn">Event</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="claimSelected" class="form-group">
+                <div class="row">
+                    <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <label>Event</label>
+                        <select class="form-control pointer" ng-model="editCampaignParams.event"
+                             ng-change="campaignChanged('event')"
+                             ng-options="event for event in eventOptions">
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+            <div ng-hide="claimSelected" class="form-group">
+                <div class="row">
+                    <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <label>Event user&nbsp;&nbsp;<i uib-tooltip-html="'The user that should get rewarded (eg. { user.id } on transaction.execute). If you are not sure what to do leave this 
+                        as { user.id }. This field can be used in referral reward campaigns to reward a referrer instead of a referee.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                        <input class="form-control" ng-model="editCampaignParams.event_user"
+                               type="text"
+                               ng-change="campaignChanged('event_user')"
+                               uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                               typeahead-on-select="onSelect($item, $model, $label)" ng-model-options='{ debounce: 800 }' >
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="claimSelected" class="form-group">
+                <div class="row">
+                    <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <label>Event amount&nbsp;&nbsp;<i uib-tooltip-html="'The amount that is used for percentage calculations - (eg. { total_amount } on transaction.execute). This field can be used to reward 
+                        users a percentage of a transaction amount.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                        <input class="form-control"
+                           placeholder="Please enter a event amount"
+                           ng-change="campaignChanged('event_amount')"
+                           ng-model="editCampaignParams.event_amount" type="text">
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="claimSelected" class="form-group codemirror-sm">
+                <label>Expression&nbsp;&nbsp;<i uib-tooltip-html="'This allows you to set conditions that need to be met when an event happens in order for a user to be rewarded e.g. if you want a reward to be 
+                triggered on user.update event but only if first_name is not null.'" class="ion-information-circled setup-groups-tooltip"></i>&nbsp;&nbsp;<span class="pull-right">{{editCampaignParams.expression.length || 0}}/150</span></label>
+                <textarea type="text" ng-model="editCampaignParams.expression" class="form-control" ui-refresh="editorEnabled"
+                            ui-codemirror ui-codemirror-opts="editorEmailOptions" ng-change="campaignChanged('expression')"
+                            placeholder="Enter expression"></textarea>
+            </div> 
+            <div class="form-group setup-groups-tooltip-div row">
+                <label style="margin-left: 15px;">Amount type <span class="required-icon">*</span>
+                    &nbsp;<i ng-show="editCampaignParams.type == 'Fixed'"
+                             uib-tooltip-html="'When amount type is `Fixed` rewards are issued based on this reward amount.'"
+                             class="ion-information-circled setup-groups-tooltip"></i>
+                    <i ng-show="editCampaignParams.type == 'Percentage'"
+                       uib-tooltip-html="'When amount type is `Percentage` the rewards are issued based on this percentage and of an amount specified when a reward is created/requested.'"
+                       class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="form-inline col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                    <select ng-hide="claimSelected" class="form-control pointer short-dropdown"
+                            ng-model="editCampaignParams.type"
+                            ng-class="{'short-dropdown-adjusted': (editCampaignParams.type == 'Both')}"
+                            ng-options="amountTypeOption for amountTypeOption in eventAmountTypeOptions"
+                            ng-change="campaignChanged('type')">
+                    </select>
+                    <select ng-show="claimSelected" class="form-control pointer short-dropdown"
+                            ng-model="editCampaignParams.type"
+                            ng-options="amountTypeOption for amountTypeOption in claimAmountTypeOptions"
+                            ng-change="campaignChanged('type')">
+                    </select>
+                    <input class="form-control short-input-text" ng-show="(editCampaignParams.type == 'Fixed') || (editCampaignParams.type == 'Both')"
+                           ng-class="{'short-input-text-adjusted': (editCampaignParams.type == 'Both')}"
+                           placeholder="{{(editCampaignParams.type == 'Both') ? 'fixed' : 'Enter a fixed amount'}}"
+                           ng-change="campaignChanged('fixed_amount')"
+                           ng-model="editCampaignParams.fixed_amount" type="text" ng-required="editCampaignParams.type == 'Fixed'">
+
+                    <input ng-show="(editCampaignParams.type == 'Percentage') || (editCampaignParams.type == 'Both')"
+                           class="form-control short-input-text"
+                           ng-class="{'short-input-text-adjusted': (editCampaignParams.type == 'Both')}"
+                           placeholder="{{(editCampaignParams.type == 'Both') ? 'percentage' : 'Enter a reward percentage'}}"
+                           ng-change="campaignChanged('percentage')"
+                           ng-model="editCampaignParams.percentage" type="text" ng-required="editCampaignParams.type == 'Percentage'">
+                </div>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <div class="row">
+                    <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <label>Max per user
+                            &nbsp;<i uib-tooltip-html="'The maximum times a user can receive a reward in this campaign.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i></label>
+                        <br>
+                        <input class="form-control" ng-change="campaignChanged('max_per_user')" ng-model="editCampaignParams.max_per_user" type="number">
+                    </div>
+                </div>     
+            </div>
+            <div ng-show="editCampaignParams.timeframe !== 'None'" class="form-group setup-groups-tooltip-div">
+                <div class="row">
+                    <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <label>Max per user per timeframe&nbsp;<span class="required-icon">*</span></label>
+                        <br>
+                        <input class="form-control" ng-change="campaignChanged('max_per_user_per_timeframe')" ng-model="editCampaignParams.max_per_user_per_timeframe" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="divider-20 setup-groups-tooltip-div">
+                <label style="margin-bottom: 10px;">Default reward status&nbsp;<span class="required-icon">*</span>&nbsp;&nbsp;<i uib-tooltip-html="'Select the default status of a reward a user claims or triggers via an event.
+                 `accepted` means the reward will be issued immediately; `pending` means the reward requires an admin to approve the reward claim before it will be issued.'" 
+                 class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-change="campaignChanged('default_status')" ng-model="editCampaignParams.default_status" value="accepted">
+                            <span class="custom-radio-btn">Accepted</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-change="campaignChanged('default_status')" ng-model="editCampaignParams.default_status" value="pending">
+                            <span class="custom-radio-btn">Pending</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-change="campaignChanged('default_status')" ng-model="editCampaignParams.default_status" value="rejected">
+                            <span class="custom-radio-btn">Rejected</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Active &nbsp;<i uib-tooltip-html="'If this field is checked the campaign will be active. To disable a campaign, uncheck this field.'"
+                    class="ion-information-circled setup-groups-tooltip"></i></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-change="campaignChanged('active')" ng-model="editCampaignParams.active" type="checkbox">
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Visible &nbsp;<i uib-tooltip-html="'If this field is checked the campaign will be visible to users on the front-end applications.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-change="campaignChanged('visible')" ng-model="editCampaignParams.visible" type="checkbox">
+            </div>
+            <!--
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Request &nbsp;<i uib-tooltip-html="'This will make the campaign available for users to request a reward from.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-change="campaignChanged('request')" ng-model="editCampaignParams.request" type="checkbox">
+            </div>-->
+            <div class="divider-20 setup-groups-tooltip-div">
+                <label style="margin-bottom: 10px;">Recipient account (optional)&nbsp;&nbsp;
+                    <i uib-tooltip-html="'Set this account if you want to specify the destination account for this reward.
+                     If this field is not set then the reward will go to a user&#8217;s primary account. Ensure that the account
+                      name matches an account configuration for any group that should be able to receive this reward.'" 
+                    class="ion-information-circled setup-groups-tooltip"></i>
+                </label>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="max-width: 350px;">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="pointer" style="margin-right: auto;">
+                                <input class="pointer" type="radio" value="name" ng-model="campaignRecipientChosen" style="width: 100%;">
+                                <span class="custom-radio-btn">Account name</span>
+                            </label>
+                            <label class="pointer">
+                                <input class="pointer" type="radio" value="reference" ng-model="campaignRecipientChosen">
+                                <span class="custom-radio-btn">Account reference</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+                </div>
+                <div ng-show="campaignRecipientChosen == 'name'" class="form-group row">
+                    <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <input class="form-control" placeholder="Please enter a credit account name" ng-model="editCampaignParams.credit_account_name" ng-change="campaignChanged('credit_account_name')" type="text">
+                    </div>
+                    <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                </div>
+                <div ng-show="campaignRecipientChosen == 'reference'" class="form-group row">
+                    <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <input class="form-control" placeholder="Please enter a credit account reference" ng-model="editCampaignParams.credit_account" ng-change="campaignChanged('credit_account')" type="text">
+                    </div>
+                    <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                </div>
+            </div>  
+            <!-- <div class="divider-20 setup-groups-tooltip-div">
+                <label style="margin-bottom: 10px;">Recipient account name (optional)&nbsp;&nbsp;
+                    <i uib-tooltip-html="'Set this account if you want to specify the destination account for this reward.
+                     If this field is not set then the reward will go to a user&#8217;s primary account. Ensure that the account
+                      name matches an account configuration for any group that should be able to receive this reward.'" 
+                    class="ion-information-circled setup-groups-tooltip"></i>
+                </label>
+                <div class="form-group row">
+                    <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <input class="form-control" placeholder="Please enter a credit account name" 
+                            ng-model="editCampaignParams.credit_account_name" ng-change="campaignChanged('credit_account_name')" type="text">
+                    </div>
+                    <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                </div>                
+            </div>  -->
+            <div class="form-group">
+                <a ng-click="showAdvancedOptions = !showAdvancedOptions" class="pointer">
+                    <span ng-hide="showAdvancedOptions">Show advanced options</span>
+                    <span ng-show="showAdvancedOptions">Hide advanced options</span>
+                </a>
+            </div>
+            <div ng-show="showAdvancedOptions">
+                <div class="divider-20 setup-groups-tooltip-div">
+                    <label style="margin-bottom: 10px;">Rewards account&nbsp;&nbsp;
+                        <i uib-tooltip-html="'Select an account which the campaign can draw its funds from.'" 
+                        class="ion-information-circled setup-groups-tooltip"></i>
+                    </label>
+                    <div class="row divider-15">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 no-right-padding" style="max-width: 90px;">
+                            <span>Search by:&nbsp;</span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="max-width: 350px;">
+                            <div class="custom-radio-groups-btn" style="width: 100%;">
+                                <label class="pointer" style="margin-right: auto;">
+                                    <input class="pointer" type="radio" value="user" ng-model="searchDebitAccountBy">
+                                    <span class="custom-radio-btn">User email address</span>
+                                </label>
+                                <label class="pointer">
+                                    <input class="pointer" type="radio" value="reference" ng-model="searchDebitAccountBy">
+                                    <span class="custom-radio-btn">Account reference</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"></div>
+                    </div>
+                    <div ng-hide="searchDebitAccountBy === 'user'" class="form-group row">
+                        <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label>Account reference&nbsp;&nbsp;<i uib-tooltip-html="'Type an account reference then select an account and press &#8217;search&#8217;'" 
+                                class="ion-information-circled setup-groups-tooltip"></i>
+                            </label>
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input class="form-control" ng-model="campaignReferencefForDebitAccount"
+                                           type="text" placeholder="Enter account reference to list accounts"
+                                           uib-typeahead="account for account in getAccountsReferenceTypeahead($viewValue)"
+                                           ng-change="debitReferenceChanging()"
+                                           typeahead-on-select="onDebitReferenceSelect($model)" ng-model-options='{ debounce: 30 }' >
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding no-right-padding">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <button ng-disabled="!searchDebitAccount" class="btn dashboard-btn" ng-click="triggerSearchByDebitReference()"
+                                        ng-class="{'btn-primary': searchDebitAccount}" style="margin-top: 0;">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div ng-show="showDebitRefSearchAccounts && campaignReferencefForDebitAccount != ''" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="reward-multi-select">
+                                <label>Accounts</label>
+                                <select chosen
+                                        data-placeholder-text-single="'Choose an account'"
+                                        width="100"
+                                        allow-single-deselect="false"
+                                        ng-model="editCampaignParams.account"
+                                        ng-change="campaignChanged('account')"
+                                        ng-options="account.name + ' - ' + account.reference for account in debitAccountOptions | orderBy: 'name'">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="searchDebitAccountBy === 'user'" class="form-group row">
+                        <div class="reward-multi-select col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label>User email&nbsp;&nbsp;<i uib-tooltip-html="'Type an email address then select a user and press &#8217;search&#8217;'" 
+                                class="ion-information-circled setup-groups-tooltip"></i>
+                            </label>
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input class="form-control" ng-model="campaignDebitUserEmailForAccount"
+                                           type="text" placeholder="Enter email of user to list accounts"
+                                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                                           ng-change="debitEmailChanging()"
+                                           typeahead-on-select="onDebitUserSelect($model)" ng-model-options='{ debounce: 30 }' >
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding no-right-padding">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <button ng-disabled="!searchDebitUser" class="btn dashboard-btn" ng-click="triggerSearchByDebitUser()"
+                                        ng-class="{'btn-primary': searchDebitUser}" style="margin-top: 0;">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div ng-show="showDebitEmailSearchAccounts && campaignDebitUserEmailForAccount != ''" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label>Accounts</label>
+                            <div ng-show="campaignDebitUserAccounts.length > 0" class="reward-multi-select">
+                                <select chosen
+                                        data-placeholder-text-single="'Choose an account'"
+                                        width="100"
+                                        allow-single-deselect="false"
+                                        ng-model="editCampaignParams.account"
+                                        ng-change="campaignChanged('account')"
+                                        ng-options="account.name + ' - ' + account.reference for account in campaignDebitUserAccounts | orderBy: 'name'">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div ng-hide="campaignDebitUserAccounts.length > 0" style="margin-top: 10px;">
+                                <span class="required-icon">No accounts found for this user.&nbsp;</span>
+                                <span><a class="pointer" ng-click="openAddAccountModal('app/pages/accounts/accountsList/newAccountModal/newAccountModal.html','md', campaignDebitUserEmailForAccount)">Add an account here</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Allowed users&nbsp;<i uib-tooltip-html="'Limits a campaign to a specific list of users. If a campaign is also limited to certain groups, any users specified in 
+                    Allowed users will also need to be in a group listed in Allowed groups in order to be eligible foe the reward campaign.'"
+                                                class="ion-information-circled setup-groups-tooltip"></i></label>
+                    <div class="reward-multi-select">
+                        <tags-input ng-model="editCampaignParams.users" on-tag-added="campaignChanged('users')"
+                                    on-tag-removed="campaignChanged('users')"
+                                    placeholder="Enter one or more user IDs.">
+                            <auto-complete class="reward-tag-users-input" source="getUsersEmailTypeahead($query)"></auto-complete>
+                        </tags-input>
+                    </div>
+                </div>
+                <div class="form-group">
+                <label>Allowed groups&nbsp;<i uib-tooltip-html="'Limits a campaign to a specific list of groups. If a campaign is also limited to certain users, only users who are on the 
+                    Allowed users list and in a group specified below will be eligible for the reward campaign.'"
+                                                class="ion-information-circled setup-groups-tooltip"></i></label>
+                <div class="reward-multi-select">
+                <tags-input ng-model="editCampaignParams.groups" on-tag-added="campaignChanged('groups')"
+                    placeholder="Enter one or more group name" on-tag-removed="campaignChanged('groups')">
+                    <auto-complete class="reward-tag-users-input" source="getGroupsTypeahead($query)"></auto-complete>
+                </tags-input>
+                </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-disabled="(!editCampaignForm.$valid || !editCampaignParams.currency.code
+                || (editCampaignParams.timeframe !== 'None' && !editCampaignParams.max_per_user_per_timeframe))"
+                        ng-click="updateCampaign(editCampaignParams)" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                <button ng-click="goToCampaignListView()" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="updatingCampaign" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

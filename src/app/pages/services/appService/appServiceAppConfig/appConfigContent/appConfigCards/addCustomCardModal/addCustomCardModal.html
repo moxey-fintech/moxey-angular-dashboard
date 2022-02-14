@@ -1,0 +1,57 @@
+<div ng-hide="addingCustomCard" class="modal-content" ng-keydown="($event.keyCode === 13) && addCustomCardToConfig()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Welcome cards</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addCustomCardForm" class="custom-form">
+            <div class="form-group divider-20">
+                <label>Card title</label>
+                <input type="text" class="form-control" ng-model="newCardParams.title" placeholder="Enter card title" />
+            </div>
+            <div class="form-group divider-20">
+                <label class="tier-fees-tooltip">Card description</label>
+                <textarea rows="4" class="form-control" style="height: 125px!important;" ng-model="newCardParams.description"></textarea>
+            </div>
+            <div class="divider-15">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group no-left-padding">
+                        <label>Card is dismissable</label>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                        <div ng-show="newCardParams.dismiss">
+                            <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleCardDismissable()"></i>
+                        </div>
+                        <div ng-hide="newCardParams.dismiss">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleCardDismissable()"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-15">
+                <label>Card image</label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            single
+                            width="100"
+                            ng-model="newCardParams.optionSelected"
+                            ng-options="option for option in cardImageOptions">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div ng-show="newCardParams.optionSelected == 'custom'" class="form-group divider-15">
+                <input type="text" class="form-control" ng-model="newCardParams.image" placeholder="Enter custom image url" />
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addCustomCardToConfig()" ng-disabled="!addCustomCardForm.$valid" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingCustomCard">
+    <loading-image></loading-image>
+</div>

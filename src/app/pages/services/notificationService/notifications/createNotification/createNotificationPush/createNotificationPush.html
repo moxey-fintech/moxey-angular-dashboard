@@ -1,0 +1,94 @@
+<div ng-hide="addingPushNotification" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Create push notification</span>
+    </div>
+    <div class="panel-body">
+        <form name="notificationPushForm" class="custom-form" novalidate>
+            <div class="divider-20 custom-form">
+                <label>Notification type</label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-click="switchCreateNotificationView('email')" ng-model="selectedNotifType" value="email">
+                            <span class="custom-radio-btn">Email</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-click="switchCreateNotificationView('sms')" ng-model="selectedNotifType" value="sms">
+                            <span class="custom-radio-btn">SMS</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-click="switchCreateNotificationView('push')" ng-model="selectedNotifType" value="push">
+                            <span class="custom-radio-btn">Push</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Template</label>
+                <br>
+                <select class="form-control pointer" ng-model="pushNotificationParams.template"
+                        ng-change="pushTemplateOptionChanged(pushNotificationParams.template)"
+                        ng-options="template.name for template in pushTemplateOptions | orderBy: 'name'">
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Name <span class="required-icon">*</span></label>
+                <input type="text" ng-model="pushNotificationParams.name"
+                       class="form-control" placeholder="Enter notification name" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea rows="4" type="text" ng-model="pushNotificationParams.description" class="form-control"  placeholder='Enter description'></textarea>
+            </div>
+            <div class="form-group">
+                <label>Title <span class="required-icon">*</span></label>
+                <input type="text" ng-model="pushNotificationParams.subject" class="form-control"  placeholder="Enter title" required>
+            </div>
+            <div class="form-group">
+                <label>Event</label>
+                <br>
+                <select class="form-control pointer" ng-model="pushNotificationParams.event"
+                        ng-change="pushEventOptionChanged(pushNotificationParams.event)"
+                        ng-options="event for event in pushEventOptions">
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Push message ( Type <b>{{</b> to see variable options for this event )</label>
+                <textarea type="text" ng-model="pushNotificationParams.push_message"
+                          ui-codemirror ui-codemirror-opts="editorPushOptions"
+                          ng-codemirror-dictionary-hint="pushTags.tags"
+                          class="form-control"  placeholder='Enter Push message'></textarea>
+            </div>
+            <div class="form-group">
+                <label>Enabled</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="pushNotificationParams.enabled" type="checkbox">
+            </div>
+            <div class="form-group">
+                <label>To user</label>
+                <input type="text" ng-model="pushNotificationParams.to_user" class="form-control"  placeholder="{{expressionPlaceholder}}">
+            </div>
+            <div class="form-group codemirror-md">
+                <label>Expression&nbsp;&nbsp;<span >{{pushNotificationParams.pushExpression.length || 0}}/250</span></label>
+                <textarea type="text" ng-model="pushNotificationParams.pushExpression" class="form-control"
+                          ui-codemirror ui-codemirror-opts="editorPushOptions"  ng-change="pushExpressionChanged()"
+                          placeholder="Enter expression"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Preference enabled&nbsp;<span><i uib-tooltip-html="'If this field is checked, users will be able to opt-out of this notification.
+                Do not check this for password reset or verification emails.'" class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i></span></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="pushNotificationParams.preference_enabled" type="checkbox">
+            </div>
+            <div class="form-group">
+                <button ng-disabled="!notificationPushForm.$valid || pushNotificationParams.pushExpression.length > 250" ng-click="addPushNotification()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                <button ng-disabled="!notificationPushForm.$valid || pushNotificationParams.pushExpression.length > 250" ng-click="addPushNotification('add')" class="btn btn-primary delete-button pull-right margin-right-10">Save and add another</button>
+                <button ng-disabled="!notificationPushorm.$valid || pushNotificationParams.pushExpression.length > 250" ng-click="addPushNotification('continue')" class="btn btn-primary delete-button pull-right margin-right-10">Save and continue editing</button>
+                <button ng-click="goToPushListView()" class="btn btn-default dashboard-btn pull-left margin-right-10">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="addingPushNotification" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

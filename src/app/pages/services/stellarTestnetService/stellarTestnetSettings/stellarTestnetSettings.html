@@ -1,0 +1,14 @@
+<stellar-testnet-service-navigation></stellar-testnet-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <stellar-testnet-settings-menu></stellar-testnet-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <stellar-testnet-service-setup-subtypes ng-show="stellarTestnetSettingView == 'subtypes'"></stellar-testnet-service-setup-subtypes>
+        <!-- <stellar-testnet-service-settings-user-defaults ng-show="stellarTestnetSettingView == 'user defaults'"></stellar-testnet-service-settings-user-defaults> -->
+        <stellar-testnet-disable-send ng-show="stellarTestnetSettingView == 'disable-send'"></stellar-testnet-disable-send>
+        <stellar-testnet-deactivation ng-show="stellarTestnetSettingView == 'deactivation'" ></stellar-testnet-deactivation>
+        <stellar-testnet-federation-address ng-show="stellarTestnetSettingView == 'federation-address'"></stellar-testnet-federation-address>
+        <stellar-testnet-toml ng-show="stellarTestnetSettingView == 'toml-section'"></stellar-testnet-toml>
+    </div>
+</div>

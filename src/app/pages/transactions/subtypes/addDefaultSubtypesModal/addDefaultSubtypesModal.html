@@ -1,0 +1,51 @@
+<div ng-hide="addingSubtype" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Add default subtypes</span>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="defaultSubtypes.length > 0"><i>All default subtypes have been added to the company</i></div>
+        <div ng-show="defaultSubtypes.length > 0" class="divider">
+            <div class="form-group row" style="margin-bottom: 10px!important">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"><label>Default subtypes</label></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right">
+                    <a ng-hide="subtypeSelectedCount > 0" class="pointer pull-right" ng-click="toggleAllSubtypeSelection(true)">Select all</a>
+                    <a ng-show="subtypeSelectedCount > 0" class="pointer pull-right" ng-click="toggleAllSubtypeSelection(false)">Deselect all</a>
+                    <!-- <button ng-hide="subtypeSelectedCount > 0" class="btn btn-primary pull-right" ng-click="toggleAllSubtypeSelection(true)">Select all</button>
+                    <button ng-show="subtypeSelectedCount > 0" class="btn btn-primary pull-right" ng-click="toggleAllSubtypeSelection(false)">Deselect all</button> -->
+                </div>
+                <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right" style="width: 90px;">
+                    <div ng-hide="subtypeSelectedCount > 0" class="notification-select-all-bulk-checkbox">
+                        <label>Select all</label>
+                        <input class="custom-rehive-checkbox pull-right" ng-click="toggleAllSubtypeSelection(true)" type="checkbox" ng-checked="subtypeSelectedCount === 0">
+                    </div>
+                    <div ng-show="subtypeSelectedCount > 0" class="notification-select-all-bulk-checkbox">
+                        <label>Deselect all</label>
+                        <input class="custom-rehive-checkbox pull-right" ng-click="toggleAllSubtypeSelection(false)"type="checkbox" ng-checked="subtypeSelectedCount > 0">
+                    </div>
+                </div> -->
+            </div>            
+            <table class="table custom-table divider-20">
+                <tr>
+                    <th width="40px" class="rehive-table-row-first-child">Tx type</th>
+                    <th width="22%" class="rehive-table-row-first-child">Name</th>
+                    <th width="60%" class="rehive-table-row-first-child">Description</th>
+                    <th width="28px" class="no-right-padding"></th>
+                </tr>
+                <tr ng-repeat="subtype in defaultSubtypes | orderBy: 'label' track by $index" class="editable-row">
+                    <td width="40px" class="transactions-list-element rehive-table-row-first-child" ng-bind="subtype.tx_type | capitalizeWord" style="vertical-align: top;"></td>
+                    <td width="22%" class="transactions-list-element rehive-table-row-first-child" ng-bind="subtype.name" style="vertical-align: top;"></td>
+                    <td width="60%" class="rehive-table-row-first-child" ng-bind="subtype.description" style="vertical-align: top;"></td>
+                    <td width="28px" class="transactions-list-element pull-right no-right-padding">
+                        <input class="custom-rehive-checkbox" ng-model="subtype.selected" ng-change="updateSubtypeSelectedCount(subtype.selected)" type="checkbox">
+                    </td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <button ng-disabled="subtypeSelectedCount === 0" ng-click="addSelectedSubtypes()" class="btn btn-primary pull-right">Add selected subtypes</button>
+            </div>
+        </div>        
+    </div>
+</div>
+<div ng-show="addingSubtype" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

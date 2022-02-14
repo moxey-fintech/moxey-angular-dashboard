@@ -1,0 +1,13 @@
+<ethereum-service-navigation></ethereum-service-navigation>
+<div class="row" >
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <ethereum-service-settings-menu></ethereum-service-settings-menu>
+    </div>
+    <div ng-show="ethereumSettingView == 'hdkeys'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <hd-keys></hd-keys>
+    </div>
+    <div ng-show="ethereumSettingView == 'deactivation'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <ethereum-deactivation></ethereum-deactivation>
+    </div>
+
+</div>

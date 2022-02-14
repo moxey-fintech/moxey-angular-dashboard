@@ -1,0 +1,68 @@
+<exchange-service-navigation></exchange-service-navigation>
+<div ng-hide="loadingQuotes" class="panel">
+  <div class="panel-heading">
+    <div class="table-filter-heading">
+      <div>
+        <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                class="btn btn-default">Filters
+          <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+        </button>
+        <div ng-show="showingFilters">
+          <exchange-filters></exchange-filters>
+        </div>
+      </div>
+      <button ng-click="getQuotesList('applyFilter')" ng-disabled="loadingQuotes"
+              class="btn btn-default dynamic-columns panel-header-button">Refresh</button>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div ng-show="filtersCount > 0" class="divider">
+      <p class="filter-text">Your results are currently being filtered</p>
+    </div>
+    <div ng-show="quotesList.length > 0" class="divider">
+      <table class="table custom-table">
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Sender</th>
+          <th>Sent Amount</th>
+          <th>Recipient</th>
+          <th>Received Amount</th>
+          <th>Conversion Rate</th>
+          <th>Status</th>
+        </tr>
+        <tr ng-repeat="quote in quotesList | orderBy: '-created' track by $index" data-toggle="modal"
+            ng-click="openTransactionsModal('app/pages/services/exchangeService/exchangeServiceQuotes/exchangeServiceQuoteModal/exchangeServiceQuoteModal.html','lg',quote)"
+            class="editable-row center pointer user-details-table-hover">
+          <td><div title="{{quote.id}}" class="transactions-list-element" ng-bind="quote.id | limitTo: '100'"></div></td>
+          <td><div title="{{quote.created}}" class="transactions-list-element" ng-bind="quote.created"></div></td>
+          <td><div title="{{quote.user_email}}" class="transactions-list-element" ng-bind="quote.user_email"></div></td>
+          <td><div class="transactions-list-element">
+            {{quote.from_currency.symbol}} {{quote.from_amount | currencyModifiersFilter: quote.from_currency.divisibility | commaSeperateNumberFilter}}
+          </div></td>
+          <td><div title="{{quote.recipient_email}}" class="transactions-list-element"
+                   ng-bind="quote.recipient_email"></div></td>
+          <td><div class="transactions-list-element">
+            {{quote.to_currency.symbol}} {{quote.to_amount | currencyModifiersFilter: quote.to_currency.divisibility | commaSeperateNumberFilter}}
+          </div></td>
+          <td><div title="{{quote.exchange_rate.toString()}}">
+            {{quote.exchange_rate.toString()}}</div></td>
+          <td><div title="{{quote.exchange_rate.toString()}}">
+            {{quote.status}}</div></td>
+        </tr>
+      </table>
+      <div>
+        <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="quotesListData.count" ng-model="pagination.pageNo"
+           max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getQuotesList()"
+           previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+      </div>
+    </div>
+    <div ng-show="quotesList.length == 0">
+      <i ng-hide="quotesListStateMessage == ''" ng-bind="quotesListStateMessage"></i>
+      <loading-image ng-show="quotesListStateMessage == ''"></loading-image>
+    </div>
+  </div>
+</div>
+<div ng-show="loadingQuotes" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

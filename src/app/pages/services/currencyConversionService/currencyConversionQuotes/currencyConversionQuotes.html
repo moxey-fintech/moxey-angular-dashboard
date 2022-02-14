@@ -1,0 +1,68 @@
+<currency-conversion-service-navigation></currency-conversion-service-navigation>
+
+<div ng-hide="loadingQuotes" class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showQuotesFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingQuotesFilters">
+                    <currency-conversion-quotes-filters></currency-conversion-quotes-filters>
+                </div>
+            </div>
+            <button ng-click="getQuotesList('applyFilter')" ng-disabled="loadingQuotes"
+                    class="btn btn-default dynamic-columns panel-header-button">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="quotesList.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th>Quote id</th>
+                    <th>Conversion id</th>
+                    <th>From currency</th>
+                    <th>To currency</th>
+                    <th>From total amount</th>
+                    <th>From amount</th>
+                    <th>To amount</th>
+                    <th class="pull-right">Rate</th>
+                </tr>
+                <tr ng-repeat="quote in quotesList | orderBy: 'id' track by $index"  class="editable-row pointer user-details-table-hover"
+                    ng-click="goToQuotesView('app/pages/services/currencyConversionService/currencyConversionQuotes/currencyConversionQuotesModal/currencyConversionQuotesModal.html','md',quote)">
+                    <td class="transactions-list-element" title="{{quote.id}}" ng-bind="quote.id"></td>
+                    <td class="transactions-list-element" title="{{quote.conversion}}" ng-bind="quote.conversion || 'None'"></td>
+                    <td class="transactions-list-element rehive-table-row-first-child" title="{{quote.from_currency.code}}" ng-bind="quote.from_currency.code"></td>
+                    <td class="transactions-list-element" title="{{quote.to_currency.code}}" ng-bind="quote.to_currency.code"></td>
+                    <td><div class="transactions-list-element">
+                        {{quote.from_currency.symbol}} {{quote.from_total_amount  | currencyModifiersFilter: quote.from_currency.divisibility | commaSeperateNumberFilter}}
+                    </div></td>
+                    <td><div class="transactions-list-element">
+                        {{quote.from_currency.symbol}} {{quote.from_amount  | currencyModifiersFilter: quote.from_currency.divisibility | commaSeperateNumberFilter}}
+                    </div></td>
+                    <td><div class="transactions-list-element">
+                        {{quote.to_currency.symbol}} {{quote.to_amount  | currencyModifiersFilter: quote.to_currency.divisibility | commaSeperateNumberFilter}}
+                    </div></td>
+                    <td class="pull-right"><div class="transactions-list-element">
+                        {{quote.rate}}
+                    </div></td>
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="quotesListData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getQuotesList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-hide="quotesList.length > 0">
+            <i>No quotes are available</i>
+        </div>
+    </div>
+</div>
+<div ng-show="loadingQuotes" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

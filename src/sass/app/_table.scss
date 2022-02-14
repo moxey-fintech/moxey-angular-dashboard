@@ -1,0 +1,24 @@
+.table-panel {
+  height: 295px;
+}
+
+.draggable-headers:hover{
+  cursor: pointer;
+  background-color: #f4f4f4;
+}
+
+.st-sort-ascent:before {
+  content: '\25B2';
+}
+
+.st-sort-descent:before {
+  content: '\25BC';
+}
+
+.lr-drop-target-before{
+  border-left: 2px solid rgb(133, 80, 231);
+}
+
+.lr-drop-target-after{
+  border-right: 2px solid rgb(133, 80, 231);
+}

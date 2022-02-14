@@ -1,0 +1,93 @@
+<div ng-hide="updatingCategory || loadingCategories || loadingCategory" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit category</h4>
+    </div>
+    <div class="modal-body">
+        <form name="editCategoryForm" class="custom-form" novalidate>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Category name<span class="required-icon">*</span></label>
+                <input type="text" ng-model="editCategoryObj.name" ng-change="trackCategoryChanges('name')" placeholder="Enter category name"
+                        class="form-control" size="12">
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Parent category&nbsp;&nbsp;<i uib-tooltip-html="'Check this to make this a parent category.'"
+                                    class="ion-information-circled setup-groups-tooltip"></i></label>
+                <input class="custom-rehive-checkbox" ng-model="editCategoryObj.isParent" ng-change="trackCategoryChanges('isParent')" type="checkbox">   
+            </div>
+            <div ng-show="!editCategoryObj.isParent" class="form-group setup-groups-tooltip-div">
+                <label>Select a parent category</label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            data-placeholder-text-single="'Choose a parent category'"
+                            width="100"
+                            ng-options="category.name for category in availableCategories | orderBy: 'name'"
+                            ng-model="editCategoryObj.parent"
+                            ng-change="trackCategoryChanges('parent')"
+                    >
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="modal-footer row">
+        <button  ng-click="updateCategory(editCategoryObj)" ng-disabled="!editCategoryForm.$valid || !editCategoryObj.name"
+                    class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="updatingCategory || loadingCategories || loadingCategory">
+    <loading-image></loading-image>
+</div>
+
+<!--
+<div ng-hide="updatingCategory || loadingCategories || loadingCategory">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Edit category</span>
+        </div>
+        <div class="panel-body">
+            <form name="editCategoryForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>Category name<span class="required-icon">*</span></label>
+                    <input type="text" ng-model="editCategoryObj.name" ng-change="trackCategoryChanges('name')" placeholder="Enter category name"
+                           class="form-control" size="12">
+                </div>
+                <div class="form-group divider-20 setup-groups-tooltip-div">
+                    <label>Parent category<i uib-tooltip-html="'Check this to make this a parent category.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i></label>
+                    <input class="custom-rehive-checkbox" ng-model="editCategoryObj.isParent" ng-change="trackCategoryChanges('isParent')" type="checkbox">   
+                </div>
+                <div ng-show="!editCategoryObj.isParent" class="form-group setup-groups-tooltip-div">
+                    <label>Select a parent category</label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                data-placeholder-text-single="'Choose a parent category'"
+                                width="100"
+                                ng-options="category.name for category in availableCategories | orderBy: 'name'"
+                                ng-model="editCategoryObj.parent"
+                                ng-change="trackCategoryChanges('parent')"
+                        >
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                 
+                <div class="form-group">
+                    <button  ng-click="updateCategory(editCategoryObj)" ng-disabled="!editCategoryForm.$valid"
+                             class="btn btn-primary dashboard-btn pull-right">Create</button>
+                    <button ng-click="backToCategoryList()" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="updatingCategory || loadingCategories || loadingCategory" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>
+ -->

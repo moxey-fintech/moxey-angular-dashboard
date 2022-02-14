@@ -1,0 +1,20 @@
+<div ba-panel class="service-header menu-box" ba-panel-class="light-text">
+    <hr class="no-margin">
+    <div ng-click="goToVoucherMoneySetting('settings')"
+         ng-class="{'selected-settings-menu': voucherMoneySettingView === 'settings' }"
+         class="pointer menu-box-options">
+        <h5>Settings <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <div ng-click="goToVoucherMoneySetting('currencies')"
+         ng-class="{'selected-settings-menu': voucherMoneySettingView === 'currencies' }"
+         class="pointer menu-box-options">
+        <h5>Currencies <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToVoucherMoneySetting('deactivation')"
+         ng-class="{'selected-settings-menu': voucherMoneySettingView === 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>

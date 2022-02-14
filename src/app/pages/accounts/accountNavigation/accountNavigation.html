@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="user-details-nav-bar">
+            <li><a ng-class="{'transaction-location': locationIndicator == 'user-accounts-list'}" href="/#/accounts/user-accounts-list">User accounts</a></li>
+            <li><a ng-class="{'transaction-location': locationIndicator == 'standalone-accounts-list'}" href="/#/accounts/standalone-accounts-list">Standalone accounts</a></li>
+            <li><a ng-class="{'transaction-location': locationIndicator == 'recon-accounts-list'}" href="/#/accounts/recon-accounts-list">Recon accounts</a></li>
+            <li><a ng-class="{'transaction-location': locationIndicator == 'account-currencies'}" href="/#/accounts/account-currencies">Account currencies</a></li>
+            <li><a ng-class="{'transaction-location': locationIndicator == 'definitions'}" ng-click="goToAccountDefList()">Account definitions</a></li>
+        </ul>
+    </div>
+</div>

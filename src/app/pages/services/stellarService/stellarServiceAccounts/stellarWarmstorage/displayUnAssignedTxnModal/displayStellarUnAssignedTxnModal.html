@@ -1,0 +1,127 @@
+<div ng-hide="loadingTransaction" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Un-assigned transaction details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Id: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding" style="word-wrap: break-word;">
+                <span ng-bind="unassignedTxn.id"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Transaction hash: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding" style="word-wrap: break-word;">
+                <span ng-bind="unassignedTxn.transaction_hash"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Currency: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="unassignedTxn.currency"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Amount: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="unassignedTxn.amount | currencyModifiersFilter: unassignedTxn.currency.divisibility || 7 | commaSeperateNumberFilter"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Fee: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="unassignedTxn.fee"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">From reference: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding" style="word-wrap: break-word;">
+                <span ng-bind="unassignedTxn.from_reference"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">To reference: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding" style="word-wrap: break-word;">
+                <span ng-bind="unassignedTxn.to_reference"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Memo: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding" style="word-wrap: break-word;">
+                <span ng-bind="unassignedTxn.memo"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Assignment reason: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="unassignedTxn.reason_for_assigning"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="unassignedTxn.status"></span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Signed: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span>{{unassignedTxn.signed | capitalizeWord}}</span>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Created date: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{unassignedTxn.created | date:'mediumDate'}} {{unassignedTxn.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Updated date: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{unassignedTxn.updated | date:'mediumDate'}} {{unassignedTxn.updated | date:'shortTime'}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" id="transaction-modal-save-button"
+                ng-click="openAssignTransactionModal('app/pages/services/stellarService/stellarServiceAccounts/stellarWarmstorage/assignStellarTransactionModal/assignStellarTransactionModal.html', 'md')" 
+                class="btn btn-primary dashboard-btn pull-right">Assign</button>
+            <button type="button" ng-click="$dismiss()" aria-label="Close"
+                    class="dashboard-btn btn-default btn pull-left">Back</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingTransaction">
+    <loading-image></loading-image>
+</div>

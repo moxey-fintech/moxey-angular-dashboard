@@ -1,0 +1,50 @@
+<stripe-service-navigation></stripe-service-navigation>
+<div class="panel">
+    <div class="panel-body">
+        <div ng-hide="loadingPayments">
+            <div ng-show="stripePaymentsList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="paymentsPagination.itemsPerPage"  total-items="stripePaymentsListData.count" ng-model="paymentsPagination.pageNo"
+                   max-size="paymentsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getPaymentsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="stripePaymentsList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Payment id</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="payment in stripePaymentsList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center user-details-table-hover">
+                            <td class="table-row-center transactions-list-element">{{payment.id}}</td>
+                            <td class="table-row-center transactions-list-element">{{payment.user}}</td>
+                            <td class="table-row-center transactions-list-element">{{payment.status | capitalizeWord}}</td>
+                            <td class="table-row-center transactions-list-element">{{payment.currency.code}}</td>
+                            <td class="table-row-center transactions-list-element">{{payment.amount | currencyModifiersFilter: payment.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td class="table-row-center transactions-list-element">{{payment.created | date:'mediumDate'}} {{payment.created | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{payment.updated | date:'mediumDate'}} {{payment.updated | date:'shortTime'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="stripePaymentsList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="paymentsPagination.itemsPerPage"  total-items="stripePaymentsListData.count" ng-model="paymentsPagination.pageNo"
+                       max-size="paymentsPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getPaymentsList()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="stripePaymentsList.length > 0">No stripe payments available to display.</i>
+        </div>
+        <div ng-show="loadingPayments">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

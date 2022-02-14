@@ -1,0 +1,24 @@
+<div ng-hide="deletingTiers" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Delete tier</h4>
+    </div>
+    <div class="modal-body">
+        <p class="divider"><span class="text-subtle">Tier level:</span> {{tier.level}}</p>
+        <p class="divider"><span class="text-subtle">Tier name:</span> {{tier.name}}</p>
+        <p class="divider"><span class="text-subtle">Tier description:</span> {{tier.description || 'None'}}</p>
+    </div>
+    <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>-->
+        <button ng-click="deleteGroupTierConfirm()"
+                type="button" class="btn btn-default delete-button-lifted pull-right margin-left-12">Delete permanently</button>
+        <button ng-click="archiveTier()" ng-disabled="tier.archived"
+                ng-class="{'btn-primary': !tier.archived,'btn-gray': tier.archived}"
+                type="button" class="btn dashboard-btn pull-right">Archive</button>
+    </div>
+</div>
+<div ba-panel ng-show="deletingTiers">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,18 @@
+<div ng-hide="loadingCompanyNotifications" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Notifications</span>
+    </div>
+    <div class="panel-body">
+        <div class="divider" ng-repeat="notification in notifications track by $index">
+            <div class="form-group">
+                <label  class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-change="saveNotifications(notification)" ng-model="notification.enabled" ng-checked="notification.enabled">
+                    <span class="account-settings-span">{{notification.description}}</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingCompanyNotifications">
+    <loading-image></loading-image>
+</div>

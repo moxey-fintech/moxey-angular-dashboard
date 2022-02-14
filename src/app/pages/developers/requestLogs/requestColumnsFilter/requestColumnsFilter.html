@@ -1,0 +1,23 @@
+<div class="panel table-column-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Select columns</span>
+            <button ng-click="showColumnFilters()" class="btn btn-primary pull-right">Done</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <input type="text" class="column-search" placeholder="Search column" ng-model="columnSearch">
+        <div class="column-options-div">
+            <p ng-click="selectAllColumns()" class="columns-restore column-option1">Select all</p>
+            <p ng-click="restoreColDefaults()" class="columns-restore column-option2">Restore defaults</p>
+        </div>
+        <div ng-repeat="column in requestHeaderColumns | filter: columnSearch track by $index">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input ng-change="toggleColumnVisibility()" type="checkbox" ng-model="column.visible">
+                    <span ng-bind="column.colName"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

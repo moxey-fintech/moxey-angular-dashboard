@@ -1,0 +1,111 @@
+<h1 class="group-details-page-title">{{groupName}}</h1>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 groups-breadcrumb">
+        <span ng-click="goToGroupView('groups/overview')" class="pointer">Groups</span>
+        <span><strong>&nbsp;/&nbsp; Group details</strong></span>
+    </div>
+</div>
+<div ng-class="{'user-details-view': !loadingGroup}">
+    <!--<div class="row">-->
+        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user-details-first-row divider-30">-->
+            <!--<div class="group-hexagon"></div>-->
+            <!--<div class="group-overview-details">-->
+                <!--<span class="group-details-name">{{editGroupObj.name}}</span>-->
+                <!--<p class="user-details-info"><strong>{{totalUsersCount}}</strong> Total users</p>-->
+                <!--<p class="user-details-info"><strong>{{totalUsersCount - deactiveUsersCount}}</strong> Active users</p>-->
+                <!--<p class="user-details-info"><strong>{{deactiveUsersCount}}</strong> Deactivated users</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <group-navigation></group-navigation>
+    <div ng-hide="loadingGroup" class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="user-details-panel-title">Edit group</span>
+                    <div ng-show="isPreset" style="margin-top: 10px;">
+                        <span class="user-details-panel-title" style="color: #ed675A; font-weight: normal; font-size: 13px;"><i>** Cannot edit a preset group</i></span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form name="editGroupForm" class="custom-form">
+                        <div class="form-group">
+                            <label>Name <span class="required-icon">*</span></label>
+                            <input type="text" ng-model="editGroupObj.name" ng-change="groupChanged('name')" class="form-control" placeholder="Name" required ng-disabled="isPreset">
+                        </div>
+                        <div class="form-group">
+                            <label>Label</label>
+                            <input type="text" ng-model="editGroupObj.label" ng-change="groupChanged('label')" class="form-control" placeholder="Label" ng-disabled="isPreset">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <p class="small">If this group is public, this description will display on the wallet frontend if you also have the <a class="pointer" ng-click="goToWalletExtension('auth')">enable public group selection</a> setting enabled.</p>
+                            <textarea ng-model="editGroupObj.description" ng-change="groupChanged('description')" class="form-control" placeholder="Description" ng-disabled="isPreset"></textarea>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                <label>Default</label>
+                                <br>
+                                <input class="custom-rehive-checkbox" ng-model="editGroupObj.default" ng-change="groupChanged('default')" type="checkbox" ng-disabled="isPreset">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                <label>Public</label>
+                                <br>
+                                <input class="custom-rehive-checkbox" ng-model="editGroupObj.public" ng-change="groupChanged('public')" type="checkbox" ng-disabled="isPreset">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="custom-form">
+                        <div ng-hide="isPreset" class="form-group divider-20">
+                             <label>
+                                 Choose a group highlight color&nbsp;
+                                 <span>
+                                     <i uib-tooltip-html="'The text color when displaying a user of this group in Users and or one of their account in Accounts'"
+                                        class="ion-information-circled setup-groups-tooltip"></i>
+                                 </span>
+                             </label>
+                             <div style="margin-top: 8px; position: relative">
+                                 <div class="color-container pull-left" id="editGroupColor" ng-style="{'background-color': editGroupObj.group_highlight.color}">&nbsp;</div>
+                                 <button color-picker color-picker-show-value="false" color-picker-model="editGroupObj.group_highlight.color"
+                                         color-picker-position="right"
+                                         class="btn btn-primary color-selector">
+                                     <span><i class="fa fa-pencil" style="color: white;"></i></span>
+                                 </button>
+                             </div>                 
+                         </div>
+                         <div ng-hide="isPreset" class="form-group" style="margin-bottom: -10px;">
+                            <label style="margin-bottom: 20px;">Group icon</label>
+                            <div ng-hide="editGroupObj.icon || imageFile.iconFile.name">
+                                <div class="placeholder-div placeholder-div-icon align-items-center">512 x 512</div>
+                            </div>
+                            <div ng-show="editGroupObj.icon || imageFile.iconFile.name" class="placeholder-div placeholder-div-icon" style="border: none;">
+                                <img ng-hide="imageFile.iconFile.name" ng-src="{{editGroupObj.icon}}" width="100" height="100" alt="group icon"  style="object-fit: contain; height: auto; margin: auto">
+                                <img ng-show="imageFile.iconFile.name" ngf-thumbnail="imageFile.iconFile" width="100" height="100" alt="group icon" style="object-fit: contain; height: auto; margin: auto">
+                            </div>
+                            <form class="divider">
+                                <fieldset class="custom-file-upload">
+                                    <label>
+                                        <span class="custom-file-upload-span">
+                                            <div class="template-edit-icon-container" style="margin: -110px 0px 0px 80px; padding-top: 4px"><i class="fa fa-2x fa-pencil" style="color: white;"></i></div>
+                                        </span>
+                                        <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                            type="file" ngf-select ng-model="imageFile.iconFile" name="file"
+                                            accept="image/*" ngf-max-size="5MB" required>
+                                    </label>
+                                </fieldset>
+                            </form>
+                            <a ng-show="editGroupObj.icon" class="pointer" ng-click="removeGroupIcon()">Remove icon</a>    
+                         </div> 
+                         <div class="form-group">
+                             <button ng-click="uploadGroupIcon();updateGroupObj(editGroupObj)" ng-disabled="!editGroupForm.$valid || isPreset"
+                             class="btn btn-primary dashboard-btn pull-right">Save</button>
+                         </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroup">
+    <loading-image></loading-image>
+</div>

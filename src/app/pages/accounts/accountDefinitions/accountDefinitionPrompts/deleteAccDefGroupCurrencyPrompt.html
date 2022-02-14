@@ -1,0 +1,18 @@
+<p>
+    You are deleting currency <span class="get-started-text">{{currencyObj.currency.display_code}}</span> for group <span class="get-started-text">{{groupName}}</span> in 
+    the <span class="get-started-text">{{accDefName}}</span> account definition. Deleting this currency will also delete this currency 
+    in any accounts associated with this account definition for <span class="get-started-text">{{groupName}}</span> 
+    group. Any transactions associated with this currency for <span class="get-started-text">{{groupName}}</span> 
+    and the <span class="get-started-text">{{accDefName}}</span> account definition will also be deleted.
+</p>
+<p>
+    Deleting is <span class="required-icon">PERMANENT</span> and cannot be undone. You may add the currency again at a later stage, 
+    but any associated deleted transactions will remain deleted.
+</p>
+<p>Do you want to proceed?</p>
+<form name="promptForm">
+    <div class="form-group divider">
+        <input class="form-control" type="text" ng-model="accDefGroupCurrencyDeleteText"
+               placeholder="Type DELETE to confirm" required auto-focus="true">
+    </div>
+</form>

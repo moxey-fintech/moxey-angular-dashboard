@@ -1,0 +1,29 @@
+<div ng-hide="deletingSubtype" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Archive or delete subtype</h4>
+    </div>
+    <div class="modal-body">
+        <p>
+            Do you want to archive or delete this subtype permanently? An archived subtype can be reinstated, a deleted one cannot.
+        </p>
+        <br>
+        <p class="divider"><span class="text-subtle">Name:</span> {{subtype.name}}</p>
+        <p class="divider"><span class="text-subtle">Label:</span> {{subtype.label}}</p>
+        <p class="divider"><span class="text-subtle">Description:</span> {{subtype.description}}</p>
+        <p class="divider"><span class="text-subtle">Tx type:</span> {{subtype.tx_type}}</p>
+        <p class="divider"><span class="text-subtle">Usage type:</span> {{subtype.usage_type}}</p>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="deleteSubtypePrompt()"
+                type="button" class="btn btn-default delete-button-lifted pull-right margin-left-12">Delete permanently</button>
+        <button ng-click="archiveSubtype()" ng-disabled="subtype.archived"
+                ng-class="{'btn-primary': !subtype.archived,'btn-gray': subtype.archived}"
+                type="button" class="btn dashboard-btn pull-right">Archive</button>
+    </div>
+</div>
+<div ba-panel ng-show="deletingSubtype">
+    <loading-image></loading-image>
+</div>

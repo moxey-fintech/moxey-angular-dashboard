@@ -1,0 +1,100 @@
+<div ng-hide="addingAccountDefinitionGroup" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add groups to <span class="get-started-text">{{accDefName}}</span></h4>
+    </div>
+    <div class="modal-body">
+        <form name="addAccountDefinitionGroupsForm" class="custom-form">
+            <div ng-show="groupOptions.length > 0"class="form-group setup-groups-tooltip-div">
+                <label ng-hide="newAccountDefGroups.length > 0">
+                    <strong class="strong-headers">Add groups</strong>
+                    <i class="fa fa-plus-square-o product-prices-add-icon left-margin-12"
+                       ng-hide="newAccountDefGroups.length > 0"
+                       ng-class="{'product-prices-add-icon-near-title': newAccountDefGroups.length == 0}"
+                       style="left: 8px;"
+                       ng-click="addDefinitionGroup()"></i>
+                </label>
+                <div ng-repeat="groupObj in newAccountDefGroups track by $index">
+                    <div ng-show="currenciesOptions.length > 0">
+                        <div class="divider">
+                            <label>Group&nbsp;<span class="required-icon">*</span></label>
+                            <div class="reward-multi-select">
+                                <select chosen
+                                        data-placeholder-text-single="'Choose a group'"
+                                        width="40"
+                                        ng-model="groupObj.group"
+                                        ng-options="item.name for item in groupOptions | excludeSelectedGroups:groupObj.group:newAccountDefGroups | orderBy: 'name'">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <label>Currency</label>
+                            <div class="reward-multi-select divider">
+                                <select chosen
+                                        multiple
+                                        data-placeholder-text-multiple="'Choose one or more currencies'"
+                                        width="100"
+                                        ng-model="groupObj.currencies"
+                                        ng-options="currency.display_code for currency in currenciesOptions | orderBy: 'code' track by currency.code">
+                                    <option value=""></option>
+                                </select>
+                            </div>           
+                        </div>
+                        <div class="form-group row divider-20">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-left-padding">
+                                <label class="checkbox-inline custom-checkbox nowrap">
+                                    <input type="checkbox" ng-model="groupObj.default" ng-checked="groupObj.default">
+                                    <span style="padding-top: 10px">Default&nbsp;&nbsp;
+                                        <span><i uib-tooltip-html="'Select <strong><i>Default</i></strong> for this definition to automatically create this account on a 
+                                            user when they are added to this group. We recommend setting a definition as default.'" 
+                                            class="ion-information-circled setup-groups-tooltip"></i>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-left-padding">
+                                <label class="checkbox-inline custom-checkbox nowrap">
+                                    <input type="checkbox" ng-model="groupObj.primary" ng-checked="groupObj.primary">
+                                    <span style="padding-top: 10px">Primary&nbsp;&nbsp;
+                                        <span><i uib-tooltip-html="'Select <strong><i>Primary</i></strong> if the account created by this definition should be the primary
+                                             account for users in this group. All money transferred to users will automatically go to their primary account unless a 
+                                             different account is specified. Users cannot receive a transfer if they do not have a primary account.'" 
+                                            class="ion-information-circled setup-groups-tooltip"></i>
+                                        </span>
+                                    </span>
+                                </label>                              
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding no-right-padding">
+                                <div class="pull-right">
+                                    <i class="fa fa-minus-square-o product-prices-remove-icon" 
+                                    ng-click="removeDefinitionGroup($index)" style="line-height: 1.2; padding-top: 10px"></i>
+                                    <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" 
+                                    ng-click="addDefinitionGroup()" style="line-height: 1.2; padding-top: 10px"></i>                                 
+                                </div>                                
+                            </div>
+                        </div>
+                    </div> 
+                    <div ng-hide="currenciesOptions.length > 0" class="form-group divider-20">
+                        <p>Looks like you don't have any active currencies to your company.
+                            Add one by going to the <a href="/#/currencies/currencies-list" target="_blank">currencies page</a>.</p>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="groupOptions.length > 0" class="form-group divider-20">
+                <p>Looks like you have groups to be added to the account definition.
+                    Add a new one by going to the <a href="/#/groups/overview" target="_blank">groups overview page</a>.</p>
+            </div>
+            <button ng-click="saveAccountDefinitionGroups()" ng-disabled="!addAccountDefinitionGroupsForm.$valid || newAccountDefGroups.length == 0"
+                    class="btn btn-primary no-margin pull-right dashboard-btn">Add
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+<div ba-panel ng-show="addingAccountDefinitionGroup">
+    <loading-image></loading-image>
+</div>

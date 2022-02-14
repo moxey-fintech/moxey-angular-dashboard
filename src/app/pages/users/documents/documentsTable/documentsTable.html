@@ -1,0 +1,85 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{
+                'transactions-filter-btn-large-filters': (filtersCount >= 10),
+                'transactions-filter-btn': (filtersCount > 0 && filtersCount < 10),
+                'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <!-- <span click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <columns-filter></columns-filter>
+                    </div>
+                </span> -->
+                <div ng-show="showingFilters">
+                    <document-filters></document-filters>
+                </div>
+            </div>
+            <button ng-click="getAllDocuments('applyFilter')" ng-disabled="loadingUsers"class="btn btn-default dynamic-columns panel-header-user-icon"
+            style="right: 25px!important;">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="documents.length > 0" class="upper-pagination">
+            <p uib-pagination boundary-links="true" items-per-page="applyFiltersObj.paginationFilter.itemsPerPage"  total-items="documentsData.count" ng-model="applyFiltersObj.paginationFilter.pageNo"
+               max-size="applyFiltersObj.paginationFilter.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllDocuments()"
+               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+        </div>
+        <div ng-show="documents.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped" st-table="documents">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Type</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Date created</th>
+                            <th>Date updated</th>
+                            <th>Note to user</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="document in documents track by $index" ng-click="openViewDocumentModal('app/pages/users/user/userDetails/userDocuments/userDocumentModal/userDocumentModal.html', document)"
+                            class="editable-row center pointer user-details-table-hover">
+                            <td class="transactions-list-element">{{document.user.email || document.user.mobile || document.user.id}}</td>
+                            <td class="transactions-list-element">{{document.document_type}}
+                                <span ng-show="document.hasExpired">&nbsp;
+                                    <i tooltip-class="duplicate-transction-tooltip" uib-tooltip-html="'Document has expired!'" 
+                                    class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                                </span>
+                            </td>
+                            <td class="transactions-list-element">{{document.document_category}}</td>
+                            <td class="transactions-list-element">{{document.status | capitalizeWord}}</td>
+                            <td class="transactions-list-element">{{document.created | date:'mediumDate'}}</td>
+                            <td class="transactions-list-element">{{document.updated | date:'mediumDate'}}</td>
+                            <td class="transactions-list-element">{{document.note}}</td>
+                            <td class="pull-right">
+                                <a ng-show="document.status === 'pending'" class="pointer">Verify</a>
+                                <a ng-hide="document.status === 'pending'" class="pointer">Manage</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="documents.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="applyFiltersObj.paginationFilter.itemsPerPage"  total-items="documentsData.count" ng-model="applyFiltersObj.paginationFilter.pageNo"
+                   max-size="applyFiltersObj.paginationFilter.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getAllDocuments()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="documents.length == 0">
+            <i ng-hide="documentsStateMessage == ''" ng-bind="documentsStateMessage"></i>
+            <loading-image ng-show="documentsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>

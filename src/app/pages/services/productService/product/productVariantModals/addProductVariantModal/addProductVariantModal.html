@@ -1,0 +1,138 @@
+<div ng-hide="addingNewProductVariant" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add variant</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addVariantForm" class="custom-form">
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Variant label&nbsp;<span class="required-icon">*</span></label>
+                <input type="text" ng-model="newVariantParams.label" placeholder="Enter a label for the variant"
+                    class="form-control" size="12" required>
+            </div>
+            <div class="row"> 
+                <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 form-group setup-groups-tooltip-div no-left-padding no-right-padding">
+                    <label class="products-checkbox-label">Variant quantity</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-2 col-xs-2 no-left-padding">
+                    <div class="divider-20">
+                        <div class="custom-radio-groups-btn">
+                            <label class="pointer" style="width: 100px;">
+                                <input class="pointer" type="radio" ng-model="newVariantParams.tracked" value="{{true}}">
+                                <span class="custom-radio-btn">Tracked</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="width: 100px;">
+                                <input class="pointer" type="radio" ng-model="newVariantParams.tracked" value="{{false}}">
+                                <span class="custom-radio-btn">Untracked</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>                   
+            </div>
+            <div class="row"> 
+                <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 form-group setup-groups-tooltip-div no-left-padding no-right-padding">
+                    <label class="products-checkbox-label">Allow custom amounts</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-2 col-xs-2 no-left-padding">
+                    <div class="form-group divider-20 setup-groups-tooltip-div">
+                        <label class="products-checkbox-label"><input class="custom-rehive-checkbox" ng-model="newVariantParams.allow_custom_amount" 
+                            ng-change="updateAllowCustomAmountOnPrices()" type="checkbox"></label>
+                    </div>
+                </div>                   
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Code (SKU)</label>
+                <input type="text" ng-model="newVariantParams.code" placeholder="Enter code"
+                    class="form-control" size="12">
+            </div>
+            <div ng-show="newVariantParams.tracked == 'true'" class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Quantity</label>
+                <input type="number" ng-model="newVariantParams.quantity" placeholder="Enter quantity"
+                    class="form-control" size="12">
+            </div>
+            <div ng-show="productOptions.length > 0" class="form-group divider-20 setup-groups-tooltip-div">
+                <label ng-class="{'divider-20': productOptions.length > 0}">
+                    <strong class="strong-headers">Options</strong>
+                </label>
+                <div class="divider" ng-repeat="option in productOptions track by $index">
+                    <label>{{option.name | capitalizeWord}}</label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                data-placeholder-text-single="'Choose a value'"
+                                width="40"
+                                ng-model="newVariantParams.options[option.name]"
+                                ng-options="value for value in option.values | orderBy: 'name'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="productOptions.length > 0" class="divider-20">
+                <i>No product options. Please add options before adding a variant.</i>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label><strong class="strong-headers">Prices</strong>
+                    <i class="fa fa-plus-square-o product-prices-add-icon left-margin-12"
+                       ng-hide="newVariantParams.prices.length > 0"
+                       ng-class="{
+                       'product-prices-add-icon-near-title': newVariantParams.prices.length == 0}"
+                       style="left: 8px;"
+                       ng-click="addPriceRow()"></i>
+                </label>
+                <div ng-show="newVariantParams.prices.length > 0" class="row product-service-headers">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding no-right-padding">
+                        <label>Currency</label>
+                    </div>
+                    <div ng-hide="newVariantParams.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                        <label>Amount</label>
+                    </div>
+                    <div ng-show="newVariantParams.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                        <label>Min amount</label>
+                    </div>
+                    <div ng-show="newVariantParams.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                        <label>Max amount</label>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label></label>
+                    </div>
+                </div>
+                <div class="row divider" ng-repeat="price in newVariantParams.prices track by $index">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding no-right-padding">
+                        <div class="reward-multi-select">
+                            <select chosen
+                                    data-placeholder-text-single="'Choose a currency'"
+                                    width="40"
+                                    ng-model="price.currency"
+                                    ng-options="currency.code for currency in currencyOptions | excludeSelectedCurrencies:price.currency:newVariantParams.prices | orderBy: 'code' ">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div ng-hide="price.allow_custom_amount" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-right-padding">
+                        <input type="text" ng-model="price.amount" class="form-control" placeholder="Enter amount">
+                    </div>
+                    <div ng-show="price.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                        <input type="text" ng-model="price.min_custom_amount" class="form-control" placeholder="Enter min">
+                    </div>
+                    <div ng-show="price.allow_custom_amount" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                        <input type="text" ng-model="price.max_custom_amount" class="form-control" placeholder="Enter max">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 product-buttons-container no-right-padding" style="margin-top: 6px;">
+                        <i class="fa fa-minus-square-o product-prices-remove-icon"
+                           ng-click="removeAddPriceRow($index)"></i>
+                        <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addPriceRow()"></i>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>    
+    <div class="modal-footer row">
+        <button ng-click="saveNewVariant()" ng-disabled="!addVariantForm.$valid || productOptions.length == 0"
+          class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingNewProductVariant">
+    <loading-image></loading-image>
+</div>

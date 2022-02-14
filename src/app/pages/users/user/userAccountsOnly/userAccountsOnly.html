@@ -1,0 +1,166 @@
+<div class="panel" >
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <button ng-click="showAccountsFilters()" ng-class="{'transactions-filter-btn': (accountsFiltersCount > 0), 'transactions-btn': (accountsFiltersCount == 0)}"
+                    class="btn btn-default">Filters
+                <span ng-show="accountsFiltersCount > 0">|</span> <span ng-show="accountsFiltersCount > 0" class="filter-count">{{accountsFiltersCount}}</span>
+            </button>
+            <div ng-show="showingAccountsFilters">
+                <user-accounts-filter></user-accounts-filter>
+            </div>
+            <div>
+                <button class="btn btn-primary pull-right panel-header-button currencies-page-buttons-add"
+                        ng-click="openAddAccountModal()">Add account</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-hide="loadingUserAccounts" class="tabbable">
+    <ul class="nav nav-tabs group-definition-nav exports-tab">
+        <li ng-class="{'active': userAccountView === 'active'}" ng-click="toggleUserAccountView('active')">
+            <a href="" data-target="#activeUserAccounts" data-toggle="tab">Active user accounts</a>
+        </li>
+        <li ng-class="{'active': userAccountView === 'archived'}" ng-click="toggleUserAccountView('archived')">
+            <a href="" data-target="#archivedUserAccounts" data-toggle="tab">Archived user accounts</a>
+        </li>
+    </ul>
+    <div class="tab-content row">
+        <div class="tab-pane" id="activeUserAccounts" ng-class="{'active': userAccountView === 'active'}">
+            <div ng-show="activeUserAccounts.length > 0" ng-repeat="account in activeUserAccounts | orderBy: '-primary' track by $index">
+                <div class="panel">
+                    <div class="panel-heading" ng-style="account.archived && {'background-color': '#e6e6e6'}">
+                        <div class="user-account-panel-heading">
+                            <div class="user-account-panel-title">
+                                <span class="currencies-details-heading">Account name
+                                    &nbsp;&nbsp;<span ng-show="account.definition">
+                                        <i uib-tooltip-html="'This account is part of a definition and cannot be edited directly. Edit the definition to make any changes.'" class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                                    </span>
+                                </span>
+                                <br>
+                                <span class="currencies-details-value">{{account.name}}</span>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="user-account-panel-title">
+                                <span class="currencies-details-heading">Reference</span>
+                                <br>
+                                <span class="currencies-details-value">{{account.reference}}</span>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="user-account-panel-title">
+                                <span ng-show="account.primary && !account.archived && !account.recon" class="user-primary-account user-account-status">PRIMARY</span>
+                                <span ng-show="account.recon" class="user-account-status status-pending margin-right-30" style="margin-top: -5px;">RECON</span>
+                                <span ng-show="account.archived" class="user-account-status status-pending"  style="margin-left: 95px; margin-top: -5px;">ARCHIVED</span>
+                            </div>
+                            <a ng-if="!account.definition" ng-click="showArchiveAccountPrompt(account)"
+                               class="user-account-edit-link pull-right pointer">Archive</a>
+                            <a ng-click="goToUserTransactions(account)"
+                                class="user-account-edit-link pull-right pointer" ng-class="{'margin-right-30': !account.definition}">View transactions</a>
+                            <a ng-if="!account.definition && !account.archived" 
+                                ng-click="openEditAccountModal(account, account.currencies)"
+                                class="user-account-edit-link pull-right pointer margin-right-30">Edit</a>
+                        </div>
+                    </div>
+                    <div class="panel-body user-details-panel-body" ng-style="account.archived && {'background-color': '#e6e6e6'}">
+                        <table ng-show="account.currencies.length > 0" class="table user-details-account-table">
+                            <tr class="user-switches-table-header">
+                                <th class="no-left-padding">Currency</th>
+                                <th>Available balance</th>
+                                <th>Balance</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-repeat="accCurr in account.activeCurrencies track by $index" class="user-details-account-hover user-account-options-row">
+                                <td class="no-left-padding" width="15%" ng-bind="accCurr.currency.display_code"></td>
+                                <td width="20%" title="{{accCurr.available_balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}">
+                                    {{accCurr.currency.symbol}}{{accCurr.available_balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}
+                                </td>
+                                <td width="20%" title="{{accCurr.balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}">
+                                    {{accCurr.currency.symbol}}{{accCurr.balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}
+                                </td>
+                                <td class="rehive-table-row-last-child account-options-row" width="55%">
+                                    <div ng-click="showCurrenciesOptions(accCurr.currency.code,account.reference); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                                        <span ng-show="!accCurr.archived" class="user-account-active-options pull-right">
+                                            <a class="pointer margin-right-30" ng-click="goToView('credit',accCurr.currency,account.user,account.reference)">Credit</a>
+                                            <a class="pointer margin-right-30" ng-click="goToView('debit',accCurr.currency,account.user,account.reference)">Debit</a>
+                                            <a class="pointer margin-right-30" ng-click="goToSettings(accCurr.currency.code,account.reference)">Settings</a>
+                                            <a class="pointer margin-right-30" ng-click="goToFilteredUserTransactions(accCurr.currency.code, account.reference)">View transactions</a>
+                                            <a class="pointer" ng-click="showArchiveAccountCurrencyPrompt(account, accCurr)">Archive</a>
+                                        </span>
+                                        <span class="fa fa-ellipsis-h pull-right pointer account-options user-account-span"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="accCurr in account.archivedCurrencies track by $index" class="user-details-account-hover user-account-options-row disable-pin">
+                                <td class="no-left-padding" width="15%" ng-bind="accCurr.currency.display_code"></td>
+                                <td width="20%" title="{{accCurr.available_balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}">
+                                    {{accCurr.currency.symbol}}{{accCurr.available_balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}
+                                </td>
+                                <td width="20%" title="{{accCurr.balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}">
+                                    {{accCurr.currency.symbol}}{{accCurr.balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}
+                                </td>
+                                <td class="rehive-table-row-last-child account-options-row" width="55%">
+                                    <span class="pull-left user-account-status status-pending" style="border: 1px solid; width: 100px; 
+                                    text-align: center; border-radius: 25px; height: 25px; line-height: 25px;">ARCHIVED</span>
+                                    <div ng-click="showCurrenciesOptions(accCurr.currency.code,account.reference); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                                        <span class="user-account-archived-options pull-right">
+                                            <a class="pointer margin-right-30" ng-click="goToFilteredUserTransactions(accCurr.currency.code, account.reference)">View transactions</a>
+                                            <a class="pointer" ng-click="showRestoreAccountCurrencyPrompt(account, accCurr)">Restore</a>
+                                        </span>
+                                        <span class="fa fa-ellipsis-h pull-right pointer account-options user-account-span"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div ng-if="account.currencies.length == 0" ng-hide="loadingUserAccounts">
+                            <i style="margin-top: 10px">No currencies associated with this account yet.</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="activeUserAccounts.length > 0">
+                <div class="panel">
+                    <div class="panel-body">
+                        <i>No active user accounts available</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="archivedUserAccounts" ng-class="{'active': userAccountView === 'archived'}">
+            <div ng-show="archivedUserAccounts.length > 0" ng-repeat="account in archivedUserAccounts track by $index">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="user-account-panel-heading">
+                            <div class="user-account-panel-title">
+                                <span class="currencies-details-heading">Account name</span>
+                                <br>
+                                <span class="currencies-details-value">{{account.name}}</span>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="user-account-panel-title">
+                                <span class="currencies-details-heading">Reference</span>
+                                <br>
+                                <span class="currencies-details-value">{{account.reference}}</span>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="user-account-panel-title">
+                                <span ng-show="account.recon" class="user-account-status status-pending margin-right-30" style="margin-top: -5px;">RECON</span>
+                                <span ng-show="account.archived" class="user-account-status status-pending"  style="margin-left: 95px; margin-top: -5px;">ARCHIVED</span>
+                            </div>
+                            <a ng-show="account.archived && !account.definition" ng-click="showRestoreAccountPrompt(account)" class="user-account-edit-link pull-right pointer">Restore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="archivedUserAccounts.length > 0">
+                <div class="panel">
+                    <div class="panel-body">
+                        <i>No archived user accounts available</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserAccounts">
+    <loading-image></loading-image>
+</div>
+

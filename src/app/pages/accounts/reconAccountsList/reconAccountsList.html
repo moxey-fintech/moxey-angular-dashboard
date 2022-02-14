@@ -1,0 +1,109 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingFilters">
+                    <accounts-filters></accounts-filters>
+                </div>
+            </div>
+            <button ng-click="getAllAccounts('applyFilter')" ng-disabled="loadingAccounts"
+                    class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+            <button ng-click="goToAddAccount('app/pages/accounts/reconAccountsList/newReconAccountModal/newReconAccountModal.html','md')"
+                    class="btn btn-primary transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div ng-show="filtersCount > 0 || accountsList.length == 0" class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="accountsList.length == 0">
+            <i ng-hide="accountsStateMessage == ''" ng-bind="accountsStateMessage"></i>
+            <loading-image ng-show="accountsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>
+<div ng-show="!loadingAccounts && accountsList.length > 0" class="small subtle" style="margin: -18px 0 12px 0;">
+    A recon account on Rehive is any account that is a 1-to-1 duplication of an external account (a bank account, crypto account etc.)
+    <a style="font-size: 13px;margin-right: 24px;" class="pull-right pointer" target="_blank" href="https://rehive.intercom.help/en/collections/2290958-rehive-recon-accounts">Help center</a>
+</div>
+<div ng-show="!loadingAccounts && accountsList.length > 0" class="panel divider" ng-repeat="account in accountsList | orderBy: '-primary' track by $index">
+    <div class="panel-heading" ng-style="account.archived && {'background-color': '#e6e6e6'}">
+        <div class="user-account-panel-heading">
+            <div class="user-account-panel-title">
+                <span class="currencies-details-heading">Account name
+                    &nbsp;&nbsp;<span ng-show="account.definition">
+                        <i uib-tooltip-html="'This account is part of a definition and cannot be edited directly. Edit the definition to make any changes.'" class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                    </span>
+                </span>
+                <br>
+                <span class="currencies-details-value">{{account.name}}</span>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="user-account-panel-title">
+                <span class="currencies-details-heading">Reference</span>
+                <br>
+                <span class="currencies-details-value">{{account.reference}}</span>
+            </div>
+            <span ng-show="account.user">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <div ng-show="account.user" class="user-account-panel-title">                
+                <span class="currencies-details-heading">User</span>
+                <br>
+                <a class="currencies-details-value pointer" ng-click="goToUserDetails(account)" 
+                style="color: #009152;">{{account.userObj.email || account.userObj.id}}</a>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="user-account-panel-title">
+                <span ng-show="account.recon" class="user-account-status status-pending margin-right-30">RECON</span>
+                <span ng-show="account.archived" class="user-account-status status-pending"  style="margin-left: 95px">ARCHIVED</span>
+            </div>
+            <a ng-if="!account.archived" ng-click="goToAccountTransactions(account.reference)"
+                class="user-account-edit-link pull-right pointer">View transactions</a>
+            <a ng-if="!account.definition && !account.archived" 
+                ng-click="openEditAccountModal('app/pages/users/user/userAccountsOnly/editAccountModal/editAccountModal.html','md',account,account.currencies)"
+                class="user-account-edit-link pull-right pointer margin-right-30">Manage</a>
+        </div>
+    </div>
+    <div ng-hide="account.archived" class="panel-body user-details-panel-body" ng-style="account.archived && {'background-color': '#e6e6e6'}">
+        <table ng-show="account.currencies.length > 0" class="table user-details-account-table">
+            <thead>
+                <tr class="user-switches-table-header">
+                    <th class="no-left-padding">Currency</th>
+                    <th>Available balance</th>
+                    <th>Balance</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="accCurr in account.currencies | orderBy: 'currency.code' track by $index" class="user-account-options-row">
+                    <td class="no-left-padding" width="15%" ng-bind="accCurr.currency.display_code"></td>
+                    <td width="20%" title="{{accCurr.available_balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}">
+                        {{accCurr.currency.symbol}} {{accCurr.available_balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}
+                    </td>
+                    <td width="30%" title="{{accCurr.balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}">
+                        {{accCurr.currency.symbol}} {{accCurr.balance  | currencyModifiersFilter: accCurr.currency.divisibility | commaSeperateNumberFilter}}
+                    </td>
+                    <td class="rehive-table-row-last-child no-right-padding" width="35%">
+                        <span class="pull-right">
+                            <a class="pointer margin-right-30" ng-click="createNewTransaction('credit', accCurr.currency, account.reference)">Credit</a>
+                            <a class="pointer margin-right-30" ng-click="createNewTransaction('debit', accCurr.currency, account.reference)">Debit</a>
+                            <a class="pointer margin-right-30" ng-click="createNewTransaction('transfer', accCurr.currency, account.reference)">Transfer</a>
+                            <a class="pointer" ng-click="goToReconAccount(accCurr.currency.code, account)">Settings</a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-if="account.currencies.length == 0" ng-hide="loadingAccounts">
+            <i style="margin-top: 10px; padding-left: 24px">No currencies associated with this account yet.</i>
+        </div>
+    </div>
+</div>
+<div ng-show="!loadingAccounts && accountsList.length > 0">
+    <p uib-pagination boundary-links="true" items-per-page="accountsPagination.itemsPerPage"  total-items="accountsListData.count" ng-model="accountsPagination.pageNo"
+        max-size="accountsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllAccounts()"
+        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+</div>

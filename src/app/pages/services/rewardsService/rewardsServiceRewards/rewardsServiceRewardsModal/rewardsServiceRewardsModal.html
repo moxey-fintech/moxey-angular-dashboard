@@ -1,0 +1,112 @@
+<div ng-hide="loadingReward" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Reward details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <a ng-hide="editingRequest" class="pull-right divider pointer"
+               ng-click="toggleEditingRequest()"><i class="fa fa-pencil"></i> Edit reward</a>
+            <a ng-show="editingRequest" class="pull-right divider pointer"
+               ng-click="toggleEditingRequest()"><i class="fa fa-times"></i> Cancel edit</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Reward id: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="reward.id"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Campaign id: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="reward.campaign.id || 'None'"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Campaign name: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="reward.campaign.name || 'None'"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">User: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="userObj.email"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Amount: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="(reward.amount | currencyModifiersFilter: reward.currency.divisibility | commaSeperateNumberFilter) || 'None'"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Currency: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="reward.currency.code || 'None'"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Credit transaction id: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <a ng-click="goToTransactions(reward.credit_tx)" class="pointer" ng-bind="reward.credit_tx || 'None'"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Debit transaction id: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <a ng-click="goToTransactions(reward.debit_tx)" class="pointer" ng-bind="reward.debit_tx || 'None'"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Reward type: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="reward.reward_type || 'None'"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-hide="editingRequest" ng-bind="reward.status| capitalizeWord"></p>
+                <select ng-show="editingRequest" class="form-control divider pointer"
+                        ng-model="updateRequestObj.status"
+                        ng-options="option for option in rewardStatusOptions">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" id="transaction-modal-save-button"
+                    ng-click="updateRequestPrompt()"
+                    class="dashboard-btn btn pull-right btn-primary">Save</button>
+            <button type="button" ng-click="$dismiss()"
+                    class="dashboard-btn btn-default btn pull-left">Close</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingReward">
+    <loading-image></loading-image>
+</div>

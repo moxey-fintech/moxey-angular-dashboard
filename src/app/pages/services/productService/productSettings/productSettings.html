@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <product-settings-menu></product-settings-menu>
+    </div>
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+        <product-service-app-config ng-show="productSettingView == 'app-config'"></product-service-app-config>
+        <product-integrations ng-show="productSettingView == 'integrations'"></product-integrations>
+        <product-general-settings ng-show="productSettingView == 'settings'"></product-general-settings>
+        <product-deactivation ng-show="productSettingView == 'deactivation'"></product-deactivation>
+    </div>
+</div>

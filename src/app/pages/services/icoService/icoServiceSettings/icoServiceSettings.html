@@ -1,0 +1,15 @@
+<ico-service-navigation></ico-service-navigation>
+<div class="row" >
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <ico-service-settings-menu></ico-service-settings-menu>
+    </div>
+    <div ng-show="icoSettingView == 'company'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <ico-company-info></ico-company-info>
+    </div>
+    <div ng-show="icoSettingView == 'secret'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <ico-secret></ico-secret>
+    </div>
+    <div ng-show="icoSettingView == 'webhooks'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <ico-webhooks></ico-webhooks>
+    </div>
+</div>

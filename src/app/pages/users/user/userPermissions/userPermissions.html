@@ -1,0 +1,81 @@
+<div class="user-details-view" ng-hide="loadingPermissions">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel" ng-repeat="(key,value) in totalPermissionsObj">
+                <div>
+                    <div class="group-permissions-table">
+                        <table class="table">
+                            <tr>
+                                <th width="40%">
+                                    {{totalPermissionsObj[key].permissionsName}}
+                                    <input type="checkbox" class="custom-rehive-checkbox" ng-model="totalPermissionsObj[key].enableAll"
+                                           ng-disabled="user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')"
+                                           ng-class="{'permissions-select-all-disabled': (user.groups[0].name == 'admin') || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')}"
+                                           ng-checked="user.groups[0].name == 'admin'"
+                                           ng-click="toggleAllPermissions(key,totalPermissionsObj[key].enableAll)">
+                                </th>
+                                <th width="12%" class="text-center">View
+                                    <input type="checkbox" ng-disabled="user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')"
+                                           ng-class="{'checkbox-disabled': user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')}"
+                                           ng-checked="enabledColumns[key].view || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="enabledColumns[key].view" ng-change="toggleAllLevelsByType('view', key)">
+                                </th>
+                                <th width="12%" class="text-center">Add
+                                    <input type="checkbox" ng-disabled="user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')"
+                                           ng-class="{'checkbox-disabled': user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')}"
+                                           ng-checked="enabledColumns[key].add || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="enabledColumns[key].add" ng-change="toggleAllLevelsByType('add', key)">
+                                </th>
+                                <th width="12%" class="text-center">Change
+                                    <input type="checkbox" ng-disabled="user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')"
+                                           ng-class="{'checkbox-disabled': user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')}"
+                                           ng-checked="enabledColumns[key].change || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="enabledColumns[key].change" ng-change="toggleAllLevelsByType('change', key)">
+                                </th>
+                                <th width="12%" class="text-center">Delete
+                                    <input type="checkbox" ng-disabled="user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')"
+                                           ng-class="{'checkbox-disabled': user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(totalPermissionsObj[key].from == 'fromGroup')}"
+                                           ng-checked="enabledColumns[key].delete || editGroupObj.name == 'admin'"
+                                           class="custom-rehive-checkbox" ng-model="enabledColumns[key].delete" ng-change="toggleAllLevelsByType('delete', key)">
+                                </th>
+                                <th width="12%" class="text-center">All</th>
+                            </tr>
+                            <tr ng-repeat="permission in totalPermissionsObj[key].permissions">
+                                <td>
+                                    <!--<p class="no-margin" ng-bind="permission.type"></p>-->
+                                    <span class="no-margin" ng-bind="permission.type"></span>
+                                    <span ng-if="permission.section == 'admin'">
+                                        <i ng-if="permission.type == 'Bank account'" uib-tooltip-html="'This refers to an user\'s bank account.'"
+                                           class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i>
+                                        <i ng-if="permission.type == 'Request'" uib-tooltip-html="'This refers to request logs.'"
+                                           class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i>
+                                        <i ng-if="permission.type == 'Service'" uib-tooltip-html="'This refers to activating a service.'"
+                                           class="ion-information-circled setup-groups-tooltip" tooltip-placement="right"></i>
+                                    </span>
+
+                                </td>
+                                <td class="text-center group-permission-td" ng-repeat="level in permission.levels track by $index">
+                                    <label class="checkbox-inline custom-checkbox nowrap"
+                                            ng-class="{'checkbox-disabled': (user.groups[0].name == 'admin') || user.groups[0].name == 'service' ||(level.from == 'fromGroup')}">
+                                        <input type="checkbox" ng-change="trackPermissions(permission,level,key)" ng-model="level.enabled"
+                                               ng-disabled="user.groups[0].name == 'admin' || user.groups[0].name == 'service' ||(level.from == 'fromGroup')"
+                                               ng-checked="level.enabled || user.groups[0].name == 'admin'">
+                                        <span class="account-settings-span permissions-checkbox-margin-top"></span>
+                                    </label>
+                                    <div ng-show="user.groups[0].name == 'admin'" class="group-permission-tooltip">
+                                        Rehive system group user permissions cannot be edited.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button ng-disabled="user.groups[0].name == 'admin'"
+            ng-click="separateCheckedLevels()" class="pull-right btn dashboard-btn btn-primary">Save</button>
+</div>
+<div ba-panel ng-show="loadingPermissions">
+    <loading-image></loading-image>
+</div>

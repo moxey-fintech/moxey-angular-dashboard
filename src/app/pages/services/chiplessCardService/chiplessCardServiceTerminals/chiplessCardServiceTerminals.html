@@ -1,0 +1,64 @@
+<chipless-card-service-navigation></chipless-card-service-navigation>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Terminals</span>
+        <button ng-click="goToAddTerminalView('app/pages/services/chiplessCardService/chiplessCardServiceTerminals/createChiplessCardServiceTerminal/createChiplessCardTerminalModal.html','md')" 
+        class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingTerminals">
+            <div ng-show="chiplessCardTerminalsList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="terminalsPagination.itemsPerPage"  total-items="chiplessCardTerminalsListData.count" ng-model="terminalsPagination.pageNo"
+                   max-size="terminalsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getPaymentsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="chiplessCardTerminalsList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Terminal id</th>
+                            <th>Terminal name</th>
+                            <th>Currencies</th>
+                            <th>Enabled</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="terminal in chiplessCardTerminalsList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover" ng-click="displayTerminalModal('app/pages/services/chiplessCardService/chiplessCardServiceTerminals/viewChiplessCardServiceTerminal/viewChiplessCardTerminalModal.html', 'md',terminal)">
+                            <td class="table-row-center transactions-list-element">{{terminal.id}}</td>
+                            <td class="table-row-center transactions-list-element">{{terminal.name}}</td>
+                            <td class="table-row-center transactions-list-element">
+                                <span ng-repeat="currency in terminal.currencies track by $index">
+                                    {{$last ? '' + currency.code : currency.code + ',&nbsp;'}}
+                                </span>
+                            </td>
+                            <td class="table-row-center transactions-list-element">{{terminal.enabled}}</td>
+                            <td class="table-row-center transactions-list-element">{{terminal.created | date:'mediumDate'}} {{terminal.created | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{terminal.updated | date:'mediumDate'}} {{terminal.updated | date:'shortTime'}}</td>
+                            <td class="rehive-table-row-last-child" ng-click="$event.stopPropagation()">
+                                <div class="table-col-two-actions"> 
+                                    <a ng-click="openDeleteTerminalModal('app/pages/services/chiplessCardService/chiplessCardServiceTerminals/deleteChiplessCardServiceTerminalModal/deleteChiplessCardServiceTerminalModal.html','md', terminal)"
+                           class="pull-right pointer">Delete</a>
+                                    <a ng-click="openEditTerminalModal('app/pages/services/chiplessCardService/chiplessCardServiceTerminals/editChiplessCardServiceTerminal/editChiplessCardServiceTerminalModal.html','md', terminal)"  class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="chiplessCardTerminalsList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="terminalsPagination.itemsPerPage"  total-items="chiplessCardTerminalsListData.count" ng-model="terminalsPagination.pageNo"
+                       max-size="terminalsPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getTerminalsList()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="chiplessCardTerminalsList.length > 0">No terminals available to display.</i>
+        </div>
+        <div ng-show="loadingTerminals">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

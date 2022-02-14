@@ -1,0 +1,48 @@
+<h1 class="currencies-title">Transactions</h1>
+<transaction-navigation></transaction-navigation>
+<div ng-hide="loadingSubtypes">
+    <div class="panel">
+        <div class="panel-heading align-items-center" style="justify-content: space-between;">
+            <span class="user-details-panel-title">Transaction subtypes</span>
+            <div>
+                <button class="btn btn-primary dynamic-columns pull-right" ng-click="openAddSubtypeModal('app/pages/transactions/subtypes/addSubtypeModal/addSubtypeModal.html','md')">Add subtype</button>
+                <button class="btn btn-primary dynamic-columns pull-right" ng-disabled="defaultSubtypes.length === 0" 
+                    ng-click="goToAddDefaultSubtypes()">Add default subtypes</button>
+            </div>
+            <!-- <a class="user-details-panel-link pull-right pointer">Add subtype</a> -->
+        </div>
+        <div class="panel-body">
+            <table ng-show="subtypes.length > 0" class="table">
+                <tr class="divider">
+                    <th class="rehive-table-row-first-child">Name</th>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Usage type</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="subtype in subtypes | orderBy: 'name' track by $index">
+                    <td ng-class="{'archived-text': subtype.archived}" class="table-row-center transactions-list-element rehive-table-row-first-child" ng-bind="subtype.name"></td>
+                    <td ng-class="{'archived-text': subtype.archived}" class="table-row-center transactions-list-element" title="{{subtype.name}}" ng-bind="subtype.label || 'None'"></td>
+                    <td ng-class="{'archived-text': subtype.archived}" class="table-row-center transactions-list-element" title="{{subtype.label}}" ng-bind="subtype.tx_type | capitalizeWord"></td>
+                    <td ng-class="{'archived-text': subtype.archived}" class="table-row-center transactions-list-element" title="{{subtype.usage_type | capitalizeWord}}" ng-bind="(subtype.usage_type | capitalizeWord) || 'None'"></td>
+                    <td ng-class="{'archived-text': subtype.archived}" class="table-row-center transactions-list-element" title="{{subtype.description}}" ng-bind="subtype.description || 'None'"></td>
+                    <td ng-class="{'archived-text': subtype.archived}" class="rehive-table-row-last-child">
+                        <a ng-click="openSubtypeModal('app/pages/transactions/subtypes/subtypeModal/subtypeModal.html','md',subtype)"
+                           class="pull-right pointer ">Delete</a>
+                        <a ng-click="openEditSubtypeModal('app/pages/transactions/subtypes/editSubtypeModal/editSubtypeModal.html','md',subtype)"
+                           class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                        <a ng-show="subtype.archived" ng-click="restoreSubtype(subtype)"
+                           class="pull-right pointer user-address-edit margin-right-30">Restore</a>
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="subtypes.length == 0">
+                <i>No subtypes have been added yet.</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingSubtypes">
+    <loading-image></loading-image>
+</div>

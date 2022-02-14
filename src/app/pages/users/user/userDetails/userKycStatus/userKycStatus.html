@@ -1,0 +1,23 @@
+<div ng-hide="loadingUserKycStatus" class="panel panel-default">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">KYC status</span>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <td width="25%" class="rehive-table-row-first-child" title="{{userStatus.status}}">
+                    <span ng-class="{'status-pending': userStatus.status == 'pending','status-verified': userStatus.status == 'verified',
+                    'status-incomplete-declined': userStatus.status == 'incomplete' || userStatus.status == 'declined' || userStatus.status == 'obsolete'}"
+                          class="user-address-status">{{userStatus.status | uppercase}}</span>
+                </td>
+                <td class="rehive-table-row-last-child pull-right">
+                    <a ng-click="openEditUserKycStatusModal('app/pages/users/user/userDetails/userKycStatus/editKycStatusModal/editKycStatusModal.html','md',userStatus)"
+                       class="pull-right pointer user-address-edit">Edit</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserKycStatus">
+    <loading-image></loading-image>
+</div>

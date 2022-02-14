@@ -1,0 +1,64 @@
+<chipless-card-service-navigation></chipless-card-service-navigation>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Cards</span>
+        <button ng-click="goToAddCardView('app/pages/services/chiplessCardService/chiplessCardServiceCards/createChiplessCardServiceCard/createChiplessCardModal.html','md')" 
+        class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingCards">
+            <div ng-show="chiplessCardCardsList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="cardsPagination.itemsPerPage"  total-items="chiplessCardCardsListData.count" ng-model="cardsPagination.pageNo"
+                   max-size="cardsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getCardsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="chiplessCardCardsList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Card id</th>
+                            <th>User</th>
+                            <th>Account</th>
+                            <th>Number</th>
+                            <th>Enabled</th>
+                            <th>Activated</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="card in chiplessCardCardsList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center user-details-table-hover">
+                            <td class="table-row-center transactions-list-element">{{card.id}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.user}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.account}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.number}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.enabled}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.activated}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.created | date:'mediumDate'}} {{card.created | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{card.updated | date:'mediumDate'}} {{card.updated | date:'shortTime'}}</td>
+                            <td class="rehive-table-row-last-child" ng-click="$event.stopPropagation()">
+                                <div class="table-col-two-actions"> 
+                                    <a ng-click="openDeleteCardModal('app/pages/services/chiplessCardService/chiplessCardServiceCards/deleteChiplessCardServiceCard/deleteChiplessCardServiceCardModal.html','md', card)"
+                           class="pull-right pointer">Delete</a>
+                                    <a ng-click="openEditCardModal('app/pages/services/chiplessCardService/chiplessCardServiceCards/editChiplessCardServiceCard/editChiplessCardServiceCardModal.html','md', card)"  class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="chiplessCardCardsList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="cardsPagination.itemsPerPage"  total-items="chiplessCardCardsListData.count" ng-model="cardsPagination.pageNo"
+                       max-size="cardsPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getCardsList()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="chiplessCardCardsList.length > 0">No cards available to display.</i>
+        </div>
+        <div ng-show="loadingCards">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

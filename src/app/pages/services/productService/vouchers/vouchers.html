@@ -1,0 +1,68 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showVouchersFilters()" ng-class="{'transactions-filter-btn': (vouchersFiltersCount > 0), 'transactions-btn': (vouchersFiltersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="vouchersFiltersCount > 0">|</span> <span ng-show="vouchersFiltersCount > 0" class="filter-count">{{vouchersFiltersCount}}</span>
+                </button>
+                <div ng-show="showingVouchersFilters">
+                    <vouchers-filters></vouchers-filters>
+                </div>
+            </div>
+            <button ng-click="getVouchersLists('applyFilter')" ng-disabled="loadingVouchers"
+                    class="btn btn-default transactions-btn panel-header-user-icon clear-filter-btn" style="margin-right: 0px;">Refresh</button>
+            <button ng-click="goToAddVoucher()" class="btn btn-success transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingVouchers">
+            <div ng-show="vouchersList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="vouchersPagination.itemsPerPage"  total-items="vouchersListData.count" ng-model="vouchersPagination.pageNo"
+                   max-size="vouchersPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getVouchersList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="vouchersList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Code Id</th>
+                            <th>Product name</th>
+                            <th>Voucher code</th>
+                            <th>Format</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="voucher in vouchersList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row pointer user-details-table-hover">
+                            <td class="table-row-center transactions-list-element" ng-click="displayVoucherModal('app/pages/services/productService/vouchers/displayVoucherModal/displayVoucherModal.html','md',voucher)">{{voucher.id}}</td>
+                            <td class="table-row-center transactions-list-element" ng-click="displayVoucherModal('app/pages/services/productService/vouchers/displayVoucherModal/displayVoucherModal.html','md',voucher)">{{voucher.product_or_item.name}}</td>
+                            <td class="table-row-center transactions-list-element" ng-click="displayVoucherModal('app/pages/services/productService/vouchers/displayVoucherModal/displayVoucherModal.html','md',voucher)">{{voucher.code}}</td>
+                            <td class="table-row-center transactions-list-element" ng-click="displayVoucherModal('app/pages/services/productService/vouchers/displayVoucherModal/displayVoucherModal.html','md',voucher)">{{voucher.product_or_item.virtual_format}}</td>
+                            <td class="table-row-center transactions-list-element" ng-click="displayVoucherModal('app/pages/services/productService/vouchers/displayVoucherModal/displayVoucherModal.html','md',voucher)">{{voucher.status | capitalizeWord}}</td>
+                            <td class="table-row-center transactions-list-element" ng-click="displayVoucherModal('app/pages/services/productService/vouchers/displayVoucherModal/displayVoucherModal.html','md',voucher)">{{voucher.created | date:'mediumDate'}} {{voucher.created | date:'shortTime'}}</td>
+                            <td ng-class="{'archived-text': subtype.archived}" class="rehive-table-row-last-child">
+                                <a ng-click="deleteVoucherConfirm(voucher)" class="pull-right pointer" style="margin-right: 20px;">Delete</a>
+                                <a ng-click="editVoucherStatus(voucher)" class="pull-right pointer" style="margin-right: 30px;">Edit</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="vouchersList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="vouchersPagination.itemsPerPage"  total-items="vouchersListData.count" ng-model="vouchersPagination.pageNo"
+                       max-size="vouchersPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getVouchersLists()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="vouchersList.length > 0">No vouchers are available.</i>
+        </div>
+        <div ng-show="loadingVouchers">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

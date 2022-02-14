@@ -1,0 +1,165 @@
+<div class="tier-form" ba-panel>
+    <div>
+        <h2 class="divider">Basic information</h2>
+        <p class="divider-15"><i>Select required fields for this tier.</i></p>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('title')" ng-model="tierRequirementFields.title">
+            <span>Title</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('gender')" ng-model="tierRequirementFields.gender">
+            <span>Gender</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('first_name')" ng-model="tierRequirementFields.first_name">
+            <span>First name</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('last_name')" ng-model="tierRequirementFields.last_name">
+            <span>Last name</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('nationality')" ng-model="tierRequirementFields.nationality">
+            <span>Nationality</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('birth_date')" ng-model="tierRequirementFields.birth_date">
+            <span>Birth date</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('marital_status')" ng-model="tierRequirementFields.marital_status">
+            <span>Marital status</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('fathers_name')" ng-model="tierRequirementFields.fathers_name">
+            <span>Father's name</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('mothers_name')" ng-model="tierRequirementFields.mothers_name">
+            <span>Mother's name</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('grandfathers_name')" ng-model="tierRequirementFields.grandfathers_name">
+            <span>Grandfather's name</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('grandmothers_name')" ng-model="tierRequirementFields.grandmothers_name">
+            <span>Grandmother's name</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('central_bank_number')" ng-model="tierRequirementFields.central_bank_number">
+            <span>Central bank number</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('id_number')" ng-model="tierRequirementFields.id_number">
+            <span>ID number</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('language')" ng-model="tierRequirementFields.language">
+            <span>Language</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('user')" ng-model="tierRequirementFields.user">
+            <span>Verified user status</span>
+        </label>
+    </div>
+    <div>
+        <h2 class="divider">Address</h2>
+        <p class="divider-15"><i>Select whether address is required for this tier.</i></p>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('address')" ng-model="tierRequirementFields.address">
+            <span>Address</span>
+        </label>
+    </div>
+    <!-- <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('bank_account')" ng-model="tierRequirementFields.bank_account">
+            <span> Bank account</span>
+        </label>
+    </div> -->
+    <div>
+        <h2 class="divider">Account verification</h2>
+        <p class="divider-15"><i>Select required verification checks for this tier.</i></p>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('email_address')" ng-model="tierRequirementFields.email_address">
+            <span>Verified email address</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('mobile_number')" ng-model="tierRequirementFields.mobile_number">
+            <span>Verified mobile number</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('proof_of_identity')" ng-model="tierRequirementFields.proof_of_identity">
+            <span>Verified proof of identity</span>
+        </label>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('proof_of_address')" ng-model="tierRequirementFields.proof_of_address">
+            <span>Verified proof of address</span>
+        </label>
+    </div>
+    <div>
+        <h2 class="divider">Advanced account verification</h2>
+        <p class="divider-15"><i>Select required advanced verification checks for this tier.</i></p>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('advanced_proof_of_identity')" ng-model="tierRequirementFields.advanced_proof_of_identity">
+            <span>Verified confirmation id</span>
+        </label>
+    </div>
+    <div>
+        <h2 class="divider">Proof of income</h2>
+        <p class="divider-15"><i>Select whether proof of income is required for this tier.</i></p>
+    </div>
+    <div class="divider-15">
+        <label  class="checkbox-inline custom-checkbox nowrap">
+            <input type="checkbox" ng-change="toggleTierRequirements('proof_of_income')" ng-model="tierRequirementFields.proof_of_income">
+            <span>Verified proof of income</span>
+        </label>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <button ng-click="updateTierRequirements()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+        </div>
+    </div>
+</div>

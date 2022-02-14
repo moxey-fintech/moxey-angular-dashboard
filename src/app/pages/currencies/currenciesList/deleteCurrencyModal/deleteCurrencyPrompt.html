@@ -1,0 +1,9 @@
+<!-- <p>Are you sure you want to delete <strong>{{currency.code}}</strong>? To confirm, please type <strong>DELETE</strong> below.</p> -->
+<p>You are about to delete <strong>{{currency.code}}</strong> currency. <i>All transactions related to this currency will also be deleted</i>. 
+    Some extensions may not function correctly if you delete this. Are you sure you want to delete it?</p>
+<form name="promptForm">
+    <div class="form-group divider">
+        <input class="form-control" type="text" ng-model="deleteText"
+               placeholder="Type DELETE to confirm" required auto-focus="true">
+    </div>
+</form>

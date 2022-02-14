@@ -1,0 +1,123 @@
+<div class="panel panel-default" ng-hide="updatingUserBasicInfo">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit basic info</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="editUserBasicInfoForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>First name</label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('first_name')" ng-model="editUserBasicInfo.first_name" placeholder="Enter first name" />
+            </div>
+            <div class="form-group">
+                <label>Last name</label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('last_name')" ng-model="editUserBasicInfo.last_name" placeholder="Enter last name" />
+            </div>
+            <div class="form-group">
+                <label>Title</label>
+                <div class="overwrite-dropdown-arrow">
+                    <div class="reward-multi-select">
+                        <select chosen single data-placeholder-text-single="'Choose a title'"
+                                width="100" 
+                                ng-model="editUserBasicInfo.title"
+                                ng-change="userBasicInfoChanged('title')"
+                                ng-options="title for title in titleOptions">
+                        </select>
+                    </div>                
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="overwrite-dropdown-arrow">
+                    <div class="reward-multi-select">
+                        <select chosen single data-placeholder-text-single="'Select your gender'"
+                                width="100" 
+                                ng-model="editUserBasicInfo.gender"
+                                ng-change="userBasicInfoChanged('gender')"
+                                ng-options="gender for gender in genders">
+                        </select>
+                    </div>                
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Father's name <span class="small">(max 100 char.)</span><span class="pull-right">{{editUserBasicInfo.fathers_name.length || 0}}/100</span></label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('fathers_name')" ng-model="editUserBasicInfo.fathers_name" placeholder="Enter father's name" />
+            </div>
+            <div class="form-group">
+                <label>Mother's name <span class="small">(max 100 char.)</span><span class="pull-right">{{editUserBasicInfo.mothers_name.length || 0}}/100</span></label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('mothers_name')" ng-model="editUserBasicInfo.mothers_name" placeholder="Enter mother's name" />
+            </div>
+            <div class="form-group">
+                <label>Grandfather's name <span class="small">(max 100 char.)</span><span class="pull-right">{{editUserBasicInfo.grandfathers_name.length || 0}}/100</span></label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('grandfathers_name')" ng-model="editUserBasicInfo.grandfathers_name" placeholder="Enter grandfather's name" />
+            </div>
+            <div class="form-group">
+                <label>Grandmother's name <span class="small">(max 100 char.)</span><span class="pull-right">{{editUserBasicInfo.grandmothers_name.length || 0}}/100</span></label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('grandmothers_name')" ng-model="editUserBasicInfo.grandmothers_name" placeholder="Enter grandmother's name" />
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label>Nationality</label>
+                    <country-select class="form-control pointer" ng-change="userBasicInfoChanged('nationality')" data-ng-model="editUserBasicInfo.nationality"></country-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Language</label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('language')" ng-model="editUserBasicInfo.language" placeholder="Enter language" />
+            </div>
+            <div class="form-group">
+                <label>Birth date</label>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <input type="text" class="form-control" ng-model="birthDate.year" placeholder="YYYY" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <input type="text" class="form-control" ng-model="birthDate.month" placeholder="MM" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <input type="text" class="form-control" ng-model="birthDate.day" placeholder="DD" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Marital status</label>
+                <div class="overwrite-dropdown-arrow">
+                    <div class="reward-multi-select">
+                        <select chosen single data-placeholder-text-single="'Choose a marital status'"
+                                width="100" 
+                                ng-model="editUserBasicInfo.marital_status"
+                                ng-change="userBasicInfoChanged('marital_status')"
+                                ng-options="status for status in maritalStatuses">
+                        </select>
+                    </div>                
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Central bank number <span class="small">(max 100 char.)</span><span class="pull-right">{{editUserBasicInfo.central_bank_number.length || 0}}/100</span></label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('central_bank_number')" ng-model="editUserBasicInfo.central_bank_number" placeholder="Enter a central bank number" />
+            </div>
+            <div class="form-group">
+                <label>Id number</label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('id_number')" ng-model="editUserBasicInfo.id_number" placeholder="Enter id number" />
+            </div>
+            <div class="form-group">
+                <label>Website</label>
+                <input type="text" class="form-control" ng-change="userBasicInfoChanged('website')" ng-model="editUserBasicInfo.website" placeholder="Enter website address" />
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control pointer" ng-change="userBasicInfoChanged('status')" ng-model="editUserBasicInfo.status" ng-options="statusOption for statusOption in statusOptions">
+                </select>
+            </div>
+            <div class="form-group">
+                <button ng-click="updateUserBasicInfo()" ng-disabled="!editUserBasicInfoForm.$valid" class="btn btn-primary user-accounts-btn pull-right">Save</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="updatingUserBasicInfo">
+    <loading-image></loading-image>
+</div>

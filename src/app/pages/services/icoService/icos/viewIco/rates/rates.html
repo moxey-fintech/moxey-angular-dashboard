@@ -1,0 +1,34 @@
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Rates List</span>
+        </div>
+        <div class="panel-body">
+            <table ng-hide="icoRates.length == 0 || loadingRates" class="table divider-20">
+                <tr>
+                    <th class="rehive-table-row-first-child">Currency</th>
+                    <th>Rate</th>
+                    <th class="align-right no-right-padding">Created</th>
+                </tr>
+                <tr ng-repeat="rate in icoRates | orderBy: '-created' track by $index"
+                    class="editable-row center">
+                    <td class="rehive-table-row-first-child"><div title="{{rate.currency.code}}"
+                                                                  ng-bind="rate.currency.code"></div></td>
+                    <td><div title="{{rate.rate  | currencyModifiersFilter: rate.currency.divisibility | commaSeperateNumberFilter}}"
+                             ng-bind="rate.rate  | currencyModifiersFilter: rate.currency.divisibility | commaSeperateNumberFilter"></div></td>
+                    <td class="align-right no-right-padding"><div title="{{rate.created | date:'mediumDate'}} {{rate.created | date:'shortTime'}}">
+                        {{rate.created | date:'mediumDate'}} {{rate.created | date:'shortTime'}}</div></td>
+                </tr>
+            </table>
+            <div ng-show="icoRates.length == 0">
+                <i>No rates are available</i>
+            </div>
+            <div ng-hide="loadingRates" class="form-group">
+                <button ng-click="backToPhaseList()" class="btn btn-default dashboard-btn pull-right">Back</button>
+            </div>
+            <div ng-show="loadingRates">
+                <loading-image></loading-image>
+            </div>
+        </div>
+    </div>
+</div>

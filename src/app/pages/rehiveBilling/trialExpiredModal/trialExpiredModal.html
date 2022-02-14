@@ -1,0 +1,24 @@
+<div ng-hide="loadingPlans" class="modal-content">
+    <div class="modal-body" style="padding-bottom: 25px;">
+        <div style="display: flex; align-items:center; justify-content: center">
+            <div style="width: 45%">
+                <img class="img-responsive" src="../../../../assets/img/trial_expired.png"/>
+            </div>
+            <div style="width: 55%">
+                <div style="text-align: right; padding: 0 10px"><a class="pointer" ng-click="logOutFromApp();$dismiss();" style="font-size: 15px;">Log out</a></div>
+                <div style="text-align: center; padding: 0 10px">
+                    <div class="divider-20" style="font-size: 2.5rem; margin: 50px 0 30px 0!important">Your trial has expired</div>
+                    <div class="divider-20" style="line-height: 1.2;">In order to continue using the platform, please select a plan</div>
+                    <div class="rehive-plan-div" style="margin: 60px 0 50px 0">
+                        <button class="btn btn-primary trial-expired-button" ng-click="goToRehivePlans();$dismiss();">SELECT A PLAN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div ba-panel ng-show="loadingPlans">
+    <loading-image></loading-image>
+</div>

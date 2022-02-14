@@ -1,0 +1,421 @@
+<div class="panel table-filters"
+     ng-class="{'wider-table-filters': ((filtersObj.lastLoginDateFilter && applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'In between')
+      || (filtersObj.createdFilter && applyFiltersObj.createdFilter.selectedDateOption == 'In between')
+      || (filtersObj.updatedFilter && applyFiltersObj.updatedFilter.selectedDateOption == 'In between'))}">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getAllUsers('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body table-filters-body">
+        <div id="idFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.idFilter">
+                    <span>Id</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.idFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.idFilter.selectedId"
+                           auto-focus="filtersObj.idFilter"
+                           placeholder="Enter id" class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="emailFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.emailFilter">
+                    <span>Email</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.emailFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.emailFilter.selectedEmail" ng-model-options='{ debounce: 800 }'
+                           placeholder="Enter email address" auto-focus="filtersObj.emailFilter"
+                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="mobileFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.mobileFilter">
+                    <span>Mobile number</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.mobileFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.mobileFilter.selectedMobile" ng-model-options='{ debounce: 800 }'
+                           placeholder="Enter mobile number" auto-focus="filtersObj.mobileFilter"
+                           uib-typeahead="mobile for mobile in getUsersMobileTypeahead($viewValue)"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="firstNameFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.firstNameFilter">
+                    <span>First name</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.firstNameFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.firstNameFilter.selectedFirstName"
+                           auto-focus="filtersObj.firstNameFilter"
+                           placeholder="Enter first name"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="lastNameFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.lastNameFilter">
+                    <span>Last name</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.lastNameFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.lastNameFilter.selectedLastName"
+                           auto-focus="filtersObj.lastNameFilter"
+                           placeholder="Enter last name"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="accountReferenceFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.accountReferenceFilter">
+                    <span>Account reference</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.accountReferenceFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.accountReferenceFilter.selectedAccountReference"
+                           auto-focus="filtersObj.accountReferenceFilter"
+                           placeholder="Enter account reference"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="currencyFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.currencyFilter">
+                    <span>Currency</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.currencyFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.currencyFilter.selectedCurrency"
+                            ng-options="currency.code for currency in currencyOptions track by currency.code">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="createdFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.createdFilter">
+                    <span>Created</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.createdFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.createdFilter.selectedDateOption"
+                            ng-options="option for option in dateFilterOptions">
+                    </select>
+                    <div ng-show="applyFiltersObj.createdFilter.selectedDateOption == 'Is in the last'" class="date-filter-view">
+                        <input type="text" ng-model="applyFiltersObj.createdFilter.dayInterval" ng-change="createdDayIntervalChanged()"
+                               auto-focus="applyFiltersObj.createdFilter.selectedDateOption == 'Is in the last'"
+                               class="transaction-date-interval-input">
+                        <select class="form-control pointer margin-left-12" ng-model="applyFiltersObj.createdFilter.selectedDayIntervalOption"
+                                ng-options="option for option in dateFilterIntervalOptions">
+                        </select>
+                    </div>
+                    <div ng-show="applyFiltersObj.createdFilter.selectedDateOption == 'In between'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.createdFilter.dateFrom"
+                                   show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}"
+                                   is-open="popup1.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open1()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <span class="filter-text margin-left-12">and</span>
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.createdFilter.dateTo"
+                                   show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup2.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open2()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.createdFilter.selectedDateOption == 'Is equal to'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.createdFilter.dateEqualTo" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup1.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open1()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.createdFilter.selectedDateOption == 'Is after'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.createdFilter.dateFrom" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup1.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open1()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.createdFilter.selectedDateOption == 'Is before'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.createdFilter.dateTo" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup2.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open2()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="updatedFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.updatedFilter">
+                    <span>Updated</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.updatedFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.updatedFilter.selectedDateOption"
+                            ng-options="option for option in dateFilterOptions">
+                    </select>
+                    <div ng-show="applyFiltersObj.updatedFilter.selectedDateOption == 'Is in the last'" class="date-filter-view">
+                        <input type="text" ng-model="applyFiltersObj.updatedFilter.dayInterval" ng-change="updatedIntervalChanged()"
+                               auto-focus="applyFiltersObj.updatedFilter.selectedDateOption == 'Is in the last'"
+                               class="transaction-date-interval-input">
+                        <select class="form-control pointer margin-left-12" ng-model="applyFiltersObj.updatedFilter.selectedDayIntervalOption"
+                                ng-options="option for option in dateFilterIntervalOptions">
+                        </select>
+                    </div>
+                    <div ng-show="applyFiltersObj.updatedFilter.selectedDateOption == 'In between'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.updatedFilter.dateFrom"
+                                   show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup5.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open5()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <span class="filter-text margin-left-12">and</span>
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.updatedFilter.dateTo"
+                                   show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup6.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open6()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.updatedFilter.selectedDateOption == 'Is equal to'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.updatedFilter.dateEqualTo" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup5.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open5()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.updatedFilter.selectedDateOption == 'Is after'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.updatedFilter.dateFrom" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup5.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open5()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.updatedFilter.selectedDateOption == 'Is before'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.updatedFilter.dateTo" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup6.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open6()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="lastLoginDateFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.lastLoginDateFilter">
+                    <span>Last login date</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.lastLoginDateFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.lastLoginDateFilter.selectedDateOption"
+                            ng-options="option for option in dateFilterOptions">
+                    </select>
+                    <div ng-show="applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'Is in the last'" class="date-filter-view">
+                        <input type="text" ng-model="applyFiltersObj.lastLoginDateFilter.dayInterval" ng-change="lastLoginDayIntervalChanged()"
+                               auto-focus="applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'Is in the last'"
+                               class="transaction-date-interval-input">
+                        <select class="form-control pointer margin-left-12" ng-model="applyFiltersObj.lastLoginDateFilter.selectedDayIntervalOption"
+                                ng-options="option for option in dateFilterIntervalOptions">
+                        </select>
+                    </div>
+                    <div ng-show="applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'In between'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.lastLoginDateFilter.dateFrom"
+                                   show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup3.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open3()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <span class="filter-text margin-left-12">and</span>
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.lastLoginDateFilter.dateTo"
+                                   show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup4.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open4()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'Is equal to'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.lastLoginDateFilter.dateEqualTo" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup3.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open3()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'Is after'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.lastLoginDateFilter.dateFrom" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup3.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open3()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="applyFiltersObj.lastLoginDateFilter.selectedDateOption == 'Is before'" class="date-filter-view">
+                        <div class="date-filter-in-between-view">
+                            <input type="text" class="form-control transaction-date-filter-input custom-datepicker"
+                                   uib-datepicker-popup="{{dateObj.format}}" popup-placement="bottom-left"
+                                   ng-model="applyFiltersObj.lastLoginDateFilter.dateTo" show-button-bar="false" datepicker-options="{showWeeks: false}"
+                                   placeholder="{{companyDateFormatString | lowercase}}" is-open="popup4.opened" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default calender-button" ng-click="open4()">
+                                    <i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="kycFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.kycFilter">
+                    <span>Kyc status</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.kycFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.kycFilter.selectedKycFilter" ng-options="status for status in statusOptions">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="filterPageSize">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.pageSizeFilter">
+                    <span>Page size</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.pageSizeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="usersPagination.itemsPerPage" ng-change="pageSizeChanged()"
+                           auto-focus="filtersObj.pageSizeFilter"
+                           placeholder="Enter page size" class="transaction-page-size-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterOrderBy">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.orderByFilter">
+                    <span>Order by</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.orderByFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.orderByFilter.selectedOrderByOption"
+                            ng-options="orderBy for orderBy in orderByOptions">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

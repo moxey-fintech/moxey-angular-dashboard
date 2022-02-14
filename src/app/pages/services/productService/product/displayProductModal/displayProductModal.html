@@ -1,0 +1,194 @@
+<div ng-hide="loadingProduct" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">View product</h4>
+    </div>
+    <div class="modal-body padding-bottom-25">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Product id: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="productObj.id"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Name: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.name"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Description: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.description"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Short description: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.short_description"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Countries: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-repeat="country in productObj.countries track by $index">
+                    <span ng-hide="$first">,&nbsp;&nbsp;</span>{{country.name}}
+                </span>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Product type: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.type"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Account: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.account"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Bar code: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.code"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Quantity: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="productObj.quantity"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Enabled: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <input class="custom-rehive-checkbox modal-view-checkbox" ng-model="productObj.enabled" type="checkbox" ng-disabled="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Instant buy: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <input class="custom-rehive-checkbox modal-view-checkbox" ng-model="productObj.instant_buy" type="checkbox" ng-disabled="true">
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Requires billing address: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <input class="custom-rehive-checkbox modal-view-checkbox" ng-model="productObj.requires_billing_address" type="checkbox" ng-disabled="true">
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Requires shipping address: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <input class="custom-rehive-checkbox modal-view-checkbox" ng-model="productObj.requires_shipping_address" type="checkbox" ng-disabled="true">
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Requires contact mobile: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <input class="custom-rehive-checkbox modal-view-checkbox" ng-model="productObj.requires_contact_mobile" type="checkbox" ng-disabled="true">
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Requires contact email: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <input class="custom-rehive-checkbox modal-view-checkbox" ng-model="productObj.requires_contact_email" type="checkbox" ng-disabled="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Metadata: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <pre ng-show="productObj.metadata && productObj.metadata !== ''">{{productObj.metadata}}</pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date created: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{productObj.created | date:'mediumDate'}} {{productObj.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row" ng-class="{'divider-15': productObj.images.length > 0}">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding"  ng-class="{'divider': productObj.prices.length > 0}">
+                <p class="text-subtle">Date updated: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{productObj.updated | date:'mediumDate'}} {{productObj.updated | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row" ng-class="{'divider-20': productObj.prices.length > 0}">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider" ng-class="{'divider-20': productObj.prices.length > 0}">
+                <p class="text-subtle">Images: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <div class="product-extension-images-grid">
+                    <div ng-repeat="image in productObj.images | orderBy: 'weight' track by $index">
+                        <a href="{{image.file}}" target="_blank" >
+                            <img ng-src="{{image.file}}" height="150" width="150" style="object-fit: contain">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="productObj.prices.length > 0">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding divider">
+                <p class="text-subtle">Prices: </p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <strong>Currency</strong>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <strong>Amount</strong>
+                </div>
+            </div>
+            <div class="row" ng-repeat="price in productObj.prices track by $index">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p>{{price.currency.code}}</p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <p>{{price.amount | currencyModifiersFilter: price.currency.divisibility | commaSeperateNumberFilter}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingProduct">
+    <loading-image></loading-image>
+</div>

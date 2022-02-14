@@ -1,0 +1,41 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getVouchersLists('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearVouchersFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="filterId">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="vouchersFiltersObj.productIdFilter">
+                    <span>Product id</span>
+                </label>
+            </div>
+            <div ng-if="vouchersFiltersObj.productIdFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyVouchersFiltersObj.productIdFilter.selectedId" placeholder="Enter product id"
+                           auto-focus="vouchersFiltersObj.productIdFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="userFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="vouchersFiltersObj.productNameFilter">
+                    <span>Product name</span>
+                </label>
+            </div>
+            <div ng-if="vouchersFiltersObj.productNameFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyVouchersFiltersObj.productNameFilter.selectedName" placeholder="Enter product name"
+                           auto-focus="vouchersFiltersObj.productNameFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+.webhooks-list-navigation-ul{
+  padding: 0;
+}
+
+.webhooks-list-navigation{
+  display: inline-block;
+  margin-right: 50px;
+  & h1{
+    margin: 4px 0 4px 0 !important;
+  }
+  & h5{
+    font-size: 16px;
+    color: #A8A8A8;
+  }
+  & h5:hover{
+    color: $primary;
+  }
+}
+
+.active-webhooks-nav{
+  color: $primary !important ;
+}
+
+.mainData pre{
+  margin: 0 0 20px 0;
+  border-radius: 0;
+  padding: 5px;
+  width: 100%;
+  height: 400px;
+  overflow-y: scroll;
+  white-space: pre-wrap;
+}
+
+.webhook-panel-header h3{
+  font-size: 0.98em;
+  letter-spacing: 0.025em;
+  word-spacing: -1px;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.webhooks-section{
+  //color: darken($primary, 5);
+}
+
+.webhooks-category{
+  //color: darken($primary, 5);
+  //color: $primary;
+}

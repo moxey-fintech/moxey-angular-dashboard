@@ -1,0 +1,35 @@
+<div ng-hide="updatingCompanyDetails">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Settings</span>
+        </div>
+        <div class="panel-body">
+            <form name="wyreTestnetSettingsForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>API key <span class="required-icon">*</span></label>
+                    <input type="text" ng-model="company.api_key" ng-change="companyDetailsChanged('api_key')" class="form-control"
+                           placeholder="Enter API key" required>
+                </div>
+                <div class="form-group">
+                    <label>Secret key <span class="required-icon">*</span></label>
+                    <input type="text" ng-model="company.secret_key" ng-change="companyDetailsChanged('secret_key')" class="form-control"
+                           placeholder="Enter secret key" required>
+                </div>
+                <div class="form-group">
+                    <label>Account ID <span class="required-icon">*</span></label>
+                    <input type="text" ng-model="company.account_id" ng-change="companyDetailsChanged('account_id')" class="form-control"
+                           placeholder="Enter Account ID" required>
+                </div>
+                          
+                <div class="form-group">
+                    <button  ng-click="updateCompanyDetails()" class="btn btn-primary btn-primary-dark dashboard-btn pull-right" ng-disabled="!wyreTestnetSettingsForm.$valid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="updatingCompanyDetails" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

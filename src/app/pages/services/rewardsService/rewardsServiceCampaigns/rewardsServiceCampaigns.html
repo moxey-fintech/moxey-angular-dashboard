@@ -1,0 +1,83 @@
+<div ng-hide="loadingCampaigns" class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                </span>
+                <div ng-show="showingFilters">
+                    <rewards-service-campaigns-filters></rewards-service-campaigns-filters>
+                </div>
+            </div>
+            <button ng-click="getCampaignList('applyFilter')" ng-disabled="loadingCampaigns"
+                    class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+            <button ng-click="goToCreateCampaignView()"
+                    class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div>
+            <div ng-show="filtersCount > 0" class="divider">
+                <p class="filter-text">Your results are currently being filtered</p>
+            </div>
+            <div ng-show="campaignList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="campaignPagination.itemsPerPage"  total-items="campaignListData.count" ng-model="campaignPagination.pageNo"
+                   max-size="campaignPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getCampaignList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div class="draggable-table">
+                <table ng-show="campaignList.length > 0" class="table">
+                    <tbody>
+                        <tr>
+                            <th width="11%" class="rehive-table-row-first-child">Campaign Id</th>
+                            <th width="11%">Name</th>
+                            <th width="15%">Description</th>
+                            <th width="6%">Active</th>
+                            <th width="6%">Visible</th>
+                            <th width="10%">Start date</th>
+                            <th width="10%">End date</th>
+                            <th width="11%">Balance</th>
+                            <th width="11%">Status</th>
+                            <th width="10%"></th>
+                        </tr>
+                        <tr ng-repeat="campaign in campaignList | orderBy: '-created' track by $index" class="editable-row">
+                            <td width="11%" class="rehive-table-row-first-child"><div title="{{campaign.id}}" class="transactions-list-element" ng-bind="campaign.id"></div></td>
+                            <td width="11%"><div title="{{campaign.name}}" class="transactions-list-element" ng-bind="campaign.name"></div></td>
+                            <td width="15%"><div title="{{campaign.description}}" class="transactions-list-element" ng-bind="campaign.description" style="min-width: 250px!important;"></div></td>
+                            <td width="6%" class="transactions-list-element">
+                                <input class="custom-rehive-checkbox" ng-click="toggleCampaignStatuses(campaign,'last')"
+                                    ng-model="campaign.active" type="checkbox">
+                            </td>
+                            <td width="6%" class="transactions-list-element">
+                                <input class="custom-rehive-checkbox" ng-click="toggleCampaignStatuses(campaign,'last')"
+                                    ng-model="campaign.visible" type="checkbox">
+                            </td>
+                            <td width="10%"><div title="{{campaign.start_date | date:'mediumDate'}} {{campaign.start_date | date:'shortTime'}}" class="transactions-list-element" ng-bind="campaign.start_date | date:'mediumDate' + ' ' + campaign.start_date | date:'shortTime'"></div></td>
+                            <td width="10%"><div title="{{campaign.end_date | date:'mediumDate'}} {{campaign.end_date | date:'shortTime'}}" class="transactions-list-element" ng-bind="campaign.end_date | date:'mediumDate' + ' ' + campaign.end_date | date:'shortTime'"></div></td>
+                            <td width="11%"><div title="{{(campaign.balance | currencyModifiersFilter: campaign.currency.divisibility | commaSeperateNumberFilter) + '/' + (campaign.total | currencyModifiersFilter: campaign.currency.divisibility | commaSeperateNumberFilter) + ' ' + campaign.currency.code}}"
+                                    class="transactions-list-element" ng-bind="(campaign.balance | currencyModifiersFilter: campaign.currency.divisibility | commaSeperateNumberFilter) + '/' + (campaign.total | currencyModifiersFilter: campaign.currency.divisibility | commaSeperateNumberFilter) + ' ' + campaign.currency.code"></div></td>
+                            <td width="8%"><div title="{{campaign.status | capitalizeWord}}" class="transactions-list-element" ng-bind="campaign.status | capitalizeWord"></div></td>
+                            <td width="10%" class="rehive-table-row-last-child">
+                                <div class="table-col-two-actions"> 
+                                    <a ng-click="deleteCampaignPrompt(campaign)" class="pull-right pointer ">Delete</a>
+                                    <a ng-click="openEditCampaignView(campaign)" class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="campaignList.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="campaignPagination.itemsPerPage"  total-items="campaignListData.count" ng-model="campaignPagination.pageNo"
+                   max-size="campaignPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getCampaignList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <i ng-hide="campaignList.length > 0">No campaigns are available.</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingCampaigns">
+    <loading-image></loading-image>
+</div>

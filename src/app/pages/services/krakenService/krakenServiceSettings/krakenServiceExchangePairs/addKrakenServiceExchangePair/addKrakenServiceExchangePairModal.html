@@ -1,0 +1,50 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title">Add exchange pair</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" ng-hide="addingExchangePair" name="symbolForm">
+             <div class="form-group divider-20">
+                <label>Symbol&nbsp;<span class="required-symbol">*</span></label>
+                <div class="reward-multi-select">
+                    <select class="form-control pointer" ng-model="exchangePairParams.symbol"
+                        ng-options="symbol for symbol in krakensymbols">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Base currency&nbsp;<span class="required-symbol">*</span></label>
+                <div class="reward-multi-select">
+                    <select class="form-control pointer" ng-model="exchangePairParams.base_currency"
+                        ng-options="currency.code for currency in currenciesList | orderBy: 'code' track by currency.code">
+                    </select>
+                </div>
+            </div>
+                <div class="form-group divider-20">
+                    <label>Quote currency&nbsp;<span class="required-symbol">*</span></label>
+                    <div class="reward-multi-select">
+                        <select class="form-control pointer" ng-model="exchangePairParams.quote_currency"
+                            ng-options="currency.code for currency in currenciesList | orderBy: 'code' track by currency.code">
+                        </select>
+                    </div>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Enabled</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="exchangePairParams.enabled" type="checkbox">
+            </div>
+        </form>
+        <div ng-show="addingExchangePair" class="service-header" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 0;">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addExchangePair()"
+                ng-disabled="!exchangePairParams.symbol || !exchangePairParams.base_currency || !exchangePairParams.quote_currency || addingExchangePair"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Pending credits</span>
+            </div>
+            <div class="panel-body">
+                <table class="table user-details-table">
+                    <tr>
+                        <th>24h volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_24h_credits_pending | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_credits_pending | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of transactions</th>
+                        <td class="align-right rehive-table-row-last-child">{{currencyOverviewData.count_credits_pending}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Pending debits</span>
+            </div>
+            <div class="panel-body">
+                <table class="table user-details-table">
+                    <tr>
+                        <th>24h volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_24h_debits_pending | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_debits_pending | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of transactions</th>
+                        <td class="align-right rehive-table-row-last-child">{{currencyOverviewData.count_debits_pending}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

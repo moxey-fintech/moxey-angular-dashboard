@@ -1,0 +1,29 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Upload new user profile picture</h4>
+    </div>
+    <div class="modal-body">
+        <div class="divider">
+            <img ng-show="profilePictureFile.file" ngf-thumbnail="profilePictureFile.file" height="500px" width="100%">
+        </div>
+        <form name="myUserProfilePicForm" novalidate>
+            <fieldset class="custom-file-upload">
+                <label>
+                    <span class="custom-file-upload-span"><button>Choose File</button></span>
+                    <input type="file" ngf-select ng-model="profilePictureFile.file" name="file"
+                           accept="image/*" ngf-max-size="5MB" class="divider-6" required>
+                </label>
+                <p class="small">Max size is 5MB.</p>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button ng-disabled="loadingProfilePic" ng-click="$dismiss()"
+                class="btn btn-default pull-left dashboard-btn">Close</button>
+        <button ng-disabled="!myUserProfilePicForm.$valid || loadingProfilePic" ng-click="uploadProfilePicture()"
+                class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>

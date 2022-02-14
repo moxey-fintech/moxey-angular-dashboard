@@ -1,0 +1,175 @@
+<div ng-hide="updatingConversion" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Conversion details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <a ng-hide="editingConversion" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingConversion()"><i class="fa fa-pencil"></i> Edit conversion</a>
+            <a ng-show="editingConversion" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingConversion()"><i class="fa fa-times"></i> Cancel edit</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Conversion ID: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.id"></span>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Transaction collection ID: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.collection"></span>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">User: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding transaction-details-user">
+                <a class="pointer" ng-click="goToUser()" ng-bind="conversion.user" tooltip-placement="right" tooltip-append-to-body="true"
+                uib-tooltip="{{conversion.userEmail}}"></a>
+                <i ng-show="conversion.user" class="fa fa-user transaction-details-user-icon" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Key: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.key"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">From amount: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.from_amount"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">To amount: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.to_amount"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Rate: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.rate"></span>
+            </div>
+        </div>  
+        <!-- 
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Key: </p>
+            </div>
+            <div ng-show="conversion.key" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <pre ng-bind="conversion.key"></pre>
+            </div>
+        </div>
+        -->     
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-hide="editingConversion" >{{conversion.status | capitalizeWord}}</span>
+                <select ng-show="editingConversion" class="form-control divider pointer"
+                        ng-model="conversion.status" ng-change="trackStatusChanged()">
+                        <option ng-disabled="prevStatus !== 'quoted'" value="quoted">Quoted</option>
+                        <option ng-disabled="prevStatus === 'complete' || prevStatus === 'failed'" value="pending">Pending</option>
+                        <option value="complete">Complete</option>
+                        <option value="failed">Failed</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Operational account: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-bind="conversion.operational_account"></span>
+            </div>
+        </div>     
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Created at: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{conversion.created_at}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Updated at: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{conversion.updated_at}}</p>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Metadata: </p>
+            </div>
+            <div ng-show="displayingMetadata" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <div ng-show="formatted.metadata">
+                    <pre>{{formatted.metadata}}</pre>
+                </div>
+                <div ng-show="!formatted.metadata && displayingMetadata">
+                    <pre><i>No conversion metadata available</i></pre>
+                </div>
+                <i ng-show="formatted.metadata" ngclipboard ngclipboard-success="copiedMetadataSuccessfully()"
+                   data-clipboard-text="{{conversion.metadata}}"
+                   class="fa fa-clone metadata-copy-icon pointer"></i>
+            </div>
+            <div>
+                <div ng-hide="displayingMetadata" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <a class="pointer" ng-click="displayingMetadata = !displayingMetadata">Click to show metadata</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                </div>
+                <div ng-show="displayingMetadata" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding" style="margin-top: -12px;">
+                    <a class="pointer" ng-click="displayingMetadata = !displayingMetadata">Click to hide metadata</a>
+                </div>
+            </div>
+        </div>
+        <div ng-show="conversion.txns.length > 0" class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Associated transactions: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <span ng-repeat="transaction in conversion.txns track by $index">
+                    <p style="padding: 5px 0">
+                        <a ng-click="goToTransactions(transaction.id)" class="pointer">{{transaction.id}}</a> <br>
+                    </p>
+                </span>
+            </div>
+        </div> 
+    </div>
+    
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-show="editingConversion" ng-disabled="!dataEdited" id="transaction-modal-save-button"
+                ng-click="updateConversion()" ng-class="{'setup-next-btn': !dataEdited,'btn-primary': dataEdited}"
+                class="dashboard-btn btn pull-right">Save</button>
+            <button type="button" ng-show="editingConversion"
+                    ng-click="toggleEditingConversion()"
+                    class="dashboard-btn btn-default btn pull-left">Cancel edit</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="updatingConversion">
+    <loading-image></loading-image>
+</div>

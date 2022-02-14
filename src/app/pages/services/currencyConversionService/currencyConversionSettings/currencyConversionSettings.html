@@ -1,0 +1,12 @@
+<currency-conversion-service-navigation></currency-conversion-service-navigation>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <currency-conversion-settings-menu></currency-conversion-settings-menu>
+    </div>
+    <div ng-show="currencyConversionSettingView == 'settings'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <currency-conversion-display-currency></currency-conversion-deactivation>
+    </div>
+    <div ng-show="currencyConversionSettingView == 'deactivation'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <currency-conversion-deactivation></currency-conversion-deactivation>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<content-top></content-top>
+<div ng-hide="servicesList.length < 1 || loadingServices">
+    <div >
+        <label class="extension-panel-label">Active</label>
+        <div class="extension-card-container">
+            <div class="extension-cards" ng-repeat="service in servicesList | orderBy: 'name' track by $index">
+                <h4 ng-bind="service.name" style="text-align: center"></h4>
+                <p ng-bind="service.description" style="text-align: center; margin-top: 20px;"></p>
+                <button class="btn btn-primary extension-button" ng-click="goToService($event,service)">Manage</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-hide="serviceListOptions.length < 1 || loadingServices">
+    <div >
+        <label class="extension-panel-label" ng-style="servicesList.length > 0 && {'margin-top': '50px'}">Not activated</label>
+        <div class="extension-card-container">
+            <div class="extension-cards" ng-repeat="service in serviceListOptions | orderBy: 'name' track by $index">
+                <h4 ng-bind="service.name" style="text-align: center"></h4>
+                <p ng-bind="service.description" style="text-align: center; margin-top: 20px;"></p>
+                <button class="btn btn-default extension-button extension-activate-button" ng-click="addServicePrompt(service)">Activate</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingServices">
+    <loading-image></loading-image>
+</div>

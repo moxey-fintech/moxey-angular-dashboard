@@ -1,0 +1,107 @@
+<div ng-hide="loadingAccount" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <a ng-show="!accountObj.definition" class="pull-right modal-title-link-1 pointer"
+            ng-click="openEditAccountModal('app/pages/users/user/userAccountsOnly/editAccountModal/editAccountModal.html','md',accountObj,accountObj.currencies)"
+        >Edit
+        </a>
+        <a class="pull-right modal-title-link-1 pointer"
+                ng-click="goToAccountTransactions()">View transactions
+        </a>
+        <h4 class="modal-title" id="myModalLabel">Account details
+            &nbsp;&nbsp;<span ng-show="accountObj.definition">
+                <i uib-tooltip-html="'This account is part of a definition and cannot be edited directly. Edit the definition to make any changes.'" class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+            </span>
+        </h4>
+    </div>
+    <div class="modal-body" style="padding: 0;">
+        <!-- 
+        <div class="row">
+            <a class="pull-right divider pointer"
+               ng-click="goToUserAccount()"><i class="fa fa-pencil"></i> Edit account</a>
+        </div>
+        -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0;">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="user-account-panel-heading row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title no-left-padding">
+                                <span class="currencies-details-heading" style="color: #A8A8A8!important;">Account name</span>
+                                <br>
+                                <span class="currencies-details-value">{{accountObj.name}}</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title no-left-padding">
+                                <span class="currencies-details-heading" style="color: #A8A8A8!important;">Reference</span>
+                                <br>
+                                <span class="currencies-details-value">{{accountObj.reference}}</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title no-left-padding">
+                                <span class="currencies-details-heading" style="color: #A8A8A8!important;">User group</span>
+                                <br>
+                                <span ng-show="accountObj.user" class="currencies-details-value" ng-bind="accountObj.user.groups[0].name"></span>
+                                <span ng-hide="accountObj.user" class="currencies-details-value">--</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 user-account-panel-title no-left-padding">
+                                <span class="currencies-details-heading" style="color: #A8A8A8!important;">User</span>
+                                <br>
+                                <a ng-show="accountObj.user" class="currencies-details-value pointer" 
+                                    ng-click="goToUserDetails()" ng-bind="accountObj.user.email || accountObj.user.id"
+                                    style="color: #009152;"></a>
+                                <span ng-hide="accountObj.user" class="currencies-details-value">--</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 user-account-panel-title no-left-padding">
+                                <span ng-show="accountObj.primary" class="user-account-status user-primary-account" style="top: 10px;">PRIMARY</span>
+                                <span ng-show="accountObj.recon" class="user-account-status status-pending" style="top: 10px;" ng-style="{'margin-left': accountObj.primary ? '95px' : '0px'}">RECON</span>
+                            </div>
+                            <!-- <a ng-click="goToUserTransactions(accountObj)"
+                               class="user-account-view-transactions pull-right pointer">View transactions</a> -->
+                        </div>
+                    </div>
+                    <div class="panel-body user-details-panel-body" >
+                        <table ng-show="accountObj.currencies.length > 0" class="table user-details-account-table">
+                            <tr class="user-switches-table-header">
+                                <th class="no-left-padding">Currency</th>
+                                <th>Available balance</th>
+                                <th>Balance</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-repeat="acc in accountObj.currencies | orderBy: 'currency.code' track by $index" class="user-details-account-hover user-account-options-row">
+                                <td class="no-left-padding" width="15%" ng-bind="acc.currency.display_code"></td>
+                                <td width="20%" title="{{acc.available_balance  | currencyModifiersFilter: acc.currency.divisibility | commaSeperateNumberFilter}}">
+                                    {{acc.currency.symbol}} {{acc.available_balance  | currencyModifiersFilter: acc.currency.divisibility | commaSeperateNumberFilter}}
+                                </td>
+                                <td width="30%" title="{{acc.balance  | currencyModifiersFilter: acc.currency.divisibility | commaSeperateNumberFilter}}">
+                                    {{acc.currency.symbol}} {{acc.balance  | currencyModifiersFilter: acc.currency.divisibility | commaSeperateNumberFilter}}
+                                </td>
+                                <td class="rehive-table-row-last-child account-options-row" width="45%">
+                                    <div ng-click="showCurrenciesOptions(acc.currency.code,accountObj.reference); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                                        <span class="user-account-options pull-right">
+                                            <a class="pointer margin-right-30" ng-click="createNewTransaction('credit', acc.currency, accountObj.user, accountObj.reference)">Credit</a>
+                                            <a class="pointer margin-right-30" ng-click="createNewTransaction('debit', acc.currency, accountObj.user, accountObj.reference)">Debit</a>
+                                            <a class="pointer margin-right-30" ng-click="createNewTransaction('transfer', acc.currency, accountObj.user, accountObj.reference)">Transfer</a>
+                                            <a class="pointer" ng-click="goToUserAccount()">Manage</a>
+                                            <!-- <a ng-show="accountObj.user" class="pointer" ng-click="goToUserAccount()">Manage</a> -->
+                                            <!-- <a ng-hide="accountObj.user" class="pointer" ng-click="goToStandaloneAccount(acc.currency.code)">Manage</a> -->
+                                        </span>
+                                        <!-- <span class="fa fa-ellipsis-h pull-right pointer account-options user-account-span"></span> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div ng-if="accountObj.currencies.length == 0" ng-hide="loadingAccount" style="padding-left: 24px">
+                            <i style="margin-top: 10px; padding-left: 24px">No currencies associated with this account yet.</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer padding-10">
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccount">
+    <loading-image></loading-image>
+</div>

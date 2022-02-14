@@ -1,0 +1,23 @@
+<app-service-navigation></app-service-navigation>
+<div ng-hide="loadingWalletJSON" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">JSON config</span>
+    </div>
+    <div class="panel-body">
+        <form name="walletJSONForm" class="custom-form">
+            <div class="form-group">
+                <textarea rows="4" type="text" ng-model="companySettings.config"
+                    ui-codemirror ng-change="companyInfoChanged('config')"
+                    ui-refresh="editorEnabled" ui-codemirror-opts="codemirrorEditorOptions"
+                    class="form-control"  placeholder='Enter config json e.g. {"Hello":"World"}'></textarea>
+            </div>
+            
+            <div class="form-group">
+                <button ng-click="updateCompanyInfo()" ng-disabled="!walletJSONForm.$valid" class="btn btn-primary dashboard-btn pull-right">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingWalletJSON">
+    <loading-image></loading-image>
+</div>

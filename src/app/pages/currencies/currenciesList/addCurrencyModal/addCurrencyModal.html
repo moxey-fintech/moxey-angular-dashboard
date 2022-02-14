@@ -1,0 +1,147 @@
+<div ng-hide="loadingCurrencies" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{showCustomCurrency ? 'Add custom currency': 'Add currency'}}</h4>
+    </div>
+    <div class="modal-body">
+        <div id="addNormalCurrency" ng-hide="showCustomCurrency || showCurrencyConfirmPanel">
+            <div class="divider">
+                <p>&nbsp;
+                    <a ng-click="toggleCustomCurrencyView()" class="pointer pull-right">Add custom currency</a>
+                </p>
+            </div>
+            <div class="form-group custom-form">
+                <label>Select a currency <span class="required-icon">*</span></label>
+                <div class="overwrite-dropdown-arrow">
+                    <div class="reward-multi-select">
+                        <select chosen
+                                single
+                                data-placeholder-text-multiple="'Choose a currency to add'"
+                                width="100"
+                                ng-model="currencyToAdd"
+                                ng-options="currency.code + ' - ' + currency.description for currency in initialCurrencies | orderBy: 'code'"
+                                required>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="addCustomCurrency" ng-show="showCustomCurrency && !showCurrencyConfirmPanel">
+            <form name="customCurrencyForm" class="custom-form" novalidate>
+                <div class="row form-group divider-20">
+                    <div class="col-sm-12 no-padding">
+                        <label>Code <span class="required-icon">*</span></label>
+                        <input type="text" ng-model="newCurrencyParams.code" class="form-control"
+                               ng-change="newCurrencyParams.code? newCurrencyParams.code = newCurrencyParams.code.toUpperCase():null;"
+                               placeholder="e.g. USD" auto-focus="!newCurrencyParams.code" required>
+                    </div>
+                </div>
+                <div class="row form-group divider-20">
+                    <div class="col-sm-12 no-padding">
+                        <label>Description <span class="required-icon">*</span></label>
+                        <input type="text" ng-model="newCurrencyParams.description" class="form-control" placeholder="e.g. United States dollar" required>
+                    </div>
+                </div>
+                <div class="row form-group divider-20">
+                    <div class="col-sm-12 no-padding">
+                        <label>Symbol <span class="required-icon">*</span></label>
+                        <input type="text" ng-model="newCurrencyParams.symbol" class="form-control" placeholder="e.g. $" required>
+                    </div>
+                </div>
+                <div class="row form-group divider-20">
+                    <div class="col-sm-12 no-padding">
+                        <label>Unit <span class="required-icon">*</span></label>
+                        <input type="text" ng-model="newCurrencyParams.unit" class="form-control" placeholder="e.g. dollar" required>
+                    </div>
+                </div>
+                <div class="row form-group divider-20">
+                    <div class="col-sm-12 no-padding">
+                        <label>Divisibility <span class="required-icon">*</span></label>
+                        <input type="number" ng-model="newCurrencyParams.divisibility" class="form-control" placeholder="e.g. 2" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="addedCurrencyPanel" ng-show="showCurrencyConfirmPanel">
+            <div ng-show="currencyAdditionStep == 1">
+                <p class="divider-20">
+                    Currency <span class="get-started-text"><strong>{{showCustomCurrency ? newCurrencyParams.code : currencyToAdd.code}}</strong></span> will be applied to the selected account definitions and groups below.&nbsp;&nbsp;<i class="ion-information-circled setup-groups-tooltip" uib-tooltip-html="'Adding this currency to your account definitions will ensure that the currency is automatically added to all user accounts covered by each account definition.'"></i>
+                </p>
+                <p class="divider-20">
+                    Deselect any you don't want <span class="get-started-text"><strong>{{showCustomCurrency ? newCurrencyParams.code : currencyToAdd.code}}</strong></span> added to.
+                </p>
+                <!-- <p class="divider-20">
+                    
+                </p> -->
+                <div ng-show="accountDefinitionsList.length > 0">
+                    <strong>Account definitions:</strong>        
+                    <div class="account-definition-container">
+                        <div class="account-definition-block" ng-repeat="accDefObj in accountDefinitionsList track by $index" style="padding-left: 95px;">                    
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-model="accDefObj.selected" ng-checked="accDefObj.selected" ng-change="trackAccountDefinitionSelection(accDefObj, 'account')">
+                                <span style="line-height: 1.6; padding-top: 10px; font-size: 17px;">{{accDefObj.label}}</span>
+                            </label>
+                            <div style="margin-left: 30px;" class="text-subtle small">Apply to groups: </div>
+                            <div ng-repeat="groupObj in accDefObj.groups track by $index" style="margin-left: 30px;" ng-class="{'disable-pin': !accDefObj.selected}">                
+                                <label class="checkbox-inline custom-checkbox nowrap">
+                                    <input class="custom-rehive-checkbox" type="checkbox" ng-model="groupObj.selected" ng-checked="groupObj.selected" ng-change="trackAccountDefinitionSelection(accDefObj, 'group')">
+                                    <span style="line-height: 1.6; padding-top: 10px; font-size: 13px;">{{groupObj.group.label}}</span>
+                                </label>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="accountDefinitionsList.length > 0">
+                    <span style="color: grey"><i>No account definitions found. Continue without them?</i></span>
+                </div>
+            </div>
+            <div ng-show="currencyAdditionStep == 2">
+                <label>Confirmation</label>
+                <p class="divider-20">
+                    Currency <span class="get-started-text"><strong>{{showCustomCurrency ? newCurrencyParams.code + ' - ' + newCurrencyParams.description : currencyToAdd.code + ' - ' + currencyToAdd.description}}</strong></span> will be added to your app{{selectedDefinitionCount > 0 ? ' and to the following account definitions:' : '.'}}</span>
+                </p>
+                <div ng-hide="selectedDefinitionCount > 0">
+                    <span style="color: grey"><i>No account definitions selected.</i></span>
+                </div>
+                <div ng-show="selectedDefinitionCount > 0">       
+                    <div class="account-definition-container">
+                        <div ng-if="accDefObj.selected" class="account-definition-block" ng-repeat="accDefObj in accountDefinitionsList track by $index" style="padding-left: 95px;">                    
+                            <span style="line-height: 1.6; padding-top: 10px; font-size: 17px;">{{accDefObj.label}}</span>
+                            <div ng-if="groupObj.selected" ng-repeat="groupObj in accDefObj.groups track by $index" style="margin-left: 25px;" ng-class="{'disable-pin': !accDefObj.selected}">                
+                                <span style="line-height: 1.6; padding-top: 10px; font-size: 13px;"><i class="fas fa-check confirm-changes-tick-icon"></i>&nbsp;&nbsp;{{groupObj.group.label}}</span>
+                            </div> 
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-show="showCustomCurrency && !showCurrencyConfirmPanel" class="btn btn-default pull-left dashboard-btn margin-right-10"
+                ng-click="toggleCustomCurrencyView()">Back
+        </button>
+        <button ng-show="showCurrencyConfirmPanel && currencyAdditionStep == 1" class="btn btn-default pull-left dashboard-btn margin-right-10"
+                ng-click="goBackToCurrencySelectionView()">Back
+        </button>
+        <button ng-show="showCurrencyConfirmPanel && currencyAdditionStep == 2" class="btn btn-default pull-left dashboard-btn margin-right-10"
+                ng-click="currencyAdditionStep = 1">Back
+        </button>
+        <button ng-hide="showCustomCurrency || showCurrencyConfirmPanel" ng-disabled="!currencyToAdd" ng-click="showCurrencyConfirmPanel = true"
+                class="btn btn-primary pull-right dashboard-btn">Next
+        </button>
+        <button ng-show="showCustomCurrency && !showCurrencyConfirmPanel" ng-disabled="!customCurrencyForm.$valid" ng-click="showCurrencyConfirmPanel = true" class="btn btn-primary pull-right dashboard-btn">Next
+        </button>
+        <button ng-show="showCurrencyConfirmPanel && currencyAdditionStep == 1" ng-click="currencyAdditionStep = 2" class="btn btn-primary pull-right dashboard-btn">Next
+        </button>
+        <button ng-show="showCurrencyConfirmPanel && currencyAdditionStep == 2" ng-click="addCompanyCurrency()"
+                class="btn btn-primary pull-right dashboard-btn">Add
+        </button>
+    </div>
+</div>
+<div ba-panel ng-show="loadingCurrencies">
+    <loading-image></loading-image>
+</div>

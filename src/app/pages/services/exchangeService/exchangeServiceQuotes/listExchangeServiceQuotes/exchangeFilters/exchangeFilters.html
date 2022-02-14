@@ -1,0 +1,27 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getQuotesList('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="filterEmail">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.emailFilter">
+                    <span>Email</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.emailFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.emailFilter.selectedEmailFilter" placeholder="Enter email"
+                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                           auto-focus="filtersObj.emailFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

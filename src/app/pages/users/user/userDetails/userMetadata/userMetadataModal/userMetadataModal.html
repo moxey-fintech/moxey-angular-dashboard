@@ -1,0 +1,25 @@
+<div class="panel panel-default" ng-hide="updatingUserMetadata">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit metadata</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="editUserMetadataForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Metadata</label>
+                <textarea rows="4" type="text"
+                          ng-model="formatted.metadata"
+                          class="form-control divider metadata-input-textarea" placeholder='e.g. {"Hello" : "World"}'></textarea>
+            </div>
+            <div class="form-group">
+                <button ng-click="updateUserMetadata()" ng-disabled="!editUserMetadataForm.$valid" class="btn btn-primary user-accounts-btn pull-right">Save</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="updatingUserMetadata">
+    <loading-image></loading-image>
+</div>

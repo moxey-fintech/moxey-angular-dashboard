@@ -1,0 +1,13 @@
+<p>You are about to delete the <strong>{{subtype.label}}</strong> subtype.</p>
+<p> Deleting this subtype will remove it from any associated transactions. Even if you add this subtype back, 
+    it will not be reinstated to those transactions and you will no longer be able to filter for those transactions via this subtype.</p>
+<p>
+    Deleting this subtype may also break 
+    or diminish functionality in the dashboard or wallets. Are you sure you want to delete it?
+</p>
+<form name="promptForm">
+    <div class="form-group divider">
+        <input class="form-control" type="text" ng-model="deleteText"
+               placeholder="Type DELETE to confirm" required auto-focus="true">
+    </div>
+</form>

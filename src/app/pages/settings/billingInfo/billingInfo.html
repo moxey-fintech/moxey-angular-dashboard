@@ -1,0 +1,64 @@
+<div ng-hide="loadingBillingInfo" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Billing info</span>
+    </div>
+    <div class="panel-body">
+        <div ng-class="{'form-group': companyPlan.payment}">
+            <label>Your plan</label>
+            <p class="welcome-label2" style="color: #009152!important">{{companyPlan.plan !== 'none' ? companyPlan.plan : 'No plan selected'}}</p>
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" ng-show="companyPlan.plan !== 'none'">
+                    <button class="btn btn-primary margin-right-15" ng-click="upgradePlan()">Upgrade plan</button>
+                    <button class="btn btn-default" ng-click="openCancelPlanModal()">Cancel plan</button>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" ng-hide="companyPlan.plan !== 'none'">
+                    <button class="btn btn-primary margin-right-15" ng-click="selectPlan()">Select a plan</button>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                    <button ng-hide="!companyPlan.payment" ng-disabled="!displayIncompleteSubscription" class="btn btn-primary pull-right" ng-click="retryPayment()">Retry payment</button>
+                </div>
+            </div> 
+        </div>
+        <div ng-show="companyPlan.plan !== 'none' && companyPlan.payment" class="form-group divider-20">
+            <hr>
+            <label>Payment method</label>
+            <div class="divider-10">
+                <div ng-show="companyPlan.payment">
+                    <p style="margin-bottom: 5px!important;">{{companyPlan.billing.name}}</p>
+                    <p>**** **** **** {{companyPlan.payment.last4}}</p>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary dashboard-btn" ng-click="goToStripe()">
+                        <strong>Manage</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div ng-show="companyPlan.plan !== 'none' && companyPlan.billing" class="form-group divider-20">
+            <hr>
+            <label>Billing address</label>
+            <div class="divider-10">
+                <div ng-show="companyPlan.billing">
+                    <p style="margin-bottom: 5px!important;">
+                        {{companyPlan.billing.address.line1 ? companyPlan.billing.address.line1 + ', ' : ''}}
+                        {{companyPlan.billing.address.line2 ? companyPlan.billing.address.line2 + ',' : ''}}
+                        {{companyPlan.billing.address.city ? companyPlan.billing.address.city + ',' : ''}}
+                        {{companyPlan.billing.address.state ? companyPlan.billing.address.state + ',' : ''}}
+                        {{companyPlan.billing.address.postal_code ? companyPlan.billing.address.postal_code : ''}}
+                    </p>
+                    <p>{{companyPlan.billing.address.country}}</p>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary dashboard-btn" ng-click="goToStripe()">
+                        <strong>Manage</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="loadingBillingInfo" ba-panel>
+    <loading-image></loading-image>
+</div>

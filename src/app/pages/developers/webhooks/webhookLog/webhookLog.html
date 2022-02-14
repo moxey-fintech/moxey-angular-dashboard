@@ -1,0 +1,134 @@
+<div ng-hide="loadingWebhooks">
+    <div class="setting-bank-accounts panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Webhook log</span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Event:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <span ng-bind="webhookTask.webhook.event | capitalizeDottedSentence"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Url:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <span ng-bind="webhookTask.webhook.url"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Secret:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <span ng-bind="webhookTask.webhook.secret"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Condition:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <span ng-bind="webhookTask.webhook.condition"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Tries:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <span ng-bind="webhookTask.tries"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Failed:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        {{webhookTask.failed | date:'mediumDate'}} {{webhookTask.failed | date:'shortTime'}}
+                    </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Completed:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        {{webhookTask.completed | date:'mediumDate'}} {{webhookTask.completed | date:'shortTime'}}
+                    </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Updated:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        {{webhookTask.updated | date:'mediumDate'}} {{webhookTask.updated | date:'shortTime'}}
+                    </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Created:</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        {{webhookTask.created | date:'mediumDate'}} {{webhookTask.created | date:'shortTime'}}
+                    </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <p class="text-subtle">Data:</p>
+                    </div>
+                    <div class="mainData col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <span>
+                        <pre ng-bind-html="mainData"></pre>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingWebhooks">
+    <loading-image></loading-image>
+</div>
+<div ng-hide="loadingRequests">
+    <div ng-show="webhookRequests.length > 0" class="setting-bank-accounts panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Webhook requests</span>
+        </div>
+        <div class="panel-body">
+            <table class="table custom-table">
+                <tr class="divider">
+                    <th class="rehive-table-row-first-child">Created</th>
+                    <th>Error</th>
+                    <th>Response code</th>
+                </tr>
+                <tr ng-repeat="request in webhookRequests | orderBy: '-created' track by $index">
+                    <td class="table-row-center transactions-list-element rehive-table-row-first-child" title="{{request.created | date:'mediumDate'}} {{request.created | date:'shortTime'}}">
+                        {{request.created | date:'mediumDate'}} {{request.created | date:'shortTime'}}</td>
+                    <td class="table-row-center transactions-list-element" title="{{request.error}}" ng-bind="request.error"></td>
+                    <td class="table-row-center transactions-list-element" title="{{request.response_code}}" ng-bind="request.response_code"></td>
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="webhookRequestsData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getWebhookRequests()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingRequests">
+    <loading-image></loading-image>
+</div>

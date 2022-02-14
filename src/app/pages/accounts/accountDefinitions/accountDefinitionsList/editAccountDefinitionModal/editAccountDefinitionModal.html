@@ -1,0 +1,43 @@
+<div ng-hide="editingAccountDefinition" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit account definition</h4>
+    </div>
+    <div class="modal-body">
+        <form name="editAccountDefinitionForm" class="custom-form">
+            <div class="form-group divider-20">
+                <label>Account name  <span class="required-icon">*</span>
+                    &nbsp;&nbsp;<span>
+                        <i uib-tooltip-html="'Account definition names may only contain lowercase alphanumeric 
+                        characters, numbers, and underscores.'" class="ion-information-circled setup-groups-tooltip"></i>
+                    </span>
+                </label>
+                <input type="text" class="form-control" ng-model="editAccountDefParams.name"
+                       ng-change="trackAccountDefinitionNameChange()" ng-model-options='{ debounce: 800 }'
+                       placeholder="Enter account name" required/>
+            </div>
+            <div class="form-group divider-20">
+                <label>Label </label>
+                <input type="text" class="form-control" ng-model="editAccountDefParams.label"
+                       placeholder="Enter account label"/>
+            </div>
+            <div class="form-group divider-20">
+                <label>Recon&nbsp;<i class="ion-information-circled setup-groups-tooltip" uib-tooltip-html="'The recon field is used to designate the accounts created
+                     by this definition as a tracking account for accounting and recon purposes. A recon account on Rehive is any account that is a 1 to 1 duplication 
+                     of an external account.'"></i></label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="editAccountDefParams.recon" type="checkbox">
+            </div>
+            <button ng-click="editAccountDefinition(false)" ng-disabled="!editAccountDefinitionForm.$valid || editAccountDefParams.name == ''"
+                    class="btn btn-primary no-margin pull-right dashboard-btn">Save
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+<div ba-panel ng-show="editingAccountDefinition">
+    <loading-image></loading-image>
+</div>

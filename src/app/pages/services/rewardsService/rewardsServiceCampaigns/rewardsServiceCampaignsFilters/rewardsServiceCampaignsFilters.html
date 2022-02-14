@@ -1,0 +1,43 @@
+<div class="panel table-filters"
+     ng-class="{'wider-table-filters': ((filtersObj.dateFilter && applyFiltersObj.dateFilter.selectedDateOption == 'In between')
+     || (filtersObj.referenceFilter && applyFiltersObj.referenceFilter.selectedReferenceOption == 'Is between'))}">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getCampaignList('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="filterID">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.idFilter">
+                    <span>ID</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.idFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.idFilter.selectedId"
+                           auto-focus="filtersObj.idFilter"
+                           placeholder="Campaign id" class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterName">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.nameFilter">
+                    <span>Name</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.nameFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.nameFilter.selectedName"
+                           auto-focus="filtersObj.nameFilter"
+                           placeholder="Campaign name" class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

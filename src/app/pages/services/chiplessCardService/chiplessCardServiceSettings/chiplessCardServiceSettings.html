@@ -1,0 +1,19 @@
+<!-- <chipless-card-service-navigation></chipless-card-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <chipless-card-service-settings-menu></chipless-card-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <chipless-card-service-deactivation ng-show="chiplessCardSettingView == 'deactivation'"></chipless-card-service-deactivation>
+    </div>
+</div> -->
+
+<chipless-card-service-navigation></chipless-card-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <chipless-card-service-settings-menu></chipless-card-service-settings-menu>
+    </div>
+    <div ng-show="chiplessCardSettingView == 'deactivation'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <chipless-card-service-deactivation></chipless-card-service-deactivation>
+    </div>
+</div>

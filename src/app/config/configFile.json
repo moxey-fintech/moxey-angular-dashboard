@@ -1,0 +1,38 @@
+{
+  "staging": {
+    "environmentConfig": {
+      "API": "https://api.staging.rehive.com/3/",
+      "BILLING_URL": "https://billing.s.services.rehive.io/api/",
+      "BUILDER_URL": "https://builder.s.services.rehive.io/api/",
+      "INTERCOM_APPID": "dsonefdu",
+      "SENTRY_DSN": ""
+    }
+  },
+  "local": {
+    "environmentConfig": {
+      "API": "https://api.rehive.com/3/",
+      "BILLING_URL": "https://billing.services.rehive.io/api/",
+      "BUILDER_URL": "https://builder.services.rehive.io/api/",
+      "INTERCOM_APPID": "dsonefdu",
+      "SENTRY_DSN": ""
+    }
+  },
+  "production": {
+    "environmentConfig": {
+      "API": "https://api.rehive.com/3/",
+      "BILLING_URL": "https://billing.services.rehive.io/api/",
+      "BUILDER_URL": "https://builder.services.rehive.io/api/",
+      "INTERCOM_APPID": "c9th6fln",
+      "SENTRY_DSN": "https://604d33feb0964eee9fb953cb701b3996@sentry.io/1482157"
+    }
+  },
+  "placeholder": {
+    "environmentConfig": {
+      "API": "{{API_URL}}",
+      "BILLING_URL": "{{BILLING_URL}}",
+      "BUILDER_URL": "{{BUILDER_URL}}",
+      "INTERCOM_APPID": "{{INTERCOM_APPID}}",
+      "SENTRY_DSN": "{{SENTRY_DSN}}"
+    }
+  }
+}

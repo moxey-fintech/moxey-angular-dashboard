@@ -1,0 +1,47 @@
+<purchases-list-filters></purchases-list-filters>
+<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Purchases</span>
+        </div>
+        <div class="panel-body">
+            <table ng-hide="icoPurchases.length == 0 || loadingPurchases" class="table custom-table">
+                <tr>
+                    <th>User</th>
+                    <th>Phase</th>
+                    <th>Deposit tx</th>
+                    <th>Currency</th>
+                    <th>Status</th>
+                    <th class="align-right">Created</th>
+                </tr>
+                <tr ng-repeat="purchase in icoPurchases | orderBy: '-created' track by $index"
+                    ng-click="openPurchasesModal('app/pages/services/icoService/icos/viewIco/purchases/purchasesModal/purchasesModal.html', 'md',purchase)"
+                    class="editable-row center pointer user-details-table-hover">
+                    <td class="table-row-center transactions-list-element" title="{{purchase.quote.user}}"
+                        ng-bind="purchase.quote.user"></td>
+                    <td class="table-row-center transactions-list-element" title="{{purchase.phase}}"
+                        ng-bind="purchase.phase"></td>
+                    <td class="table-row-center transactions-list-element" title="{{purchase.deposit_tx}}"
+                        ng-bind="purchase.deposit_tx"></td>
+                    <td class="table-row-center transactions-list-element" title="{{purchase.quote.deposit_currency.code}}"
+                        ng-bind="purchase.quote.deposit_currency.code"></td>
+                    <td class="table-row-center transactions-list-element" title="{{purchase.status}}"
+                        ng-bind="purchase.status"></td>
+                    <td class="table-row-center transactions-list-element align-right" title="{{purchase.created | date:'mediumDate'}} {{purchase.created | date:'shortTime'}}">
+                        {{purchase.created | date:'mediumDate'}} {{purchase.created | date:'shortTime'}}</td>
+                </tr>
+            </table>
+            <div ng-hide="icoPurchases.length == 0 || loadingPurchases">
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="icoPurchasesData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getIcoPurchases()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="icoPurchases.length == 0 && !loadingPurchases">
+                <i>No purchases are available</i>
+            </div>
+            <div ng-show="loadingPurchases">
+                <loading-image></loading-image>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingFilters">
+                    <stellar-testnet-service-users-filters></stellar-testnet-service-users-filters>
+                </div>
+            </div>
+            <button ng-click="getAllUsers('applyFilter')" ng-disabled="loadingUsers"
+                    class="btn btn-default dynamic-columns panel-header-button">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="users.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th width="20%" class="rehive-table-row-first-child">Email</th>
+                    <!--<th width="15%">Username</th>-->
+                    <th width="25%">Id</th>
+                    <th width="15%">Memo</th>
+                    <!--
+                    <th width="20%">Address</th>-->
+                </tr>
+                <tr ng-repeat="user in users track by $index" data-toggle="modal"
+                    class="editable-row center">
+                    <td width="20%" class="rehive-table-row-first-child"><a href="#/user/{{user.id}}/details"><div title="{{user.email}}" ng-bind="user.email"></div></a></td>
+                    <!--<td width="15%" class="transactions-list-element" title="{{user.username}}" ng-bind="user.username"></td>-->
+                    <td width="25%" class="transactions-list-element" title="{{user.id}}" ng-bind="user.id"></td>
+                    <td width="15%" class="transactions-list-element" title="{{user.memo}}" ng-bind="user.memo"></td>
+                    <!--<td width="20%" class="transactions-list-element" title="{{user.crypto.federated_address}}" ng-bind="user.crypto.federated_address"></td>-->
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="usersPagination.itemsPerPage"  total-items="usersData.count" ng-model="usersPagination.pageNo"
+                   max-size="usersPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getAllUsers()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="users.length == 0">
+            <i ng-hide="usersStateMessage == ''" ng-bind="usersStateMessage"></i>
+            <loading-image ng-show="usersStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>

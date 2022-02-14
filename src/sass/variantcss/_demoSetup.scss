@@ -1,0 +1,47 @@
+.align-items-spaced{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.align-items-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-setup-button{
+  background-color: $primary;
+  margin-top: 20px;
+  padding: 16px 10px !important;
+  font-size: 30px;
+  width: 200px !important;
+  color: #ffffff!important;
+}
+
+.default-setup-btn{
+  padding: 6px 0!important;
+  width: 164px!important;
+}
+
+.demo-labels{
+  line-height: 30px!important;
+}
+
+.demo-input{
+  width: 100%;
+}
+
+.demo-progressbar{
+  height: 36px;
+  margin: 29px 0 29px 10px;
+}
+
+.progress-bar-purple{
+  background-color: $primary!important;
+}
+
+.demo-progress{
+  font-size: 20px;
+  line-height: 95px!important;
+}

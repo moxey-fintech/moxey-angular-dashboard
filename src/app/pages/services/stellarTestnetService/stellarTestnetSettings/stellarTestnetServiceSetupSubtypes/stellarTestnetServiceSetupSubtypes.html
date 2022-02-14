@@ -1,0 +1,289 @@
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Subtypes</span>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingSubtypes" class="divider-25">
+            <div class="divider-20">
+                <ul class="ul-no-dot">
+                    <li>Moxey's wallets and dashboard use default subtypes to categorize transactions and provide additional
+                        functionality to administrators who use these subtypes.
+                    </li>
+                    <li>You can choose to use the default subtypes to benefit from the added functionality or replace them with your own (not recommended).</li>
+                </ul>
+            </div>
+            <div class="divider-25">
+                <table class="table custom-table">
+                    <thead>
+                    <tr>
+                        <th width="15%">Operation</th>
+                        <th width="5%" style="text-align: center">&nbsp;</th>
+                        <th width="80%">Subtype</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td width="15%">Fund&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                        <td width="5%" style="text-align: center"> </td>
+                        <td width="80%" >
+                            <div ng-hide="editingSubtypes.fund">
+                                <span style="width: 20vw; display: inline-block;">{{editExtensionSubtypes.transaction_fund_subtype}}</span>
+                                <a class="pointer" style="padding-left: 0.5vw;"
+                                   ng-click="toggleEditingSubtypes('fund')"><i class="fa fa-pencil"></i></a>
+                                <a ng-show="editExtensionSubtypes.transaction_fund_subtype !== 'none'" class="pointer" style="padding-left: 1.7vw;"
+                                   ng-click="resetSubtype('transaction_fund_subtype')">Clear the subtype</a>
+                            </div>
+                            <div ng-show="editingSubtypes.fund" style="display: flex;">
+                                <div ng-show="creditSubtypes.length > 0" class="reward-multi-select" style="width: 20vw!important">
+                                    <select chosen
+                                            data-placeholder-text-single="'choose a subtype'"
+                                            allow-single-deselect="true"
+                                            ng-model="editExtensionSubtypes.transaction_fund_subtype"
+                                            ng-options="subtype.name for subtype in creditSubtypes">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div ng-show="creditSubtypes.length > 0" >
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="changeSubtype('transaction_fund_subtype', 'fund')"><i class="fas fa-check confirm-changes-tick-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_fund_subtype', 'fund')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span"><a class="pointer" ng-click="openAddSubtypeModal()">Add new subtype</a></span>
+                                </div>
+                                <div ng-hide="creditSubtypes.length > 0" class="pull-right">
+                                    <a class="pointer" ng-click="openAddSubtypeModal()">Add credit subtype</a>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_fund_subtype', 'fund')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">Issue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                        <td width="5%" style="text-align: center"></td>
+                        <td width="80%" >
+                            <div ng-hide="editingSubtypes.issue">
+                                <span style="width: 20vw; display: inline-block;">{{editExtensionSubtypes.transaction_issue_subtype}}</span>
+                                <a class="pointer" style="padding-left: 0.5vw;"
+                                   ng-click="toggleEditingSubtypes('issue')"><i class="fa fa-pencil"></i></a>
+                                <a ng-show="editExtensionSubtypes.transaction_issue_subtype !== 'none'" class="pointer" style="padding-left: 1.7vw;"
+                                   ng-click="resetSubtype('transaction_issue_subtype')">Clear the subtype</a>
+                            </div>
+                            <div ng-show="editingSubtypes.issue" style="display: flex;">
+                                <div ng-show="creditSubtypes.length > 0" class="reward-multi-select" style="width: 20vw!important">
+                                    <select chosen
+                                            data-placeholder-text-single="'choose a subtype'"
+                                            allow-single-deselect="true"
+                                            ng-model="editExtensionSubtypes.transaction_issue_subtype"
+                                            ng-options="subtype.name for subtype in creditSubtypes">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div ng-show="creditSubtypes.length > 0" >
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="changeSubtype('transaction_issue_subtype','issue')"><i class="fas fa-check confirm-changes-tick-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_issue_subtype','issue')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span"><a class="pointer" ng-click="openAddSubtypeModal()">Add new subtype</a></span>
+                                </div>
+                                <div ng-hide="creditSubtypes.length > 0" class="pull-right">
+                                    <a class="pointer" ng-click="openAddSubtypeModal()">Add credit subtype</a>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_issue_subtype','issue')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">Debit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                        <td width="5%" style="text-align: center"></td>
+                        <td width="80%" >
+                            <div ng-hide="editingSubtypes.debit">
+                                <span style="width: 20vw; display: inline-block;">{{editExtensionSubtypes.transaction_debit_subtype}}</span>
+                                <a class="pointer" style="padding-left: 0.5vw;"
+                                   ng-click="toggleEditingSubtypes('debit')"><i class="fa fa-pencil"></i></a>
+                                <a ng-show="editExtensionSubtypes.transaction_debit_subtype !== 'none'" class="pointer" style="padding-left: 1.7vw;"
+                                   ng-click="resetSubtype('transaction_debit_subtype')">Clear the subtype</a>
+                            </div>
+                            <div ng-show="editingSubtypes.debit" style="display: flex;">
+                                <div ng-show="debitSubtypes.length > 0" class="reward-multi-select" style="width: 20vw!important">
+                                    <select chosen
+                                            data-placeholder-text-single="'choose a subtype'"
+                                            allow-single-deselect="true"
+                                            ng-model="editExtensionSubtypes.transaction_debit_subtype"
+                                            ng-options="subtype.name for subtype in debitSubtypes">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div ng-show="debitSubtypes.length > 0" >
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="changeSubtype('transaction_debit_subtype','debit')"><i class="fas fa-check confirm-changes-tick-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_debit_subtype','debit')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span"><a class="pointer" ng-click="openAddSubtypeModal()">Add new subtype</a></span>
+                                </div>
+                                <div ng-hide="debitSubtypes.length > 0" class="pull-right">
+                                    <a class="pointer" ng-click="openAddSubtypeModal()">Add debit subtype</a>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_debit_subtype','debit')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td width="15%">Credit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                        <td width="5%" style="text-align: center"></td>
+                        <td width="80%">
+                            <div ng-hide="editingSubtypes.credit">
+                                <span style="width: 20vw; display: inline-block;">{{editExtensionSubtypes.transaction_credit_subtype}}</span>
+                                <a class="pointer" style="padding-left: 0.5vw;"
+                                   ng-click="toggleEditingSubtypes('credit')"><i class="fa fa-pencil"></i></a>
+                                <a ng-show="editExtensionSubtypes.transaction_credit_subtype !== 'none'" class="pointer" style="padding-left: 1.7vw;"
+                                   ng-click="resetSubtype('transaction_credit_subtype')">Clear the subtype</a>
+                            </div>
+                            <div ng-show="editingSubtypes.credit" style="display: flex;">
+                                <div ng-show="creditSubtypes.length > 0" class="reward-multi-select" style="width: 20vw!important">
+                                    <select chosen
+                                            data-placeholder-text-single="'choose a subtype'"
+                                            allow-single-deselect="true"
+                                            ng-model="editExtensionSubtypes.transaction_credit_subtype"
+                                            ng-options="subtype.name for subtype in creditSubtypes">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div ng-show="creditSubtypes.length > 0" >
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="changeSubtype('transaction_credit_subtype', 'credit')"><i class="fas fa-check confirm-changes-tick-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_credit_subtype', 'credit')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span"><a class="pointer" ng-click="openAddSubtypeModal()">Add new subtype</a></span>
+                                </div>
+                                <div ng-hide="creditSubtypes.length > 0" class="pull-right">
+                                    <a class="pointer" ng-click="openAddSubtypeModal()">Add credit subtype</a>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_credit_subtype', 'credit')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">Fee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                        <td width="5%" style="text-align: center"></td>
+                        <td width="80%" >
+                            <div ng-hide="editingSubtypes.fee">
+                                <span style="width: 20vw; display: inline-block;">{{editExtensionSubtypes.transaction_fee_subtype}}</span>
+                                <a class="pointer" style="padding-left: 0.5vw;"
+                                   ng-click="toggleEditingSubtypes('fee')"><i class="fa fa-pencil"></i></a>
+                                <a ng-show="editExtensionSubtypes.transaction_fee_subtype !== 'none'" class="pointer" style="padding-left: 1.7vw;"
+                                   ng-click="resetSubtype('transaction_fee_subtype')">Clear the subtype</a>
+                            </div>
+                            <div ng-show="editingSubtypes.fee" style="display: flex;">
+                                <div ng-show="debitSubtypes.length > 0" class="reward-multi-select" style="width: 20vw!important">
+                                    <select chosen
+                                            data-placeholder-text-single="'choose a subtype'"
+                                            allow-single-deselect="true"
+                                            ng-model="editExtensionSubtypes.transaction_fee_subtype"
+                                            ng-options="subtype.name for subtype in debitSubtypes">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div ng-show="debitSubtypes.length > 0" >
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="changeSubtype('transaction_fee_subtype', 'fee')"><i class="fas fa-check confirm-changes-tick-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_fee_subtype', 'fee')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span"><a class="pointer" ng-click="openAddSubtypeModal()">Add new subtype</a></span>
+                                </div>
+                                <div ng-hide="debitSubtypes.length > 0" class="pull-right">
+                                    <a class="pointer" ng-click="openAddSubtypeModal()">Add debit subtype</a>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_fee_subtype', 'fee')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">Withdraw&nbsp;&nbsp;:</td>
+                        <td width="5%" style="text-align: center"></td>
+                        <td width="80%" >
+                            <div ng-hide="editingSubtypes.withdraw">
+                                <span style="width: 20vw; display: inline-block;">{{editExtensionSubtypes.transaction_withdraw_subtype}}</span>
+                                <a class="pointer" style="padding-left: 0.5vw;"
+                                   ng-click="toggleEditingSubtypes('withdraw')"><i class="fa fa-pencil"></i></a>
+                                <a ng-show="editExtensionSubtypes.transaction_withdraw_subtype !== 'none'" class="pointer" style="padding-left: 1.7vw;"
+                                   ng-click="resetSubtype('transaction_withdraw_subtype')">Clear the subtype</a>
+                            </div>
+                            <div ng-show="editingSubtypes.withdraw" style="display: flex;">
+                                <div ng-show="debitSubtypes.length > 0" class="reward-multi-select" style="width: 20vw!important">
+                                    <select chosen
+                                            data-placeholder-text-single="'choose a subtype'"
+                                            allow-single-deselect="true"
+                                            ng-model="editExtensionSubtypes.transaction_withdraw_subtype"
+                                            ng-options="subtype.name for subtype in debitSubtypes">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div ng-show="debitSubtypes.length > 0" >
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="changeSubtype('transaction_withdraw_subtype', 'withdraw')"><i class="fas fa-check confirm-changes-tick-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_withdraw_subtype', 'withdraw')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                    <span class="stellar-testnet-subtype-span"><a class="pointer" ng-click="openAddSubtypeModal()">Add new subtype</a></span>
+                                </div>
+                                <div ng-hide="debitSubtypes.length > 0" class="pull-right">
+                                    <a class="pointer" ng-click="openAddSubtypeModal()">Add debit subtype</a>
+                                    <span class="stellar-testnet-subtype-span pointer"
+                                          ng-click="revertSubtype('transaction_withdraw_subtype', 'withdraw')"><i class="fas fa-times revert-changes-cross-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <p ng-show="noSubtypes" class="welcome-label3 stellar-subtype-text">No subtypes have been added to your company. The Stellar Testnet
+                    Extension will work without subtypes. To take advantage of Moxey's added functionality, you can add the default subtypes.</p>
+                <p ng-show="noSelectedSubtype" class="welcome-label3 stellar-subtype-text">{{noSelectedText}} The Stellar Testnet
+                    Extension will work without subtypes. To take advantage of Moxey's added functionality, you can add the default subtypes.</p>
+                <p ng-show="nonDefaultSet" class="welcome-label3 stellar-subtype-text">Custom subtypes are currently being used. Click the button
+                    below to use Rehive default subtypes instead.</p>
+                <p ng-show="defaultSet" class="welcome-label3 stellar-subtype-text">Default Rehive subtypes are being used.</p>                
+            </div>
+        </div>
+        <div ng-show="loadingSubtypes" >
+            <loading-image></loading-image>
+        </div>
+        <div class="form-group">
+            <button ng-show="noSubtypes" ng-click="setupDefaultSubtypes()"
+                    class="btn btn-primary pull-left delete-button">Add default subtypes
+            </button>
+            <button ng-show="noSelectedSubtype" ng-click="updateDefaultSubtypes()"
+                    class="btn btn-primary pull-left delete-button">Add default subtypes
+            </button>
+            <button ng-show="nonDefaultSet" ng-click="updateDefaultSubtypes()"
+                    class="btn btn-primary pull-left delete-button">Use default subtypes
+            </button>
+            <button ng-click="patchExtensionSubtypes()"
+                    class="btn btn-primary pull-right dashboard-btn">Save
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<div ng-hide="addingAccessControlRules" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add access control rule</h4>
+    </div>
+    <div class="modal-body">
+        <form name="AccessControlForm" class="custom-form">
+            <div class="form-group transaction-radio-inputs divider-20">
+                <label>Type <span style="color: #ed675A !important;" class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="accessControlParams.type" value="ip">
+                            <span class="custom-radio-btn">IP</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="transaction-radio-inputs divider-20">
+                <label>Action <span style="color: #ed675A !important;" class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="accessControlParams.action" value="allow">
+                            <span class="custom-radio-btn">Allow</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="accessControlParams.action" value="deny">
+                            <span class="custom-radio-btn">Deny</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Value <span class="required-icon">*</span> <i uib-tooltip-html="'IPv4 address format e.g. 19.117.63.126 <br>
+                 IPv6 address format e.g. 2001:db8:3333:4444:5555:6666:7777:8888'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                <input type="text" ng-model="accessControlParams.value" class="form-control"
+                       placeholder="Enter a single IPv4 or IPv6 address." required>
+            </div>
+            <div class="form-group divider-20">
+                <label>Label</label>
+                <input type="text" ng-model="accessControlParams.label" class="form-control"
+                       placeholder="Please enter label">
+            </div>
+            <div class="access-control-radio-inputs">
+                <label>Who should this rule apply to?</label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn" style="margin-right: 13px!important;">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="accessControlParams.applyRuleTo" value="everyone">
+                            <span class="custom-radio-btn">Everyone</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="accessControlParams.applyRuleTo" value="user">
+                            <span class="custom-radio-btn">User</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="accessControlParams.applyRuleTo" value="group">
+                            <span class="custom-radio-btn">Group</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="accessControlParams.applyRuleTo === 'user'" class="form-group">
+                <input type="text" ng-model="accessControlParams.user" class="form-control"
+                       placeholder="Please enter an email, mobile number, id or username">
+            </div>
+            <div ng-show="accessControlParams.applyRuleTo === 'group'" class="form-group">
+                <input type="text" ng-model="accessControlParams.group" class="form-control"
+                       placeholder="Please enter group name">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="addAccessControlRules(accessControlParams)" ng-disabled="!AccessControlForm.$valid"
+                class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingAccessControlRules">
+    <loading-image></loading-image>
+</div>

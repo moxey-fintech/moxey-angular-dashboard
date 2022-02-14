@@ -1,0 +1,16 @@
+version: '2'
+configs:
+  production:
+    project_name: client-moxey-dashboard
+    docker_image: gcr.io/rehive-services/client-moxey-dashboard
+    cloud_provider:
+      name: gcp
+      project: rehive-services
+      kube_cluster: production
+      zone: europe-west1-c
+    namespace: client-moxey-dashboard
+    helm_values_path: ./etc/helm/production/values.yaml
+    helm_chart: rehive/rehive-service
+    helm_chart_version: 0.2.2
+    use_system_helm: false
+    helm_version: 2.14.3

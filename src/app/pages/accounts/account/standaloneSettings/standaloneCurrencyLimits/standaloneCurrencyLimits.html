@@ -1,0 +1,36 @@
+<div ng-hide="loadingAccountCurrencyLimits" class="setting-bank-accounts panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Limits</span>
+        <a ng-click="openAddAccountCurrencyLimitModal('app/pages/users/user/userAccountsOnly/accountSettings/accountCurrencyLimits/addAccountCurrencyLimit/addAccountCurrencyLimit.html','md')" class="user-details-panel-link pull-right pointer">Add limit</a>
+    </div>
+    <div class="panel-body">
+        <table ng-show="accountCurrencyLimitsList.length > 0" class="table fees-table setting-bank-accounts-table">
+            <tr class="divider">
+                <th class="rehive-table-row-first-child">Tx type</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Subtype</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="accountCurrencyLimit in accountCurrencyLimitsList track by $index">
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child" title="{{accountCurrencyLimit.tx_type | capitalizeWord}}" ng-bind="accountCurrencyLimit.tx_type | capitalizeWord | limitTo: '35'"></td>
+                <td class="table-row-center transactions-list-element" title="{{accountCurrencyLimit.value | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}"
+                    ng-bind="accountCurrencyLimit.value | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter"></td>
+                <td class="table-row-center transactions-list-element" title="{{accountCurrencyLimit.type}}" ng-bind="accountCurrencyLimit.type | capitalizeWord | limitTo: '35'"></td>
+                <td class="table-row-center transactions-list-element" title="{{accountCurrencyLimit.subtype ? accountCurrencyLimit.subtype : 'None'}}" ng-bind="accountCurrencyLimit.subtype ? accountCurrencyLimit.subtype : 'None'| limitTo: '35'"></td>
+                <td class="rehive-table-row-last-child">
+                    <a ng-click="openAccountCurrencyLimitsModal('app/pages/users/user/userAccountsOnly/accountSettings/accountCurrencyLimits/accountCurrencyLimitsModal/accountCurrencyLimitsModal.html','md',accountCurrencyLimit)"
+                       class="pull-right pointer ">Delete</a>
+                    <a ng-click="openEditAccountCurrencyLimitModal('app/pages/users/user/userAccountsOnly/accountSettings/accountCurrencyLimits/editAccountCurrencyLimit/editAccountCurrencyLimit.html','md',accountCurrencyLimit)"
+                       class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="accountCurrencyLimitsList.length == 0">
+            <i>No limits are available.</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccountCurrencyLimits">
+    <loading-image></loading-image>
+</div>

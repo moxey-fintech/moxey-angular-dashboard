@@ -1,0 +1,54 @@
+<div ng-hide="updatingBusinessDetails">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Settings</span>
+        </div>
+        <div class="panel-body">
+            <form name="businessSettingsForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>Allowed groups for business managers &nbsp;
+                        <i uib-tooltip-html="'Set which groups are allowed to be business managers. Business managers are allowed to add and edit businesses to the company.'"
+                                        class="ion-information-circled setup-groups-tooltip"></i>
+                    </label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more groups'"
+                                width="100"
+                                ng-model="businessCompanySettings.manager_groups" 
+                                ng-change="trackUpdatedBusinessSetting('manager_groups')"
+                                ng-options="group.name for group in groupsList | orderBy: 'name' track by group.name">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>  
+                <div class="form-group">
+                    <label class="divider-20" style="font-size:15px; font-weight: bold">Payouts</label>
+                    <label>Payout day</label>
+                    <div class="reward-multi-select">
+                        <select class="form-control pointer" ng-model="businessCompanySettings.payout_day" 
+                            ng-change="trackUpdatedBusinessSetting('payout_day')" 
+                            ng-options="payout_day.value as payout_day.text for payout_day in payoutDayOptions">
+                        </select>
+                    </div>
+                    <br>
+                    <label>Payout hour</label>
+                    <div class="reward-multi-select">
+                        <select class="form-control pointer" ng-model="businessCompanySettings.payout_hour" 
+                            ng-change="trackUpdatedBusinessSetting('payout_hour')" 
+                            ng-options="payout_hour.value as payout_hour.text for payout_hour in payoutHourOptions">
+                        </select>
+                    </div>
+                </div>             
+                <div class="form-group">
+                    <button  ng-click="updateBusinessCompanySettings()" class="btn btn-primary btn-primary-dark dashboard-btn pull-right" ng-disabled="!businessSettingsForm.$valid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-show="updatingBusinessDetails" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

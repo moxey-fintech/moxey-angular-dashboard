@@ -1,0 +1,20 @@
+<div ba-panel class="menu-box service-header" ba-panel-class="light-text">
+    <!--<div class="menu-hex-container">-->
+        <!--<div class="hexagon"></div>-->
+        <!--<div class="hex-over">&nbsp;</div>-->
+    <!--</div>-->
+    <hr class="no-margin">
+    <div ng-click="goToEthereumSetting('hdkeys')"
+         ng-class="{'selected-settings-menu': ethereumSettingView == 'hdkeys' }"
+         class="pointer menu-box-options">
+        <h5>Public keys <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToEthereumSetting('deactivation')"
+         ng-class="{'selected-settings-menu': ethereumSettingView == 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>
+

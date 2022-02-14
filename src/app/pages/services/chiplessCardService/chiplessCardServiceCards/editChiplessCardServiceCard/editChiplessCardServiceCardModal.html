@@ -1,0 +1,73 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit card</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" ng-hide="editingCard" name="editCardForm" novalidate>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Id: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <span ng-bind="editCardParams.id"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">User: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <span ng-bind="cardUserObj.email || cardUserObl.mobile || cardUserObj.id"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Account: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <p ng-bind="editCardParams.account"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Number: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <p ng-bind="editCardParams.number"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Enabled: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <input class="custom-rehive-checkbox" ng-model="editCardParams.enabled" type="checkbox">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Activated: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <p ng-bind="editCardParams.activated"></p>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                    <label>Set new pin&nbsp;<i uib-tooltip-html="'A pin should be 4 or 5 numbers. Leave this blank to keep the current pin, if one exists.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                    <input class="form-control terminal-input-text" type="text" ng-change="editCardParams.pin" ng-model="editCardParams.pin" placeholder="e.g. 93741. Leave this blank to keep the current pin, if one exists.">           
+            </div>          
+        </form>
+        <div ng-show="editingCard" class="service-header" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="editCardFunction()"
+                ng-disabled="!editCardForm.$valid || editingCard"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>

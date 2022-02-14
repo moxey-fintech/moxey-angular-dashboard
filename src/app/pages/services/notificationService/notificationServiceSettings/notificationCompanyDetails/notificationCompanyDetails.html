@@ -1,0 +1,112 @@
+<div ng-hide="updatingCompanyDetails" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Customization settings</span>
+    </div>
+    <div class="panel-body">
+        <form name="companyEmailForm" class="custom-form">
+            <div class="form-group">
+                <label>Company name</label>
+                <input type="text" class="form-control divider" ng-change="companyDetailsChanged('name')" ng-model="company.name" placeholder="Enter company name"/>
+            </div>
+            <div class="form-group">
+                <label>System email&nbsp;<span class="required-icon">*</span>&nbsp;
+                    <span><i uib-tooltip-html="'This is the email address notifications you send will be “from“ when users view the email. 
+                        The email address has to exist and should ideally be an address on your company domain.'" class="ion-information-circled setup-groups-tooltip"></i></span></label>
+                <input type="email" class="form-control divider" ng-change="companyDetailsChanged('system_email')" ng-model="company.system_email" placeholder="Enter system email" required/>
+            </div>
+            <!--<div class="form-group" ng-hide="sendGridCredsList.length > 0">-->
+                <!--<a ng-class="{'archived-text': sendGridCredsList.length > 0}" class="pointer" ng-click="openAddSendGridModal('app/pages/services/notificationService/notificationServiceSettings/notificationCompanyDetails/sendGridModal/sendGridModal.html','md')">-->
+                    <!--Add SendGrid details</a>-->
+            <!--</div>-->
+            <!--<div class="form-group" ng-hide="twilioCredsList.length > 0">-->
+                <!--<a ng-class="{'archived-text': twilioCredsList.length > 0}" class="pointer" ng-click="openAddTwilioModal('app/pages/services/notificationService/notificationServiceSettings/notificationCompanyDetails/twilioModal/twilioModal.html','md')">-->
+                    <!--Add Twilio details</a>-->
+            <!--</div>-->
+            <button ng-disabled="!changedCompanyInfo || !companyEmailForm.$valid" ng-click="updateCompanyDetails()"
+                    class="btn btn-primary dashboard-btn pull-right">Save</button>
+        </form>
+    </div>
+</div>
+<div ng-hide="updatingCompanyDetails || twilioCredsList.length == 0" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Twilio details</span>
+        <a ng-click="deleteTwilioCredsPrompt(twilioCredsList[0])" class="user-details-panel-link pull-right pointer">remove</a>
+    </div>
+    <div class="panel-body">
+        <table ng-show="twilioCredsList.length > 0" class="table setting-bank-accounts-table">
+            <tr>
+                <th class="rehive-table-row-first-child">From number</th>
+                <th>Sid</th>
+                <th>Token</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="twilioCred in twilioCredsList track by $index">
+                <td width="15%" class="table-row-center transactions-list-element rehive-table-row-first-child">{{twilioCred.credentials.twilio_from_number}}</td>
+                <td width="30%" class="table-row-center transactions-list-element">{{twilioCred.credentials.twilio_sid}}</td>
+                <td width="30%" class="table-row-center transactions-list-element">{{twilioCred.credentials.twilio_token}}</td>
+                <td width="25%" class="rehive-table-row-last-child">
+                    <a ng-click="openEditTwilioModal('app/pages/services/notificationService/notificationServiceSettings/notificationCompanyDetails/editTwilioModal/editTwilioModal.html','md',twilioCred)"
+                       class="pull-right pointer ">Edit</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ng-hide="updatingCompanyDetails || sendGridCredsList.length == 0" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Sendgrid details</span>
+        <a ng-click="deleteSendGridCredsPrompt(sendGridCredsList[0])" class="user-details-panel-link pull-right pointer">remove</a>
+    </div>
+    <div class="panel-body">
+        <table ng-show="sendGridCredsList.length > 0" class="table setting-bank-accounts-table">
+            <tr>
+                <th class="rehive-table-row-first-child">From email</th>
+                <th>Api key</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="sendGridCred in sendGridCredsList track by $index">
+                <td width="25%" class="table-row-center transactions-list-element rehive-table-row-first-child">{{sendGridCred.credentials.sendgrid_from_email}}</td>
+                <td width="50%" class="table-row-center transactions-list-element">{{sendGridCred.credentials.sendgrid_api_key}}</td>
+                <td width="25%" class="rehive-table-row-last-child">
+                    <a ng-click="openEditSendGridModal('app/pages/services/notificationService/notificationServiceSettings/notificationCompanyDetails/editSendGridModal/editSendGridModal.html','md',sendGridCred)"
+                       class="pull-right pointer ">Edit</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ng-hide="updatingCompanyDetails || (sendGridCredsList.length > 0 && twilioCredsList.length > 0)" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Optional</span>
+    </div>
+    <div class="panel-body">
+        <div class="form-group" ng-hide="sendGridCredsList.length > 0">
+            <a ng-class="{'archived-text': sendGridCredsList.length > 0}" class="pointer" ng-click="openAddSendGridModal('app/pages/services/notificationService/notificationServiceSettings/notificationCompanyDetails/sendGridModal/sendGridModal.html','md')">
+                Add SendGrid details</a>
+        </div>
+        <div class="form-group" ng-hide="twilioCredsList.length > 0">
+            <a ng-class="{'archived-text': twilioCredsList.length > 0}" class="pointer" ng-click="openAddTwilioModal('app/pages/services/notificationService/notificationServiceSettings/notificationCompanyDetails/twilioModal/twilioModal.html','md')">
+                Add Twilio details</a>
+        </div>
+    </div>
+</div>
+
+<div ng-hide="updatingCompanyDetails" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Advanced settings</span>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label>BIMI selector header&nbsp;
+                <span><i uib-tooltip-html="'Format: v=BIMI; s=default;'" class="ion-information-circled setup-groups-tooltip"></i></span>
+            </label>
+            <input type="text" class="form-control divider" ng-model="company.bimi_selector_header" 
+                ng-change="companyDetailsChanged('bimi_selector_header')" placeholder="Enter BIMI settings" />
+        </div>
+        <button ng-disabled="!company.bimi_selector_header || company.bimi_selector_header === '' || (prevBIMISelector === company.bimi_selector_header)" 
+            ng-click="updateCompanyDetails()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="updatingCompanyDetails" class="service-header">
+    <loading-image></loading-image>
+</div>

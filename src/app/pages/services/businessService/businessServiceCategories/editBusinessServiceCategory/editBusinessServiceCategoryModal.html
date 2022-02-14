@@ -1,0 +1,29 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit category</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" ng-hide="editingCategory" name="editCategoryForm" novalidate>
+            <div class="form-group divider-20">
+                <label>Name&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control category-input-text" type="text" ng-change="editCategoryParams.name" ng-model="editCategoryParams.name" placeholder="e.g. Restaurant" required>           
+            </div>
+            <div class="form-group divider-20">
+                <label>Description&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control category-input-text" type="text" ng-change="editCategoryParams.description" ng-model="editCategoryParams.description" placeholder="Enter category description" required>           
+            </div>
+        </form>
+        <div ng-show="editingCategory" class="service-header" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="editCategoryFunction()"
+                ng-disabled="!editCategoryForm.$valid || editingCategory"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>

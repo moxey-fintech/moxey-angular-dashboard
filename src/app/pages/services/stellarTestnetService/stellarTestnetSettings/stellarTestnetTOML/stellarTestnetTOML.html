@@ -1,0 +1,24 @@
+<div ng-hide="downloadingTOMLFile" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">TOML File</span>
+    </div>
+    <div class="panel-body">
+        <div class="divider-20">
+            <p class="no-margin">
+                The stellar.toml file contains general public information on your company and assets that might be required by the larger Stellar ecosystem. To read more view this
+                <a href='https://www.stellar.org/developers/guides/concepts/stellar-toml.html' target='_blank'>article</a>.
+            </p>
+            <br>
+            <p class="no-margin">
+                Rehive generates a stellar.toml file based on your company assets and Rehive company details. It is best to double check the data that is generated before adding the file to your domain.
+                Once checked the file should be uploaded to <span class="get-started-text">https://COMPANY_DOMAIN/.well-known/stellar.toml</span> that is controlled by your company.
+            </p>
+        </div>
+        <div class="divider-20">
+            <button ng-click="downloadStellarTestnetTOMLFile()" class="btn btn-primary pull-right">Download TOML File</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="downloadingTOMLFile" class="service-header">
+    <loading-image></loading-image>
+</div>

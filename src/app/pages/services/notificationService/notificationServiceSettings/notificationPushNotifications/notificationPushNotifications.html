@@ -1,0 +1,14 @@
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Push notifications</span>
+    </div>
+    <div class="panel-body">
+        <div>
+            <p>Push notifications require additional set up before they can be enabled. Please contact Rehive to active push notifications. Currently push notifications are only available to Premium and Enterprise clients.</p>
+            <br>
+            <p>Push notifications enabled:&nbsp;<strong ng-class="{'mfa-not-active': !company.push_enabled, 'mfa-active': company.push_enabled}">{{company.push_enabled.toString() | uppercase}}</strong></p>
+            <br>
+            <button ng-show="!company.push_enabled" ng-click="openIntercomm()" class="btn btn-primary pull-right">Request activation</button>
+        </div>
+    </div>
+</div>

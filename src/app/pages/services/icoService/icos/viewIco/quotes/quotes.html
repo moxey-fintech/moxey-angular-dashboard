@@ -1,0 +1,48 @@
+<quotes-list-filters></quotes-list-filters>
+<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Quotes</span>
+        </div>
+        <div class="panel-body">
+            <table ng-hide="icoQuotes.length == 0 || loadingQuotes" class="table custom-table">
+                <tr>
+                    <th>User</th>
+                    <th>Phase</th>
+                    <th>Deposit amount</th>
+                    <th>Deposit currency</th>
+                    <th>Token amount</th>
+                    <th>Rate</th>
+                    <th class="align-right">Created</th>
+                </tr>
+                <tr ng-repeat="quote in icoQuotes | orderBy: '-created' track by $index"
+                    ng-click="openQuotesModal('app/pages/services/icoService/icos/viewIco/quotes/quotesModal/quotesModal.html', 'md',quote)"
+                    class="editable-row center pointer user-details-table-hover">
+                    <td class="ico-service-list-element" title="{{quote.user}}" ng-bind="quote.user | limitTo: 10"></td>
+                    <td class="ico-service-list-element"  title="{{quote.phase}}" ng-bind="quote.phase"></td>
+                    <td class="ico-service-list-element" title="{{quote.deposit_amount  | currencyModifiersFilter: quote.deposit_currency.divisibility | commaSeperateNumberFilter}}"
+                        ng-bind="quote.deposit_amount  | currencyModifiersFilter: quote.deposit_currency.divisibility | commaSeperateNumberFilter"></td>
+                    <td class="ico-service-list-element" title="{{quote.deposit_currency.code}}"
+                        ng-bind="quote.deposit_currency.code"></td>
+                    <td class="ico-service-list-element" title="{{quote.token_amount  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter}}"
+                        ng-bind="quote.token_amount  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter"></td>
+                    <td class="ico-service-list-element" title="{{quote.rate  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter}}"
+                        ng-bind="quote.rate  | currencyModifiersFilter: icoObj.currency.divisibility"></td>
+                    <td class="ico-service-list-element align-right" title="{{quote.created | date:'mediumDate'}} {{quote.created | date:'shortTime'}}">
+                        {{quote.created | date:'mediumDate'}} {{quote.created | date:'shortTime'}}</td>
+                </tr>
+            </table>
+            <div ng-hide="icoQuotes.length == 0 || loadingQuotes">
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="icoQuotesData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getIcoQuotes()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="icoQuotes.length == 0 && !loadingQuotes">
+                <i>No quotes are available</i>
+            </div>
+            <div ng-show="loadingQuotes">
+                <loading-image></loading-image>
+            </div>
+        </div>
+    </div>
+</div>

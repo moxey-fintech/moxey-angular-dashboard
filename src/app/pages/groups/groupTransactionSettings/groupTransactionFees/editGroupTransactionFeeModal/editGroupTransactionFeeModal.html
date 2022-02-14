@@ -1,0 +1,162 @@
+<div ng-hide="editingTierFees" class="modal-content" ng-keydown="($event.keyCode === 13)  && updateTierFee()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit tier fee</h4>
+    </div>
+    <div class="modal-body">
+        <form name="editTierFeeForm" class="custom-form" novalidate>
+            <div class="divider-10">
+                <label>Fee triggers</label>
+            </div>
+            <div class="divider-20">
+                <label class="text-subtle" style="font-weight: normal;">Select transaction type <span class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editTierFee.tx_type"
+                                   ng-change="tierFeeChanged('tx_type'); getSubtypesArray(editTierFee);" value="credit">
+                            <span class="custom-radio-btn">Credit</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="editTierFee.tx_type"
+                                   ng-change="tierFeeChanged('tx_type'); getSubtypesArray(editTierFee);" value="debit">
+                            <span class="custom-radio-btn">Debit</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Currency</label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            data-placeholder-text-single="'Choose a currency'"
+                            width="100"
+                            allow-single-deselect="true"
+                            ng-model="editTierFee.currency"
+                            ng-change="tierFeeChanged('currency')"
+                            ng-options="currency.display_code for currency in currenciesOptions | orderBy: 'code' track by currency.code"
+                            required>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div ng-hide="loadingSubtypes" class="form-group divider-20">
+                <label>Subtype</label>
+                <select class="form-control pointer" ng-change="tierFeeChanged('subtype')"
+                        ng-model="editTierFee.subtype" ng-options="subtypeOption for subtypeOption in subtypeOptions">
+                </select>
+            </div>
+            <div ng-show="loadingSubtypes">
+                <loading-image class="custom-subtype-loading"></loading-image>
+            </div>
+            <div class="form-group divider-20">
+                <label class="tier-fees-tooltip">Account definition </label>
+                <select class="form-control pointer" ng-change="tierFeeChanged('account_definition')"
+                        ng-model="editTierFee.account_definition" ng-options="accountDef.name for accountDef in accountDefinitions">
+                        <option value="">No account definition</option>
+                </select>
+            </div>
+            <div class="divider-10">
+                <label>Fee details</label>
+            </div>
+            <div class="form-group divider-20">
+                <label>Fee name (max 50 chars.)&nbsp;<span><i class="ion-information-circled setup-groups-tooltip public-key-tooltip" tooltip-placement="right" tooltip-append-to-body="true"
+                    uib-tooltip-html="'Fee name can be used to give your fees an override function or an additive function. Additive means a fee set on a group tier is charged ontop of a fee set on a user account level. Override means the lower level fee overrides the fee set on a higher level. To make a fee additive ensure your fees on a group tier and a user account level have different names. To make your fees override, give your user account fee the same name as your group tier fee - the user account fee will override the fee set on the group tier level. Fee names are unique per currency per tier.'"></i></span><span class="pull-right">{{editTierFee.name.length}} / 50</span></label>
+                <input type="text" class="form-control" ng-model="editTierFee.name" ng-change="tierFeeChanged('name')" placeholder="Enter fee name" />
+            </div>
+            <div class="form-group divider-20">
+                <label>Short description (max 255 chars.)&nbsp;<span class="pull-right">{{editTierFee.description.length}} / 255</span></label>
+                <textarea type="text" class="form-control" ng-model="editTierFee.description" ng-change="tierFeeChanged('description')" placeholder="Enter description" /></textarea>
+            </div>
+            <div class="form-group divider-20">
+                <label>Amount</label>
+                <input type="text" class="form-control" ng-change="tierFeeChanged('value')" ng-model="editTierFee.value" placeholder="Enter value"/>
+            </div>
+            <div class="form-group divider-20">
+                <label>Percentage</label>
+                <input type="text" class="form-control" ng-change="tierFeeChanged('percentage')" ng-model="editTierFee.percentage" placeholder="Enter percentage" />
+            </div>
+            <div class="form-group divider-20">
+                <label class="tier-fees-tooltip">Debit subtype <i uib-tooltip-html="'Select what subtype the debit portion of the fee transaction should have.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                <select class="form-control pointer"
+                        ng-model="editTierFee.debit_subtype"  ng-change="tierFeeChanged('debit_subtype')" ng-options="debitSubtype for debitSubtype in debitSubtypeOptions">
+                </select>
+            </div>
+            <div class="form-group divider-20">
+                <label class="tier-fees-tooltip">Credit subtype <i uib-tooltip-html="'Select what subtype the credit portion of the fee transaction should have.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                <select class="form-control pointer"
+                        ng-model="editTierFee.credit_subtype" ng-change="tierFeeChanged('credit_subtype')" ng-options="creditSubtype for creditSubtype in creditSubtypeOptions">
+                </select>
+            </div>
+            <div class="divider-10">
+                <label>Fee account</label>
+            </div>
+            <div class="divider-20">
+                <label class="text-subtle" style="font-weight: normal;">Select account type</label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="searchAccountBy" value="standalone">
+                            <span class="custom-radio-btn">Standalone account</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="searchAccountBy" value="user">
+                            <span class="custom-radio-btn">User account</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="searchAccountBy === 'standalone'" class="form-group row">
+                <label>Standalone accounts&nbsp;&nbsp;</label>
+                <div class="reward-multi-select">
+                    <select chosen single
+                            data-placeholder-text-single="'Choose a standalone account'"
+                            width="100"
+                            allow-single-deselect="true"
+                            ng-model="editTierFee.credit_account"
+                            ng-change="tierFeeChanged('credit_account')"
+                            ng-options="account.reference + ' - ' + account.name for account in standaloneAccountOptions | orderBy: 'name'">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div ng-show="searchAccountBy === 'user'" class="form-group row">
+                <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5 no-left-padding">
+                    <label class="tier-fees-tooltip">Fee credit account <i uib-tooltip-html="'Select which account the credit portion of the fee transaction should be credited to.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                    <input class="form-control" ng-model="editTierFee.fee_user"
+                        type="text" placeholder="Search user"
+                        uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                        ng-change="emailChanging()"
+                        typeahead-on-select="onSelect($model)" ng-model-options='{ debounce: 50 }' >
+                </div>
+                <div ng-show="showAccounts" class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-left-padding">
+                    <div ng-hide="loadingAccounts" class="reward-multi-select">
+                        <label>&nbsp;</label>
+                        <select chosen
+                                data-placeholder-text-single="'Choose an account'"
+                                width="100"
+                                allow-single-deselect="false"
+                                ng-model="editTierFee.credit_account"
+                                ng-change="tierFeeChanged('credit_account')"
+                                ng-options="account.name + ' - ' + account.reference for account in accountOptions | orderBy: 'name'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div ng-show="loadingAccounts">
+                        <loading-image class="custom-subtype-loading"></loading-image>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="updateTierFee()" ng-disabled="!editTierFeeForm.$valid || !feeEdited || editTierFee.description.length > 255 || editTierFee.name.length > 50" class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="editingTierFees">
+    <loading-image></loading-image>
+</div>
+

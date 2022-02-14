@@ -1,0 +1,66 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                    class="btn btn-default">Filters
+                <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+            </button>
+            <span  click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <user-transactions-column-filters></user-transactions-column-filters>
+                    </div>
+                </span>
+            <div ng-show="showingFilters">
+                <user-transactions-filters></user-transactions-filters>
+            </div>
+            <button ng-click="openExportUserTransactionsModal('app/pages/users/user/userTransactions/userTransactionsExportModal/userTransactionsExportModal.html','md')"
+                    class="btn btn-default dynamic-columns panel-header-transaction-export">Export</button>
+            <button ng-click="getLatestTransactions('applyFilter')" ng-disabled="loadingTransactions"
+                    class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+            <button ng-click="goToNewTransactionModal()"
+                    class="btn btn-primary transactions-btn panel-transaction-newTx-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="transactions.length > 0" class="upper-pagination">
+            <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="transactionsData.count" ng-model="pagination.pageNo"
+               max-size="pagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getLatestTransactions()"
+               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+        </div>
+        <div ng-show="transactions.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped">
+                    <thead>
+                    <tr>
+                        <!--class="pointer"-->
+                        <th ng-repeat="header in headerColumns track by $index" ng-if="header.visible"  ng-bind="header.colName"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="transaction in transactions | orderBy: orderByFunction track by $index" data-toggle="modal"
+                        class="editable-row center pointer user-details-table-hover" ng-click="openModal('app/pages/users/user/userTransactions/userTransactionsModal/userTransactionsModal.html','md',transaction)">
+                        <td class="transactions-list-element" ng-repeat="header in headerColumns track by $index"
+                            ng-if="header.visible" ng-bind="transaction[header.fieldName]"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="transactions.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="transactionsData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getLatestTransactions()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="transactions.length == 0">
+            <i ng-hide="transactionsStateMessage == ''" ng-bind="transactionsStateMessage"></i>
+            <loading-image ng-show="transactionsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>
+
+

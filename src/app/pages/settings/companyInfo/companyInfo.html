@@ -1,0 +1,203 @@
+<div ng-hide="loadingCompanyInfo" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Company info</span>
+    </div>
+    <div class="panel-body">
+        <form name="companyInfoForm" class="custom-form">
+            <div class="form-group">
+                <label>App ID</label>
+                <div>{{company.details.id}}</div>
+            </div>
+            <div class="form-group">
+                <label>Company name</label>
+                <input type="text" ng-change="companyInfoChanged('name')" ng-model="company.details.name" class="form-control" placeholder="Company">
+            </div>
+            <div class="form-group">
+                <label>Company description</label>
+                <p class="small">This info is public and displayed in the user-facing apps.</p>
+                <textarea rows="4" ng-change="companyInfoChanged('description')" ng-model="company.details.description" class="form-control" placeholder="e.g. Currency Corp is a registered financial services provider."></textarea>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label>Country of operations</label>
+                    <country-select class="form-control pointer" ng-change="companyInfoChanged('country')" data-ng-model="company.details.country"></country-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Website url</label>
+                <input type="text" ng-change="companyInfoChanged('website')" ng-model="company.details.website" class="form-control" placeholder="e.g. https://www.yourcompany.com">
+            </div>
+            <div class="form-group">
+                <label>Support website&nbsp;&nbsp;
+                    <span><i uib-tooltip-html="'A website your end users can use to access support.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <input type="text" ng-change="companyInfoChanged('support_website')" ng-model="company.details.support_website" class="form-control" placeholder="e.g. https://www.yourcompany.com/support">
+            </div>
+            <div class="form-group">
+                <label>System email&nbsp;&nbsp;<span class="required-icon">*</span>&nbsp;
+                    <span><i uib-tooltip-html="'This is the email address notifications you send will be “from“ when users view the email. 
+                        The email address has to exist and should ideally be an address on your company domain.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <input type="text" ng-change="companyInfoChanged('system_email')" ng-model="company.details.system_email" class="form-control" placeholder="e.g. support@yourcompany.com" required>
+            </div>
+            <div class="form-group">
+                <label>Contact email&nbsp;&nbsp;
+                    <span><i uib-tooltip-html="'This is the main contact email for your company or organization.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <input type="text" ng-change="companyInfoChanged('contact_email')" ng-model="company.details.contact_email" class="form-control" placeholder="e.g. contact@yourcompany.com">
+            </div>
+            <div class="form-group">
+                <label>Support email&nbsp;&nbsp;
+                    <span><i uib-tooltip-html="'An email your end users can use to contact you for support.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <input type="text" ng-change="companyInfoChanged('support_email')" ng-model="company.details.support_email" class="form-control" placeholder="e.g. support@yourcompany.com">
+            </div>
+            <div class="form-group">
+                <label>Password set url</label>
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <input type="text" ng-change="companySettingsChanged('password_set_url')" ng-model="company.details.settings.password_set_url" class="form-control" placeholder="e.g. https://moxey.ai/password/reset/confirm">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><button class="btn btn-primary pull-right" ng-click="setDefaultUrl('password_set_url', 'https://moxey.ai/password/reset/confirm')">Use default</button></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password reset url</label>
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <input type="text" ng-change="companySettingsChanged('password_reset_url')" ng-model="company.details.settings.password_reset_url" class="form-control" placeholder="e.g. https://moxey.ai/password/reset/confirm">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><button class="btn btn-primary pull-right" ng-click="setDefaultUrl('password_reset_url', 'https://moxey.ai/password/reset/confirm')">Use default</button></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email verification url</label>
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <input type="text" ng-change="companySettingsChanged('email_verification_url')" ng-model="company.details.settings.email_verification_url" class="form-control" placeholder="e.g. https://moxey.ai/email/verify">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><button class="btn btn-primary pull-right" ng-click="setDefaultUrl('email_verification_url', 'https://moxey.ai/email/verify')">Use default</button></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Terms and conditions url</label>
+                <input type="text" ng-change="companySettingsChanged('terms_and_conditions_url')" ng-model="company.details.settings.terms_and_conditions_url" class="form-control" placeholder="e.g. https://www.moxey.ai/legal/terms-and-conditions">
+            </div>
+            <div class="form-group">
+                <label>Privacy policy url</label>
+                <input type="text" ng-change="companySettingsChanged('privacy_policy_url')" ng-model="company.details.settings.privacy_policy_url" class="form-control" placeholder="e.g. https://www.moxey.ai/legal/privacy">
+            </div>
+            <div class="form-group">
+                <label>Original template selected</label>
+                <div ng-show="originalCompanyTemplate" ng-bind="originalCompanyTemplate"></div>
+                <div ng-hide="originalCompanyTemplate">None</div>
+            </div>
+            <div class="form-group">
+                <strong>The JSON config has moved to the <a href="/#/extensions">app extension.</a></strong>
+            </div>
+            <div class="form-group">
+                <label class="public-info">Public&nbsp;
+                    <span class="large"><i uib-tooltip-html="'Setting your company public means information such as company name, description, 
+                    logo and company configuration can be accessed without a user first authenticating. This public info is used
+                     in the wallets to make them more user-friendly.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <div ng-show="company.details.public">
+                    <i class="fa fa-toggle-on user-switch-active no-margin"  ng-click="companyInfoChanged('public')"></i>
+                </div>
+                <div ng-hide="company.details.public">
+                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin"  ng-click="companyInfoChanged('public')"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="margin-bottom: 14px;">Company logo</label> 
+                <div ng-hide="hasLogo || imageFile.file.name" class="placeholder-div placeholder-div-logo align-items-center">800 x 600</div>
+                <div ng-show="hasLogo || imageFile.file.name" class="placeholder-div placeholder-div-logo" style="background-repeat: no-repeat;border: none;">
+                    <img ng-hide="imageFile.file.name" ng-src="{{companyImageUrl}}" width="150" height="150" alt="logo Image" style=" object-fit: contain">
+                    <img ng-show="imageFile.file.name" ngf-thumbnail="imageFile.file" width="150" height="150" alt="logo Image" style=" object-fit: contain">
+                </div>                
+                <!-- <div ng-show="hasLogo && !imageFile.file.name" class="placeholder-div placeholder-div-logo" 
+                    ng-src="{{companyImageUrl}}" ngf-as-background="true" style="background-repeat: no-repeat;border: none;"></div>
+                <div ng-show="imageFile.file.name" class="placeholder-div placeholder-div-logo" 
+                    ngf-thumbnail="imageFile.file" ngf-as-background="true" style="background-repeat: no-repeat;border: none;"></div> -->
+                <form class="divider" style="margin-bottom: -30px;">
+                    <fieldset class="custom-file-upload">
+                        <label>
+                            <span class="custom-file-upload-span">
+                                <div class="template-edit-icon-container" style="margin: -162px 0 0 132px">
+                                    <i class="fa fa-2x fa-pencil" style="padding-top: 4px;"></i>
+                                </div>
+                            </span>
+                            <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                type="file" ngf-select ng-model="imageFile.file" name="file"
+                                accept="image/x-png,image/jpg,image/jpeg" ngf-max-size="5MB" required>
+                        </label>
+                    </fieldset>
+                </form>
+                <p class="small" style="margin-top: -10px">Max size is 5MB. Recommended dimensions are 800 x 600px. PNG or JPEG format.</p>
+            </div>
+            <div class="form-group">
+                <label style="margin-bottom: 14px;">Company icon</label> 
+                <div ng-hide="hasIcon || imageFile.iconFile.name" class="placeholder-div placeholder-div-icon align-items-center">200 x 200</div>
+                <div ng-show="hasIcon || imageFile.iconFile.name" class="placeholder-div placeholder-div-icon" style="background-repeat: no-repeat;border: none;">
+                    <img ng-hide="imageFile.iconFile.name" ng-src="{{companyIconUrl}}" width="100" height="100" alt="icon Image">
+                    <img ng-show="imageFile.iconFile.name" ngf-thumbnail="imageFile.iconFile" width="100" height="100" alt="icon Image">
+                </div>
+                <!-- <div ng-show="hasLogo && !imageFile.iconFile.name" class="placeholder-div placeholder-div-icon" 
+                    ng-src="{{companyIconUrl}}" ngf-as-background="true" style="background-repeat: no-repeat;border: none;"></div>
+                <div ng-show="imageFile.iconFile.name" class="placeholder-div placeholder-div-icon" 
+                    ngf-thumbnail="imageFile.iconFile" ngf-as-background="true" style="background-repeat: no-repeat;border: none;"></div> -->
+                 <form class="divider" style="margin-bottom: -30px;">
+                    <fieldset class="custom-file-upload">
+                        <label>
+                            <span class="custom-file-upload-span">
+                                <div class="template-edit-icon-container" style="margin: -111px 0px 0px 85px;">
+                                    <i class="fa fa-2x fa-pencil" style="padding-top: 4px;"></i>
+                                </div>
+                            </span>
+                            <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                type="file" ngf-select ng-model="imageFile.iconFile" name="file"
+                                accept="image/x-png,image/jpg,image/jpeg" ngf-max-size="5MB" required>
+                        </label>
+                    </fieldset>
+                </form>
+                <p class="small" style="margin-top: -10px">Max size is 5MB. Recommended dimensions are 200 x 200px. PNG or JPEG format.</p>
+            </div>
+            
+            <div class="form-group">
+                <a class="pointer pull-left" ng-click="goToCompanySetup()" style="margin-top: 20px;">Basic custom config</a>
+                <button ng-click="updateCompanyInfo();upload();" ng-disabled="!companyInfoForm.$valid" class="btn btn-primary dashboard-btn pull-right">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingCompanyInfo || updatingLogo">
+    <loading-image></loading-image>
+</div>
+
+<!-- For future case of debugging uploaders: Original block used for file and iconFile
+
+<div class="form-group">
+    <label>Company icon</label>
+    <div class="divider-20">
+        <div ng-hide="hasIcon || imageFile.iconFile.name">
+            <img src="../../../../assets/img/_defaultIcon.png" width="90" height="90" style="margin: -5px 0 -15px -15px;">
+        </div>
+        <div ng-show="hasIcon || imageFile.iconFile.name">
+            <img ng-hide="imageFile.iconFile.name" ng-src="{{companyIconUrl}}" width="100" height="100" alt="icon Image">
+            <img ng-show="imageFile.iconFile.name" ngf-thumbnail="imageFile.iconFile" width="100" height="100" alt="icon Image">
+        </div>
+    </div>
+    <form name="myForm" class="divider">
+        <fieldset class="custom-file-upload">
+            <label>
+                <span class="custom-file-upload-span"><button>Choose File</button></span>
+                <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                        type="file" ngf-select ng-model="imageFile.iconFile" name="file"
+                        accept="image/*" ngf-max-size="5MB" required>
+            </label>
+        </fieldset>
+    </form>
+    <p class="small">Max size is 5MB. Recommended dimensions are 200 x 200px.</p>
+</div>
+
+-->

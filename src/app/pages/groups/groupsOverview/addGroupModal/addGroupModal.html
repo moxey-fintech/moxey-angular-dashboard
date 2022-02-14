@@ -1,0 +1,84 @@
+<div ng-hide="addingGroups" class="modal-content" ng-keydown="($event.keyCode === 13)  && addGroup(groupsParams)" style="position: relative!important;">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add group</h4>
+    </div>
+    <div class="modal-body">
+       <form name="groupNameForm" class="custom-form">
+           <div class="form-group divider-20">
+               <label>Name <span class="required-icon">*</span></label>
+               <input type="text" ng-model="groupsParams.name" ng-change="groupNameToLowercase()"
+                    class="form-control"  placeholder="Name" required>
+           </div>
+           <div class="form-group divider-20">
+               <label>Label</label>
+               <input type="text" ng-model="groupsParams.label" class="form-control"  placeholder="Label">
+           </div>
+           <div class="form-group divider-20">
+                <label>
+                    Description
+                    <p class="small" style="color: #a8a8a8">If this group is public, this description will display on the wallet frontend if you also have the 
+                        <a class="pointer" ng-click="goToWalletExtension('auth')">enable public group selection</a>
+                        setting enabled.</p>
+                </label><br>
+               <input type="text" ng-model="groupsParams.description" class="form-control"  placeholder="Description">
+           </div>
+           <div class="form-group divider-20">
+               <label>Public</label>
+               <br>
+               <input class="custom-rehive-checkbox" ng-change="groupsParams.public ? null: groupsParams.default=false" ng-model="groupsParams.public" type="checkbox">
+           </div>
+           <div class="form-group divider-20">
+               <label>Default</label>
+               <br>
+               <input class="custom-rehive-checkbox" ng-change="groupsParams.default? groupsParams.public=true:null" ng-model="groupsParams.default" type="checkbox">
+           </div>
+       </form>
+       <div class="custom-form">
+            <div class="form-group divider-20">
+                <label>
+                    Choose a group highlight color&nbsp;
+                    <span>
+                        <i uib-tooltip-html="'The text color when displaying a user of this group in Users and or one of their account in Accounts'"
+                            class="ion-information-circled setup-groups-tooltip"></i>
+                    </span>
+                </label>
+                <div style="margin-top: 8px; position: relative">
+                    <div class="color-container pull-left" id="addGroupColor" ng-style="{'background-color': groupsParams.group_highlight.color}">&nbsp;</div>
+                    <button color-picker color-picker-show-value="false" color-picker-model="groupsParams.group_highlight.color"
+                            color-picker-position="right"
+                            class="btn btn-primary color-selector">
+                        <span><i class="fa fa-pencil" style="color: white;"></i></span>
+                    </button>
+                </div>                 
+            </div>
+            <div class="form-group" style="margin-bottom: -30px;">
+                <label style="margin-bottom: 20px;">Group icon</label>
+                <div ng-hide="imageFile.iconFile.name" class="placeholder-div placeholder-div-icon align-items-center">512 x 512</div>
+                <div ng-show="imageFile.iconFile.name" class="placeholder-div placeholder-div-icon" style="border: none;">
+                    <img ngf-thumbnail="imageFile.iconFile" width="100" height="100" alt="token Image" style="object-fit: contain; height: auto; margin: auto">
+                </div>
+                <form class="divider" style="margin-bottom: -30px;">
+                    <fieldset class="custom-file-upload">
+                        <label>
+                            <span class="custom-file-upload-span">
+                                <div class="template-edit-icon-container" style="margin: -110px 0px 0px 80px; padding-top: 4px"><i class="fa fa-2x fa-pencil" style="color: white;"></i></div>
+                            </span>
+                            <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                type="file" ngf-select ng-model="imageFile.iconFile" name="file"
+                                accept="image/*" ngf-max-size="5MB" required>
+                        </label>
+                    </fieldset>
+                </form>
+            </div>
+       </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary dashboard-btn pull-right" ng-disabled="!groupNameForm.$valid" ng-click="addGroup(groupsParams)">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingGroups">
+    <loading-image></loading-image>
+</div>

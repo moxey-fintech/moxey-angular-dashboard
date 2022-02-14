@@ -1,0 +1,32 @@
+<div ng-hide="loadingUserBusinessExtensionInfo" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Business Extension info</span>
+    </div>
+    <div class="panel-body">
+        <table ng-show="hasBusinesses" class="table custom-table table-striped">
+            <thead>
+                <tr class="user-switches-table-header divider">
+                    <th class="rehive-table-row-first-child">Business</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(business, roles) in businessExtensionMetadata">
+                    <td width="25%" class="transactions-list-element">{{business}}</td>
+                    <td class="transactions-list-element">
+                        <span ng-repeat="(role, time) in roles">{{role}}&nbsp;</span>
+                    </td>
+                    <td class="transactions-list-element pull-right">
+                        <a class="pointer"  ng-click="goToBusinessView(business)">Go to business</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-hide="hasBusinesses">
+            <i>No business extension businesses available</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserEmails">
+    <loading-image></loading-image>
+</div>

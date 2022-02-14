@@ -1,0 +1,18 @@
+<div ng-hide="updatingCompanyDetails" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Webhook shortcuts</span>
+    </div>
+    <div class="panel-body">
+        <!--<p>The Notification Service uses Rehive webhooks to send event data. When creating notifications these are automatically handled by the service.-->
+        <p>The Notification Extension uses Rehive webhooks to send event data. When creating notifications these are automatically handled by the extension.
+            If you would like to see a list of webhooks click the button below.
+            <strong>Warning: deleting or editing your webhooks may cause your notifications to break.</strong></p>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-offset-3 rehive-webhook-div-left">
+            <button ng-click="goToGeneralWebhooks(company.secret)" class="btn notification-webhooks-buttons btn-primary btn-block">Go to notifications webhooks</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="updatingCompanyDetails" class="service-header">
+    <loading-image></loading-image>
+</div>

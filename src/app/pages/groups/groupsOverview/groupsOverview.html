@@ -1,0 +1,108 @@
+<h1 class="currencies-title">Groups</h1>
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div click-outside="hideGroupFilters()">
+                <button ng-click="showGroupFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingGroupFilters">
+                    <group-filters></group-filters>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary pull-right panel-header-button currencies-page-buttons-add"
+                        ng-click="openAddGroupModal('app/pages/groups/groupsOverview/addGroupModal/addGroupModal.html','md')">Add group</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-hide="loadingGroups" ng-repeat="group in groups track by $index">
+    <div class="panel ">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <div ng-hide="group.icon" id="groupLogo" class="dashboard-currencies-code" style="font-size: 15px; width: 60px; padding-top: 24px">{{group.short_name}}</div>
+                    <div ng-show="group.icon" id="groupLogo" class="group-icon-container">
+                        <img ng-src="{{group.icon}}" width="58" height="58" alt="{{group.name + ' icon'}}" style="object-fit: contain;">
+                    </div>
+                </div>
+                <div class="currencies-page-row">
+                    <div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                        <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"> -->
+                            <div>
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/details'}}"><strong ng-class="{'archived-text': group.archived}">{{group.name}}</strong></a>
+                                <br>
+                                <span class="currencies-details-heading">Group name</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-left: 50px">
+                            <div>
+                                <span><strong ng-class="{'archived-text': group.archived}">{{group.totalUsers}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Total users</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-left: -30px">
+                            <div>
+                                <span><strong ng-class="{'archived-text': group.archived}">{{group.totalUsers - group.deactiveUsers}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Active users</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-left: -30px">
+                            <div>
+                                <span><strong ng-class="{'archived-text': group.archived}">{{group.deactiveUsers}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Deactivated users</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 group-overview-td align-center">
+                            <div>
+                                <input ng-disabled="group.name == 'admin' || group.name == 'extension'" ng-change="updateGroup(group,'default')" class="custom-rehive-checkbox" type="checkbox" ng-model="group.default">
+                                <br>
+                                <span class="currencies-details-heading">Default</span>
+                            </div>
+                            <div ng-show="group.name == 'admin' || group.name == 'extension'" class="group-overview-tooltip">
+                               Rehive system group, cannot edit.
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 group-overview-td">
+                            <div>
+                                <input ng-disabled="group.name == 'admin' || group.name == 'extension'" ng-change="updateGroup(group,'public')" class="custom-rehive-checkbox" type="checkbox" ng-model="group.public">
+                                <br>
+                                <span class="currencies-details-heading">Public</span>
+                            </div>
+                            <div ng-show="group.name == 'admin' || group.name == 'extension'" class="group-overview-tooltip">
+                                Rehive system group, cannot edit.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" ng-click="showGroupsOptions(group.name); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                        <div>
+                            <span class="fa fa-ellipsis-h pull-right pointer currencies-options"></span>
+                            <ul ng-show="group.name == optionsName" class="currencies-options-box" style="width: 242px;">
+                                <li ng-click="showCurrenciesOptions(currency.code)"><i class="dropdown-arr"></i></li>
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/details'}}"><li>Details</li></a>
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/users'}}"><li>Users</li></a>
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/permissions'}}"><li>Permissions</li></a>
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/tiers'}}"><li>Tiers</li></a>
+                                <!-- <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/account-configurations'}}"><li>Account configurations</li></a> -->
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/transaction-settings'}}"><li>Fees, limits and subtype controls</li></a>
+                                <a class="group-options-link" ng-href="{{'/#/groups/' + group.name + '/stats'}}"><li>Stats</li></a>
+                                <li ng-show="group.archived" ng-click="restoreGroup(group)">Restore group</li>
+                                <li ng-hide="group.name == 'admin' || group.name == 'extension'"
+                                    ng-click="openDeleteGroupModal('app/pages/groups/groupsOverview/deleteGroupModal/deleteGroupModal.html','md',group)">Delete group</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroups">
+    <loading-image></loading-image>
+</div>

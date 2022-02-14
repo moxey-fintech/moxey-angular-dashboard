@@ -1,0 +1,70 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <span click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <columns-filters></columns-filters>
+                    </div>
+                </span>
+                <div ng-show="showingFilters">
+                    <accounts-filters></accounts-filters>
+                </div>
+            </div>
+            <button ng-click="openExportAccountsModal('app/pages/accounts/accountsList/exportAccountsConfirmModal/exportAccountsConfirmModal.html', 'md')"
+                    class="btn btn-default dynamic-columns panel-header-transaction-export">Export</button>
+            <button ng-click="getAllAccounts('applyFilter')" ng-disabled="loadingAccounts"
+                    class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+            <button ng-click="goToAddAccount('app/pages/accounts/accountsList/newAccountModal/newAccountModal.html','md')"
+                    class="btn btn-primary transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="accountsList.length > 0" class="upper-pagination">
+            <p uib-pagination boundary-links="true" items-per-page="accountsPagination.itemsPerPage"  total-items="accountsListData.count" ng-model="accountsPagination.pageNo"
+               max-size="accountsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllAccounts()"
+               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+        </div>
+        <div ng-show="accountsList.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped">
+                    <thead>
+                    <tr>
+                        <!--class="pointer"-->
+                        <th ng-repeat="header in headerColumns track by $index" ng-if="header.visible"  ng-bind="header.colName"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="account in accountsList | orderBy: '-created' track by $index" data-toggle="modal"
+                        ng-class="{'system-users-admin': account.group == 'admin','system-users-service': account.group == 'extension'}"
+                        class="editable-row center pointer user-details-table-hover" ng-click="displayAccount('app/pages/accounts/accountsList/showAccountModal/showAccountModal.html','lg',account)">
+                        <td class="transactions-list-element" title="{{account[header.fieldName]}}"
+                            
+                            ng-repeat="header in headerColumns track by $index"
+                            ng-if="header.visible" ng-bind="account[header.fieldName]"
+                            ng-style="account.group_highlight_color && {'color': account.group_highlight_color}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="accountsList.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="accountsPagination.itemsPerPage"  total-items="accountsListData.count" ng-model="accountsPagination.pageNo"
+                   max-size="accountsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllAccounts()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="accountsList.length == 0">
+            <i ng-hide="accountsStateMessage == ''" ng-bind="accountsStateMessage"></i>
+            <loading-image ng-show="accountsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>

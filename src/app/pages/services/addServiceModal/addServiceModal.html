@@ -1,0 +1,36 @@
+<div ng-hide="loadingServices" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <!--<h4 class="modal-title" id="myModalLabel">Add service</h4>-->
+        <h4 class="modal-title" id="myModalLabel">Add extension</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addServiceForm" class="custom-form">
+            <div class="form-group custom-form">
+                <!--<label>Service type <span class="required-icon">*</span></label>-->
+                <label>Extension type <span class="required-icon">*</span></label>
+                <div class="reward-multi-select">
+                    <!--data-placeholder-text-multiple="'Choose one or more services'"-->
+                    <select chosen
+                            multiple
+                            data-placeholder-text-multiple="'Choose one or more extension'"
+                            width="100"
+                            ng-model="selectedServices"
+                            ng-options="service.name for service in serviceListOptions | orderBy: 'name'"
+                            required>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <!--<button ng-disabled="!addServiceForm.$valid" ng-click="addServicePrompt(selectedService)" class="btn btn-primary dashboard-btn pull-right">Add</button>-->
+        <button ng-disabled="!addServiceForm.$valid" ng-click="addServices()" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="loadingServices">
+    <loading-image></loading-image>
+</div>

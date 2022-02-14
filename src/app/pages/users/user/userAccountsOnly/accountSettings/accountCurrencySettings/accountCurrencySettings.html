@@ -1,0 +1,96 @@
+<div ng-hide="loadingAccountCurrencySettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Account transaction controls</span>
+    </div>
+    <div class="panel-body">
+        <table class="table" style="margin-bottom: 15px!important">
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Allow transactions
+                </td>
+                <td class="rehive-table-row-last-child">
+                    <div ng-show="accountCurrencySettingsObj.allow_transactions">
+                        <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="toggleAccountCurrencySettings(accountCurrencySettingsObj.allow_transactions,'allow_transactions')"></i>
+                    </div>
+                    <div ng-hide="accountCurrencySettingsObj.allow_transactions">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="toggleAccountCurrencySettings(accountCurrencySettingsObj.allow_transactions,'allow_transactions')"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Allow debit transactions
+                </td>
+                <td class="rehive-table-row-last-child">
+                    <div ng-show="accountCurrencySettingsObj.allow_debit_transactions">
+                        <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="toggleAccountCurrencySettings(accountCurrencySettingsObj.allow_debit_transactions,'allow_debit_transactions')"></i>
+                    </div>
+                    <div ng-hide="accountCurrencySettingsObj.allow_debit_transactions">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="toggleAccountCurrencySettings(accountCurrencySettingsObj.allow_debit_transactions,'allow_debit_transactions')"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Allow credit transactions
+                </td>
+                <td class="rehive-table-row-last-child">
+                    <div ng-show="accountCurrencySettingsObj.allow_credit_transactions">
+                        <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="toggleAccountCurrencySettings(accountCurrencySettingsObj.allow_credit_transactions,'allow_credit_transactions')"></i>
+                    </div>
+                    <div ng-hide="accountCurrencySettingsObj.allow_credit_transactions">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="toggleAccountCurrencySettings(accountCurrencySettingsObj.allow_credit_transactions,'allow_credit_transactions')"></i>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="disallowedSubtypes.length > 0">
+            <div style="margin-bottom: 15px!important">
+                <label>Subtype management&nbsp;&nbsp;
+                    <span><i uib-tooltip-html="'Manage whether subtypes are allowed for all currencies, disallowed for all currencies, 
+                        or disallowed only for specific currencies. Any setting here will apply globally.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <!-- <p class="text-muted">Note: <i>If no currencies are selected for a disallowed subtype,
+                    then the setting will be applied on all active company currencies.</i>
+               </p> -->
+            </div>
+            <div class="form-group row" style="margin-bottom: 10px!important">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><label>Type</label></div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding"><label>Name</label></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 no-left-padding no-right-padding">&nbsp;</div>
+            </div>
+            <div class="form-group row row-striped" ng-repeat="subtype in disallowedSubtypes track by $index"
+                ng-class="{'alt-background': subtype.odd_row}" style="margin-bottom: 10px!important">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" ng-bind="subtype.tx_type | capitalizeWord"></div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding tier-subtype-labels">
+                    <span class="long-subtype-labels" ng-bind="subtype.name"></span>&nbsp;&nbsp;
+                    <div class="row tier-subtype-descriptions">
+                        <span ng-show="subtype.description && subtype.description !== ''"><strong>Used for:&nbsp;&nbsp;</strong>{{subtype.description}}</span>
+                        <span ng-hide="subtype.description && subtype.description !== ''" class="required-info"><i>No subtype description available</i></span>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 no-left-padding no-right-padding">
+                    <div class="row">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="allow" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                <span class="custom-radio-btn">Allow</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -150px;">
+                                <input class="pointer" type="radio" value="disallow" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                <span class="custom-radio-btn">Disallow</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="disallowedSubtypes.length > 0">
+            <button class="btn btn-primary pull-right" ng-click="updateDisallowedSubtypeChange()">Save</button>
+        </div>
+        <div ng-hide="subtypesList.length > 0" class="divider"><i>No subtypes have been added to the company.</i></div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccountCurrencySettings">
+    <loading-image></loading-image>
+</div>

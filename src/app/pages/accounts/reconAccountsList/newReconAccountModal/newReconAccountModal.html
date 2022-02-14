@@ -1,0 +1,95 @@
+<div ng-hide="addingAccounts" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add recon account</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addAccountForm" class="custom-form" novalidate>
+            <div class="form-group divider-20">
+                <label>Account name  <span class="required-icon">*</span></label>
+                <input type="text" class="form-control" ng-model="addAccountParams.name"
+                       ng-change="trackNameChange()"
+                       placeholder="Enter account name" required/>
+            </div>
+            <div class="form-group divider-20">
+                <label style="width: 16%!important;">Account type: </label>
+                <span>Recon&nbsp;&nbsp;<i class="ion-information-circled setup-groups-tooltip" uib-tooltip-html="'The recon field is used to designate an account as a 
+                    tracking account for accounting and recon purposes. A recon account on Rehive is any account that is a 1 to 1 duplication of an external 
+                    account.'"></i>
+                </span>
+            </div>
+            <div class="form-group divider-20">
+                <label>Association  
+                    <span class="required-icon">*</span>&nbsp;
+                    <span><i uib-tooltip-html="'Accounts can be associated with a user or can be a Standalone account not associated to any user. 
+                        Standalone accounts are not subject to any group limits, but limits per currency can be set individually on each Standalone account.'" 
+                        class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-left-padding no-right-padding">
+                        <div class="custom-radio-groups-btn" style="width: 100%; line-height: 34px;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" ng-model="accountAssociation" ng-change="trackPrimaryStatus('none')" value="none">
+                                <span class="custom-radio-btn">Standalone</span>
+                            </label>
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" ng-model="accountAssociation" ng-change="trackPrimaryStatus('user')" value="user">
+                                <span class="custom-radio-btn">User</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding no-right-padding">
+                        <input type="text" ng-model="addAccountParams.user" ng-model-options='{ debounce: 800 }'
+                        placeholder="Enter user email address"
+                        uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                        ng-disabled="accountAssociation === 'none'"
+                        class="form-control"/>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="form-group divider-20">
+                <label>Primary</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="addAccountParams.primary" 
+                    type="checkbox" ng-disabled="accountAssociation === 'none'">
+            </div>
+            <div class="form-group divider-20">
+                <label>Currency <span class="required-icon">*</span></label>
+                <div class="reward-multi-select divider">
+                    <select chosen
+                            multiple
+                            data-placeholder-text-multiple="'Choose one or more currencies'"
+                            width="100"
+                            ng-model="currenciesForNewAccount.list"
+                            ng-options="currency.display_code for currency in currenciesList | orderBy: 'code' track by currency.code"
+                            required>
+                        <option value=""></option>
+                    </select>
+                </div>
+                <p ng-hide="currenciesList.length > 0 || addingUserAccount">Looks like you haven't added any currencies to your company yet.
+                    Add one by going to the <a href="/#/currencies/currencies-list" target="_blank">currencies page</a>.</p>
+            </div>
+            <div ng-show="advancedOption" class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Reference &nbsp;<i class="ion-information-circled setup-groups-tooltip" uib-tooltip-html="'Rehive will auto-generate a unique reference for an account.
+                 If you prefer to create your own reference you can enter it below.
+                 References are generally used for identifying deposits from users.'"></i></label>
+                <input type="text" class="form-control" ng-model="addAccountParams.reference" placeholder="Enter account reference"/>
+            </div>
+            <a ng-hide="advancedOption" ng-click="toggleAdvancedOption()"
+               class="pointer">Advanced options</a>
+            <a ng-show="advancedOption" ng-click="toggleAdvancedOption()"
+               class="pointer">Hide advanced options</a>
+            <button ng-click="addAccount(addAccountParams)" ng-disabled="!addAccountForm.$valid || (accountAssociation === 'user' && !addAccountParams.user)"
+                    class="btn btn-primary no-margin pull-right dashboard-btn">Add
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+<div ba-panel ng-show="addingAccounts">
+    <loading-image></loading-image>
+</div>

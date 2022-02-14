@@ -1,0 +1,87 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{
+                'transactions-filter-btn-large-filters': (filtersCount >= 10),
+                'transactions-filter-btn': (filtersCount > 0 && filtersCount < 10),
+                'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <span click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <columns-filter></columns-filter>
+                    </div>
+                </span>
+                <div ng-show="showingFilters">
+                    <user-filters></user-filters>
+                </div>
+            </div>
+            <button ng-click="goToUserDocuments()" ng-disabled="loadingUsers"
+                    class="btn btn-primary dynamic-columns panel-header-user-icon" style="top: 26px; right: 218px;">Verify pending user documents</button>
+            <button ng-click="getAllUsers('applyFilter')" ng-disabled="loadingUsers"
+                    class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+            <button ng-click="openAddUserModal('app/pages/users/usersList/addUserModal/addUserModal.html','md')"
+                    class="btn btn-primary transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="users.length > 0" class="upper-pagination">
+            <p uib-pagination boundary-links="true" items-per-page="applyFiltersObj.paginationFilter.itemsPerPage"  total-items="usersData.count" ng-model="applyFiltersObj.paginationFilter.pageNo"
+               max-size="applyFiltersObj.paginationFilter.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllUsers()"
+               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+        </div>
+        <div ng-show="users.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped" st-table="users">
+                    <thead>
+                        <tr>
+                            <!--sorting function-->
+                            <!--ng-click="orderByFunction(header)"-->
+                            <!--class="pointer sortable-header"-->
+                            <th class="draggable-headers" lr-drag-src="headers" lr-drop-target="headers" ng-repeat="header in headerColumns track by $index" ng-if="header.visible">
+                                {{header.colName}}&nbsp;&nbsp;
+                                <i ng-class="{'selected-sorting-caret': (orderByVariable.indexOf(header.fieldName) >= 0)}"
+                                   ng-show="header.orderByDirection == 'desc'" class="fa fa-caret-down"></i>
+                                <i ng-class="{'selected-sorting-caret': (orderByVariable.indexOf(header.fieldName) >= 0)}"
+                                   ng-show="header.orderByDirection == 'asc'" class="fa fa-caret-up"></i>
+                            </th>
+                            <!-- Uncomment to add transaction hover icon -->
+                            <!-- <th></th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users | orderBy: orderByVariable track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover"
+                            ng-class="{
+                                'system-users-admin': user.groupName == 'admin',
+                                'system-users-service': user.groupName == 'extension',
+                                'system-users-temporary': user.temporary
+                                }"
+                            ng-style="user.group_highlight_color && {'color': user.group_highlight_color}">
+                            <td class="transactions-list-element" ng-repeat="header in headerColumns track by $index"
+                                ng-if="header.visible" ng-bind="user[header.fieldName]" ng-mousedown="displayUser($event,user)" oncontextmenu="return false"></td>
+                            <!-- Uncomment to add transaction hover icon -->
+                            <!-- <td width="5%" class="transaction-icon" ng-click="openMakeNewTransaction(user)"><span><i class="fas fa-credit-card"></i></span></td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="users.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="applyFiltersObj.paginationFilter.itemsPerPage"  total-items="usersData.count" ng-model="applyFiltersObj.paginationFilter.pageNo"
+                   max-size="applyFiltersObj.paginationFilter.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getAllUsers()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="users.length == 0">
+            <i ng-hide="usersStateMessage == ''" ng-bind="usersStateMessage"></i>
+            <loading-image ng-show="usersStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>

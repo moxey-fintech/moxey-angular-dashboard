@@ -1,0 +1,162 @@
+.login-apps {
+  margin: auto 25px;
+  padding: 12px 15px 15px 10px;
+  border: 1px solid $primary-dark;
+  border-radius: 5px;
+}
+
+$text-color: #494242;
+
+.login-labels{
+  line-height: 14px!important;
+  color: #7f7b7a;
+}
+
+.register-error-message{
+  line-height: 14px!important;
+  color: #ed675A;
+}
+
+.required-symbol{
+  color: #ed675A !important;
+}
+
+.auth-main  .form-control,.auth-main .form-control:focus {
+  @include placeholderStyle($text-color, 0.5);
+  height: auto;
+  padding: 12px 10px;
+  border-radius: 3px;
+  color: $text-color;
+}
+.auth-main .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  @include placeholderStyle($text-color, 0.6);
+  & select > option {
+    padding-right: 15px;
+  }
+}
+
+.auth-main {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.auth-block {
+  width: 490px;
+  margin: 10vh auto;
+  border-radius: 0;
+  background-color: white;
+  color: #000;
+  position: relative;
+  padding: 0 20px;
+  h1 {
+    font-weight: 300;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 27px;
+  }
+  p {
+    font-size: 16px;
+  }
+  a {
+    text-decoration: none;
+    outline: none;
+    transition: all 0.2s ease;
+    color: $primary;
+    &:hover {
+      color: $primary-dark;
+    }
+  }
+
+  .auth-header{
+    font-weight: 300;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .auth-company{
+    color: #A8A8A8;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+  }
+
+  .control-label {
+    padding-top: 11px;
+    color: $text-color;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+
+.invalid-data{
+  border-color: $danger;
+  box-shadow: 0 0 2px $danger;
+}
+
+.auth-input {
+  width: 300px;
+  margin-bottom: 24px;
+  input {
+    display: block;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    padding: 4px 10px;
+    outline: none;
+  }
+}
+
+a.forgot-pass {
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  float: right;
+  z-index: 2;
+  position: relative;
+}
+
+.auth-link {
+  display: block;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.auth-sep {
+  margin-top: 36px;
+  margin-bottom: 24px;
+  line-height: 20px;
+  font-size: 16px;
+  text-align: center;
+  display: block;
+  position: relative;
+  & > span {
+    display: table-cell;
+    width: 30%;
+    white-space: nowrap;
+    padding: 0 24px;
+    color: $text-color;
+    & > span {
+      margin-top: -12px;
+      display: block;
+    }
+  }
+  &:before, &:after {
+    border-top: solid 1px $text-color;
+    content: "";
+    height: 1px;
+    width: 35%;
+    display: table-cell;
+  }
+}
+
+.btn-auth {
+  padding: 10px 16px !important;
+  font-size: 18px;
+  width: 100% !important;
+  color: #ffffff!important;
+}

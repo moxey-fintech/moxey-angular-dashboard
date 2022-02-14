@@ -1,0 +1,162 @@
+<div ng-hide="editingAcountDefinition">
+    <a class="pointer" style="font-size: 14px;" ng-click="backToDefinitions()"><span><i class="fas fa-arrow-left"></i></span>&nbsp;&nbsp;&nbsp;Back to account definitions</a>
+    <div class="panel" style="margin-top: 20px;">
+        <div class="panel-heading">
+            <div class="table-filter-heading">
+                <div>
+                    <label style="font-size: 14px;">
+                        <span class="get-started-text"><strong>{{editDefinition.label}}</strong></span> account defintion management
+                    </label>
+                    <button class="btn btn-primary panel-transaction-newTx-button pull-right"
+                        ng-click="openAddGroupDefinitionsModal()">
+                        Add groups
+                    </button>
+                    <button class="btn btn-default dynamic-columns pull-right panel-header-user-icon margin-right-30"
+                        ng-click="showArchiveAccDefPrompt(editDefinition)">
+                        Archive
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tabbable">
+        <ul class="nav nav-tabs group-definition-nav exports-tab">
+            <li ng-class="{'active': showGroupDefinitions === 'active'}" ng-click="toggleGroupDefinitionList('active')"><a href="" data-target="#activeGroupDefinitions" data-toggle="tab">Active group definitions</a></li>
+            <li ng-class="{'active': showGroupDefinitions === 'archived'}" ng-click="toggleGroupDefinitionList('archived')"><a href="" data-target="#archiveGroupDefinitions" data-toggle="tab">Archived group definitions</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" id="activeGroupDefinitions" ng-class="{'active': showGroupDefinitions === 'active'}">
+                <div class="row">
+                    <div ng-show="activeGroupDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding" ng-repeat="activeGroupObj in activeGroupDefinitions track by $index">
+                        <div class="panel" style="width: 50%">
+                            <div class="panel-heading">
+                                <div class="user-account-panel-heading row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 user-account-panel-title">  
+                                        <span class="currencies-details-heading" style="display: block;">Group name</span>
+                                        <span class="currencies-details-value" ng-bind="activeGroupObj.group.name | capitalizeWord" style="line-height: 2.5;"></span>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title"> 
+                                        <span class="currencies-details-heading">Default</span>
+                                        <br>
+                                        <input class="custom-rehive-checkbox table-checkbox" ng-model="activeGroupObj.default" ng-change="trackGroupRoleChange(activeGroupObj, 'default')" type="checkbox">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title">
+                                        <span class="currencies-details-heading">Primary</span>
+                                        <br>
+                                        <input class="custom-rehive-checkbox table-checkbox" ng-model="activeGroupObj.primary" ng-change="trackGroupRoleChange(activeGroupObj, 'primary')" type="checkbox">                     
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 user-account-panel-heading">
+                                        <a ng-click="showArchiveAccDefGroupPrompt(editDefinition.name, activeGroupObj)" class="user-account-edit-link pull-right pointer">Archive group</a>                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body user-details-panel-body" >
+                                <table ng-show="activeGroupObj.currencies.length > 0" class="table user-details-account-table">
+                                    <tr class="user-switches-table-header">
+                                        <th width="27%" class="no-left-padding">Currency</th>
+                                        <th width="18%"></th>
+                                        <th width="55%"><a class="pointer pull-right" ng-click="openAddGroupCurrenciesModal(activeGroupObj)">Add currency</a></th>
+                                    </tr>
+                                    <tr ng-class="{'disable-pin': currencyObj.archived}" ng-repeat="currencyObj in activeGroupObj.currencies | orderBy: 'name' track by $index" class="user-account-options-row">
+                                        <td width="27%" class="no-left-padding" width="15%" ng-bind="currencyObj.currency.display_code"></td>
+                                        <td width="18%" class="user-account-panel-heading">
+                                            <div ng-show="currencyObj.archived" class="user-account-panel-title" >
+                                                <span class="user-account-status status-pending" style="line-height: 1.4; top: 0; padding: 2px 8px; position: relative">ARCHIVED</span>
+                                            </div>
+                                        </td>
+                                        <td width="55%" class="rehive-table-row-last-child" ng-click="$event.stopPropagation()">
+                                            <div class="table-col-two-actions"> 
+                                                <!-- <a ng-show="currencyObj.archived" ng-click="showDeleteAccDefGroupCurrencyPrompt(editDefinition.name, activeGroupObj.group.name, currencyObj)" class="pointer pull-right">Delete</a> -->
+                                                <a ng-hide="currencyObj.archived" ng-click="showArchiveAccDefGroupCurrencyPrompt(editDefinition.name, activeGroupObj.group.name, currencyObj)" class="pull-right pointer user-address-edit">Archive currency</a>
+                                                <a ng-show="currencyObj.archived" ng-click="showRestoreAccDefGroupCurrencyPrompt(editDefinition.name, activeGroupObj.group.name, currencyObj)" class="pull-right pointer user-address-edit">Restore</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div ng-hide="activeGroupObj.currencies.length > 0" style="padding-left: 24px;">
+                                    <i style="margin-top: 10px">
+                                        No currencies associated with this group for this account definition.&nbsp;
+                                        <a class="pointer" ng-click="openAddGroupCurrenciesModal(activeGroupObj)">Add currencies</a></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-hide="activeGroupDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding no-right-padding">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <i>No active group definitions available</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+            </div> 
+            <div class="tab-pane" id="archiveGroupDefinitions" ng-class="{'active': showGroupDefinitions === 'archived'}">
+                <div class="row">
+                    <div class="disable-pin" ng-show="archivedGroupDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="archivedGroupObj in archivedGroupDefinitions track by $index">
+                        <div class="panel" style="width: 50%">
+                            <div class="panel-heading">
+                                <div class="user-account-panel-heading row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 user-account-panel-title">  
+                                        <span class="currencies-details-heading" style="display: block;">Group name</span>
+                                        <span class="currencies-details-value" ng-bind="archivedGroupObj.group.name | capitalizeWord" style="line-height: 2.5;"></span>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title"> 
+                                        <span class="currencies-details-heading">Default</span>
+                                        <br>
+                                        <input class="custom-rehive-checkbox table-checkbox" ng-model="archivedGroupObj.default" ng-change="trackGroupRoleChange(archivedGroupObj, 'default')" type="checkbox">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-account-panel-title">
+                                        <span class="currencies-details-heading">Primary</span>
+                                        <br>
+                                        <input class="custom-rehive-checkbox table-checkbox" ng-model="archivedGroupObj.primary" ng-change="trackGroupRoleChange(archivedGroupObj, 'primary')" type="checkbox">                     
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 user-account-panel-heading">  
+                                        <!-- <a ng-click="showDeleteAccDefGroupPrompt(editDefinition.name, archivedGroupObj)"
+                                           class="user-account-edit-link pull-right pointer">Delete</a> -->
+                                        <a ng-click="showRestoreAccDefGroupPrompt(editDefinition.name, archivedGroupObj)"
+                                              class="user-account-edit-link pull-right pointer">Restore</a>                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body user-details-panel-body" >
+                                <table ng-show="archivedGroupObj.currencies.length > 0" class="table user-details-account-table">
+                                    <tr class="user-switches-table-header">
+                                        <th width="27%" class="no-left-padding">Currency</th>
+                                        <th width="18%"></th>
+                                        <th width="55%"></th>
+                                    </tr>
+                                    <tr ng-class="{'disable-pin': currencyObj.archived}" ng-repeat="currencyObj in archivedGroupObj.currencies | orderBy: 'name' track by $index" class="user-account-options-row">
+                                        <td width="27%" class="no-left-padding" width="15%" ng-bind="currencyObj.currency.code"></td>
+                                        <td width="18%" class="user-account-panel-heading">
+                                            <div ng-show="currencyObj.archived" class="user-account-panel-title" >
+                                                <span class="user-account-status status-pending" style="line-height: 1.4; top: 0; padding: 2px 8px; position: relative">ARCHIVED</span>
+                                            </div>
+                                        </td>
+                                        <td width="55%" class="rehive-table-row-last-child" ng-click="$event.stopPropagation()"></td>
+                                    </tr>
+                                </table>
+                                <div ng-hide="archivedGroupObj.currencies.length > 0" style="padding-left: 24px;">
+                                    <i style="margin-top: 10px">
+                                        No currencies associated with this group for this account definition.
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-hide="archivedGroupDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-left-padding no-right-padding">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <i>No archived group definitions available</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+            </div> 
+        </div>        
+    </div>
+</div>
+
+<div ba-panel ng-show="editingAcountDefinition">
+    <loading-image></loading-image>
+</div>
+

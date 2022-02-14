@@ -1,0 +1,33 @@
+<div ng-hide="loadingPlans">
+    <div>
+        <div class="rehive-plan-container">
+            <div class="rehive-plans" ng-repeat="plan in rehivePlans track by $index" ng-class="{'enterprise-plan': plan.name == 'Enterprise'}">
+                <h2>{{plan.name}}</h2>
+                <p class="rehive-price" ng-show="plan.name !== 'Enterprise'">
+                    <span>{{plan.price}}<span class="conditional-span">*</span></span> / month
+                </p>
+                <p class="enterprise-price" ng-hide="plan.name !== 'Enterprise'">
+                    <span><strong>{{plan.price}}</strong></span>
+                </p>
+                <p class="text-subtle" ng-hide="plan.name == 'Premium' || plan.name == 'Enterprise'">
+                    {{plan.activation}}
+                </p>
+                <div>
+                    <button ng-show="plan.name == 'Starter' || plan.name == 'Standard' || plan.name == 'Premium'" class="btn btn-primary rehive-plan-button" ng-click="startTrial(plan.name)">ACTIVATE</button>
+                    <!-- <button ng-show="plan.name == 'Standard'" class="btn btn-primary rehive-plan-button" ng-click="subscribeStandard('app/pages/rehiveBilling/standardPlansModal/standardPlansModal.html', 'md')">ACTIVATE</button>
+                    <button ng-show="plan.name == 'Premium'" class="btn btn-primary rehive-plan-button" ng-click="subscribePremium('app/pages/rehiveBilling/premiumPlanModal/premiumPlanModal.html', 'md')">ACTIVATE</button> -->
+                    <button ng-show="plan.name == 'Enterprise'" class="btn btn-primary rehive-plan-button" ng-click="contactRehiveSales()">CONTACT SALES</button>
+                    <button class="btn btn-default rehive-plan-button" ng-click="openRehivePrices()" ng-class="{' learn-more-button': plan.name !== 'Enterprise'}">LEARN MORE</button>
+                </div>
+            </div>
+        </div>
+        <!--
+        <div style="padding: 22px;text-align: center">
+            * 20% discount on all options if you pay half yearly.                  
+        </div>
+        -->
+    </div>
+</div>
+<div ba-panel ng-show="loadingPlans">
+    <loading-image></loading-image>
+</div>

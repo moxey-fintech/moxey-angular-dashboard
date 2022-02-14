@@ -1,0 +1,69 @@
+/*For main loader */
+.main-spinner-container {
+    width: 160px; // 200px
+    height: 160px; // 200px 
+    display: inline-block;
+    overflow: hidden;
+    background: transparent;
+    // background: yellow;
+}
+.spinner-div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* see note above */
+}
+.spinner-div div { 
+    box-sizing: content-box; 
+    position: absolute;
+    animation: spinner-div 0.8s linear infinite;
+    width: 125px; //160px
+    height: 125px; //160px
+    top: 18px;
+    left: 20px;
+    border-radius: 50%;
+    box-shadow: 0 4px 0 0 $primary;
+    // transform-origin: 80px 82px;
+}
+@keyframes spinner-div {
+    0% { transform: rotate(0deg) }
+    50% { transform: rotate(180deg) }
+    100% { transform: rotate(360deg) }
+}
+
+/* For smaller loaders*/
+.spinner-container {
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin: auto !important;
+    overflow: hidden;
+    background: transparent;
+}
+.spinner-div-smaller {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* see note above */
+}
+.spinner-div-smaller div { 
+    box-sizing: content-box;
+    position: absolute;
+    animation: spinner-div 0.8s linear infinite;
+    width: 80px;
+    height: 80px;
+    top: 5px; // 20px
+    left: 5px; // 20px
+    border-radius: 50%;
+    box-shadow: 0 4px 0 0 $primary;
+    // transform-origin: 80px 82px;
+}
+@keyframes spinner-div-smaller {
+    0% { transform: rotate(0deg) }
+    50% { transform: rotate(180deg) }
+    100% { transform: rotate(360deg) }
+}

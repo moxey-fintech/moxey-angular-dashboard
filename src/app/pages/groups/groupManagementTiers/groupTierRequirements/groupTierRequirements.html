@@ -1,0 +1,13 @@
+<div ng-hide="loadingTierRequirements && (tierLevelsForRequirements.length > 0)" class="tier-limits">
+    <uib-tabset active="activeTabIndex">
+        <uib-tab ng-repeat="tierLevel in tierLevelsForRequirements track by $index" select="selectTier(tierLevel)" heading="Tier {{tierLevel}}">
+            <group-tier-requirements-form></group-tier-requirements-form>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div ba-panel ng-show="!loadingTierRequirements && tierLevelsForRequirements.length == 0">
+    <i>No tiers are available for this group.</i>
+</div>
+<div ba-panel ng-show="loadingTierRequirements">
+    <loading-image></loading-image>
+</div>

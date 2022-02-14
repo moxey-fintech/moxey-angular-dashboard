@@ -1,0 +1,51 @@
+<div ng-hide="loadingUserSettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">User settings</span>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Allow transactions
+                </td>
+                <td class="rehive-table-row-last-child">
+                    <div ng-show="userSettingsObj.allow_transactions">
+                        <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="toggleUserSettings(userSettingsObj.allow_transactions,'allow_transactions')"></i>
+                    </div>
+                    <div ng-hide="userSettingsObj.allow_transactions">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="toggleUserSettings(userSettingsObj.allow_transactions,'allow_transactions')"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Allow debit transactions
+                </td>
+                <td class="rehive-table-row-last-child">
+                    <div ng-show="userSettingsObj.allow_debit_transactions">
+                        <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="toggleUserSettings(userSettingsObj.allow_debit_transactions,'allow_debit_transactions')"></i>
+                    </div>
+                    <div ng-hide="userSettingsObj.allow_debit_transactions">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="toggleUserSettings(userSettingsObj.allow_debit_transactions,'allow_debit_transactions')"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Allow credit transactions
+                </td>
+                <td class="rehive-table-row-last-child">
+                    <div ng-show="userSettingsObj.allow_credit_transactions">
+                        <i class="fa fa-toggle-on user-switch-active pull-right no-margin"  ng-click="toggleUserSettings(userSettingsObj.allow_credit_transactions,'allow_credit_transactions')"></i>
+                    </div>
+                    <div ng-hide="userSettingsObj.allow_credit_transactions">
+                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-right no-margin"  ng-click="toggleUserSettings(userSettingsObj.allow_credit_transactions,'allow_credit_transactions')"></i>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserSettings">
+    <loading-image></loading-image>
+</div>

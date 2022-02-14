@@ -1,0 +1,150 @@
+<div  class="panel dashboard-tasks-box">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Dashboard tasks</span>
+    </div>
+    <div class="panel-body">
+        <div class="tabbable">
+            <ul class="nav nav-tabs exports-tab-nav exports-tab">
+                <li ng-class="{'active': showTransactionExports}" ng-click="toggleExportTabs('transaction')"><a href="" data-target="#transactions" data-toggle="tab">Transaction exports</a></li>
+                <li class="tab-divider"> | </li>
+                <li ng-class="{'active': showAccountExports}" ng-click="toggleExportTabs('account')"><a href="" data-target="#accounts" data-toggle="tab">Account exports</a></li>
+                <li class="tab-divider"> | </li>
+                <li ng-class="{'active': showAccountCurrencyExports}" ng-click="toggleExportTabs('accountCurrencies')"><a href="" data-target="#accountCurrencies" data-toggle="tab">Account currency exports</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="transactions" ng-class="{'active': showTransactionExports}">
+                    <!-- ng-class="{'untouched-task': task.untouched == true,'incomplete-touched-task': (task.untouched == false && task.progress < 100),
+                            'complete-touched-task': (task.untouched == false && task.progress == 100)}" -->
+                    <div ng-show="dashboardTasksLists.length > 0" class="row dashboard-task-row"                            
+                            ng-mouseover="task.untouched = false"
+                            ng-repeat="task in dashboardTasksLists | orderBy: '-created' track by $index">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <div class="dashboard-task-bar" ng-class="{'no-margin-bottom': $last}">
+                                <p ng-hide="task.progress == 100">
+                                    <strong>Transactions export in progress</strong>
+                                </p>
+                                <p ng-show="task.progress == 100">
+                                    <strong>Transactions export complete</strong>
+                                </p>
+                                <a class="file-link" ng-hide="task.progress == 100">
+                                    <!-- <i class="dashboard-task-spinner"><loading-image></loading-image></i> -->
+                                    Generating...
+                                </a>
+                                <a class="pointer file-link" ng-show="task.progress == 100"
+                                ng-click="downloadExportFile(page.file)"
+                                ng-repeat="page in task.pages track by $index" style="margin-top: 15px;">
+                                    file {{$index + 1}} {{'(' + page.file.split('.')[page.file.split('.').length - 1].toString() + ')' | uppercase}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="dashboard-task-bar">
+                                <p class="no-margin"><strong>Created</strong></p>
+                                <span class="">{{task.created | date:'shortTime'}}</span>
+                                <span class="">{{task.created | date:'mediumDate'}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="dashboardTasksLists.length > 0">
+                        <p uib-pagination boundary-links="true" items-per-page="transactionsPagination.itemsPerPage"  total-items="dashboardTasksData.count" 
+                        ng-model="transactionsPagination.pageNo" max-size="transactionsPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" 
+                        force-ellipses="true" ng-change="getTransactionSetsList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                    </div>
+                    <div ng-show="dashboardTasksLists.length == 0">
+                        <i>No transaction exports available</i>
+                    </div>
+                </div> 
+                <div class="tab-pane" id="accounts" ng-class="{'active': showAccountExports}">
+                    <!-- ng-class="{'untouched-task': task.untouched == true,'incomplete-touched-task': (task.untouched == false && task.progress < 100),
+                            'complete-touched-task': (task.untouched == false && task.progress == 100)}" -->
+                    <div ng-show="accountTasksLists.length > 0" class="row dashboard-task-row"                            
+                            ng-mouseover="task.untouched = false"
+                            ng-repeat="task in accountTasksLists | orderBy: '-created' track by $index">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <div class="dashboard-task-bar" ng-class="{'no-margin-bottom': $last}">
+                                <p ng-hide="task.progress == 100">
+                                    <strong>Account export in progress</strong>
+                                </p>
+                                <p ng-show="task.progress == 100">
+                                    <strong>Account export complete</strong>
+                                </p>
+                                <a class="file-link" ng-hide="task.progress == 100">
+                                    <!-- <i class="dashboard-task-spinner"><loading-image></loading-image></i> -->
+                                    Generating...
+                                </a>
+                                <a class="pointer file-link" ng-show="task.progress == 100"
+                                ng-click="downloadExportFile(page.file)"
+                                ng-repeat="page in task.pages track by $index" style="margin-top: 15px;">
+                                    file {{$index + 1}} {{'(' + page.file.split('.')[page.file.split('.').length - 1].toString() + ')' | uppercase}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="dashboard-task-bar">
+                                <p class="no-margin"><strong>Created</strong></p>
+                                <span class="">{{task.created | date:'shortTime'}}</span>
+                                <span class="">{{task.created | date:'mediumDate'}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="accountTasksLists.length > 0">
+                        <p uib-pagination boundary-links="true" items-per-page="accountsPagination.itemsPerPage"  
+                        total-items="accountTasksData.count" ng-model="accountsPagination.pageNo"
+                        max-size="accountsPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination"
+                         force-ellipses="true" ng-change="getAccountsSetsList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                    </div>
+                    <div ng-show="accountTasksLists.length == 0">
+                        <i>No account exports available</i>
+                    </div>
+                </div>
+                <div class="tab-pane" id="accountCurrencies" ng-class="{'active': showAccountCurrencyExports}">
+                    <!-- ng-class="{'untouched-task': task.untouched == true,'incomplete-touched-task': (task.untouched == false && task.progress < 100),
+                            'complete-touched-task': (task.untouched == false && task.progress == 100)}" -->
+                    <div ng-show="accountCurrencyTasksLists.length > 0" class="row dashboard-task-row"                            
+                            ng-mouseover="task.untouched = false"
+                            ng-repeat="task in accountCurrencyTasksLists | orderBy: '-created' track by $index">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <div class="dashboard-task-bar" ng-class="{'no-margin-bottom': $last}">
+                                <p ng-hide="task.progress == 100">
+                                    <strong>Account currency export in progress</strong>
+                                </p>
+                                <p ng-show="task.progress == 100">
+                                    <strong>Account currency export complete</strong>
+                                </p>
+                                <a class="file-link" ng-hide="task.progress == 100">
+                                    <!-- <i class="dashboard-task-spinner"><loading-image></loading-image></i> -->
+                                    Generating...
+                                </a>
+                                <a class="pointer file-link" ng-show="task.progress == 100"
+                                ng-click="downloadExportFile(page.file)"
+                                ng-repeat="page in task.pages track by $index" style="margin-top: 15px;">
+                                    file {{$index + 1}} {{'(' + page.file.split('.')[page.file.split('.').length - 1].toString() + ')' | uppercase}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="dashboard-task-bar">
+                                <p class="no-margin"><strong>Created</strong></p>
+                                <span class="">{{task.created | date:'shortTime'}}</span>
+                                <span class="">{{task.created | date:'mediumDate'}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="accountCurrencyTasksLists.length > 0">
+                        <p uib-pagination boundary-links="true" items-per-page="accountCurrenciesPagination.itemsPerPage"  
+                        total-items="accountCurrencyTasksData.count" ng-model="accountCurrenciesPagination.pageNo"
+                        max-size="accountCurrenciesPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination"
+                         force-ellipses="true" ng-change="getAccountCurrencySetsList()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                    </div>
+                    <div ng-show="accountCurrencyTasksLists.length == 0">
+                        <i>No account currency exports available</i>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

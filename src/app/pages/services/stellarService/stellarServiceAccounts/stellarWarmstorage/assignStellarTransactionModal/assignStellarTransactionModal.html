@@ -1,0 +1,47 @@
+<div ng-hide="assigningTransaction" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Assign transaction</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" name="assignTransactionForm" novalidate>
+            <div class="form-group divider-20">
+                <label>User&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control" ng-model="assignTransactionParams.user" placeholder="e.g. email@domain.com"
+                       uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'>
+            </div>
+            <div class="form-group divider-20">
+                <label>Reason&nbsp;<span class="required-icon">*</span></label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            placeholder="Choose a reason for assigning"
+                            ng-model="assignTransactionParams.option_selected"
+                            ng-change="trackAssignmentReason()"
+                            ng-options="option for option in assignmentOptions">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div ng-show="assignTransactionParams.option_selected && assignTransactionParams.option_selected == 'Other'" class="form-group divider-20">
+                <label>Please provide other reason (max 255 chars.)
+                    <span class="pull-right">
+                        {{assignTransactionParams.reason_for_assigning.length ? assignTransactionParams.reason_for_assigning.length : 0}}/255
+                    </span>
+                </label>
+                <textarea class="form-control" ng-model="assignTransactionParams.reason_for_assigning" ng-change="trackReasonForAssigning()" placeholder="Enter other reason for assigning transaction." ></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--            <button type="button" ng-click="$dismiss()" class="dashboard-btn btn btn-default pull-left">Back</button>-->
+            <button type="button" ng-disabled="!assignTransactionParams.user || !assignTransactionParams.option_selected || assigningTransaction" ng-click="assignTransaction()"
+                    class="dashboard-btn btn btn-primary pull-right">Assign</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="assigningTransaction">
+    <loading-image></loading-image>
+</div>

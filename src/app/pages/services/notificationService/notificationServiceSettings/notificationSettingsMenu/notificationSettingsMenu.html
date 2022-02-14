@@ -1,0 +1,37 @@
+<div ba-panel class="service-header menu-box" ba-panel-class="light-text">
+    <!--<div class="menu-hex-container">-->
+        <!--<div class="hexagon"></div>-->
+        <!--<div class="hex-over">&nbsp;</div>-->
+    <!--</div>-->
+    <hr class="no-margin">
+    <div ng-click="goToNotificationSetting('companyDetails')"
+         ng-class="{'selected-settings-menu': notificationSettingView == 'companyDetails' }"
+         class="pointer menu-box-options">
+        <h5>Customization settings<i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToNotificationSetting('pushNotifications')"
+         ng-class="{'selected-settings-menu': notificationSettingView == 'pushNotifications' }"
+         class="pointer menu-box-options">
+         <h5>Push notifications<i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToNotificationSetting('secret')"
+         ng-class="{'selected-settings-menu': notificationSettingView == 'secret' }"
+         class="pointer menu-box-options">
+        <h5>Secret <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToNotificationSetting('webhooks')"
+         ng-class="{'selected-settings-menu': notificationSettingView == 'webhooks' }"
+         class="pointer menu-box-options">
+        <h5>Webhooks <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToNotificationSetting('deactivation')"
+         ng-class="{'selected-settings-menu': notificationSettingView == 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>

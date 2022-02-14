@@ -1,0 +1,12 @@
+<content-top></content-top>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="user-details-nav-bar">
+            <li><a ng-class="{'transaction-location': locationIndicator == 'list'}" href="/#/developers/webhooks/list">Manage</a></li>
+            <li><a ng-class="{'transaction-location': locationIndicator == 'logs'}" href="/#/developers/webhooks/logs">Logs</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div ui-view="webhooksView"></div>
+    </div>
+</div>

@@ -1,0 +1,177 @@
+<div ng-hide="updatingTransaction" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Transaction details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <a ng-hide="editingTransaction" class="pull-right divider pointer"
+               ng-click="toggleEditingTransaction()"><i class="fa fa-pencil"></i> Edit transaction</a>
+            <a ng-show="editingTransaction" class="pull-right divider pointer"
+               ng-click="toggleEditingTransaction()"><i class="fa fa-times"></i> Cancel edit</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Code: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <a class="pointer" ng-click="goToTransactions(transaction.id)" ng-bind="transaction.id"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider"  id="transaction-modal-mid">
+                <p class="text-subtle">User: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <a class="pointer" ng-click="goToUser()" ng-bind="transaction.user.email || transaction.user.mobile"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Balance: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.balance | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Type: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.tx_type | capitalizeWord"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Currency: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.currency.code"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Amount: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.amount  | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Fee: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.fee | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Total amount: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.total_amount  | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Subtype: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.subtype"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Account: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.account"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-hide="editingTransaction" ng-bind="transaction.status"></p>
+                <select ng-show="editingTransaction" class="form-control divider pointer"
+                        ng-model="updateTransactionObj.status" ng-change="checkTransactionPurity()"
+                        ng-options="option for option in editTransactionStatusOptions">
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Destination Id: </p>
+            </div>
+            <div ng-show="transaction.destination_transaction" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.destination_transaction.id"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Source Id: </p>
+            </div>
+            <div ng-show="transaction.source_transaction" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="transaction.source_transaction.id"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Reference: </p>
+            </div>
+            <div ng-show="transaction.reference" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <pre ng-bind="transaction.reference"></pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Note: </p>
+            </div>
+            <div ng-show="transaction.note" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <pre ng-bind="transaction.note"></pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Metadata: </p>
+            </div>
+            <div class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <div ng-show="formatted.metadata">
+                    <pre ng-hide="editingTransaction">{{formatted.metadata}}</pre>
+                </div>
+                <textarea ng-show="editingTransaction" ng-change="checkTransactionPurity()" rows="4" type="text"
+                          ng-model="updateTransactionObj.metadata"
+                          class="form-control divider metadata-input-textarea" placeholder='e.g. {"Hello" : "World"}'></textarea>
+                <i ng-show="formatted.metadata" ngclipboard ngclipboard-success="copiedMetadataSuccessfully()"
+                   data-clipboard-text="{{transaction.metadata}}"
+                   class="fa fa-clone metadata-copy-icon pointer"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-show="editingTransaction" ng-disabled="!untouchedTransaction" id="transaction-modal-save-button"
+                    ng-click="updateTransactionStatus()" ng-class="{'setup-next-btn': !untouchedTransaction,'btn-primary': untouchedTransaction}"
+                    class="dashboard-btn btn pull-right">Save</button>
+            <button type="button" ng-show="editingTransaction"
+                    ng-click="toggleEditingTransaction()"
+                    class="dashboard-btn btn-default btn pull-left">Cancel edit</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="updatingTransaction">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,93 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Purchase details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">User:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <a class="pointer" ng-click="goToUser()" ng-bind="purchase.quote.user"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Deposit tx:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <a class="pointer" ng-click="goToTransactions(purchase.deposit_tx)" ng-bind="purchase.deposit_tx"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Token tx:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <a class="pointer" ng-click="goToTransactions(purchase.token_tx)" ng-bind="purchase.token_tx"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Status:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="purchase.status"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Phase:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="purchase.quote.phase"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Deposit amount:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="purchase.quote.deposit_amount  | currencyModifiersFilter: purchase.quote.deposit_currency.divisibility | commaSeperateNumberFilter">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Deposit currency:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="purchase.quote.deposit_currency.code"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Token amount:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="purchase.quote.token_amount  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Rate:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="purchase.quote.rate  | currencyModifiersFilter: icoObj.currency.divisibility | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="divider text-subtle">Created:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p>{{purchase.quote.created | date:'mediumDate'}} {{purchase.quote.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="dashboard-btn btn btn-default pull-right" ng-click="$dismiss()">Close</button>
+    </div>
+</div>

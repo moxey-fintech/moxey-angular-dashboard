@@ -1,0 +1,71 @@
+<div ng-hide="editingWebhook || loadingWebhooks">
+    <div class="setting-bank-accounts panel">
+        <div class="panel-heading">
+            <div class="table-filter-heading">
+                <div>
+                    <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                            class="btn btn-default">Filters
+                        <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                    </button>
+                </div>
+                <div ng-show="showingFilters">
+                    <webhooks-filters></webhooks-filters>
+                </div>
+                <button ng-click="getWebhooks('applyFilter')" ng-disabled="loadingTransactions"
+                        class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+                <button ng-click="openCreateWebhookModal('app/pages/developers/webhooks/webhooksList/addWebhookModal/addWebhookModal.html','md')"
+                        class="btn btn-success transactions-btn panel-transaction-newTx-button">Add</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div ng-show="filtersCount > 0" class="divider">
+                <p class="filter-text">Your results are currently being filtered</p>
+            </div>
+            <div ng-show="webhookList.length > 0">
+                <table class="table custom-table">
+                    <tr class="divider">
+                        <th width="20%" class="no-left-padding">Event</th>
+                        <th width="23%">URL</th>
+                        <th width="21%">Secret</th>
+                        <th width="22%">Condition</th>
+                        <th width="12%"></th>
+                    </tr>
+                </table>
+                <div ng-repeat="section in webhooksSectionedList track by $index">
+                    <div ng-hide="getServiceSize(section) == 1">
+                        <label class="service-h4 webhooks-section" ng-bind="section.name"></label>
+                        <div ng-repeat="category in section track by $index">
+                            <label class="transactions-list-element webhooks-category" ng-bind="category.name"></label>
+                            <table class="table custom-table">
+                                <tr ng-repeat="webhook in category.records track by $index">
+                                    <td width="20%" class="transactions-list-element" style="padding-left: 30px;" title="{{webhook.event}}" ng-bind="webhook.event"></td>
+                                    <td width="23%" class="transactions-list-element" title="{{webhook.url}}" ng-bind="webhook.url"></td>
+                                    <td width="23%" class="transactions-list-element" title="{{webhook.secret}}" ng-bind="webhook.secret"></td>
+                                    <td width="22%" class="transactions-list-element" title="{{webhook.condition}}" ng-bind="webhook.condition"></td>
+                                    <td width="12%" class="transactions-list-element no-left-padding">
+                                        <a ng-click="openWebhooksModal('app/pages/developers/webhooks/webhooksList/webhooksModal/webhooksModal.html','md',webhook)"
+                                           class="pull-right pointer ">Delete</a>
+                                        <a ng-click="openEditWebhookModal('app/pages/developers/webhooks/webhooksList/editWebhookModal/editWebhookModal.html','md',webhook)"
+                                           class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div ng-if="$last" class="divider-20"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="webhooksData.count" ng-model="pagination.pageNo"
+                       max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getWebhooks()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <div ng-hide="webhookList.length > 0">
+                <i>No webhooks added yet.</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingWebhooks">
+    <loading-image></loading-image>
+</div>

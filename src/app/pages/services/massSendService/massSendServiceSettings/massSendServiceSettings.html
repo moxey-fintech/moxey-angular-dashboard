@@ -1,0 +1,14 @@
+<mass-send-service-navigation></mass-send-service-navigation>
+
+
+<div class="row" >
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <mass-send-service-settings-menu></mass-send-service-settings-menu>
+    </div>
+    <div ng-show="massSendServiceViews == 'deactivation'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <mass-send-service-deactivation></mass-send-service-deactivation>
+    </div>
+    <div ng-show="massSendServiceViews == 'instructions'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <mass-send-service-instructions></mass-send-service-instructions>
+    </div>
+</div>

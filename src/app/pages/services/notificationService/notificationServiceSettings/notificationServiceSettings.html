@@ -1,0 +1,23 @@
+<notification-service-navigation></notification-service-navigation>
+
+
+<div class="row" >
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <notification-settings-menu></notification-settings-menu>
+    </div>
+    <div ng-show="notificationSettingView == 'companyDetails'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <notification-company-details></notification-company-details>
+    </div>
+    <div ng-show="notificationSettingView == 'pushNotifications'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <notification-push-notifications></notification-push-notifications>
+    </div>
+    <div ng-show="notificationSettingView == 'secret'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <notification-secret></notification-secret>
+    </div>
+    <div ng-show="notificationSettingView == 'webhooks'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <notification-webhooks></notification-webhooks>
+    </div>
+    <div ng-show="notificationSettingView == 'deactivation'" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <notification-deactivation></notification-deactivation>
+    </div>
+</div>

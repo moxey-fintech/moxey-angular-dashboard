@@ -1,0 +1,15 @@
+<p>
+    You are deleting the <span class="get-started-text">{{accDefObj.name}}</span> account definition. Deleting this account definition will also delete the accounts associated 
+    with the <span class="get-started-text">{{accDefObj.name}}</span> account definition for all groups in this account definition. Any transactions associated with this account 
+    definition will also be deleted.
+</p>
+<p class="custom-form">Deleting is <span class="required-icon">PERMANENT</span> and cannot be undone. You may create the account definition again at a later stage, but any associated deleted
+    transactions will remain deleted, and the accounts generated will be new ones with different account references.
+</p>
+<p>Do you want to proceed?</p>
+<form name="promptForm">
+    <div class="form-group divider">
+        <input class="form-control" type="text" ng-model="accDefDeleteText"
+               placeholder="Type DELETE to confirm" required auto-focus="true">
+    </div>
+</form>

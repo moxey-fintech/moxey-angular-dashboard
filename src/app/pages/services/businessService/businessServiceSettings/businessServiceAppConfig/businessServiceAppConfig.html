@@ -1,0 +1,207 @@
+<div ng-hide="updatingBusinessDetails">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">App config business settings</span>
+        </div>
+        <div ng-show="appServiceUrl" class="panel-body">
+            <form name="businessAppConfigForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>Required sections during business onboarding.</label>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_information') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_information')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Business information
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_information') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_information_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_information_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_location') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_location')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Business location
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_location') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_location_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_location_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_shareholder_information') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_shareholder_information')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Shareholder information
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_shareholder_information') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_shareholder_information_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_shareholder_information_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_legal') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_legal')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Legal information
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_legal') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_legal_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_legal_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_incorporation_documents') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_incorporation_documents')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Incorporation documents
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_incorporation_documents') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_incorporation_documents_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_incorporation_documents_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_tax_certificate') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_tax_certificate')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Tax certificate
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_tax_certificate') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_tax_certificate_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_tax_certificate_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_finances') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_finances')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Finance information
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_finances') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_finances_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_finances_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_trade_certificate') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_trade_certificate')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Trade certificate
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_trade_certificate') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_trade_certificate_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_trade_certificate_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_banking') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_banking')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Banking information
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_banking') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_banking_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_banking_subtitle"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" ng-checked="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_branding') > -1" 
+                                ng-click="trackBusinessAppConfigSectionSelection('business_branding')">
+                                <span style="line-height: 1.6; padding-top: 10px; color: grey">
+                                    Branding
+                                </span>
+                            </label>
+                        </div>
+                        <div ng-show="businessAppConfig.onboarding.business_onboarding.hideSections.indexOf('business_branding') > -1" style="margin-left: 28px">
+                            <br>
+                            <label style="font-size: 13px;">Section title</label>
+                            <input type="text" class="form-control divider" placeholder="Enter section title" ng-model="businessAppConfig.onboarding.locales.en.business_branding_title">
+                            <label style="font-size: 13px;">Section text</label>
+                            <textarea class="form-control divider" placeholder="Enter section text" ng-model="businessAppConfig.onboarding.locales.en.business_branding_subtitle"></textarea>
+                        </div>
+                    </div>
+                </div>           
+                <div class="form-group">
+                    <button  ng-click="updateBusinessAppConfig()" class="btn btn-primary btn-primary-dark dashboard-btn pull-right">Save</button>
+                </div>
+            </form>
+        </div>
+        <div ng-hide="appServiceUrl" class="panel-body">
+            <div>
+                <i>The App Extension is required to use these app config options. Please <a class="pointer" href="#/extensions?slug=app_service">enable the App Extension</a></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="updatingBusinessDetails" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

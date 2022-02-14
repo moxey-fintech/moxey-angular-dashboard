@@ -1,0 +1,203 @@
+<div class="panel panel-default" ng-hide="loadingTransactionSettings">
+    <div class="panel-heading">
+        <button type="button" class="close new-transaction-close-btn" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <span class="user-details-panel-title">{{panelTitle}}</span>
+        <div ng-hide="confirmTransaction || completeTransaction" class="pull-right">
+            <span class="welcome-label3 transaction-helper-label">Transaction helper</span>
+            <span style="float: right;  margin: -5px 25px auto auto;">
+                <div ng-show="displayTransactionHelper">
+                    <i class="fa fa-toggle-on transaction-helper-active no-margin"  ng-click="toggleTransactionHelper()"></i>
+                </div>
+                <div ng-hide="displayTransactionHelper">
+                    <i class="fa fa-toggle-on fa-rotate-180 transaction-helper-inactive no-margin"  ng-click="toggleTransactionHelper()"></i>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="displayTransactionHelper && !confirmTransaction && !completeTransaction">
+            <div class="divider-20 custom-form">
+                <label>What kind of transaction is this? </label>
+                <div style="margin-top: 4px;">
+                    <select class="form-control pointer" ng-model="transactionOption"
+                            ng-change="trackTransactionChange()" ng-options="option for option in transactionHelperOptions">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div ng-hide="confirmTransaction || completeTransaction">
+            <div class="divider-20 custom-form">
+                <label>Select transaction type <span class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn" ng-class="{'disabled-cursor': (creditDepositSelected || transferDepositSelected)}">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-click="switchTransactionView('credit')" ng-model="transactionType.tx_type" value="credit" 
+                            ng-disabled="creditDepositSelected || transferDepositSelected">
+                            <span class="custom-radio-btn">Credit</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-click="switchTransactionView('debit')" ng-model="transactionType.tx_type" value="debit" ng-disabled="creditDepositSelected || transferDepositSelected">
+                            <span class="custom-radio-btn">Debit</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-click="switchTransactionView('transfer')" ng-model="transactionType.tx_type" value="transfer" ng-disabled="creditDepositSelected || transferDepositSelected">
+                            <span class="custom-radio-btn">Transfer</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="!creditDepositSelected && !transferDepositSelected">
+                <credit ng-show="transactionType.tx_type == 'credit'"></credit>
+                <debit ng-show="transactionType.tx_type == 'debit'"></debit>
+                <transfer ng-show="transactionType.tx_type == 'transfer'"></transfer>
+            </div>
+            <div ng-show="creditDepositSelected || transferDepositSelected">
+                <credit-deposit ng-show="creditDepositSelected"></credit-deposit>
+                <transfer-deposit ng-show="transferDepositSelected"></transfer-deposit>
+            </div>
+        </div>
+        <div ng-show="confirmTransaction">
+            <div class="form-group" ng-show="transactionType.tx_type == 'credit' && creditDepositSelected">
+                <span>You are about to credit <strong>{{creditDepositTransactionData.currency.symbol}} {{creditDepositTransactionData.amount | commaSeperateNumberFilter}}</strong> to
+                    <strong>{{retrievedCreditDepositUserObj.email || retrievedCreditDepositUserObj.mobile || retrievedCreditDepositUserObj.id}}</strong></span>
+            </div>
+            <div class="form-group" ng-show="transactionType.tx_type == 'credit' && !creditDepositSelected">
+                <span>You are about to credit <strong>{{creditTransactionData.currency.symbol}} {{creditTransactionData.amount | commaSeperateNumberFilter}}</strong> to 
+                    <span ng-show="retrievedCreditUserObj.id !== undefined"><strong>
+                        {{retrievedCreditUserObj.email ||
+                           retrievedCreditUserObj.mobile || 
+                           retrievedCreditUserObj.id}}
+                        </strong></span>
+                    <span ng-hide="retrievedCreditUserObj.id !== undefined">account <strong>{{creditTransactionData.account.reference}}</strong></span>
+                </span>
+            </div>
+            <div class="form-group" ng-show="transactionType.tx_type == 'debit'">
+                <span>You are about to debit <strong>{{debitTransactionData.currency.symbol}} {{debitTransactionData.amount | commaSeperateNumberFilter}}</strong>
+                    from <span ng-show="retrievedDebitUserObj.id !== undefined"><strong>
+                        {{retrievedDebitUserObj.email ||
+                            retrievedDebitUserObj.mobile || 
+                            retrievedDebitUserObj.id}}
+                        </strong></span>
+                    <span ng-hide="retrievedDebitUserObj.id !== undefined">account <strong>{{debitTransactionData.account.reference}}</strong></span>
+            </div>
+            <div class="form-group" ng-show="transactionType.tx_type == 'transfer' && transferDepositSelected">
+                <span>You are about to transfer <strong>{{transferDepositTransactionData.currency.symbol}} {{transferDepositTransactionData.amount | commaSeperateNumberFilter}}</strong>
+                    from <strong>{{retrievedDepositSenderUserObj.email || retrievedDepositSenderUserObj.mobile || retrievedDepositSenderUserObj.id}}</strong>
+                    to <strong>
+                        {{retrievedDepositRecipientObj.email
+                        || retrievedDepositRecipientObj.mobile
+                        || retrievedDepositRecipientObj.id
+                        || transferDepositTransactionData.recipient}}
+                    </strong>
+                </span>
+            </div>
+            <div class="form-group" ng-show="transactionType.tx_type == 'transfer' && !transferDepositSelected">
+                <span>You are about to transfer <strong>{{transferTransactionData.currency.symbol}} {{transferTransactionData.amount | commaSeperateNumberFilter}}</strong>
+                    from 
+                    <span ng-show="retrievedSenderUserObj.id !== undefined">
+                        <strong>{{retrievedSenderUserObj.email || retrievedSenderUserObj.mobile || retrievedSenderUserObj.id}}</strong>
+                    </span>
+                    <span ng-hide="retrievedSenderUserObj.id !== undefined">
+                        account <strong>{{transferTransactionData.account.reference}}</strong>
+                    </span> 
+                    to 
+                    <span ng-show="retrievedRecipientObj.id !== undefined">
+                        <strong>{{retrievedRecipientObj.email|| retrievedRecipientObj.mobile|| retrievedRecipientObj.id|| transferTransactionData.recipient}}</strong>
+                    </span>
+                    <span ng-hide="retrievedRecipientObj.id !== undefined">
+                        account <strong>{{transferTransactionData.credit_account.reference}}</strong>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group">
+                <button ng-disabled="onGoingTransaction" ng-click="createTransaction()"
+                        class="btn dashboard-btn btn-primary pull-right">Confirm</button>
+                <button ng-click="toggleConfirmTransaction()" class="btn dashboard-btn btn-default pull-left">Back</button>
+            </div>
+        </div>
+        <div ng-show="completeTransaction">
+            <div ng-show="transactionType.tx_type == 'credit'">
+                <div ng-show="creditDepositSelected">
+                    <div class="form-group">
+                        <span><strong>{{creditDepositTransactionData.currency.symbol}} {{creditDepositTransactionData.amount | commaSeperateNumberFilter}}</strong> has been credited to
+                        <strong>{{retrievedCreditDepositUserObj.email || retrievedCreditDepositUserObj.mobile || retrievedCreditDepositUserObj.id}}</strong></span>
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="closeModal()" class="btn dashboard-btn btn-primary pull-right">Ok</button>
+                        <button ng-click="takeToUser(retrievedCreditDepositUserObj.id)" class="btn dashboard-btn btn-primary pull-right margin-right-10">View user</button>
+                        <button ng-click="showTransactionModal()" class="btn btn-primary delete-button-lifted pull-right margin-right-10" style="margin-top: 15px">View transaction</button>
+                    </div>
+                </div>
+                <div ng-hide="creditDepositSelected">
+                    <div class="form-group">
+                        <span>
+                            <strong>{{creditTransactionData.currency.symbol}} {{creditTransactionData.amount | commaSeperateNumberFilter}}</strong> has been credited to 
+                            <span ng-show="retrievedCreditUserObj.id !== undefined"><strong>{{retrievedCreditUserObj.email || retrievedCreditUserObj.mobile || retrievedCreditUserObj.id}}</strong></span>
+                            <span ng-hide="retrievedCreditUserObj.id !== undefined">account <strong>{{creditTransactionData.account.reference}}</strong></span>                        
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="closeModal()" class="btn dashboard-btn btn-primary pull-right">Ok</button>
+                        <button ng-show="retrievedCreditUserObj.id !== undefined" 
+                            ng-click="takeToUser(retrievedCreditUserObj.id)" 
+                            class="btn dashboard-btn btn-primary pull-right margin-right-10">View user</button>
+                        <button ng-click="showTransactionModal()" class="btn btn-primary delete-button-lifted pull-right margin-right-10" style="margin-top: 15px">View transaction</button>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="transactionType.tx_type == 'debit'">
+                <div class="form-group">
+                    <span>
+                        <strong>{{debitTransactionData.currency.symbol}} {{debitTransactionData.amount | commaSeperateNumberFilter}}</strong> has been debited from 
+                        <span ng-show="retrievedDebitUserObj.id !== undefined"><strong>{{retrievedDebitUserObj.email || retrievedDebitUserObj.mobile || retrievedDebitUserObj.id}}</strong></span>
+                        <span ng-hide="retrievedDebitUserObj.id !== undefined">account <strong>{{debitTransactionData.account.reference}}</strong></span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <button ng-click="closeModal()" class="btn dashboard-btn btn-primary pull-right">Ok</button>
+                    <button ng-show="retrievedDebitUserObj.id !== undefined" 
+                        ng-click="takeToUser(retrievedDebitUserObj.id)" 
+                        class="btn btn-primary delete-button-lifted pull-right margin-right-10">View user</button>
+                    <button ng-click="showTransactionModal()" class="btn btn-primary delete-button-lifted pull-right margin-right-10" style="margin-top: 15px">View transaction</button>
+                </div>
+            </div>
+            <div class="form-group" ng-show="transactionType.tx_type == 'transfer'">
+                <div ng-show="transferDepositSelected">
+                    <div class="form-group">
+                        <span><strong>{{transferDepositTransactionData.currency.symbol}} {{transferDepositTransactionData.amount | commaSeperateNumberFilter}}</strong> has been transferred from
+                        from <strong>{{retrievedDepositSenderUserObj.email || retrievedDepositSenderUserObj.mobile || retrievedDepositSenderUserObj.id}}</strong>
+                        to <strong>{{retrievedDepositRecipientObj.email || retrievedDepositRecipientObj.mobile || retrievedDepositRecipientObj.id || transferDepositTransactionData.recipient}}</strong></span>
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="closeModal()" class="btn dashboard-btn btn-primary pull-right">Ok</button>
+                        <button ng-click="takeToUser(retrievedDepositSenderUserObj.id)" class="btn dashboard-btn btn-primary pull-right margin-right-10">View user</button>
+                        <button ng-click="showTransactionModal()" class="btn btn-primary delete-button-lifted pull-right margin-right-10" style="margin-top: 15px">View transaction</button>
+                    </div>
+                </div>
+                <div ng-hide="transferDepositSelected">
+                    <div class="form-group">
+                        <span><strong>{{transferTransactionData.currency.symbol}} {{transferTransactionData.amount | commaSeperateNumberFilter}}</strong> has been transferred from
+                        from 
+                        <span ng-show="retrievedSenderUserObj.id !== undefined"><strong>{{retrievedSenderUserObj.email || retrievedSenderUserObj.mobile || retrievedSenderUserObj.id}}</strong></span>
+                        <span ng-hide="retrievedSenderUserObj.id !== undefined">account <strong>{{transferTransactionData.account.reference}}</strong> </span>                        
+                        to 
+                        <span ng-show="retrievedRecipientObj.id !== undefined"><strong>{{retrievedRecipientObj.email || retrievedRecipientObj.mobile || retrievedRecipientObj.id || transferTransactionData.recipient}}</strong></span></span>
+                        <span ng-hide="retrievedRecipientObj.id !== undefined">account <strong>{{transferTransactionData.credit_account.reference}}</strong> </span></span>
+                        
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="closeModal()" class="btn dashboard-btn btn-primary pull-right">Ok</button>
+                        <button ng-click="takeToUser(retrievedSenderUserObj.id)" class="btn dashboard-btn btn-primary pull-right margin-right-10">View user</button>
+                        <button ng-click="showTransactionModal()" class="btn btn-primary delete-button-lifted pull-right margin-right-10" style="margin-top: 15px">View transaction</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingTransactionSettings">
+    <loading-image></loading-image>
+</div>

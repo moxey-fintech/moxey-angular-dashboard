@@ -1,0 +1,42 @@
+<div ng-hide="loadingUserEmails" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Email addresses</span>
+        <a ng-click="openAddUserEmailModal('app/pages/users/user/userDetails/userEmails/addUserEmailModal/addUserEmailModal.html','md')" class="user-details-panel-link pull-right pointer">Add email</a>
+    </div>
+    <div class="panel-body">
+        <table ng-show="emailsList.length > 0" class="table">
+            <tr class="user-switches-table-header divider">
+                <th class="rehive-table-row-first-child">Email</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="email in emailsList | orderBy: 'email' track by $index">
+                <td width="25%" class="rehive-table-row-first-child" title="{{email.email}}">{{email.email}}</td>
+                <td class="rehive-table-row-last-child pull-right">
+                    <span ng-show="email.primary" class="user-primary-account user-address-status margin-right-30">PRIMARY</span>
+                    <span ng-show="email.verified">
+                        <span ng-show="email.verified" class="status-verified user-address-status margin-right-30">VERIFIED</span>
+                    </span>
+                    <span ng-hide="email.verified">
+                        <span ng-hide="email.verified" class="user-primary-account user-address-status margin-right-30 status-incomplete-declined">NOT VERIFIED</span>
+                    </span>
+                    <span class="user-details-currencies-options-container pull-right" ng-click="showEmailOptionsBox(email); $event.stopPropagation()" click-outside="closeEmailOptionsBox()">
+                        <span class="fa fa-ellipsis-h pull-right pointer user-details-currencies-options no-margin"></span>
+                            <ul ng-show="email.id == optionsId" class="user-details-currencies-options-box" style="width: 128px;">
+                                <li ng-click="showEmailOptionsBox(email)"><i class="dropdown-arr"></i></li>
+                                <li ng-hide="email.verified" ng-click="openUserVerifyEmailModal('app/pages/users/user/userDetails/userEmails/userVerifyEmailModal/userVerifyEmailModal.html','md',email)">Verification</li>
+                                <li ng-click="updateUserEmail(email)">Make primary</li>
+                                <li ng-click="openEditUserEmailModal('app/pages/users/user/userDetails/userEmails/editUserEmailModal/editUserEmailModal.html','md',email)">Edit</li>
+                                <li ng-click="deleteUserEmailConfirm(email)">Delete</li>
+                            </ul>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="emailsList.length == 0 && !loadingUserEmails">
+            <i>No email addresses available</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserEmails">
+    <loading-image></loading-image>
+</div>

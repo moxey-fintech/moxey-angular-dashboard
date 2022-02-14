@@ -1,0 +1,76 @@
+<div ng-hide="loadingColdstorage" class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="dashboard-currencies-code">
+                    XLM
+                </div>
+            </div>
+            <div class="currencies-page-row">
+                <div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div>
+                            <span><strong>{{coldstorageObj.rehive_account_reference}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Account reference</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div>
+                            <span><strong>{{stellarCurrency.symbol}} {{coldstorageObj.balance | currencyModifiersFilter: stellarCurrency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                            <br>
+                            <span class="currencies-details-heading">Total</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-click="toggleCurrenciesOptions(); $event.stopPropagation()" click-outside="closeOptionsBox()">
+                        <div>
+                            <span class="fa fa-ellipsis-h pull-right pointer currencies-options"></span>
+                            <ul ng-show="showOptionsAccountRef" class="currencies-options-box">
+                                <li ng-click="toggleCurrenciesOptions()"><i class="dropdown-arr"></i></li>
+                                <li ng-click="addPublicAddressModal('app/pages/services/stellarService/stellarServiceAccounts/stellarColdstorage/addStellarPublicAddressModal/addStellarPublicAddressModal.html', 'md')">
+                                    Add key</li>
+                                <li ng-click="goToDebit()">Create debit</li>
+                                <li ng-click="goToCredit()">Create credit</li>
+                                <a class="group-options-link" ng-click="goToColdstorageTransactions()"><li>View transactions</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Public keys</span>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingPublicAddresses">
+            <div ng-hide="publicAddressesList.length == 0">
+                <table class="table custom-table">
+                    <tr>
+                        <th class="no-left-padding">Keys</th>
+                    </tr>
+                    <tr ng-repeat="publicAddress in publicAddressesList track by $index" data-toggle="modal"
+                        class="editable-row center">
+                        <td class="no-left-padding"><div title="{{publicAddress.account_address}}" ng-bind="publicAddress.account_address"></div></td>
+                    </tr>
+                </table>
+                <div>
+                    <p uib-pagination boundary-links="true" items-per-page="publicAddressPagination.itemsPerPage"  total-items="publicAddressData.count" ng-model="publicAddressPagination.pageNo"
+                       max-size="publicAddressPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getPublicAddresses()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <div ng-show="publicAddressesList.length == 0">
+                <i>No public addresses created.</i>
+            </div>
+        </div>
+        <div ng-show="loadingPublicAddresses">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingColdstorage">
+    <loading-image></loading-image>
+</div>

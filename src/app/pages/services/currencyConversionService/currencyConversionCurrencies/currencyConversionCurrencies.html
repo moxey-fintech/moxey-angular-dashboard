@@ -1,0 +1,47 @@
+<currency-conversion-service-navigation></currency-conversion-service-navigation>
+
+<div ng-hide="loadingRates" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Currencies</span>
+        <button ng-click="goToAddCurrenciesView('app/pages/services/currencyConversionService/currencyConversionCurrencies/addCurrencyConversionCurrency/addCurrencyConversionCurrencyModal.html','md')" class="btn btn-primary pull-right pointer">Add</button>
+    </div>
+    <div ng-hide="loadingCurrencies" class="panel-body">
+        <div ng-show="currenciesList.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th width="13%" class="rehive-table-row-first-child">Code</th>  
+                    <!-- <th width="13%">Display code</th>                   -->
+                    <th width="13%">Symbol</th>
+                    <th width="14%">Divisibility</th>
+                    <th width="13%">Unit</th>
+                    <th width="37%">Description</th>
+                    <th width="10%"></th>
+                </tr>
+                <tr ng-repeat="currency in currenciesList | orderBy: 'currency.code' track by $index" class="editable-row">
+                    <td width="13%" class="transactions-list-element rehive-table-row-first-child" title="{{currency.code}}" ng-bind="currency.code"></td>
+                    <!-- <td width="13%" class="transactions-list-element rehive-table-row-first-child" title="{{currency.display_code}}" ng-bind="currency..display_code"></td> -->
+                    <td width="13%"><div title="{{currency.symbol}}" ng-bind="currency.symbol" class="transactions-list-element"></div></td>
+                    <td width="14%"><div title="{{currency.divisibility}}" ng-bind="currency.divisibility" class="transactions-list-element" ></div></td>
+                    <td width="13%"><div title="{{currency.unit}}" ng-bind="currency.unit" class="transactions-list-element" ></div></td>
+                    <td width="37%" class="transactions-list-element" title="{{currency.description}}" ng-bind="currency.description"></td>
+                    <td width="10%" class="rehive-table-row-last-child">
+                        <a ng-click="openDeleteCurrenciesModal('app/pages/services/currencyConversionService/currencyConversionCurrencies/deleteCurrencyConversionCurrency/deleteCurrencyConversionCurrencyModal.html','md', currency)"
+                           class="pull-right pointer ">Delete</a>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="currenciesListData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getRatePairsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-hide="currenciesList.length > 0">
+            <i>No currencies are available</i>
+        </div>
+    </div>
+    <div ng-show="loadingCurrencies" class="service-header" ba-panel>
+        <loading-image></loading-image>
+    </div>
+</div>
+

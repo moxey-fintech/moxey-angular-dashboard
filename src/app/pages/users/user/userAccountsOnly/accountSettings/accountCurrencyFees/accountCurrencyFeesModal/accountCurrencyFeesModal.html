@@ -1,0 +1,19 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Delete fee</h4>
+    </div>
+    <div class="modal-body">
+        <p class="divider"><span class="text-subtle">Tx type:</span> {{accountCurrencyFee.tx_type | capitalizeWord}}</p>
+        <p class="divider"><span class="text-subtle">Value:</span> {{accountCurrencyFee.value | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</p>
+        <p class="divider"><span class="text-subtle">Percenage:</span> {{accountCurrencyFee.percentage ? accountCurrencyFee.percentage + '%' : 'None'}}</p>
+        <p><span class="text-subtle">Subtype:</span> {{accountCurrencyFee.subtype ? accountCurrencyFee.subtype : 'None'}}</p>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="deleteAccountCurrencyFee()" ng-disabled="deletingAccountCurrencyFees" type="button" class="btn btn-danger dashboard-btn pull-right">Delete</button>
+    </div>
+</div>

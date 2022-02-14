@@ -1,0 +1,25 @@
+<div ng-hide="loadingAllowedCountries" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Allowed countries</span>
+    </div>
+    <div class="panel-body">
+        <div class="divider">
+            <p class="text-muted">Note: If no countries are selected, then all the countries are allowed</p>
+        </div>
+        <div class="row divider">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-repeat="country in countries track by $index">
+                <div class="divider">
+                    <label  class="checkbox-inline custom-checkbox nowrap">
+                        <input type="checkbox" ng-change="trackAllowedCountries(country)" ng-model="country.enabled"
+                               ng-checked="country.enabled">
+                        <span class="account-settings-span">{{country.name}}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button ng-click="saveAllowedCountries()" class="pull-right dashboard-btn btn btn-primary">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAllowedCountries">
+    <loading-image></loading-image>
+</div>

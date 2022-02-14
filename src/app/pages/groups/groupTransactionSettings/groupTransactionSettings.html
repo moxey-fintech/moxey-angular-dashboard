@@ -1,0 +1,25 @@
+<h1 class="group-details-page-title">{{groupName}}</h1>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 groups-breadcrumb">
+        <span ng-click="goToGroupView('groups/overview')" class="pointer">Groups</span>
+        <span ng-click="goToGroupManagementTransactionSettings('group-controls')" class="pointer">&nbsp;/&nbsp; Fees, limits and subtype controls</span>
+        <span ng-show="subMenuLocation == 'limits'"><strong>&nbsp;/&nbsp; Limit controls</strong></span>
+        <span ng-show="subMenuLocation == 'fees'"><strong>&nbsp;/&nbsp; Fee controls</strong></span>
+        <span ng-show="subMenuLocation == 'group-controls'"><strong>&nbsp;/&nbsp; Group subtype controls</strong></span>
+        <span ng-show="subMenuLocation == 'tier-controls'"><strong>&nbsp;/&nbsp; Tier subtype controls</strong></span>
+    </div>
+</div>
+<div ng-class="{'user-details-view': !loadingGroup}">
+    <group-navigation></group-navigation>
+    <div ng-hide="loadingGroup" class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <group-transaction-settings-menu></group-transaction-settings-menu>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div ui-view="groupTransactionSettingsView"></div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroup">
+    <loading-image></loading-image>
+</div>

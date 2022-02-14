@@ -1,0 +1,11 @@
+<voucher-money-service-navigation></voucher-money-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <voucher-money-service-settings-menu></voucher-money-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <voucher-money-service-settings-item ng-show="voucherMoneySettingView == 'settings'"></voucher-money-service-settings-item>
+        <voucher-money-service-settings-currencies ng-show="voucherMoneySettingView == 'currencies'"></voucher-money-service-settings-currencies>
+        <voucher-money-service-deactivation ng-show="voucherMoneySettingView == 'deactivation'"></voucher-money-service-deactivation>
+    </div>
+</div>

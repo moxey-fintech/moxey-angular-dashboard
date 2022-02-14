@@ -1,0 +1,64 @@
+<currency-conversion-service-navigation></currency-conversion-service-navigation>
+
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <span  click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <conversion-columns-filter></conversion-columns-filter>
+                    </div>
+                </span>
+            </div>
+            <button ng-click="getConversionsList('applyFilter')" ng-disabled="loadingConversions"
+                    class="btn btn-default dynamic-columns panel-header-button">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="conversionList.length > 0" class="upper-pagination">
+            <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="conversionListData.count" ng-model="pagination.pageNo"
+               max-size="pagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getConversionsList()"
+               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+        </div>
+        <div ng-hide="loadingConversions">
+            <div ng-show="conversionList.length > 0" class="divider">
+                <div class="draggable-table">
+                    <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                    <table class="table custom-table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="draggable-headers" ng-repeat="header in headerColumns track by $index" ng-if="header.visible">
+                                <span ng-class="styleHeaders(header)">{{header.colName}}</span>&nbsp;&nbsp;
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="conversion in conversionList track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover" ng-click="goToConversionView('app/pages/services/currencyConversionService/currencyConversionConversions/displayCurrencyConversionModal/displayCurrencyConversionModal.html', 'md',conversion)">
+                            <td class="transactions-list-element" ng-repeat="header in headerColumns track by $index"
+                                ng-if="header.visible" ng-bind="conversion[header.fieldName]"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="conversionList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="conversionListData.count" ng-model="pagination.pageNo"
+                    max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getConversionsList()"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <div ng-hide="conversionList.length > 0">
+                <i>No conversions to show</i>               
+            </div>
+        </div>
+        <div ng-show="loadingConversions">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>
+
+

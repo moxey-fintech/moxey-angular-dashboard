@@ -1,0 +1,70 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showOrdersFilters()" ng-class="{'transactions-filter-btn': (ordersFiltersCount > 0), 'transactions-btn': (ordersFiltersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="ordersFiltersCount > 0">|</span> <span ng-show="ordersFiltersCount > 0" class="filter-count">{{ordersFiltersCount}}</span>
+                </button>
+                <div ng-show="showingOrdersFilters">
+                    <orders-filters></orders-filters>
+                </div>
+            </div>
+            <button ng-click="getOrdersLists('applyFilter')" ng-disabled="loadingOrders"
+                    class="btn btn-default transactions-btn panel-header-user-icon clear-filter-btn" style="margin-right: 0px;">Refresh</button>
+            <button ng-click="goToAddOrder()" class="btn btn-success transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingOrders">
+            <div ng-show="ordersList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="ordersPagination.itemsPerPage"  total-items="ordersListData.count" ng-model="ordersPagination.pageNo"
+                   max-size="ordersPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getOrdersList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="ordersList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Id</th>
+                            <th>User</th>
+                            <th>Seller</th>
+                            <th>Status</th>
+                            <th>Currency</th>
+                            <th>Total price</th>
+                            <th>Placed</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="order in ordersList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover"
+                            ng-click="displayOrderModal('app/pages/services/productService/orders/displayOrderModal/displayOrderModal.html','md',order)">
+                            <td class="table-row-center transactions-list-element">{{order.id}}</td>
+                            <td class="table-row-center transactions-list-element">{{order.user}}</td>
+                            <td class="table-row-center transactions-list-element">{{order.seller ? order.seller.name : '--'}}</td>
+                            <td class="table-row-center transactions-list-element">{{order.status | capitalizeWord}}</td>
+                            <td class="table-row-center transactions-list-element">{{order.currency.code}}</td>
+                            <td class="table-row-center transactions-list-element">{{order.total_price | currencyModifiersFilter: order.currency.divisibility | commaSeperateNumberFilter}}</td>
+                            <td class="table-row-center transactions-list-element">{{order.placed | date:'mediumDate'}} {{order.placed | date:'shortTime'}}</td>
+                            <td ng-click="$event.stopPropagation()">
+                                <a ng-click="deleteOrderConfirm(order)" class="pull-right pointer">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="ordersList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="ordersPagination.itemsPerPage"  total-items="ordersListData.count" ng-model="ordersPagination.pageNo"
+                       max-size="ordersPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getOrdersLists()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="ordersList.length > 0">No orders are available.</i>
+        </div>
+        <div ng-show="loadingOrders">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

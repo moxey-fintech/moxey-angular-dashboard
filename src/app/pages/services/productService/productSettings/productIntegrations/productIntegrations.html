@@ -1,0 +1,45 @@
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Integrations</span>
+        <button ng-disabled="loadingProductIntegrations" class="btn btn-primary pull-right" 
+        ng-click="openAddProductIntegrationModal(
+            'app/pages/services/productService/productSettings/productIntegrations/addProductIntegrationModal/addProductIntegrationModal.html', 'md'
+            )"  style="margin-top: -8px;">Add integration</button>
+    </div>
+    <div class="panel-body" ng-hide="loadingProductIntegrations">
+        <div>
+            <div ng-show="productIntegrations.length > 0" class="form-group">
+                <table class="table custom-table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="20%" class="no-left-padding">Name</th>
+                            <th width="30%">Slug</th>
+                            <th width="35%">Description</th>
+                            <th width="15%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="integration in productIntegrations track by $index">
+                            <td width="20%" class="transactions-list-element">{{integration.name | capitalizeWord}}</td>
+                            <td width="30%" class="transactions-list-element">{{integration.slug}}</td>
+                            <td width="35%" class="transactions-list-element">{{integration.description}}</td>
+                            <td width="15%" class="transactions-list-element no-left-padding" style="padding-right: 10px;">
+                                <a ng-click="showDeleteProductIntegrationPrompt(integration)"
+                                   class="pull-right pointer ">Delete</a>
+                                <a ng-click="openEditProductIntegrationModal(
+                                    'app/pages/services/productService/productSettings/productIntegrations/editProductIntegrationModal/editProductIntegrationModal.html','md', integration
+                                    )" class="pull-right pointer user-address-edit margin-right-25">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-hide="productIntegrations.length > 0">
+                <i>No product integrations added</i>
+            </div>
+        </div>
+    </div>
+    <div ba-panel ng-show="loadingProductIntegrations" class="service-header">
+        <loading-image></loading-image>
+    </div>
+</div>

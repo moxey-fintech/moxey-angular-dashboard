@@ -1,0 +1,64 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <span click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <stellar-transactions-columns-filter></stellar-transactions-columns-filter>
+                    </div>
+                </span>
+                <div ng-show="showingFilters">
+                    <stellar-service-transactions-filter></stellar-service-transactions-filter>
+                </div>
+            </div>
+            <button ng-click="getLatestTransactions('applyFilter')" ng-disabled="loadingTransactions"
+                    class="btn btn-default dynamic-columns panel-header-button">Refresh</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="transactions.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped">
+                    <thead>
+                    <tr>
+                        <!--class="pointer"-->
+                        <th ng-repeat="header in headerColumns track by $index" ng-if="header.visible"
+                            ng-class="{'align-right': ( header.colName == 'Created' || header.colName == 'Updated' || header.colName == 'Completed' )}"
+                            ng-bind="header.colName"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="transaction in transactions | orderBy: '-created' track by $index" data-toggle="modal"
+                        ng-click="openModal('app/pages/services/stellarService/stellarServiceTransactions/stellarServiceTransactionsModal/stellarServiceTransactionsModal.html', 'lg',transaction)"
+                        class="editable-row center pointer user-details-table-hover">
+                        <td class="transactions-list-element" ng-repeat="header in headerColumns track by $index"
+                            ng-class="{'align-right' : (header.fieldName == 'created' || header.fieldName == 'updated' || header.fieldName == 'completed')}"
+                            ng-if="header.visible" ng-bind="transaction[header.fieldName]"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="transactionsData.count" ng-model="pagination.pageNo"
+                   max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getLatestTransactions()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="transactions.length == 0">
+            <i ng-hide="transactionsStateMessage == ''" ng-bind="transactionsStateMessage"></i>
+            <loading-image ng-show="transactionsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>
+
+
+

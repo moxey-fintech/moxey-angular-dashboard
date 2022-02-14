@@ -1,0 +1,55 @@
+<business-service-navigation></business-service-navigation>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Categories</span>
+        <button ng-click="goToAddCategoryView('app/pages/services/businessService/businessServiceCategories/createBusinessServiceCategory/createBusinessCategoryModal.html','md')" class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingCategories">
+            <div ng-show="businessCategoriesList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="categoriesPagination.itemsPerPage"  total-items="businessCategoriesListData.count" ng-model="categoriesPagination.pageNo"
+                   max-size="categoriesPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getPaymentsList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="businessCategoriesList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Category name</th>
+                            <th>Description</th>
+                            <!-- <th>Created</th>
+                            <th>Updated</th> -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="category in businessCategoriesList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover" ng-click="displayCategoryModal('app/pages/services/businessService/businessServiceCategories/viewBusinessServiceCategory/viewBusinessCategoryModal.html', 'md',category)">
+                            <td class="table-row-center transactions-list-element">{{category.name}}</td>
+                            <td class="table-row-center transactions-list-element">{{category.description}}</td>
+                            <!-- <td class="table-row-center transactions-list-element">{{category.created | date:'mediumDate'}} {{category.created | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{category.updated | date:'mediumDate'}} {{category.updated | date:'shortTime'}}</td> -->
+                            <td class="rehive-table-row-last-child" ng-click="$event.stopPropagation()">
+                                <div class="table-col-two-actions"> 
+                                    <a ng-click="openDeleteCategoryModal('app/pages/services/businessService/businessServiceCategories/deleteBusinessServiceCategoryModal/deleteBusinessServiceCategoryModal.html','md', category)"
+                           class="pull-right pointer">Delete</a>
+                                    <a ng-click="openEditCategoryModal('app/pages/services/businessService/businessServiceCategories/editBusinessServiceCategory/editBusinessServiceCategoryModal.html','md', category)"  class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="businessCategoriesList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="categoriesPagination.itemsPerPage"  total-items="busienssCategoriesListData.count" ng-model="categoriesPagination.pageNo"
+                       max-size="categoriesPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getCategoriesList()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="businessCategoriesList.length > 0">No categories available to display.</i>
+        </div>
+        <div ng-show="loadingCategories">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

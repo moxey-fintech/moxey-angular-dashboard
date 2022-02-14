@@ -1,0 +1,133 @@
+<div ng-hide="loadingUserBankAccount" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Bank accounts</span>
+        <a ng-click="openAddUserBankAccountModal('app/pages/users/user/userDetails/userBankAccounts/addUserBankAccountModal/addUserBankAccountModal.html','md')" class="user-details-panel-link pull-right pointer">Add bank account</a>
+    </div>
+    <div class="panel-body">
+        <div  ng-repeat="bank in userBanks | orderBy: 'id' track by $index">
+            <div class="row user-address margin-bottom-10" ng-class="{'no-margin-bottom': $last}">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <a ng-click="showCollapsedBankDetails(bank)" class="pointer">
+                        <i ng-hide="bank.id == uncollapsedBank.id" class="fa fa-chevron-right user-bank-icons"></i><i ng-show="bank.id == uncollapsedBank.id" class="fa fa-chevron-down user-bank-icons"></i>{{bank.name}}</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <span class="user-details-currencies-options-container pull-right" ng-click="showBankOptionsBox(bank); $event.stopPropagation()" click-outside="closeBankOptionsBox()">
+                        <span class="fa fa-ellipsis-h pull-right pointer user-details-address-options no-margin"></span>
+                            <ul ng-show="bank.id == optionsId" class="user-details-address-options-box">
+                                <li ng-click="showBankOptionsBox(bank)"><i class="dropdown-arr"></i></li>
+                                <li ng-hide="bank.status != 'pending'" ng-click="verifyBankAccountConfirm(bank)">Verification</li>
+                                <li ng-click="openEditUserBankAccountModal('app/pages/users/user/userDetails/userBankAccounts/editUserBankAccountModal/editUserBankAccountModal.html','md',bank)">Edit</li>
+                                <li ng-click="openUserBankAccountModal('app/pages/users/user/userDetails/userBankAccounts/userBankAccountModal/userBankAccountModal.html','md',bank)">Delete</li>
+                            </ul>
+                    </span>
+                    <span ng-class="{'status-pending': bank.status == 'pending','status-verified': bank.status == 'verified',
+                    'status-incomplete-declined': bank.status == 'incomplete' || bank.status == 'declined' || bank.status == 'obsolete'}"
+                          class="user-address-status pull-right margin-right-30">{{bank.status | uppercase}}</span>
+                </div>
+            </div>
+            <div ng-show="bank.id == uncollapsedBank.id" uib-collapse="isBankDetailsCollapsed" class="row divider">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table user-details-table">
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Id</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.id || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Account name</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.name || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Currencies</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th"><span ng-repeat="currencyObj in uncollapsedBank.currencies | orderBy: 'code' track by $index">
+                                {{currencyObj.display_code}}<span ng-show="!$last">,&nbsp;</span>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Account number</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.number || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Account type</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.type || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Bank name</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.bank_name || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Bank code</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.bank_code || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Branch code</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.branch_code || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Swift</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.swift || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">IBAN</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.iban || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">BIC</th>
+                            <th width="8%"></th>
+                            <th width="20%" class="user-bank-table-th">{{uncollapsedBank.bic || 'Not provided'}}</th>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="20%" class="user-bank-table-th-title">Branch address</th>
+                            <th width="8%"></th>
+                            <th width="40%" class="user-bank-table-th"><span>{{uncollapsedBank.branch_address.line_1 ? uncollapsedBank.branch_address.line_1  + ',': ''}}
+                                {{uncollapsedBank.branch_address.line_2 ? uncollapsedBank.branch_address.line_2  + ',': ''}}
+                                {{uncollapsedBank.branch_address.city ? uncollapsedBank.branch_address.city  + ',': ''}}
+                                {{uncollapsedBank.branch_address.state_province ? uncollapsedBank.branch_address.state_province  + ',': ''}}
+                                {{uncollapsedBank.branch_address.country ? uncollapsedBank.branch_address.country  + ',': ''}}
+                                {{uncollapsedBank.branch_address.postal_code ? uncollapsedBank.branch_address.postal_code: ''}}
+                                {{uncollapsedBank.branch_address.state_code ? uncollapsedBank.branch_address.state_code: ''}}</span>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-show="userBanks.length == 0 && !loadingUserBankAccount">
+            <i>No banks are available</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserBankAccount">
+    <loading-image></loading-image>
+</div>

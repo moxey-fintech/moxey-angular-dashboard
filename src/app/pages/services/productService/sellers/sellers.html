@@ -1,0 +1,68 @@
+<div class="panel">
+    <!-- <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showOrdersFilters()" ng-class="{'transactions-filter-btn': (ordersFiltersCount > 0), 'transactions-btn': (ordersFiltersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="ordersFiltersCount > 0">|</span> <span ng-show="ordersFiltersCount > 0" class="filter-count">{{ordersFiltersCount}}</span>
+                </button>
+                <div ng-show="showingOrdersFilters">
+                    <orders-filters></orders-filters>
+                </div>
+            </div>
+            <button ng-click="getOrdersLists('applyFilter')" ng-disabled="loadingSellers"
+                    class="btn btn-default transactions-btn panel-header-user-icon clear-filter-btn" style="margin-right: 0px;">Refresh</button>
+            <button ng-click="goToAddOrder()" class="btn btn-success transactions-btn panel-header-button">New</button>
+        </div>
+    </div> -->
+    <div class="panel-body">
+        <div ng-hide="loadingSellers">
+            <div ng-show="sellersList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="sellersPagination.itemsPerPage"  total-items="sellersListData.count" ng-model="sellersPagination.pageNo"
+                   max-size="sellersPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getOrdersList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="sellersList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Owner</th>
+                            <th>Account</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="seller in sellersList | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover"
+                            ng-click="openViewSellerModal('app/pages/services/productService/sellers/viewSellerModal/viewSellerModal.html','md', seller)">
+                            <td class="table-row-center transactions-list-element">{{seller.id}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.name}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.description}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.owner}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.account}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.status | capitalizeWord}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.created | date:'mediumDate'}} {{seller.created | date:'shortTime'}}</td>
+                            <td class="table-row-center transactions-list-element">{{seller.updated | date:'mediumDate'}} {{seller.updated | date:'shortTime'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="sellersList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="sellersPagination.itemsPerPage"  total-items="sellersListData.count" ng-model="sellersPagination.pageNo"
+                       max-size="sellersPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getOrdersLists()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="sellersList.length > 0">No sellers are available.</i>
+        </div>
+        <div ng-show="loadingSellers">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

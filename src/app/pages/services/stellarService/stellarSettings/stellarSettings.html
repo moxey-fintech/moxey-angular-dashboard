@@ -1,0 +1,14 @@
+<stellar-service-navigation></stellar-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <stellar-settings-menu></stellar-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <stellar-service-setup-subtypes ng-show="stellarSettingView == 'subtypes'"></stellar-service-setup-subtypes>
+        <!-- <stellar-service-user-defaults ng-show="stellarSettingView == 'user defaults'"></stellar-service-user-defaults> -->
+        <stellar-disable-send ng-show="stellarSettingView == 'disable-send'"></stellar-disable-send>
+        <stellar-deactivation ng-show="stellarSettingView == 'deactivation'"></stellar-deactivation>
+        <stellar-fedaration-address ng-show="stellarSettingView == 'federation-address'"></stellar-fedaration-address>
+        <stellar-toml ng-show="stellarSettingView == 'toml-section'"></stellar-toml>
+    </div>
+</div>

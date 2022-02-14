@@ -1,0 +1,25 @@
+<div ng-hide="loadingUserAuth" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Authentication</span>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    Multi-factor authentication:
+                    <span ng-class="{'mfa-not-active': mfaStatus == 'not', 'mfa-active': mfaStatus != 'not'}">
+                        <strong>{{mfaStatus | uppercase}} ACTIVE</strong>
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="user.groups[0].name != 'admin' && mfaStatus != 'not'">
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child" >
+                    <a class="pointer" ng-click="removeMFAStatusConfirm()" >Remove multi-factor authentication</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserAuth">
+    <loading-image></loading-image>
+</div>

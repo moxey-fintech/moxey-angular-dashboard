@@ -1,0 +1,37 @@
+<div ng-hide="loadingUserGroup" class="panel panel-default">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Group and tier info</span>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <td width="75%" class="rehive-table-row-first-child" class="row" title="{{userGroups.name}}">
+                    <span ng-show="userGroups.name">
+                        <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding no-right-padding"><strong>Group</strong></span>
+                        <span class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding no-right-padding" style="margin-left: -12px;">{{userGroups.name}}</span>                        
+                    </span>
+                    <i ng-hide="userGroups.name">No user group selected</i>
+                </td>
+                <td class="rehive-table-row-last-child pull-right">
+                    <a ng-click="openEditUserGroupModal('app/pages/users/user/userDetails/userGroups/editUserGroupModal/editUserGroupModal.html','md',userGroups)"
+                       class="pull-right pointer user-address-edit">Update</a>
+                </td>
+            </tr>
+            <tr ng-hide="!userGroups.name">
+                <td width="75%" class="rehive-table-row-first-child" class="row" title="{{userGroups.tier.name}}">
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding no-right-padding"><strong>Tier</strong></span>
+                    <span class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding no-right-padding" style="margin-left: -12px;">{{userGroups.tier.name}}</span>
+                </td>
+            </tr>
+            <tr ng-hide="!userGroups.name">
+                <td width="75%" class="rehive-table-row-first-child" class="row" title="{{userGroups.tier.level}}">
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding no-right-padding"><strong>Level</strong></span>
+                    <span class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding no-right-padding" style="margin-left: -12px;">{{userGroups.tier.level}}</span>                  
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserGroup">
+    <loading-image></loading-image>
+</div>

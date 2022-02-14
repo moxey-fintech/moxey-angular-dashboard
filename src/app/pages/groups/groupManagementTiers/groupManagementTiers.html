@@ -1,0 +1,37 @@
+<h1 class="group-details-page-title">{{groupName}}</h1>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 groups-breadcrumb">
+        <span ng-click="goToGroupView('groups/overview')" class="pointer">Groups</span>
+        <span ng-click="goToGroupManagementTiersSettings('list')" class="pointer">&nbsp;/&nbsp; Group tiers</span>
+        <span ng-show="subMenuLocation == 'list'"><strong>&nbsp;/&nbsp; Tiers</strong></span>
+        <span ng-show="subMenuLocation == 'requirements'"><strong>&nbsp;/&nbsp; Tier requirements</strong></span>
+        <span ng-show="subMenuLocation == 'limits'"><strong>&nbsp;/&nbsp; Tier limits</strong></span>
+        <span ng-show="subMenuLocation == 'fees'"><strong>&nbsp;/&nbsp; Tier fees</strong></span>
+        <span ng-show="subMenuLocation == 'settings'"><strong>&nbsp;/&nbsp; Tier settings</strong></span>
+    </div>
+</div>
+<div ng-class="{'user-details-view': !loadingGroup}">
+    <!-- <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user-details-first-row divider-30">
+            <div class="group-hexagon"></div>
+            <div class="group-overview-details">
+                <span class="group-details-name">{{groupName}}</span>
+                <p class="user-details-info"><strong>{{totalUsersCount}}</strong> Total users</p>
+                <p class="user-details-info"><strong>{{totalUsersCount - deactiveUsersCount}}</strong> Active users</p>
+                <p class="user-details-info"><strong>{{deactiveUsersCount}}</strong> Deactivated users</p>
+            </div>
+        </div>
+    </div> -->
+    <group-navigation></group-navigation>
+    <div ng-hide="loadingGroup" class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+            <group-tiers-management-menu></group-tiers-management-menu>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div ui-view="groupTiersManagementView"></div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroup">
+    <loading-image></loading-image>
+</div>

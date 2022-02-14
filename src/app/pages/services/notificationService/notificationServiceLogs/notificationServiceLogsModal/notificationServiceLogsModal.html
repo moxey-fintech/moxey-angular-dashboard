@@ -1,0 +1,94 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Log details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">Recipient:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="log.recipient"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">Notification:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="log.notification"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">Sent:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="log.sent | capitalizeWord"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">Created:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p>{{log.created | date:'mediumDate'}} {{log.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">-->
+                <!--<p>Subject:</p>-->
+            <!--</div>-->
+            <!--<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">-->
+                <!--<p ng-bind="log.subject"></p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">HTML message:</p>
+            </div>
+            <div ng-show="html_message" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <!--<pre>{{log.html_message}}</pre>-->
+                <pre ng-bind-html="html_message"></pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">SMS message:</p>
+            </div>
+            <div ng-show="log.sms_message" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <pre>{{log.sms_message}}</pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">Text message:</p>
+            </div>
+            <div ng-show="log.text_message" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <pre>{{log.text_message}}</pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle divider">Push message:</p>
+            </div>
+            <div ng-show="log.push_message" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <pre>{{log.push_message}}</pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <p class="text-subtle">Error message:</p>
+            </div>
+            <div ng-show="log.error_message" class="metadata col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <pre>{{log.error_message}}</pre>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-right" ng-click="$dismiss()">Close</button>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<div ng-hide="exportingTransactions" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Export transactions</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-hide="transactionsExported">
+            <div>
+                <p class="divider">Please select file format:</p>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="fileOutput.type" value="csv">
+                            <span class="custom-radio-btn">CSV</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="fileOutput.type" value="json">
+                            <span class="custom-radio-btn">JSON</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <p>Your export will show results for filters:
+                <span ng-show="filtersTextsArray.length == 0">None selected</span>
+            </p>
+            <ul ng-show="filtersTextsArray.length > 0"
+                class="export-filter-list"
+                ng-repeat="text in filtersTextsArray track by $index">
+                <li>{{text}}</li>
+            </ul>
+        </div>
+        <div ng-show="transactionsExported">
+            <div>
+                <p class="divider">Output file format: <strong>{{fileOutput.type | uppercase}}</strong></p>
+            </div>
+            <p>Your export will generate <strong>{{transactionSetResponse.pages.length}}</strong> {{transactionSetResponse.pages.length == 1 ? 'file': 'files'}}
+                for a total of number <strong>{{transactionSetResponse.count}} results</strong> for filters:
+                <span ng-show="filtersTextsArray.length == 0">None selected</span>
+            </p>
+            <ul ng-show="filtersTextsArray.length > 0"
+                class="export-filter-list" ng-repeat="text in filtersTextsArray track by $index">
+                <li>{{text}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button ng-hide="transactionsExported" ng-click="exportTransansactionsSet()"
+                    class="dashboard-btn btn btn-primary no-margin pull-right">Export</button>
+            <button ng-hide="transactionsExported" type="button" ng-click="$dismiss()"
+                    class="dashboard-btn btn-default btn no-margin pull-left">Close</button>
+            <button ng-show="transactionsExported" ng-click="$dismiss()"
+                    class="dashboard-btn btn btn-primary no-margin pull-right">Ok</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="exportingTransactions">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,82 @@
+<div ng-hide="addingProductIntegration" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add integration</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addProductIntegrationForm" class="custom-form">
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Name&nbsp;<span class="required-icon">*</span></label>
+                <input type="text" ng-model="newIntegrationParams.name" 
+                placeholder="Enter integration name" class="form-control" size="12" required>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Slug&nbsp;<span class="required-icon">*</span></label>
+                <input type="text" ng-model="newIntegrationParams.slug" 
+                placeholder="Enter integration slug" class="form-control" size="12" required>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Description</label>
+                <textarea rows="4" type="text"ng-model="newIntegrationParams.description" 
+                class="form-control" placeholder='Enter description'></textarea>
+            </div>
+            <div class="form-group setup-groups-tooltip-div">
+                <label>
+                    <strong class="strong-headers">Webhooks</strong>
+                    <i class="fa fa-plus-square-o product-prices-add-icon left-margin-12"
+                       ng-hide="newIntegrationParams.webhooks.length > 0"
+                       ng-class="{'product-prices-add-icon-near-title': newIntegrationParams.webhooks.length == 0}"
+                       style="left: 8px;"
+                       ng-click="addWebhook()"></i>
+                </label>
+                <div ng-repeat="webhook in newIntegrationParams.webhooks track by $index">
+                    <div class="divider" style="margin-top: 10px;"><label>Webhook {{$index + 1}}</label></div>
+                    <div class="row divider">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">
+                            <label>Event&nbsp;<span class="required-icon">*</span></label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="reward-multi-select">
+                                <select chosen
+                                        data-placeholder-text-single="'Choose a webhook event'"
+                                        width="40"
+                                        ng-model="webhook.event"
+                                        ng-options="event.key for event in webhookEvents | orderBy: 'key' ">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row divider"> 
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding"><label>URL&nbsp;<span class="required-icon">*</span></label></div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <input type="text" ng-model="webhook.url" class="form-control"  placeholder="Enter webhook url">
+                        </div>                       
+                    </div>
+                    <div class="row divider">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding"><label>Secret&nbsp;<span class="required-icon">*</span></label></div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" ng-model="webhook.secret" class="form-control"  placeholder="Enter webhook secret">
+                        </div>                        
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-top: 10px;">
+                            <div class="product-buttons-container">
+                                <i class="fa fa-minus-square-o product-prices-remove-icon"
+                                   ng-click="removeWebhook($index)"></i>
+                                <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addWebhook()"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>    
+    <div class="modal-footer row">
+        <button ng-click="addProductIntegration()" ng-disabled="!addProductIntegrationForm.$valid"
+           class="btn btn-primary dashboard-btn pull-right" style="margin-right: 10px;">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingProductIntegration">
+    <loading-image></loading-image>
+</div>

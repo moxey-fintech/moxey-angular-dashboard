@@ -1,0 +1,72 @@
+<div ng-hide="addingSubtype" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add subtype</h4>
+    </div>
+    <div class="modal-body">
+        <form name="subtypeForm" class="custom-form">
+            <div class="divider-20">
+                <label class="text-subtle" style="font-weight: normal;">Select transaction type <span class="required-icon">*</span></label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newSubtype.tx_type" value="credit">
+                            <span class="custom-radio-btn">Credit</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newSubtype.tx_type" value="debit">
+                            <span class="custom-radio-btn">Debit</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="divider-20">
+                <label class="text-subtle" style="font-weight: normal;">Usage type <span class="required-icon">*</span>&nbsp;
+                    <span><i uib-tooltip-html="'This setting allows you to enforce extra limitations on how subtypes are used. Select &#8217;null&#8217; for no extra limitations. 
+                        Select &#8217;single&#8217; if this subtype is only allowed when making a once-off transaction. 
+                        Select &#8217;partner&#8217; if this subtype is only allowed when making a transfer transaction.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                </label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newSubtype.usage_type" value="null">
+                            <span class="custom-radio-btn">Null</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newSubtype.usage_type" value="single">
+                            <span class="custom-radio-btn">Single</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newSubtype.usage_type" value="partner">
+                            <span class="custom-radio-btn">Partner</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Name <span class="required-icon">*</span></label>
+                <input type="text" ng-model="newSubtype.name" class="form-control"
+                       ng-change="subtypeNameChanged(newSubtype)"
+                       placeholder="Name" required>
+            </div>
+            <div class="form-group divider-20">
+                <label>Label</label>
+                <input type="text" ng-model="newSubtype.label" class="form-control"  placeholder="Label">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <!--<input type="text" ng-model="newSubtype.description" class="form-control"  placeholder="Description">-->
+                <textarea ng-model="newSubtype.description" class="form-control"  placeholder="Enter a description for the subtype"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-disabled="!subtypeForm.$valid" ng-click="addSubtype()" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="addingSubtype">
+    <loading-image></loading-image>
+</div>

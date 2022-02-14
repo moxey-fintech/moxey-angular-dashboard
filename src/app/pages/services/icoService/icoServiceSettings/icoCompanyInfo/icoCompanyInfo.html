@@ -1,0 +1,17 @@
+<div ng-hide="updatingCompanyInfo" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Company info</span>
+    </div>
+    <div class="panel-body">
+        <form name="companyEmailForm">
+            <div class="form-group">
+                <label>Company name</label>
+                <input type="text" class="form-control divider" ng-model="company.name" placeholder="Enter company name" required/>
+            </div>
+            <button ng-disabled="!companyEmailForm.$valid" ng-click="updateCompanyInfo()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="updatingCompanyInfo" class="service-header">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,33 @@
+<p style="padding-bottom: 3px;">
+    Are you sure you want to delete this product variant?
+</p>
+<div class="form-group">
+    <div class="row divider">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><strong>Label:</strong></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">{{deleteProductVariantObj.label}}</div>
+    </div>
+    <div class="row divider">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><strong>SKU:</strong></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">{{deleteProductVariantObj.code || '-'}}</div>
+    </div>
+    <div class="row divider">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><strong>Quantity:</strong></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">{{deleteProductVariantObj.quantity || '∞'}}</div>
+    </div>
+    <div class="row divider">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><strong>Options:</strong></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <span ng-repeat="(option, value) in deleteProductVariantObj.options track by $index">
+                {{option}}&nbsp;-&nbsp;{{value}}<span ng-show="!$last">,&nbsp;</span>
+            </span>
+        </div>
+    </div>
+    <div class="row divider">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><strong>Prices:</strong></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <span ng-repeat="price in deleteProductVariantObj.prices track by $index">
+                {{price.currency.symbol}} {{price.amount | currencyModifiersFilter: price.currency.divisibility | commaSeperateNumberFilter}}<span ng-show="!$last">,&nbsp;</span>
+            </span>
+        </div>
+    </div>
+</div>

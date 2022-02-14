@@ -1,0 +1,39 @@
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Phase List</span>
+            <a ng-click="goToAddPhaseView()" class="user-details-panel-link pull-right pointer">Add</a>
+        </div>
+        <div class="panel-body">
+            <table ng-hide="icoPhases.length == 0 || loadingPhases" class="table custom-table">
+                <tr>
+                    <th class="rehive-table-row-first-child">Level</th>
+                    <th>Percentage</th>
+                    <th>Base rate</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="phase in icoPhases track by $index"
+                    class="editable-row center">
+                    <td class="ico-service-list-element rehive-table-row-first-child" title="{{phase.level}}"
+                        ng-bind="phase.level"></td>
+                    <td class="ico-service-list-element" title="{{phase.percentage}}"
+                        ng-bind="phase.percentage"></td>
+                    <td class="ico-service-list-element" title="{{phase.base_rate  | currencyModifiersFilter: ico.base_currency.divisibility | commaSeperateNumberFilter}}"
+                        ng-bind="phase.base_rate  | currencyModifiersFilter: ico.base_currency.divisibility | commaSeperateNumberFilter"></td>
+                    <td class="rehive-table-row-last-child">
+                        <a ng-click="deletePhasePrompt(phase)"
+                           class="pull-right pointer ">Delete</a>
+                        <a ng-click="goToRateListView(phase)"
+                           class="pull-right pointer user-address-edit margin-right-30">View</a>
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="icoPhases.length == 0">
+                <i>No phases have been created</i>
+            </div>
+        </div>
+        <div ng-show="loadingPhases">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

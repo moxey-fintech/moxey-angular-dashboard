@@ -1,0 +1,683 @@
+<div ng-hide="loadingWalletConfig" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Actions</span>
+    </div>
+    <div class="panel-body">
+        <div>
+            <div class="form-group divider-20">
+                <label class="divider-20" style="font-size:15px; font-weight: bold">Account action controls</label>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Card</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.card.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.card.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.card.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.card.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.card.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Deposit</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.deposit.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.deposit.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.deposit.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.deposit.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.deposit.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Deposit voucher</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.deposit_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.deposit_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.deposit_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.deposit_voucher.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.deposit_voucher.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Donate</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.donate.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.donate.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.donate.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.donate.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.donate.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Exchange</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.exchange.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.exchange.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.exchange.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.exchange.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.exchange.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Pay</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.pay.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.pay.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.pay.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.pay.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.pay.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Prepaid</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.prepaid.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.prepaid.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.prepaid.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.prepaid.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.prepaid.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Receive</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.receive.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.receive.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.receive.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.receive.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.receive.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Redeem voucher</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.redeem_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.redeem_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.redeem_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.redeem_voucher.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.redeem_voucher.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Send</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.send.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.send.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.send.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.send.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.send.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Transfer</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.transfer.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.transfer.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.transfer.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.transfer.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.transfer.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Withdraw</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.withdraw.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.withdraw.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.withdraw.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.withdraw.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.withdraw.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row divider-15">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span>Withdraw voucher</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="show" ng-model="wallet_config.actions.withdraw_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Show</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="hide" ng-model="wallet_config.actions.withdraw_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide</span>
+                            </label>
+                            <label class="margin-right-10 pointer" style="margin-left: -70px;">
+                                <input class="pointer" type="radio" value="currency" ng-model="wallet_config.actions.withdraw_voucher.condition.optionSelected">
+                                <span class="custom-radio-btn">Hide for specific currencies</span>
+                            </label>
+                        </div>
+                        <div ng-show="wallet_config.actions.withdraw_voucher.condition.optionSelected == 'currency'" class="reward-multi-select" style="margin-top: 10px;">
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more currencies'"
+                                    width="100"
+                                    ng-model="wallet_config.actions.withdraw_voucher.condition.currenciesSelected"
+                                    ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group divider-20">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"> 
+                        <label class="divider-10" style="font-size:15px; font-weight: bold">Pay configurations</label>                  
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"></div>
+                </div>
+                <div>
+                    <div class="form-group divider-15">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <span>Show the rating field when paying</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                                <div ng-show="wallet_config.actions.pay.config.showRating">
+                                    <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleActionPayConfigs('showRating')"></i>
+                                </div>
+                                <div ng-hide="wallet_config.actions.pay.config.showRating">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleActionPayConfigs('showRating')"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group divider-15">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <span>Show the tip field when paying</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                                <div ng-show="wallet_config.actions.pay.config.showTip">
+                                    <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleActionPayConfigs('showTip')"></i>
+                                </div>
+                                <div ng-hide="wallet_config.actions.pay.config.showTip">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleActionPayConfigs('showTip')"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row divider-15">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <span>Tip type</span>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div class="custom-radio-groups-btn" style="width: 100%;">
+                                <label class="margin-right-10 pointer" style="margin-right: 35px!important;">
+                                    <input class="pointer" type="radio" value="fixed" ng-model="wallet_config.actions.pay.config.tipType">
+                                    <span class="custom-radio-btn">Fixed</span>
+                                </label>
+                                <label class="margin-right-10 pointer">
+                                    <input class="pointer" type="radio" value="" ng-model="wallet_config.actions.pay.config.tipType">
+                                    <span class="custom-radio-btn">Percentage</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group divider-20">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">  
+                        <label class="divider-10" style="font-size:15px; font-weight: bold">Donation configurations</label>                      
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <button ng-click="openAddDonationRecipientModal('app/pages/services/appService/appServiceAppConfig/appConfigActions/appActionDonationRecipients/addActionDonationRecipientModal/addActionDonationRecipientModal.html','md')"
+                        class="btn btn-primary dashboard-btn" style="margin-top: -8px;">Add</button>
+                    </div>
+                </div>
+                <div>
+                    <div ng-show="wallet_config.actions.donate.config.users.length > 0" class="form-group">
+                        <table class="table custom-table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="20%" class="no-left-padding">Name</th>
+                                    <th width="35%">Profile</th>
+                                    <th width="25%">Email</th>
+                                    <th width="20%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="recipient in wallet_config.actions.donate.config.users track by $index">
+                                    <td width="20%" class="transactions-list-element">{{recipient.name}}</td>
+                                    <td width="35%" class="transactions-list-element">{{recipient.profile}}</td>
+                                    <td width="25%" class="transactions-list-element">{{recipient.email}}</td>
+                                    <td width="20%" class="transactions-list-element no-left-padding" style="padding-right: 10px;">
+                                        <a ng-click="deleteDonationRecipientConfirmation($index)"
+                                        class="pull-right pointer">Delete</a>
+                                        <a ng-click="openEditDonationRecipientModal('app/pages/services/appService/appServiceAppConfig/appConfigActions/appActionDonationRecipients/editActionDonationRecipientModal/editActionDonationRecipientModal.html','md', $index)"
+                                        class="pull-right pointer user-address-edit margin-right-25">Edit</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-hide="wallet_config.actions.donate.config.users.length > 0">
+                        <i>No donation recipients added.</i>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group divider-20">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"> 
+                        <label class="divider-10" style="font-size:15px; font-weight: bold">Prepaid configurations</label>               
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <button ng-click="openAddPrepaidProviderConfigModal('app/pages/services/appService/appServiceAppConfig/appConfigActions/appActionPrepaidProviders/addPrepaidProviderModal/addPrepaidProviderModal.html','md')"
+                        class="btn btn-primary dashboard-btn" style="margin-top: -8px;">Add</button>
+                    </div>
+                </div>
+                <div>
+                    <div ng-show="wallet_config.actions.prepaid.config.prepaidCurrencies.length > 0" class="form-group">
+                        <table class="table custom-table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="20%" class="no-left-padding">Currency</th>
+                                    <th width="50%">Deposit provider</th>
+                                    <th width="30%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="prepaidCurrency in wallet_config.actions.prepaid.config.prepaidCurrencies track by $index">
+                                    <td width="20%" class="transactions-list-element">{{prepaidCurrency.currency.code}}</td>
+                                    <td width="50%" class="transactions-list-element">
+                                        <span ng-repeat="provider in prepaidCurrency.providers">
+                                            {{provider}}<span ng-if="!$last">,&nbsp;</span>
+                                        </span>
+                                    </td>
+                                    <td width="30%" class="transactions-list-element no-left-padding" style="padding-right: 10px;">
+                                        <a ng-click="openDeletePrepaidProviderConfigPrompt($index)" class="pull-right pointer">Delete</a>
+                                        <a ng-click="openEditPrepaidProviderConfigModal('app/pages/services/appService/appServiceAppConfig/appConfigActions/appActionPrepaidProviders/editPrepaidProviderModal/editPrepaidProviderModal.html','md', $index)"
+                                        class="pull-right pointer user-address-edit margin-right-25">Edit</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-hide="wallet_config.actions.prepaid.config.prepaidCurrencies.length > 0">
+                        <i>No prepaid configurations added.</i>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group divider-20">
+                <label class="divider-20" style="font-size:15px; font-weight: bold">Send configurations</label>
+                <div class="row divider-15">
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                        <span >Allowed recipients methods&nbsp;&nbsp;
+                            <span>
+                                <i uib-tooltip-html="'Select the type of recipient methods your users can choose to send to.
+                                   All 3 are selected by default. Deselecting crypto will prevent your users from sending crypto outside of the system.'"
+                                   class="ion-information-circled setup-groups-tooltip"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                        <div class="wallet-accounts-config">
+                            <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                                <input type="checkbox" ng-checked="wallet_config.actions.send.config.recipient.indexOf('email') > -1" ng-click="handleActionsSendRecipientType('email')">
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;Email
+                                </span>
+                            </label>
+                            <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                                <input type="checkbox" ng-checked="wallet_config.actions.send.config.recipient.indexOf('mobile') > -1" ng-click="handleActionsSendRecipientType('mobile')">
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;Mobile
+                                </span>
+                            </label>
+                            <label class="checkbox-inline custom-checkbox nowrap onboarding-email-checkbox">
+                                <input type="checkbox" ng-checked="wallet_config.actions.send.config.recipient.indexOf('crypto') > -1" ng-click="handleActionsSendRecipientType('crypto')">
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;Crypto
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider-15">
+                    <span>Confirm message&nbsp;&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'A message that is displayed on the confirm screen when users send.'" class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="form-group divider-15">
+                        <textarea rows="4" class="form-control" style="height: 125px!important;" ng-model="wallet_config.actions.send.config.confirmMessage"></textarea>
+                </div>
+            </div>
+            <br>
+            <div class="form-group divider-20">
+                <label class="divider-20" style="font-size:15px; font-weight: bold">Withdraw configurations</label>
+                <div class="divider-15">
+                    <span>Confirm message&nbsp;&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'A message that is displayed on the confirm screen when users make a withdrawal.'" class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="form-group divider-10">
+                    <textarea rows="4" class="form-control" style="height: 125px!important;" ng-model="wallet_config.actions.withdraw.config.confirmMessage"></textarea>
+                </div>
+                <div class="divider-15">
+                    <span>Success message&nbsp;&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'A message that is displayed on the success screen after users make a withdrawal.'"class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="form-group divider-10">
+                    <textarea rows="4" class="form-control" style="height: 125px!important;" ng-model="wallet_config.actions.withdraw.config.message"></textarea>
+                </div>
+                <div class="divider-15">
+                    <span>Convert to withdraw pairs&nbsp;&nbsp;
+                        <span>
+                            <i uib-tooltip-html="'Adding currency pairs here will activate the convert-to-withdraw flow. This allows user to perform a conversion and a withdrawal
+                             in one action. For example, currency pair XBT:USD would allow users to withdraw bitcoin to a US bank account by converting the bitcoin to USD and then
+                              making a withdrawal.'"class="ion-information-circled setup-groups-tooltip"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="divider-15">
+                    <div class="row form-group" ng-repeat="pair in wallet_config.actions.withdraw.config.selectedPairs track by $index">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <label>From</label>
+                            <div class="reward-multi-select">
+                                <select chosen
+                                        single
+                                        width="100"
+                                        ng-model="pair.fromCurrency"
+                                        ng-options="currency.code for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                        <!-- ng-options="currency.code for currency in currenciesList | excludeSelectedFromCurrency:pair.fromCurrency:wallet_config.actions.withdraw.config.selectedPairs | orderBy: 'code' track by currency.code"> -->
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <label>To</label>
+                            <div class="reward-multi-select">
+                                <select chosen
+                                        single
+                                        width="100"
+                                        ng-model="pair.toCurrency"
+                                        ng-options="currency.code for currency in currenciesList | orderBy: 'code' track by currency.code">
+                                        <!-- ng-options="currency.code for currency in currenciesList | excludeSelectedToCurrency:pair.toCurrency:wallet_config.actions.withdraw.config.selectedPairs | orderBy: 'code' track by currency.code"> -->
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-show="$last" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="margin-top: 26px;">
+                            <i class="fa fa-minus-square-o product-prices-remove-icon"
+                               ng-click="removeWithdrawPair()"></i>
+                            <i class="fa fa-plus-square-o product-prices-last-child" ng-click="addNewWithdrawPair()"></i>
+                        </div>
+                    </div>
+                    <i ng-hide="wallet_config.actions.withdraw.config.selectedPairs.length > 0"
+                       class="fa fa-plus-square-o product-prices-last-child"
+                       ng-click="addNewWithdrawPair()" style="padding-left: 0px;"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-click="updateCompanyConfigActions()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ba-panel ng-show="loadingWalletConfig">
+    <loading-image></loading-image>
+</div>

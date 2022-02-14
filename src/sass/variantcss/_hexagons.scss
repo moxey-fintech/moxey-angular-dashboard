@@ -1,0 +1,171 @@
+//use http://csshexagon.com/  to get different sizes of hexagons
+
+@mixin hexagon($width,$height,$margin){
+  position: relative;
+  background-color: $hexagon;
+  width: $width;
+  height: $height;
+  margin: $margin;
+}
+
+@mixin hexagon-before-after($border-left,$border-right){
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: $border-left;
+  border-right: $border-right;
+}
+
+@mixin hexagon-before($border-bottom){
+  bottom: 100%;
+  border-bottom: $border-bottom;
+}
+
+@mixin hexagon-after($border-top){
+  top: 100%;
+  width: 0;
+  border-top: $border-top;
+}
+
+@mixin hexagon-hex-over($width, $font-size, $top){
+  position: relative;
+  margin: auto;
+  z-index: 5;
+  color: white;
+  width: $width;
+  font-size: $font-size;
+  top: $top;
+  text-align: center;
+}
+
+.menu-hex-container{
+  display: block;
+  width: 100%;
+  margin: auto;
+}
+
+.hexagon {
+  @include hexagon(70px,40.41px,20px auto);
+}
+
+.hexagon:before,
+.hexagon:after {
+  @include hexagon-before-after(35px solid transparent,35px solid transparent);
+}
+
+.hexagon:before {
+  @include hexagon-before(20.21px solid $hexagon);
+}
+
+.hexagon:after {
+  @include hexagon-after(20.21px solid $hexagon);
+}
+.hex-over{
+  @include hexagon-hex-over(70px,20px,-48px);
+}
+
+.overview-hexagon {
+  @include hexagon(146px,84.29px,42.15px 0 42.15px 0);
+}
+
+.overview-hexagon-margin-bottom{
+  margin-bottom: 13px;
+}
+
+.overview-hexagon:before,
+.overview-hexagon:after {
+  @include hexagon-before-after(73px solid transparent,73px solid transparent);
+}
+
+.overview-hexagon:before {
+  @include hexagon-before(42.15px solid $hexagon);
+}
+
+.overview-hexagon:after {
+  @include hexagon-after(42.15px solid $hexagon);
+}
+.overview-hex-over{
+  @include hexagon-hex-over(146px,40px,-92px);
+}
+
+.dashboard-currencies-code{
+  background-color: $hexagon;
+  width: 58px;
+  border-radius: 30px;
+  padding: 20px 0;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.services-hexagon-container {
+  position: relative;
+  width: 50px;
+  top: 5px;
+  margin-bottom: 20px;
+}
+
+.services-hexagon {
+  @include hexagon(50px,28.87px,14.43px 0);
+}
+
+.services-hexagon:before,
+.services-hexagon:after {
+  @include hexagon-before-after(25px solid transparent,25px solid transparent);
+}
+
+.services-hexagon:before {
+  @include hexagon-before(14.43px solid $hexagon);
+}
+
+.services-hexagon:after {
+  @include hexagon-after(14.43px solid $hexagon);
+}
+.services-hex-over{
+  @include hexagon-hex-over(50px, 15px, -38px);
+  margin: 0 auto;
+}
+
+.long-text{
+  font-size: 11px!important;
+}
+
+.very-long-text{
+  font-size: 9px!important;
+}
+
+.long-text-overview{
+  font-size: 28px!important;
+}
+
+.very-long-text-overview{
+  font-size: 22px!important;
+}
+
+.hexagon-logo{
+  height: 41px;
+  width: 60px;
+  margin: 10px 0 12px 0;
+}
+
+.group-hexagon {
+  @include hexagon(70px,40px,20px 0 20px 0);
+}
+
+.group-hexagon-margin-bottom{
+  margin-bottom: 13px;
+}
+
+.group-hexagon:before,
+.group-hexagon:after {
+  @include hexagon-before-after(36px solid transparent,36px solid transparent);
+}
+
+.group-hexagon:before {
+  @include hexagon-before(20px solid $hexagon);
+}
+
+.group-hexagon:after {
+  @include hexagon-after(20px solid $hexagon);
+}

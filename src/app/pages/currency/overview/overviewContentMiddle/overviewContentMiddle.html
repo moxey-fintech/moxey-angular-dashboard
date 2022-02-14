@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Credits</span>
+            </div>
+            <div class="panel-body">
+                <table class="table user-details-table">
+                    <tr>
+                        <th>24h volume</th>
+                        <td class="align-right rehive-table-row-last-child currency-value-size transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_24h_credits_complete | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_credits_complete | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of transactions complete</th>
+                        <td class="align-right rehive-table-row-last-child">{{currencyOverviewData.count_credits_complete}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Debits</span>
+            </div>
+            <div class="panel-body">
+                <table class="table user-details-table">
+                    <tr>
+                        <th>24h volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_24h_debits_complete | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total volume</th>
+                        <td class="align-right rehive-table-row-last-child transactions-list-element">
+                            {{currencyObj.symbol}} 
+                            {{currencyOverviewData.sum_debits_complete | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of transactions complete</th>
+                        <td class="align-right rehive-table-row-last-child">
+                            {{currencyOverviewData.count_debits_complete}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

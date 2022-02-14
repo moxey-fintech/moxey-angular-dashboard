@@ -1,0 +1,29 @@
+<div id="addAssetConfirmationDialog">
+    <p class="divider">
+        You are adding <strong>{{isCustomAsset ? assetParams.currency_code : selectedPreListedAsset.code}}</strong> to your company. Your hot wallet 
+        will trust the issuer of the asset and your users will be able to transact with that token on the Stellar chain.
+    </p>
+    <span class="divider">Asset details:</span>
+    <br>
+    <br>
+    <div class="row divider-10">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Currency code</label></div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.currency_code : selectedPreListedAsset.code}}</div>
+    </div>
+    <div class="row divider-10">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Description</label></div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.description : selectedPreListedAsset.name}}</div>
+    </div>
+    <div class="row divider-10">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Issuer</label></div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.address : selectedPreListedAsset.address}}</div>
+    </div>
+    <div class="row divider-10">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Unit</label></div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.unit : selectedPreListedAsset.unit}}</div>
+    </div>
+    <div class="row divider-10">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label>Symbol</label></div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">{{isCustomAsset ? assetParams.symbol : selectedPreListedAsset.symbol}}</div>
+    </div>
+</div>

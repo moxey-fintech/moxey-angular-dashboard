@@ -1,0 +1,57 @@
+<div class="modal-content" ng-hide="addingCard">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+        <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add new card</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" name="cardForm">
+            <div class="form-group divider-20">
+                <label>User <span class="required-icon">*</span></label>
+                <input type="text" class="form-control" ng-model="newCardParams.user" placeholder="e.g. email@domain.com"
+                       uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" typeahead-on-select="onUserSelect($model)" ng-model-options='{ debounce: 30 }' 
+                       auto-focus="true" required>
+            </div>
+            <div class="form-group divider-20">
+                <label>Account <span class="required-icon">*</span></label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                            data-placeholder-text-single="'Choose an account'"
+                            width="100"
+                            allow-single-deselect="false"
+                            ng-model="newCardParams.account"
+                            ng-options="account.name + ' - ' + account.reference for account in accountOptions | orderBy: 'name'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+            </div>
+            <div class="form-group divider-20">
+                <label>Pin (optional)&nbsp;<i uib-tooltip-html="'A pin should be 4 or 5 numbers.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                <input class="form-control terminal-input-text" type="text" ng-model="newCardParams.pin" placeholder="e.g. 93741. Leave this blank if you don't want to set a pin.">           
+            </div>
+            <div class="form-group divider-20">
+                <label>Card ID (optional)&nbsp;<i uib-tooltip-html="'Requires a v4 UUID format ID. If left blank, Rehive will autogenerate an ID for the card.'" class="ion-information-circled setup-groups-tooltip"></i></label>
+                <input class="form-control terminal-input-text" type="text" ng-model="newCardParams.id" placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000">           
+            </div>
+            <div class="form-group divider-20">
+                <label>Nummber (optional)&nbsp;<i uib-tooltip-html="'Fill this field out if you want to associate this card to a card in an existing system or want an alternative way of identifying the card to the ID. Accepts both letters and numbers.'" class="ion-information-circled setup-groups-tooltip"></i>&nbsp;<span class="small">Must be between 1 - 20 characters</span></label>
+                <input class="form-control terminal-input-text" type="text" ng-model="newCardParams.number" placeholder="e.g. 12345678ABCDEFGH">           
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Enabled</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="newCardParams.enabled" type="checkbox">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="findUserObj(newCardParams.user)"
+                ng-disabled="!cardForm.$valid || addingCard"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ng-show="addingCard" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

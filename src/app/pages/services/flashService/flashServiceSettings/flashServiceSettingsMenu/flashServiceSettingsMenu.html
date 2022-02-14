@@ -1,0 +1,20 @@
+<div ba-panel class="service-header menu-box" ba-panel-class="light-text">
+    <!--<div class="menu-hex-container">-->
+    <!--<div class="hexagon"></div>-->
+    <!--<div class="hex-over">&nbsp;</div>-->
+    <!--</div>-->
+    <hr class="no-margin">
+    <div ng-click="goToFlashSetting('settings')"
+         ng-class="{'selected-settings-menu': flashSettingView === 'settings' }"
+         class="pointer menu-box-options">
+        <h5>Setttings <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    
+    <hr class="no-margin">
+    <div ng-click="goToFlashSetting('deactivation')"
+         ng-class="{'selected-settings-menu': flashSettingView === 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>

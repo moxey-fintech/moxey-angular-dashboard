@@ -1,0 +1,17 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Delete crypto account</h4>
+    </div>
+    <div class="modal-body">
+        <p class="divider">Address: {{userCryptoAccount.address}}</p>
+        <p class="divider">Crypto type: {{userCryptoAccount.crypto_type | capitalizeWord}}</p>
+        <p class="divider">Network type: {{userCryptoAccount.network | capitalizeWord}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="deleteUserCryptoAccount()" ng-disabled="deletingUserCryptoAccount" type="button" class="btn btn-danger delete-button pull-right">Delete</button>
+    </div>
+</div>

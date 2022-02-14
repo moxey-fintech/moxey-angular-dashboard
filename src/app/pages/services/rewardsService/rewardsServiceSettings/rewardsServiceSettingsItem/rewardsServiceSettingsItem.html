@@ -1,0 +1,76 @@
+<div ng-hide="loadingSettings" class="panel">
+    <div class="panel-body">
+        <div class="divider-10">
+            <label>Default operational account&nbsp;
+                <i uib-tooltip-html="'An operational account used to hold funds to be used for currency conversions. 
+                Buy and sell transactions will be applied to this account when end-users exchange currencies.'" 
+                class="ion-information-circled setup-groups-tooltip"></i>
+            </label>
+        </div>
+        <div class="divider-20">
+            <label class="text-subtle" style="font-weight: normal;">Select account type</label>
+            <div style="margin-top: 10px;">
+                <div class="custom-radio-groups-btn">
+                    <label class="margin-right-10 pointer">
+                        <input class="pointer" type="radio" ng-model="searchOperationalAccountBy" value="standalone">
+                        <span class="custom-radio-btn">Standalone account</span>
+                    </label>
+                    <label class="margin-right-10 pointer">
+                        <input class="pointer" type="radio" ng-model="searchOperationalAccountBy" value="user">
+                        <span class="custom-radio-btn">User account</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div ng-show="searchOperationalAccountBy === 'standalone' && !loadingAccounts" class="form-group row" style="margin: 0">
+            <label>Standalone accounts&nbsp;&nbsp;</label>
+            <div class="overwrite-dropdown-arrow">
+                <div class="reward-multi-select">
+                    <select chosen single data-placeholder-text-single="'Choose a standalone account'"
+                            width="100"
+                            ng-model="operationalAccount"
+                            ng-options="account.reference + ' - ' + account.name for account in standaloneAccountOptions">
+                            <option value=""></option>
+                    </select>
+                </div>                
+            </div>
+        </div>
+        <div ng-show="searchOperationalAccountBy === 'user' && !loadingAccounts" class="form-group row" style="margin: 0">
+            <div class="overwrite-dropdown-arrow">
+                <div class="reward-multi-select col-lg-5 col-md-5 col-sm-5 col-xs-5 no-left-padding">
+                    <label>User email&nbsp;&nbsp;<i uib-tooltip-html="'Type an email address then select a user'" 
+                        class="ion-information-circled setup-groups-tooltip"></i>
+                    </label>
+                    <input class="form-control" ng-model="userEmailForOperationalAccount"
+                        type="text" placeholder="Search user"
+                        uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                        ng-change="emailChanging()"
+                        typeahead-on-select="onSelect($model)" ng-model-options='{ debounce: 50 }' >
+                </div>
+            </div>
+            <div ng-show="showAccounts" class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <div class="overwrite-dropdown-arrow">
+                    <div class="reward-multi-select">
+                        <label>&nbsp;</label>
+                        <select chosen
+                                data-placeholder-text-single="'Choose an account'"
+                                width="100"
+                                allow-single-deselect="false"
+                                ng-model="operationalAccount"
+                                ng-options="account.name + ' - ' + account.reference for account in userAccountOptions | orderBy: 'name'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="loadingAccounts">
+            <loading-image class="custom-subtype-loading"></loading-image>
+        </div>
+        <div class="divider-20"></div>
+        <button class="btn btn-primary dashboard-btn pull-right" ng-disabled="!operationalAccount" ng-click="saveCompanySettings()" style="margin-top: 0;">Save</button>
+    </div>
+</div>
+<div ng-show="loadingSettings" class="service-header" ba-panel>
+    <loading-image></loading-image>
+</div>

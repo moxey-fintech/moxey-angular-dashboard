@@ -1,0 +1,48 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+        <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add new terminal</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" name="terminalForm" novalidate>
+            <div class="form-group divider-20">
+                <label>Name&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control terminal-input-text" type="text" ng-model="newTerminalParams.name" placeholder="e.g. Fifth Avenue terminal" required>           
+            </div>
+            <div class="form-group divider-20">
+                <label>Currencies<span class="required-icon">*</span></label>
+            <div class="reward-multi-select divider">
+                <select chosen
+                        multiple
+                        data-placeholder-text-multiple="'Choose one or more currencies'"
+                        width="100"
+                        ng-model="newTerminalParams.currencies"
+                        ng-options="currency.code for currency in currencyOptions | orderBy: 'code' track by currency.code"
+                        required>
+                <option value=""></option>
+                </select>
+            </div>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Enabled</label>
+            <br>
+            <input class="custom-rehive-checkbox" ng-model="newTerminalParams.enabled" type="checkbox">
+            </div>
+            <div class="form-group divider-20">
+                <label>Public key&nbsp;
+                    <span class="required-icon">*</span>&nbsp;
+                    <span><i class="ion-information-circled setup-groups-tooltip public-key-tooltip" tooltip-placement="right" tooltip-append-to-body="true" uib-tooltip-html="'Public key must be in ECDSA nistp256 or nistp521 format.'"></i></span>
+                </label>
+                <textarea class="form-control terminal-input-text" type="text" ng-model="newTerminalParams.public_key" placeholder="ECDSA nistp256 or nistp521 format" required></textarea>           
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addTerminal()"
+                ng-disabled="!terminalForm.$valid || addingTerminal"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>

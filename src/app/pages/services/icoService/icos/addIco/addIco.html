@@ -1,0 +1,67 @@
+<ico-service-navigation></ico-service-navigation>
+<div ng-hide="creatingIco" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Create ico</span>
+    </div>
+    <div class="panel-body">
+        <form name="icoForm" novalidate>
+            <div class="form-group">
+                <label>Currency <span class="required-icon">*</span></label>
+                <select class="form-control pointer divider" ng-model="icoParams.currency"
+                        ng-options="currency.code for currency in currenciesList | orderBy: 'code'" required>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Amount <span class="required-icon">*</span></label>
+                <input type="text" ng-model="icoParams.amount" class="form-control"  placeholder="Enter amount" required>
+            </div>
+            <div class="form-group">
+                <label>Base currency <span class="required-icon">*</span></label>
+                <select class="form-control pointer divider" ng-model="icoParams.base_currency"
+                        ng-options="currency.code for currency in currenciesList | filter: {code: '!' + icoParams.currency.code}" required>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Base goal amount <span class="required-icon">*</span></label>
+                <input type="text" ng-model="icoParams.base_goal_amount" class="form-control"  placeholder="Enter amount" required>
+            </div>
+            <div class="form-group">
+                <label>Min purchase amount</label>
+                <input type="text" ng-model="icoParams.min_purchase_amount" class="form-control"  placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>Max purchase amount</label>
+                <input type="text" ng-model="icoParams.max_purchase_amount" class="form-control"  placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>Max purchases</label>
+                <input type="number" ng-model="icoParams.max_purchases" class="form-control"  placeholder="Enter number">
+            </div>
+            <div class="form-group">
+                <label>Exchange provider</label>
+                <input type="text" ng-model="icoParams.exchange_provider" class="form-control"  placeholder="Enter exchange provider url">
+            </div>
+            <div class="form-group">
+                <label>Public</label>
+                <br>
+                <label  class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="icoParams.public" ng-checked="icoParams.public">
+                    <span></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Status <span class="required-icon">*</span></label>
+                <select class="form-control pointer divider" ng-model="icoParams.status"
+                        ng-options="status for status in icoStatusOptions" required>
+                </select>
+            </div>
+            <div class="form-group">
+                <button  ng-click="addIco(icoParams)" ng-disabled="!icoForm.$valid" class="btn btn-primary dashboard-btn pull-right">Add</button>
+                <button ng-click="goToIcoListView()" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="creatingIco" ba-panel class="service-header">
+    <loading-image></loading-image>
+</div>

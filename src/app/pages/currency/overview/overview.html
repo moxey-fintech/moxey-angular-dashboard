@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!-- <ul class="user-details-nav-bar"> -->
+            <span class="user-details-name">{{currencyObj.description | capitalizeWord}}</span>
+        <!-- </ul> -->
+    </div>
+</div>
+<div ng-hide="loadingCurrencies">
+    <div ng-show="currencyObj.description" class="row">
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 user-details-first-row">
+            <div class="form-group">
+                <div ng-hide="hasIcon || imageFile.iconFile.name" class="placeholder-div placeholder-div-icon align-items-center" style="border-radius: 55px;">100 x 100</div>
+                <div ng-show="hasIcon || imageFile.iconFile.name" class="placeholder-div placeholder-div-icon" style="background-repeat: no-repeat;border: none;">
+                    <img ng-hide="imageFile.iconFile.name" ng-src="{{currencyIconUrl}}" width="100" height="100" alt="icon Image" style="border-radius: 55px;">
+                    <img ng-show="imageFile.iconFile.name" ngf-thumbnail="imageFile.iconFile" width="100" height="100" alt="icon Image">
+                </div>
+                 <form class="divider" style="margin-bottom: -10px;">
+                    <fieldset class="custom-file-upload">
+                        <label>
+                            <span class="custom-file-upload-span">
+                                <div class="template-edit-icon-container" style="margin: -111px 0px 0px 85px;">
+                                    <i class="fa fa-2x fa-pencil" style="padding-top: 4px;"></i>
+                                </div>
+                            </span>
+                            <input style="padding-left: 5px;text-indent: -5px;width: 300px"
+                                type="file" ngf-select ng-model="imageFile.iconFile" name="file"
+                                accept="image/x-png,image/jpg,image/jpeg" ngf-max-size="5MB" required>
+                        </label>
+                    </fieldset>
+                </form>
+                <p class="small" style="margin-top: -22px">Recommended dimensions are 100 x 100px<br> PNG or JPEG format.</p>
+            </div>
+            <!-- <div>
+                <div class="alternatePhoto pointer" style="font-size: 28px; padding-top: 2px;">{{currencyObj.display_code.substring(0, 4) | uppercase}}</div>
+            </div> -->
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 user-details-first-row">   
+            <div style="width: 100%; padding-top: 5px;">
+                <span class="pull-right"><a ng-click="openEditDisplayCodeModal('app/pages/currency/overview/editDisplayCodeModal/editDisplayCodeModal.html','md')" class="pointer">Edit display code</a></span>
+                <p class="user-details-info">
+                    <strong style="color: #999999;">Display code:</strong>&nbsp;{{currencyObj.display_code}}
+                </p>
+                <p class="user-details-info">
+                    <strong style="color: #999999;">Code:</strong>&nbsp;{{currencyObj.code}}
+                </p>
+                <p class="user-details-info">
+                    <span><strong style="color: #999999;">Unit:</strong>&nbsp;{{currencyObj.unit}}</span>
+                </p>
+                <p class="user-details-info">
+                    <strong style="color: #999999;">Divisibility:</strong>&nbsp;{{currencyObj.divisibility}}
+                </p>
+                <p class="user-details-info">
+                    <span><strong style="color: #999999;">Symbol:</strong>&nbsp;{{currencyObj.symbol}}</span>                          
+                </p>
+            </div>
+        </div>
+    </div>
+<div>
+    <overview-content-top></overview-content-top>
+</div>
+<div>
+     <overview-content-middle></overview-content-middle>
+</div>
+<div>
+    <overview-content-middle-bottom></overview-content-middle-bottom>
+</div>
+</div>
+<div class="form-group">
+    <button ng-click="upload();" class="btn btn-primary dashboard-btn pull-right">Save</button>
+</div>
+<div ng-show="loadingCurrencies" ba-panel>
+    <loading-image></loading-image>
+</div>

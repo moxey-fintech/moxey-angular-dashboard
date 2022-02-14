@@ -1,0 +1,48 @@
+.upload-button{
+  color: #A9A9A9!important;
+  border: 2px solid #A8A8A8;
+}
+
+.modal-title-link-1{
+  margin: 2px 25px 0 0!important;
+}
+
+.column-filters-dropdown{
+  display: inline-flex!important;
+  width: 100%;
+  & .accounts-column-multi-select{
+    padding-left: 6px;
+    & .chosen-container{
+      width: 250px!important;
+      & > .chosen-choices{
+        line-height: 22px!important;
+        & li.search-choice{
+          margin: 3px 5px 2px 0!important;
+          padding: 1px 20px 0 5px!important;
+          & .search-choice-close{
+            top: -2.5px!important;
+          }
+        }
+        & .search-field{
+          height: 22px!important;
+          & input.chosen-search-input.default{
+            line-height: 22px!important;
+            height: 22px!important;
+            margin: 0!important;
+            width: 298px!important;
+            &::placeholder{
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.group-definition-nav {
+  background-color: transparent !important;
+  border-color: transparent!important;
+  font-size: 14px !important;
+  margin-top: -24px;
+  margin-bottom: -20px!important;
+}

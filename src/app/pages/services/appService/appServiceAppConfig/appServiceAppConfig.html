@@ -1,0 +1,14 @@
+<app-service-navigation></app-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <app-config-section-menu></app-config-section-menu>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <app-config-accounts ng-show="appConfigView === 'accounts'"></app-config-accounts>
+        <app-config-actions ng-show="appConfigView === 'actions'"></app-config-actions>
+        <app-config-auth ng-show="appConfigView === 'auth'"></app-config-auth>
+        <app-config-content ng-show="appConfigView === 'content'"></app-config-content>
+        <app-config-colors ng-show="appConfigView === 'colors'"></app-config-colors>
+        <app-config-settings ng-show="appConfigView === 'settings'"></app-config-settings>
+    </div>
+</div>

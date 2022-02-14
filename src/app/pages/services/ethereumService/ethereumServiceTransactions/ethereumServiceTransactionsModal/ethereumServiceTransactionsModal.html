@@ -1,0 +1,86 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <!--<h4 class="modal-title" id="myModalLabel">Ethereum service transaction details</h4>-->
+        <h4 class="modal-title" id="myModalLabel">Ethereum extension transaction details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Transaction hash:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="transaction.transaction_hash"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Rehive code:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-click="goToTransactions(transaction.rehive_code)" class="pointer"><a ng-bind="transaction.rehive_code"></a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Email:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <a class="pointer" ng-click="goToUser()" ng-bind="transaction.user.email"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Type:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="transaction.tx_type | capitalizeWord"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Amount:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Confirmations:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="transaction.confirmations"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Status:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p ng-bind="transaction.status"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle divider">Created:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p>{{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding">
+                <p class="text-subtle">Completed:</p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p>{{transaction.completed | date:'mediumDate'}} {{transaction.completed | date:'shortTime'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn" ng-click="$dismiss()">Close</button>
+    </div>
+</div>

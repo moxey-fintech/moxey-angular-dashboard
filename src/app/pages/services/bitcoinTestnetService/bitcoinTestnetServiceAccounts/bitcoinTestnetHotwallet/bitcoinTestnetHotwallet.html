@@ -1,0 +1,197 @@
+<div ng-show="!loadingHotwalletTransactions">
+    <!-- <div ng-show="hotwalletObjLength == 0" class="panel">
+        <div class="panel-body">
+            <i>No active hotwallet created. To enable this feature please create a hotwallet.</i>
+            <a ng-click="openAddHotwalletModal('app/pages/services/bitcoinTestnetService/bitcoinTestnetServiceAccounts/bitcoinTestnetHotwallet/addBitcoinTestnetHotwalletModal/addBitcoinTestnetHotwalletModal.html','md')" class="pull-right pointer">Create</a>
+        </div>
+    </div> -->
+
+    <div ng-show="hotwalletObjLength == 0" class="panel">
+        <div class="panel-body">
+            <div ng-show="hotwalletSetupStep == 1">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <h2 class="text-subtle" style="margin-top: 0"><strong>Get started</strong></h2>
+                        <p>To use the Bitcoin Testnet Extension you'll need to create your Hot Wallet.</p><br>
+                        <h3 class="text-subtle" style="margin-top: 10px;"><strong>What is a Hot Wallet?</strong></h3>
+                        <p>A Hot Wallet is a transactional bitcoin account that acts as a float - it's used to make on-chain transactions on behalf of your users.</p>
+                        <p>It exists to minimize risk and allows you to keep a small amount of your total cryptocurrency value in a "live" state at any one point in time.</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="text-align: right;">
+                            <img src="../../../../../../assets/img/hot-wallet-btc.svg" width="198" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <!-- Remove this and add back in line 29 when this article is written -->
+                        <!-- <p><a class="pointer" href="">Read more about Hot Wallets</a></p><br> -->
+                        <h4 class="text-subtle"><strong>Testnet</strong></h4>
+                        <p>This extension will use the Bitcoin test network and testnet bitcoins (TXBT).</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="margin-top: 50px;">
+                            <button class="btn btn-primary btn-primary-dark pull-right" ng-click="createHotwallet()"
+                            style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                                Create Hot Wallet&nbsp;&nbsp;&nbsp;
+                                <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="hotwalletSetupStep == 2" class="row">
+                <h1 class="text-subtle" style="text-align: center; margin: 0 auto 20px auto;"><strong>Success!</strong></h1>
+                <div class="align-items-center">
+                    <img src="../../../../../../assets/img/setup-complete-btc.svg" style="max-width: 375px;"/>
+                </div>                
+                <h4 class="get-started-text" style="text-align: center; margin-top: 25px;">Your Hot Wallet has been successfully created.</h4>
+                <div style="margin-top: 24px; padding-right: 15px;">
+                    <button class="btn btn-primary btn-primary-dark pull-right" ng-click="goToHotWalletPage()"
+                    style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                        Go to Hot Wallet&nbsp;&nbsp;&nbsp;
+                        <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="hotwalletObjLength > 0">
+        <div ng-show="pendingWithdrawlCount > 0" uib-alert class="pending-withdrawals-alert pointer" ng-click="searchHotwalletWithdrawals()">
+            There are <strong style="font-weight: bold;">{{pendingWithdrawlCount}}</strong> pending withdrawals. Click here to approve or decline them.
+        </div>
+        <div ng-show="unfundedTransactionsCount > 0" uib-alert class="pending-withdrawals-alert pointer" ng-click="searchUnfundedHotwalletTransactions()">
+            There are <strong style="font-weight: bold;">{{unfundedTransactionsCount}}</strong> unfunded transactions pending. Please fund the company hot wallet and then review the list for sending here.
+        </div>
+        <div class="panel">
+            <div class="panel-body crypto-disable-withdrawals-panel">
+                <div class='row crypto-withdrawal-toggle-div' >
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding  margin-left-10">
+                        <span><strong>{{hotwalletObj.rehive_account_reference}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Account reference</span>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding margin-left-10">
+                        <span style='overflow-wrap: break-word;'><strong>{{hotwalletObj.primary_bitcoin_account.address}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Public address</span>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 crypto-withdrawal-toggle-div  margin-left-10">
+                        <span>Allow crypto sends</span>
+                        <span style="float: right;  margin: 0px 12px auto 10px;">
+                        <div ng-hide="withdrawalsDisabled">
+                            <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                        </div>
+                        <div ng-show="withdrawalsDisabled">
+                            <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleHotwalletWithdrawls()"></i>
+                        </div>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" ng-repeat="currency in hotWalletCurrencies track by $index">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="dashboard-currencies-code">{{currency.currency.code}}</div>
+                    </div>
+                    <div class="currencies-page-row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div>
+                                <span><strong>{{currency.currency.symbol}} {{currency.balance | currencyModifiersFilter: currency.currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Rehive balance</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding">
+                            <div>
+                                <span><strong>{{hotwalletObj.onchain_balance ? currency.currency.symbol + ' ' + (hotwalletObj.onchain_balance | currencyModifiersFilter: currency.currency.divisibility | commaSeperateNumberFilter) : '--'}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Onchain balance</span>
+                            </div>
+                        </div>
+                        <div ng-show="currency.currency.code == 'XBT' || currency.currency.code == 'TXBT'" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div>
+                                <span><strong>{{hotwalletObj.total_fees | currencyModifiersFilter: currency.currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                <br>
+                                <span class="currencies-details-heading">Total fees</span>
+                            </div>
+                        </div>
+                        <div ng-show="currency.currency.code == 'XBT' || currency.currency.code == 'TXBT'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-right-padding no-left-padding">
+                            <button class="btn btn-primary dashboard-btn pull-right" style="margin-top: 5px!important;"
+                                    ng-click="openFundHotwalletModal('app/pages/services/bitcoinTestnetService/bitcoinTestnetServiceAccounts/bitcoinTestnetHotwallet/fundBitcoinTestnetHotwalletModal/fundBitcoinTestnetHotwalletModal.html','md')">
+                                Fund
+                            </button>
+                            <button class="btn btn-primary dashboard-btn pull-right" style="margin: 5px 10px auto auto!important;"
+                                    ng-click="openSendFromHotwalletModal('app/pages/services/bitcoinTestnetService/bitcoinTestnetServiceAccounts/bitcoinTestnetHotwallet/sendBitcoinTestnetHotwalletModal/sendBitcoinTestnetHotwalletModal.html','md')">
+                                Withdraw
+                            </button>
+                        </div>
+                        <div ng-hide="currency.currency.code == 'XBT' || currency.currency.code == 'TXBT'"  class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right no-right-padding no-left-padding">
+                            <button class="btn btn-primary dashboard-btn pull-right" style="margin-top: 5px!important;"
+                                    ng-click="openFundHotwalletModal('app/pages/services/bitcoinTestnetService/bitcoinTestnetServiceAccounts/bitcoinTestnetHotwallet/fundBitcoinTestnetHotwalletModal/fundBitcoinTestnetHotwalletModal.html','md')">
+                                Fund
+                            </button>
+                            <button class="btn btn-primary dashboard-btn pull-right" style="margin: 5px 10px auto auto!important;"
+                                    ng-click="openSendFromHotwalletModal('app/pages/services/bitcoinTestnetService/bitcoinTestnetServiceAccounts/bitcoinTestnetHotwallet/sendBitcoinTestnetHotwalletModal/sendBitcoinTestnetHotwalletModal.html','md')">
+                                Withdraw
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" style='background-color: white;height: 40px; line-height: 20px; font-size: 14px;'>
+                <a class="pointer pull-right" ng-click="goToHotwalletTransactions(currency.currency.code)">
+                    View transactions
+                </a>
+                <a ng-show="currency.currency.code == 'XBT' || currency.currency.code == 'TXBT'" class="pointer pull-right" ng-click="searchHotwalletFees()" style='margin-right: 20px;'>
+                    View fees
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div ng-show="transactions.length > 0 && !loadingHotwalletTransactions">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Recent hot wallet transactions</span>
+            </div>
+            <div class="panel-body">
+                <div ng-show="transactions.length > 0" class="divider">
+                    <table class="table custom-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Subtype</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>Transaction hash</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr ng-repeat="transaction in transactions | orderBy: '-created' track by $index" data-toggle="modal"
+                            class="editable-row center pointer user-details-table-hover">
+                            <td class="transactions-list-element" title="{{transaction.tx_type}}"  ng-bind="transaction.tx_type | capitalizeWord"></td>
+                            <td class="transactions-list-element" title="{{transaction.subtype}}"  ng-bind="transaction.subtype"></td>
+                            <td class="transactions-list-element" title="{{transaction.currency.code}}"  ng-bind="transaction.currency.code"></td>
+                            <td  class="transactions-list-element" title="{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter}}"
+                                ng-bind="transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter"></td>
+                            <td class="transactions-list-element" title="{{transaction.hash }}"  ng-bind="transaction.hash"></td>
+                            <td class="transactions-list-element" title="{{transaction.status}}"  ng-bind="transaction.status"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="transactions.length == 0">
+                    <i ng-hide="transactionsStateMessage == ''" ng-bind="transactionsStateMessage"></i>
+                    <loading-image ng-show="transactionsStateMessage == ''"></loading-image>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+</div>
+
+<div ba-panel ng-show="loadingHotwalletTransactions">
+    <loading-image></loading-image>
+</div>

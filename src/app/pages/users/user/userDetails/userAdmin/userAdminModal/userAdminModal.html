@@ -1,0 +1,38 @@
+<div ng-hide="loadingUserEmailsList" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Resend verification email</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-show="userEmailsList.length > 0">
+            <form name="userAdminForm" class="custom-form">
+                <div ng-show="filteredEmails.length >0">
+                    <label>Select email address <span class="required-icon">*</span></label>
+                    <br>
+                    <select class="form-control pointer" ng-model="selectedEmail"
+                            ng-options="email.email for email in  (filteredEmails = (userEmailsList | filter: { verified: false}))" required>
+                    </select>
+                </div>
+                <div ng-show="filteredEmails.length == 0">
+                    <i>There are no unverified email addresses associated with this account.</i>
+                </div>
+            </form>
+        </div>
+        <div ng-show="userEmailsList.length == 0">
+            <i>No email address found for this user. Please
+                <a ng-click="openAddEmailModal('app/pages/users/user/userDetails/userEmails/addUserEmailModal/addUserEmailModal.html','md')" class="pointer">add an email address</a>
+                before resending a verification email.</i>
+        </div>
+    </div>
+    <div class="modal-footer" >
+        <button ng-show="filteredEmails.length > 0" type="button" ng-click="resendEmailVerificationLink()"
+                class="dashboard-btn btn btn-primary pull-right">Resend</button>
+        <button ng-show="filteredEmails.length > 0" type="button" ng-click="$dismiss()"
+                class="dashboard-btn btn-default no-margin btn pull-left">Close</button>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserEmailsList">
+    <loading-image></loading-image>
+</div>

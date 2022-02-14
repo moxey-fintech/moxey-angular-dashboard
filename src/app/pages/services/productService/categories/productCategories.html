@@ -1,0 +1,129 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <!--
+                <button ng-click="showCategoriesFilters()" ng-class="{'transactions-filter-btn': (categoriesFiltersCount > 0), 'transactions-btn': (categoriesFiltersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="categoriesFiltersCount > 0">|</span> <span ng-show="categoriesFiltersCount > 0" class="filter-count">{{categoriesFiltersCount}}</span>
+                </button>
+                
+                <div ng-show="showingCategoriesFilters">
+                    <orders-filters></orders-filters>
+                </div>
+                -->
+            </div>
+            <button ng-click="getCategoriesLists('applyFilter')" ng-disabled="loadingCategories"
+                    class="btn btn-default transactions-btn panel-header-user-icon clear-filter-btn" style="margin-right: 0px;">Refresh</button>
+            <button ng-click="goToAddCategory()" class="btn btn-success transactions-btn panel-header-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingCategories">
+            <div ng-show="productCategories.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="categoriesPagination.itemsPerPage"  total-items="productCategories.length" ng-model="categoriesPagination.pageNo"
+                   max-size="categoriesPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getOrdersList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="productCategories.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                            <tr>
+                                <th width="15%" class="rehive-table-row-first-child">Parent category</th>
+                                <th width="15%" >First subcategory</th>
+                                <th width="15%" >Second subcategory</th>
+                                <th width="20%" >Date created</th>
+                                <th width="20%" >Date updated</th>
+                                <th width="15%" ></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div ng-repeat="parent in productCategories | orderBy: 'name' track by $index" style="margin-top: 5px;">
+                        <table class="table table-striped draggable-table">
+                            <tbody>
+                                <tr data-toggle="modal" class="editable-row center pointer user-details-table-hover">
+                                    <td width="15%" class="table-row-center transactions-list-element" ng-click="parent.showChildren = !parent.showChildren">
+                                        <i ng-show="parent.showChildren" class="fa fa-caret-down"></i>
+                                        <i ng-hide="parent.showChildren" class="fa fa-caret-right"></i>                                        
+                                        &nbsp;&nbsp;{{parent.name}}                                    
+                                    </td>
+                                    <td width="15%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',parent)">&nbsp;</td>
+                                    <td width="15%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',parent)">&nbsp;</td>
+                                    <td width="20%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',parent)">{{parent.created | date:'mediumDate'}} {{parent.created | date:'shortTime'}}</td>
+                                    <td width="20%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',parent)">{{parent.updated | date:'mediumDate'}} {{parent.updated | date:'shortTime'}}</td>
+                                    <td width="15%" class="rehive-table-row-last-child table-options" >
+                                        <a ng-click="deleteCategoryConfirm(parent)"
+                                            class="pull-right pointer sub-category-action-span">Delete</a>
+                                        <a ng-click="openEditCategoryView(parent)"
+                                            class="pull-right pointer user-address-edit margin-right-30 sub-category-action-span">Edit</a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="parent.showChildren">
+                                    <td colspan="6" class="sub-category-td">
+                                        <div ng-repeat="subCategory in parent.subCategories | orderBy: 'name' track by $index" >
+                                            <table class="table table-striped draggable-table">
+                                                <tbody>
+                                                    <tr data-toggle="modal" class="editable-row center pointer user-details-table-hover">
+                                                        <td width="15%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',subCategory)">&nbsp;</td>
+                                                        <td width="15%" class="table-row-center transactions-list-element" ng-click="subCategory.showChildren = !subCategory.showChildren">
+                                                            <i ng-show="subCategory.showChildren" class="fa fa-caret-down"></i>
+                                                            <i ng-hide="subCategory.showChildren" class="fa fa-caret-right"></i>                                                            
+                                                            &nbsp;&nbsp;{{subCategory.name}}
+                                                        </td>
+                                                        <td width="15%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',subCategory)">&nbsp;</td>
+                                                        <td width="20%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',subCategory)">{{subCategory.created | date:'mediumDate'}} {{subCategory.created | date:'shortTime'}}</td>
+                                                        <td width="20%" class="table-row-center transactions-list-element" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',subCategory)">{{subCategory.updated | date:'mediumDate'}} {{subCategory.updated | date:'shortTime'}}</td>
+                                                        <td width="15%" class="rehive-table-row-last-child table-options" ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',subCategory)">
+                                                           <a ng-click="deleteCategoryConfirm(subCategory)"
+                                                                class="pull-right pointer sub-category-action-span">Delete</a>
+                                                            <a ng-click="openEditCategoryView(subCategory)"
+                                                                class="pull-right pointer user-address-edit margin-right-30 sub-category-action-span">Edit</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-show="subCategory.showChildren">
+                                                        <td colspan="6" class="sub-category-td">
+                                                            <div ng-repeat="subChildren in subCategory.subCategories | orderBy: 'name' track by $index" >
+                                                                <table class="table table-striped draggable-table">
+                                                                    <tbody>
+                                                                        <tr data-toggle="modal" class="editable-row center pointer user-details-table-hover"
+                                                                            ng-click="displayCategoryModal('app/pages/services/productService/categories/displayCategoryModal/displayCategoryModal.html','md',subChildren)">
+                                                                            <td width="15%" class="table-row-center transactions-list-element">&nbsp;</td>
+                                                                            <td width="15%" class="table-row-center transactions-list-element">&nbsp;</td>
+                                                                            <td width="15%" class="table-row-center transactions-list-element">{{subChildren.name}}</td>
+                                                                            <td width="20%" class="table-row-center transactions-list-element">{{subChildren.created | date:'mediumDate'}} {{subChildren.created | date:'shortTime'}}</td>
+                                                                            <td width="20%" class="table-row-center transactions-list-element">{{subChildren.updated | date:'mediumDate'}} {{subChildren.updated | date:'shortTime'}}</td>
+                                                                            <td width="15%" class="rehive-table-row-last-child table-options" ng-click="showCategoriesOptionsBox(subChildren); $event.stopPropagation()" click-outside="closeCategoryOptionsBox()">
+                                                                                <a ng-click="deleteCategoryConfirm(subChildren)"
+                                                                                    class="pull-right pointer sub-category-action-span">Delete</a>
+                                                                                <a ng-click="openEditCategoryView(subChildren)"
+                                                                                    class="pull-right pointer user-address-edit margin-right-30 sub-category-action-span">Edit</a>
+                                                                            </td>
+                                                                        </tr>                                                    
+                                                                    </tbody>
+                                                                </table>                        
+                                                            </div>
+                                                        </td>
+                                                    </tr>                                                  
+                                                </tbody>
+                                            </table>                        
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>                       
+                        </table>
+                    </div>
+                </div>
+                <div ng-show="productCategories.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="categoriesPagination.itemsPerPage"  total-items="productCategories.length" ng-model="categoriesPagination.pageNo"
+                       max-size="categoriesPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getCategoriesLists()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="productCategories.length > 0">No categories are available.</i>
+        </div>
+        <div ng-show="loadingCategories">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

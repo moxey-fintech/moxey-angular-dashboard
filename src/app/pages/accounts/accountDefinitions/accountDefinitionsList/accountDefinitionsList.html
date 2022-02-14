@@ -1,0 +1,145 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button class="btn btn-primary pull-right panel-header-button currencies-page-buttons-add"
+                    ng-click="openAddAccountDefinitionModal()">
+                    Add account defnition
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-hide="loadingAccountDefinitions">
+    <div class="tabbable">
+        <ul class="nav nav-tabs group-definition-nav exports-tab">
+            <li ng-class="{'active': accountDefinitionView === 'active'}" ng-click="toggleAccountDefinitionView('active')">
+                <a href="" data-target="#activeAccountDefinitions" data-toggle="tab">Active account definitions</a>
+            </li>
+            <li ng-class="{'active': accountDefinitionView === 'archived'}" ng-click="toggleAccountDefinitionView('archived')">
+                <a href="" data-target="#archivedAccountDefinitions" data-toggle="tab">Archived account definitions</a>
+            </li>
+        </ul>
+        <div class="tab-content row no-left-padding no-right-padding">
+            <div class="tab-pane" id="activeAccountDefinitions" ng-class="{'active': accountDefinitionView === 'active'}">
+                <div ng-show="activeAccountDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="activeDefinitionObj in activeAccountDefinitions track by $index">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="user-account-panel-heading">
+                                <div class="user-account-panel-title">
+                                    <span class="currencies-details-heading">Account label</span>
+                                    <br>
+                                    <span class="currencies-details-value">{{activeDefinitionObj.label}}</span>
+                                </div>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="user-account-panel-title">
+                                    <span class="currencies-details-heading">Account name</span>
+                                    <br>
+                                    <span class="currencies-details-value">{{activeDefinitionObj.name}}</span>
+                                </div>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div ng-show="activeDefinitionObj.recon" class="user-account-panel-title">
+                                    <span class="user-account-status status-pending" style="padding-top: 2px; margin-top: -5px;">RECON</span>
+                                </div>
+                                <a ng-hide="activeDefinitionObj.archived" ng-click="showArchiveAccDefPrompt(activeDefinitionObj)" class="user-account-edit-link pull-right pointer">Archive account definition</a>
+                                <a ng-hide="activeDefinitionObj.archived" ng-click="goToAccountDefinitionEdit(activeDefinitionObj)" class="user-account-edit-link pull-right pointer margin-right-30">Manage</a>
+                                <a ng-hide="activeDefinitionObj.archived" ng-click="openEditAccountDefinitionsModal(activeDefinitionObj)" class="user-account-edit-link pull-right pointer margin-right-30">Edit</a>
+                            </div>
+                        </div>
+                        <div class="panel-body user-details-panel-body" >
+                            <table ng-show="activeDefinitionObj.groups.length > 0" class="table user-details-account-table">
+                                <tr class="user-switches-table-header">
+                                    <th width="15%" class="no-left-padding">Group</th>
+                                    <th width="30%">Currencies</th>
+                                    <th width="10%">Default</th>
+                                    <th width="10%">Primary</th>
+                                    <th width="20%"></th>
+                                    <th width="15%">
+                                        <a ng-hide="activeDefinitionObj.archived" ng-click="openAddGroupDefinitionsModal(activeDefinitionObj)" class="user-account-edit-link pull-right pointer">Add groups</a>
+                                    </th>
+                                </tr>
+                                <tr ng-repeat="groupObj in activeDefinitionObj.groups | orderBy: 'name' track by $index" class="user-account-options-row" ng-class="{'disable-pin': groupObj.archived}">
+                                    <td width="15%" class="no-left-padding" width="15%" ng-bind="groupObj.group.label"></td>
+                                    <td width="30%">
+                                        <span ng-show="groupObj.currencies.length > 0" ng-repeat="currencyObj in groupObj.currencies | orderBy: 'code' track by $index">
+                                            <span ng-style="currencyObj.archived && {'color': 'grey', 'text-decoration-line': 'line-through'}">
+                                                {{currencyObj.currency.display_code}}<span ng-show="!$last">,&nbsp;</span>
+                                            </span>                                    
+                                        </span>
+                                        <span ng-hide="groupObj.currencies.length > 0"><i>No currencies available in this group</i></span>
+                                    </td>
+                                    <td width="10%"> <input class="custom-rehive-checkbox table-checkbox" ng-model="groupObj.default" ng-change="trackGroupRoleChange(activeDefinitionObj.name, groupObj, 'default')" type="checkbox"></td>
+                                    <td width="10%"> <input class="custom-rehive-checkbox table-checkbox" ng-model="groupObj.primary" ng-change="trackGroupRoleChange(activeDefinitionObj.name, groupObj, 'primary')" type="checkbox"></td>
+                                    <td width="20%" class="user-account-panel-heading">
+                                        <div ng-show="groupObj.archived" class="user-account-panel-title" >
+                                            <span class="user-account-status status-pending" style="line-height: 1.4; top: 0; padding: 2px 8px; position: relative">ARCHIVED</span>
+                                        </div>
+                                    </td>
+                                    <td width="15%" class="rehive-table-row-last-child" ng-click="$event.stopPropagation()">
+                                        <div class="table-col-two-actions"> 
+                                            <!-- <a ng-show="groupObj.archived" ng-click="showDeleteAccDefGroupPrompt(activeDefinitionObj.name, groupObj)" class="pull-right pointer">Delete</a> -->
+                                            <a ng-show="groupObj.archived" ng-click="showRestoreAccDefGroupPrompt(activeDefinitionObj.name, groupObj)" class="pull-right pointer user-address-edit">Restore</a>
+                                            <a ng-hide="groupObj.archived" ng-click="showArchiveAccDefGroupPrompt(activeDefinitionObj.name, groupObj)" class="pull-right pointer user-address-edit">Archive group</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div ng-hide="activeDefinitionObj.groups.length > 0" style="padding-left: 24px">
+                                <i style="margin-top: 10px">No groups associated with this account definition</i>
+                                <a ng-hide="activeDefinitionObj.archived" 
+                                ng-click="openAddGroupDefinitionsModal(activeDefinitionObj)" 
+                                class="user-account-edit-link pull-right pointer margin-right-30">Add groups</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="activeAccountDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <i>No active account definitions available</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="archivedAccountDefinitions" ng-class="{'active': accountDefinitionView === 'archived'}">
+                <div ng-show="archivedAccountDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="archivedDefinitionObj in archivedAccountDefinitions track by $index">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="user-account-panel-heading">
+                                <div class="user-account-panel-title">
+                                    <span class="currencies-details-heading">Account label</span>
+                                    <br>
+                                    <span class="currencies-details-value">{{archivedDefinitionObj.label}}</span>
+                                </div>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="user-account-panel-title">
+                                    <span class="currencies-details-heading">Account name</span>
+                                    <br>
+                                    <span class="currencies-details-value">{{archivedDefinitionObj.name}}</span>
+                                </div>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="user-account-panel-title">
+                                    <span ng-show="archivedDefinitionObj.recon" class="user-account-status status-pending margin-right-30" style="margin-top: -5px;">RECON</span>
+                                    <span ng-show="archivedDefinitionObj.archived" class="user-account-status status-pending"  style="margin-left: 95px; margin-top: -5px;">ARCHIVED</span>
+                                </div>
+                                <!-- <a ng-show="archivedDefinitionObj.archived" ng-click="showDeleteAccDefPrompt(archivedDefinitionObj)" class="user-account-edit-link pull-right pointer">Delete</a> -->
+                                <a ng-show="archivedDefinitionObj.archived" ng-click="showRestoreAccDefPrompt(archivedDefinitionObj)" class="user-account-edit-link pull-right pointer">Restore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="archivedAccountDefinitions.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <i>No archived account definitions available</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccountDefinitions">
+    <loading-image></loading-image>
+</div>
+

@@ -1,0 +1,41 @@
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Exchange Pairs</span>
+        <button ng-click="openAddNewExchangePairModal('app/pages/services/krakenService/krakenServiceSettings/krakenServiceExchangePairs/addKrakenServiceExchangePair/addKrakenServiceExchangePairModal.html','md')" 
+    class="btn btn-primary transactions-btn panel-transaction-newTx-button">Add</button>
+    </div>
+    <div ng-hide="loadingExchangePairs" class="panel-body">
+        <div ng-show="krakenExchangePairsList.length > 0" class="divider">
+            <table class="table custom-table">
+                <tr>
+                    <th width="24%" class="rehive-table-row-first-child">Symbol</th>                  
+                    <th width="24%">Base currency</th>
+                    <th width="23%">Quote currency</th>
+                    <th width="23%">Enabled</th>
+                    <th width="6%"></th>
+                </tr>
+                <tr ng-repeat="pair in krakenExchangePairsList | orderBy: 'pair.id' track by $index" class="editable-row">
+                    <td width="24%" class="transactions-list-element rehive-table-row-first-child" title="{{pair.symbol}}" ng-bind="pair.symbol"></td>
+                    <td width="24%"><div title="{{pair.base_currency}}">{{pair.base_currency}}</div></td>
+                    <td width="23%"><div title="{{pair.quote_currency}}" ng-bind="pair.quote_currency" class="transactions-list-element"></div></td>
+                    <td width="23%"><div title="{{pair.enabled}}" ng-bind="pair.enabled" class="transactions-list-element" ></div></td>
+                    <td width="6%" class="rehive-table-row-last-child">
+                        <!-- <a ng-click="openEditKrakenServiceExchangePairModal('app/pages/services/krakenService/krakenServiceSettings/krakenServiceExchangePairs/editKrakenServiceExchangePair/editKrakenServiceExchangePairModal.html','md', currency)"
+                        class="pull-right pointer ">Edit</a> -->
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <p uib-pagination boundary-links="true" items-per-page="pagination.itemsPerPage"  total-items="krakenExchangePairsList.count" ng-model="pagination.pageNo"
+                max-size="pagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getKrakenExchangePairs()"
+                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-hide="krakenExchangePairsList.length > 0">
+            <i>No exchange pairs are available</i>
+        </div>
+    </div>
+    <div ng-show="loadingExchangePairs" class="service-header" ba-panel>
+        <loading-image></loading-image>
+    </div>
+</div>

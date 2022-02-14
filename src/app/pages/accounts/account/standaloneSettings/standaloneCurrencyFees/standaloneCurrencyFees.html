@@ -1,0 +1,36 @@
+<div ng-hide="loadingAccountCurrencyFees" class="setting-bank-accounts panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Fees</span>
+        <a ng-click="openAddAccountCurrencyFeeModal('app/pages/users/user/userAccountsOnly/accountSettings/accountCurrencyFees/addAccountCurrencyFee/addAccountCurrencyFee.html','md')" class="user-details-panel-link pull-right pointer">Add fee</a>
+    </div>
+    <div class="panel-body">
+        <table ng-show="accountCurrencyFeesList.length > 0" class="table fees-table setting-bank-accounts-table">
+            <tr class="divider">
+                <th class="rehive-table-row-first-child">Tx type</th>
+                <th>Amount</th>
+                <th>Percentage</th>
+                <th>Subtype</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="accountCurrencyFee in accountCurrencyFeesList track by $index">
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child" title="{{accountCurrencyFee.tx_type | capitalizeWord}}" ng-bind="accountCurrencyFee.tx_type | capitalizeWord | limitTo: '35'"></td>
+                <td class="table-row-center transactions-list-element" title="{{accountCurrencyFee.value | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter}}"
+                    ng-bind="accountCurrencyFee.value | currencyModifiersFilter: currencyObj.divisibility | commaSeperateNumberFilter"></td>
+                <td class="table-row-center transactions-list-element" title="{{accountCurrencyFee.percentage}}" ng-bind="accountCurrencyFee.percentage ? accountCurrencyFee.percentage + '%' : 'None'"></td>
+                <td class="table-row-center transactions-list-element" title="{{accountCurrencyFee.subtype ? accountCurrencyFee.subtype : 'None'}}" ng-bind="accountCurrencyFee.subtype ? accountCurrencyFee.subtype : 'None'| limitTo: '35'"></td>
+                <td class="rehive-table-row-last-child">
+                    <a ng-click="openAccountCurrencyFeesModal('app/pages/users/user/userAccountsOnly/accountSettings/accountCurrencyFees/accountCurrencyFeesModal/accountCurrencyFeesModal.html','md',accountCurrencyFee)"
+                       class="pull-right pointer ">Delete</a>
+                    <a ng-click="openEditAccountCurrencyFeeModal('app/pages/users/user/userAccountsOnly/accountSettings/accountCurrencyFees/editAccountCurrencyFee/editAccountCurrencyFee.html','md',accountCurrencyFee)"
+                       class="pull-right pointer user-address-edit margin-right-30">Edit</a>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="accountCurrencyFeesList.length == 0">
+            <i>No fees are available.</i>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAccountCurrencyFees">
+    <loading-image></loading-image>
+</div>

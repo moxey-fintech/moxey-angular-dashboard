@@ -1,0 +1,10 @@
+<app-service-navigation></app-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <app-service-settings-menu></app-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <app-service-settings-item ng-show="walletSettingView == 'settings'"></app-service-settings-item>
+        <app-service-deactivation ng-show="walletSettingView == 'deactivation'"></app-service-deactivation>
+    </div>
+</div>

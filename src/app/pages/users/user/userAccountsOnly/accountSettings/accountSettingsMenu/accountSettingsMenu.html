@@ -1,0 +1,35 @@
+<div ng-hide="loadingAccount" ba-panel class="menu-box account-currency-menu-box" ba-panel-class="light-text">
+    <div class="account-currency-settings-title">
+        <div class="user-account-currency-menu-heading">
+            <div class="user-account-currency-menu-title">
+                <span class="currencies-details-heading">Account name</span>
+                <br>
+                <span class="currencies-details-value">{{accountName}}</span>
+            </div>
+            <div class="pull-right">
+                <div class="dashboard-currencies-code account-currency-code"
+                     ng-class="{'long-text': (currencyCode.length > 4), 'very-long-text': (currencyCode.length > 6)}">{{currencyCode}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToSetting('limits')" class="pointer menu-box-options"
+         ng-class="{'account-menu-selection': subMenuLocation == 'limits'}">
+        <h5>Limits <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToSetting('fees')" class="pointer menu-box-options"
+         ng-class="{'account-menu-selection': subMenuLocation == 'fees'}">
+        <h5>Fees <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToSetting('settings')" class="pointer menu-box-options"
+         ng-class="{'account-menu-selection': subMenuLocation == 'settings'}">
+        <h5>Transaction settings <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>
+<div ba-panel ng-show="loadingAccount">
+    <loading-image></loading-image>
+</div>

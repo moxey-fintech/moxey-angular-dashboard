@@ -1,0 +1,114 @@
+<div ng-hide="editingSeller" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">View seller</h4>
+    </div>
+    <div class="modal-body padding-bottom-25">
+        <div class="row">
+            <a ng-hide="editModeOn" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingSeller()"><i class="fa fa-pencil"></i> Quick edit</a>
+            <a ng-show="editModeOn" class="pull-right divider pointer edit-transaction-divider"
+               ng-click="toggleEditingSeller()"><i class="fa fa-times"></i> Cancel edit</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Id: </p>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <span ng-bind="editSellerObj.id"></span>
+            </div>
+        </div>
+        <div class="row" ng-class="{'divider': editModeOn}">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Name: </p>
+            </div>
+            <div ng-hide="editModeOn" class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <span ng-bind="editSellerObj.name"></span>
+            </div>
+            <div ng-show="editModeOn" class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <input type="text" ng-model="editSellerObj.name" ng-change="sellerDetailsChanged('name')" class="form-control" placeholder="Name">
+            </div>
+        </div>
+        <div class="row" ng-class="{'divider': editModeOn}">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Description: </p>
+            </div>
+            <div ng-hide="editModeOn" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="editSellerObj.description"></p>
+            </div>
+            <div ng-show="editModeOn" class="col-lg-7 col-md-7 col-sm-7 col-xs-7 no-right-padding">
+                <textarea ng-model="editSellerObj.description" ng-change="sellerDetailsChanged('description')" class="form-control" placeholder="Description"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Owner: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding transaction-details-user">
+                <a class="pointer" ng-click="goToUser()" ng-bind="user.email || user.id" ></a>
+                <i ng-show="user" class="fa fa-user transaction-details-user-icon" aria-hidden="true" tooltip-placement="right" tooltip-append-to-body="true"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Account: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="editSellerObj.account"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Status: </p>
+            </div>
+            <div ng-hide="editModeOn" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p ng-bind="editSellerObj.status | capitalizeWord"></p>
+            </div>
+            <div ng-show="editModeOn" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-left-padding">
+                 <div class="reward-multi-select" style="margin-bottom: 10px!important; margin-left: 13px!important;">
+                    <select class="form-control pointer" data-placeholder-text-single="'Choose an order status'" width="100" 
+                        ng-model="editSellerObj.status" ng-change="sellerDetailsChanged('status')">
+                        <option value="pending">Pending</option>
+                        <option value="declined">Declined</option>
+                        <option value="verified">Verified</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date created: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{editSellerObj.created | date:'mediumDate'}} {{editSellerObj.created | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Date updated: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <p>{{editSellerObj.updated | date:'mediumDate'}} {{editSellerObj.updated | date:'shortTime'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                <p class="text-subtle">Metadata: </p>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                <pre ng-bind="editSellerObj.metadata"></pre>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" ng-show="editModeOn" ng-disabled="isEmpty(updatedSellerObj)" id="transaction-modal-save-button"
+                ng-click="saveSellerChanges()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="editingSeller">
+    <loading-image></loading-image>
+</div>

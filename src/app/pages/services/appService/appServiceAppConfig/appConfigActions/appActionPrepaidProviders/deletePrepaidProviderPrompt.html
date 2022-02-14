@@ -1,0 +1,10 @@
+<p>Are you sure you want to delete this prepaid config?</p><br>
+<div>
+    <span><strong>Prepaid config currency:</strong> {{deletePrepaidConfig.currency.code}}</span><br>
+    <span>
+        <strong>Deposit providers:</strong>&nbsp;
+        <span ng-repeat="provider in deletePrepaidConfig.providers">
+            {{provider}}<span ng-show="!$last">,&nbsp;</span>
+        </span>
+    </span><br>
+</div>

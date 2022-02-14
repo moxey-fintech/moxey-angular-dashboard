@@ -1,0 +1,41 @@
+<div ba-panel class="service-header menu-box" ba-panel-class="light-text">
+    <!--<div class="menu-hex-container">-->
+    <!--<div class="hexagon"></div>-->
+    <!--<div class="hex-over">&nbsp;</div>-->
+    <!--</div>-->
+    <hr class="no-margin">
+    <div ng-click="goToBitcoinSetting('settings')"
+         ng-class="{'selected-settings-menu': bitcoinSettingView == 'settings' }"
+         class="pointer menu-box-options">
+        <h5>Settings<i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    <div ng-click="goToBitcoinSetting('subtypes')"
+         ng-class="{'selected-settings-menu': bitcoinSettingView == 'subtypes' }"
+         class="pointer menu-box-options">
+        <h5>Subtype settings <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <!-- Uncomment when account-pairs has been added for Bitcoin
+    <div ng-click="goToBitcoinSetting('user defaults')"
+         ng-class="{'selected-settings-menu': bitcoinSettingView == 'user defaults' }"
+         class="pointer menu-box-options">
+        <h5>User defaults <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    -->
+    <!-- Uncomment if hdkeys section is added to settings
+    <div ng-click="goToBitcoinSetting('hdkeys')"
+         ng-class="{'selected-settings-menu': bitcoinSettingView == 'hdkeys' }"
+         class="pointer menu-box-options">
+        <h5>Public keys<i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+    -->
+    <hr class="no-margin">
+    <div ng-click="goToBitcoinSetting('deactivation')"
+         ng-class="{'selected-settings-menu': bitcoinSettingView == 'deactivation' }"
+         class="pointer menu-box-options">
+        <h5>Deactivation <i class="pull-right ion-chevron-right"></i></h5>
+    </div>
+    <hr class="no-margin">
+</div>

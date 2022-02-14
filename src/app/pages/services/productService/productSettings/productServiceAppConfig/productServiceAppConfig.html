@@ -1,0 +1,114 @@
+<div ng-hide="updatingGeneralSettings || fetchingAppConfig"> 
+    <div ng-show="appServiceUrl">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">App config product settings</span><a class="user-details-panel-link pull-right pointer" href="#/extensions/app/json-config">JSON config</a>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Default product display currency</label>
+                    <div class="reward-multi-select">
+                        <select chosen
+                                single
+                                data-placeholder-text-single="'Choose a currency'"
+                                width="100"
+                                ng-model="productAppConfig.product.defaultCurrency"
+                                ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Only show these currency options when browsing products</label>
+                    <div class="reward-multi-select">                        
+                        <select chosen
+                                multiple
+                                data-placeholder-text-multiple="'Choose one or more currencies'"
+                                width="100"
+                                ng-model="productAppConfig.product.currencies"
+                                ng-options="currency.code + ' - ' + currency.description for currency in currenciesList | orderBy: 'code' track by currency.code">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button ng-click="updateCompanyConfigProduct()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Sale settings</span>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <div class="form-group">
+                        <label>Show "New sale" button for groups</label>
+                        <div class="reward-multi-select">                        
+                            <select chosen
+                                    multiple
+                                    data-placeholder-text-multiple="'Choose one or more groups'"
+                                    width="100"
+                                    ng-model="productAppConfig.product.sales.userGroups"
+                                    ng-options="group.label for group in groups | orderBy: 'name' track by group.name">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="divider-20" style="font-size: 14px; font-weight: bold">Invoice configurations</label>
+                        <div class="form-group divider-15">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                    <span>Show discount on invoice form</span>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                                    <div ng-show="productAppConfig.product.sales.invoiceConfig.showDiscount">
+                                        <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showDiscount')"></i>
+                                    </div>
+                                    <div ng-hide="productAppConfig.product.sales.invoiceConfig.showDiscount">
+                                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showDiscount')"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group divider-15">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                    <span>Show tax on invoice form</span>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-top: -10px;">
+                                    <div ng-show="productAppConfig.product.sales.invoiceConfig.showTax">
+                                        <i class="fa fa-toggle-on user-switch-active setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showTax')"></i>
+                                    </div>
+                                    <div ng-hide="productAppConfig.product.sales.invoiceConfig.showTax">
+                                        <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive setting-toggle-sm no-margin" ng-click="toggleProductSalesInvoiceConfig('showTax')"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="updateCompanyConfigProduct()" class="btn btn-primary dashboard-btn pull-right">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div ng-hide="appServiceUrl">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">App config product settings</span>
+            </div>
+            <div ng-hide="appServiceUrl" class="panel-body">
+                <div>
+                    <i>The App Extension is required to use these app config options. Please <a class="pointer" href="#/extensions?slug=app_service">enable the App Extension.</a></i>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+
+<div ng-show="updatingGeneralSettings || fetchingAppConfig" class="row">
+    <div ba-panel class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <loading-image></loading-image>
+    </div>
+</div>

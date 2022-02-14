@@ -1,0 +1,38 @@
+# Default values for rehive-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+deployment:
+  replicaCount: 3
+  resources:
+    requests:
+      memory: 450M
+      cpu: 500m
+image:
+  repository: gcr.io/rehive-services/rehive-dashboard
+  tag: latest
+  pullPolicy: Always
+service:
+  name: nginx
+  type: NodePort
+  externalPort: 80
+  internalPort: 80
+ingress:
+  enabled: true
+  hosts:
+    - dev.dashboard.rehive.com
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+  tls:
+    - hosts:
+      - dev.dashboard.rehive.com
+      secretName: rehive-dashboard-tls
+management:
+  enabled: false
+postgres:
+  enabled: false
+redis:
+  enabled: false
+rabbitmq:
+  enabled: false
+workersEnabled: false

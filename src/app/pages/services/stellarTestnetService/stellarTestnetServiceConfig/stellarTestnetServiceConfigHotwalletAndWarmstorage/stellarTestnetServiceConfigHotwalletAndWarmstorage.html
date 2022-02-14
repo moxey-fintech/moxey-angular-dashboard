@@ -1,0 +1,62 @@
+<div ng-hide="fundingHotwallet" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Hot wallet & Warm storage</span>
+    </div>
+    <div class="panel-body">
+        <div class=" row divider-25">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <ul class="ul-no-dot">
+                    <li><strong>Hot wallet</strong></li>
+                    <li>A hot wallet is a transactional account/float that is used to send transactions on behalf of your users. It exists to minimize risk and allows you to only keep a small
+                        amount of your total cryptocurrency value in a “live” state at any one point in time.</li>
+                    <!--<li>The service has generated a Stellar testnet account on your behalf to act as your company hot wallet.-->
+                    <li>The Stellar Testnet Extension has generated and funded a Stellar testnet account on your behalf to act as your company hot wallet.</li>
+                </ul>
+                <ul class="ul-no-dot" style="margin-top: 15px">
+                    <li><strong>Warm storage</strong></li>
+                    <li>Warm storage is a deposit account on the Stellar testnet network. If you want users to be able to deposit or move funds onto your system,
+                        it's best to setup a warm storage.</li>
+                    <!--<li>The service has generated a Stellar testnet account on your behalf to act as your company hot wallet.-->
+                    <li>Rehive has generated a Warm storage account using your Hot wallet's public address.</li>
+                </ul>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 custom-form">
+                <div>
+                    <img class="stellar-hotwallet-qr-code" ng-src="{{hotWalletFundObj.qr_code}}">
+                    <p ngclipboard ngclipboard-success="copiedSuccessfully()" data-clipboard-text="{{hotWalletFundObj.account_address}}"
+                       class="text-center stellar-hotwallet-address pointer"><strong>{{hotWalletFundObj.account_address}}</strong></p>
+                    <div class="form-group text-center">
+                        Your Hot wallet & Warm storage public address. This is the address users will make deposits to in order to fund their accounts.
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--<button ng-click="fundAccountUsingFriendbot()"-->
+                                    <!--ng-disabled="hotwalletHasBeenFunded"-->
+                                    <!--ng-class="{'btn-primary': !hotwalletHasBeenFunded,'disable-btn': hotwalletHasBeenFunded}" class="btn" style="margin: 20px auto;">-->
+                                <!--Fund my account <i class="fa fa-check" aria-hidden="true"></i>-->
+                            <!--</button>-->
+                            <loading-image class="stellar-testnet-hotwallet-funding-spinner"
+                                           ng-show="fundingAccountUsingTestnet"></loading-image>
+                            <p ng-show="fundingAccountUsingTestnet" class="stellar-public-key-help-message">
+                                Funding hotwallet. Please wait.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="no-margin-horizontal">
+        <div class="form-group">
+            <button ng-click="goBack('user defaults')"
+                    ng-disabled="fundingAccountUsingTestnet"
+                    class="btn btn-primary setup-skip-btn pull-left dashboard-btn">Back
+            </button>
+            <!--<button ng-click="goToConfigView('custom asset')"-->
+                    <!--ng-disabled="fundingAccountUsingTestnet"-->
+                    <!--class="btn btn-primary setup-skip-btn pull-left dashboard-btn margin-left-10">Skip-->
+            <!--</button>-->
+            <button ng-click="goToNext('hotwallet warmstorage', 'custom asset')" ng-disabled="fundingAccountUsingTestnet" class="btn btn-primary pull-right dashboard-btn">Next
+            </button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="fundingHotwallet">
+    <loading-image></loading-image>
+</div>

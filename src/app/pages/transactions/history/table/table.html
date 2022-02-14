@@ -1,0 +1,94 @@
+<div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showFilters()" ng-class="{
+                'transactions-filter-btn-large-filters': (filtersCount >= 10),
+                'transactions-filter-btn': (filtersCount > 0 && filtersCount < 10),
+                'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <span  click-outside="closeColumnFiltersBox()">
+                    <button ng-click="showColumnFilters()" class="btn dynamic-columns btn-default">Columns</button>
+                    <div ng-show="showingColumnFilters">
+                        <history-columns-filter></history-columns-filter>
+                    </div>
+                </span>
+                <div ng-show="showingFilters">
+                    <history-filters></history-filters>
+                </div>
+            </div>
+            <button ng-click="openExportTransactionsModal('app/pages/transactions/history/exportConfirmModal/exportConfirmModal.html', 'md')"
+                    class="btn btn-default dynamic-columns panel-header-transaction-export">Export</button>
+            <button ng-click="getLatestTransactions('applyFilter')" ng-disabled="loadingTransactions"
+                    class="btn btn-default dynamic-columns panel-header-user-icon">Refresh</button>
+            <button ng-click="openMakeTransactionModal('app/pages/transactions/history/makeTransactionModal/makeTransactionModal.html', 'md')"
+                    class="btn btn-primary transactions-btn panel-transaction-newTx-button">New</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered</p>
+        </div>
+        <div ng-show="transactions.length > 0" class="upper-pagination">
+            <div class="small subtle pull-left" style="margin: 5px 0 12px 0; color: #707070;">Transactions on recon accounts are not shown by default. 
+                Use filters to either include or show only recon account txns.
+            </div>
+            <ul class="pagination pagination-sm pull-right" style="margin: 0">
+                <li class="page-item pointer" ng-class="{'disable-pagination': !pagination.prevCursor, 'page-item-hover': pagination.prevCursor}">
+                      <a ng-click="paginationChanged('prevCursor')"> <span aria-hidden="true">Previous</span> <span class="sr-only">&laquo;</span> </a>
+                </li>
+                <li class="page-item pointer" ng-class="{'disable-pagination': !pagination.nextCursor, 'page-item-hover': pagination.nextCursor}">
+                      <a ng-click="paginationChanged('nextCursor')"> <span aria-hidden="true">Next</span> <span class="sr-only">&raquo;</span> </a>
+                </li>
+            </ul>
+        </div>
+        <div ng-show="transactions.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="draggable-headers" lr-drag-src="headers" lr-drop-target="headers" ng-click="orderByFunction(header)" ng-class="styleHeaders(header)"
+                            ng-repeat="header in headerColumns track by $index" ng-if="header.visible">
+                            <span ng-class="styleHeaders(header)">{{header.colName}}</span>&nbsp;&nbsp;
+                            <i ng-class="{'selected-sorting-caret': (applyFiltersObj.orderByFilter.selectedOrderByOption.tableFieldName == header.fieldName)}"
+                               ng-show="((applyFiltersObj.orderByFilter.selectedOrderByDirection == 'Desc') && (applyFiltersObj.orderByFilter.selectedOrderByOption.tableFieldName == header.fieldName))"
+                               class="fa fa-caret-down"></i>
+                            <i ng-class="{'selected-sorting-caret': (applyFiltersObj.orderByFilter.selectedOrderByOption.tableFieldName == header.fieldName)}"
+                               ng-show="applyFiltersObj.orderByFilter.selectedOrderByDirection == 'Asc' && (applyFiltersObj.orderByFilter.selectedOrderByOption.tableFieldName == header.fieldName)"
+                               class="fa fa-caret-up"></i>
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="transaction in transactions track by $index" data-toggle="modal"
+                        class="editable-row center pointer user-details-table-hover" ng-click="openModal('app/pages/transactions/history/historyModal/historyModal.html', 'md',transaction)">
+                        <td class="transactions-list-element" ng-repeat="header in headerColumns track by $index"
+                            ng-if="header.visible" ng-bind="transaction[header.fieldName]" 
+                            ng-class="{'system-users-temporary': (header.fieldName == 'user' && transaction.tempUser) || (header.fieldName == 'partner' && transaction.tempPartner)}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="transactions.length > 0" style="margin-top: 22px;">
+                <ul class="pagination pagination-sm pull-right" style="margin: 0">
+                    <li class="page-item pointer" ng-class="{'disable-pagination': !pagination.prevCursor, 'page-item-hover': pagination.prevCursor}">
+                          <a ng-click="paginationChanged('prevCursor')"> <span aria-hidden="true">Previous</span> <span class="sr-only">&laquo;</span> </a>
+                    </li>
+                    <li class="page-item pointer" ng-class="{'disable-pagination': !pagination.nextCursor, 'page-item-hover': pagination.nextCursor}">
+                          <a ng-click="paginationChanged('nextCursor')"> <span aria-hidden="true">Next</span> <span class="sr-only">&raquo;</span> </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div ng-show="transactions.length == 0">
+            <i ng-hide="transactionsStateMessage == ''" ng-bind="transactionsStateMessage"></i>
+            <loading-image ng-show="transactionsStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>
+
+

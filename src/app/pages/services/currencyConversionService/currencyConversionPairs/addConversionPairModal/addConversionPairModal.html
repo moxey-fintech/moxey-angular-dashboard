@@ -1,0 +1,180 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add conversion pair</h4>
+    </div>
+    <div class="modal-body">
+        <form ng-hide="addingConversionPair" class="custom-form" name="rateForm" novalidate>
+            <div class="form-group divider-20">
+                <div class="conversion-pair-div">
+                    <label>From currency&nbsp;<span class="required-symbol">*</span></label>
+                    <input class="form-control" style="margin-left: 0px;"
+                           ng-model="newConversionPairParams.fromCurrency" type="text" placeholder="e.g. USD" />
+                </div>
+                <div class="rates-seperator">to</div>
+                <div class="conversion-pair-div">
+                    <label>To currency&nbsp;<span class="required-symbol">*</span></label>
+                    <input class="form-control" placeholder="e.g. EUR"
+                        ng-model="newConversionPairParams.toCurrency" ng-change="trackAccountCurrency()" type="text" />
+                </div>
+            </div>
+            <div class="divider-20 setup-groups-tooltip-div">
+                <div class="divider-10">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newConversionPairParams.option" value="auto">
+                            <span class="custom-radio-btn">Auto</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="newConversionPairParams.option" value="rate">
+                            <span class="custom-radio-btn">Rate</span>
+                        </label>
+                        <label class="pointer">
+                            <input class="pointer" type="radio" ng-model="newConversionPairParams.option" value="path">
+                            <span class="custom-radio-btn">Path &nbsp;
+                                <i class="ion-information-circled setup-groups-tooltip rates-tooltip" tooltip-placement="right" tooltip-append-to-body="true"
+                                    uib-tooltip-html="'Advanced (not recommended). Use Path to peg this rate pair to another rate pair&rsquo;s rate.'"></i>
+                            </span>
+                        </label>      
+                        <label class="pointer">
+                            <input class="pointer" type="radio" ng-model="newConversionPairParams.option" value="pad">
+                            <span class="custom-radio-btn">Padding &nbsp;
+                                <i class="ion-information-circled setup-groups-tooltip rates-tooltip" tooltip-placement="right" tooltip-append-to-body="true"
+                                    uib-tooltip-html="'Select &#8220;Padding&#8221; to pad your rate by a percentage in order to hedge against currency volatility.'"></i>
+                            </span>
+                        </label>                      
+                    </div>                    
+                </div>
+                <div style="margin-top: 10px">
+                    <input ng-show="newConversionPairParams.option === 'rate'" class="form-control rates-input-text" type="text" ng-model="newConversionPairParams.rate" placeholder="e.g. 1.0">
+                    <input ng-show="newConversionPairParams.option === 'path'" class="form-control rates-input-text" type="text" ng-model="newConversionPairParams.path" placeholder="{{ pathPlaceholder }}">
+                    <input ng-show="newConversionPairParams.option === 'pad'" class="form-control rates-input-text" type="text" ng-model="newConversionPairParams.pad" placeholder="e.g. 1.5">
+                </div>
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Enabled</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="newConversionPairParams.enabled" type="checkbox">
+            </div>
+            <div class="form-group divider-20 setup-groups-tooltip-div">
+                <label>Quote duration&nbsp;
+                    <i class="ion-information-circled setup-groups-tooltip rates-tooltip" tooltip-placement="right" tooltip-append-to-body="true"
+                        uib-tooltip-html="'This will default to 10 minutes if left blank.'"></i></label>
+                <input class="form-control" style="margin-left: 0px;"
+                        ng-model="newConversionPairParams.quote_duration" type="number" min="0" placeholder="Enter duration in minutes e.g. 5" />
+            </div>
+            <div ng-show="showAdvancedOption" class="form-group divider-20 setup-groups-tooltip-div">
+                <label class="conversion-pair-header">Operational account&nbsp;
+                    <i uib-tooltip-html="'An operational account used to hold funds to be used for currency conversions. 
+                    Buy and sell transactions will be applied to this account when end-users exchange currencies.'" 
+                    class="ion-information-circled setup-groups-tooltip"></i>
+                </label>
+                <div class="divider-10">
+                    <label>Search by</label>
+                    <div class="custom-form row">
+                        <div class="custom-radio-groups-btn col-lg-9 col-md-9 col-sm-9 col-xs-9 no-left-padding" >
+                            <label class="pointer">
+                                <input class="pointer" type="radio" value="user" ng-model="searchAccountBy">
+                                <span class="custom-radio-btn">User email address</span>
+                            </label>
+                            <label class="margin-right-10 pointer">
+                                <input class="pointer" type="radio" value="reference" ng-model="searchAccountBy">
+                                <span class="custom-radio-btn">Account reference</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-3 col-md-34 col-sm-3 col-xs-3">&nbsp;</div>
+                    </div>
+                </div>
+                <div ng-hide="searchAccountBy === 'user'">
+                    <div>
+                        <label>Account reference&nbsp;&nbsp;<i uib-tooltip-html="'Type an account reference then select an account and press &#8217;search&#8217;'" 
+                            class="ion-information-circled setup-groups-tooltip"></i>
+                        </label>
+                        <div class="row">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 no-left-padding no-right-padding">
+                                <input class="form-control" ng-model="conversionPairAccountRef"
+                                    type="text" placeholder="Search accounts using account reference"
+                                    uib-typeahead="account for account in getAccountsReferenceTypeahead($viewValue)"
+                                    ng-change="referenceChanging()"
+                                    typeahead-on-select="onReferenceSelect($model)" ng-model-options='{ debounce: 30 }' >
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-left-padding no-right-padding">
+                                <button ng-disabled="!searchAccount" class="btn dashboard-btn pull-right" ng-click="triggerSearchByReference()"
+                                ng-class="{'btn-primary': searchAccount}" style="margin-top: 0px;">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="showRefSearchAccounts && conversionPairAccountRef !== ''" style="margin-top: 15px">
+                        <div class="reward-multi-select">
+                            <label>Select accounts</label>
+                            <select chosen
+                                    data-placeholder-text-single="'Choose an operational account'"
+                                    width="100"
+                                    allow-single-deselect="false"
+                                    ng-model="newConversionPairParams.operational_account"
+                                    ng-options="account.name + ' - ' + account.reference for account in conversionPairReferenceAccounts | orderBy: 'name'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="searchAccountBy === 'user'">
+                    <div>
+                        <label>User email&nbsp;&nbsp;<i uib-tooltip-html="'Type an email address then select a user and press &#8217;search&#8217;'" 
+                            class="ion-information-circled setup-groups-tooltip"></i>
+                        </label>
+                        <div class="row">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 no-left-padding no-right-padding">
+                                <input class="form-control" ng-model="conversionPairUserEmail"
+                                type="text" placeholder="Search accounts using user email address"
+                                uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)"
+                                ng-change="emailChanging()"
+                                typeahead-on-select="onUserSelect($model)" ng-model-options='{ debounce: 30 }' >
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-left-padding no-right-padding">
+                                <button ng-disabled="!searchUser" class="btn dashboard-btn pull-right" ng-click="triggerSearchByUser()"
+                                ng-class="{'btn-primary': searchUser}" style="margin-top: 0px;">Search</button>
+                            </div>
+                        </div> 
+                    </div>
+                    <div ng-show="showEmailSearchAccounts && conversionPairUserEmail !== ''" style="margin-top: 15px">
+                        <label>Select accounts  <span class="required-icon" ng-show="currencyNotInAcc">Account doesn't contain from_currency</span></label>
+                        <div ng-show="conversionPairUserAccounts.length > 0" class="reward-multi-select">
+                            <select chosen
+                                    data-placeholder-text-single="'Choose an operational account'"
+                                    width="100"
+                                    allow-single-deselect="false"
+                                    ng-model="newConversionPairParams.operational_account"
+                                    ng-change="trackAccountCurrency()"
+                                    ng-options="account.name + ' - ' + account.reference for account in conversionPairUserAccounts | orderBy: 'name'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div ng-hide="conversionPairUserAccounts.length > 0" style="margin-top: 10px;">
+                            <span class="required-icon">No accounts found for this user.&nbsp;</span>
+                            <span><a class="pointer" ng-click="openAddAccountModal('app/pages/accounts/accountsList/newAccountModal/newAccountModal.html','md')">Add an account here</a></span>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <a ng-hide="showAdvancedOption" ng-click="toggleAdvancedOption()"
+               class="pointer">Advanced options</a>
+            <a ng-show="showAdvancedOption" ng-click="toggleAdvancedOption()"
+               class="pointer">Hide advanced options</a>
+        </form>
+        <div ng-show="addingConversionPair" class="service-header" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 0;">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addRate()"
+                ng-disabled="!newConversionPairParams.fromCurrency || !newConversionPairParams.toCurrency 
+                || (newConversionPairParams.option === 'rate' && !newConversionPairParams.rate) 
+                || (newConversionPairParams.option === 'path' && !newConversionPairParams.path) 
+                || addingConversionPair"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>

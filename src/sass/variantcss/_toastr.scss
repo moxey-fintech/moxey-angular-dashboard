@@ -1,0 +1,39 @@
+#toast-container .toast{
+  opacity: 1 !important;
+  //margin: 0px 72px 14px 0px !important;
+  margin: 0px 92px 14px 0px !important;
+  padding: 15px 15px 15px 15px !important;
+  box-shadow: none;
+  &:hover{
+    box-shadow: none;
+  }
+}
+
+#toast-container .toast-message{
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toast-success{
+  background-color: $primary !important;
+}
+
+.toast-error{
+  background-color: #ED675A !important;
+}
+
+#toast-container .toast.toast-success{
+  background-image: none !important;
+}
+
+#toast-container .toast.toast-error{
+  background-image: none !important;
+}
+
+#toast-container .toast.toast-info{
+  background-image: none !important;
+}
+
+#toast-container .toast.toast-warning{
+  background-image: none !important;
+}

@@ -1,0 +1,25 @@
+<div ng-hide="loadingUserActivity" class="panel" >
+    <div class="panel-heading">
+        <span class="user-details-panel-title">User activity</span>
+    </div>
+    <div class="panel-body">
+        <table class="table user-basic-info-table">
+            <tr>
+                <th width="45%">Joined</th>
+                <td>{{user.created | date:'mediumDate'}}, {{user.created | date:'shortTime'}}</td>
+            </tr>
+            <tr>
+                <th width="45%">Last login</th>
+                <td ng-show="user.last_login">{{user.last_login | date:'mediumDate'}}, {{user.last_login | date:'shortTime'}}</td>
+                <td ng-hide="user.last_login">--</td>
+            </tr>
+            <tr>
+                <th width="45%">Transactions</th>
+                <td><a  class="pointer" ng-click="goToTransactions(user.id)">View</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserActivity">
+    <loading-image></loading-image>
+</div>

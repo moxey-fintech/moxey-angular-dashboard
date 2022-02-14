@@ -1,0 +1,61 @@
+<notification-service-navigation></notification-service-navigation>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <div ng-hide="addingBulkNotification" class="panel">
+            <div class="panel-heading">
+                <span class="user-details-panel-title">Bulk add notifications</span>
+            </div>
+            <div class="panel-body">
+                <div class="divider">
+                    <table class="table custom-table divider-20">
+                        <tr>
+                            <th class="rehive-table-row-first-child">Email templates</th>
+                            <th class="no-right-padding">
+                                <div class="notification-select-all-bulk-checkbox">
+                                    <label>Select all</label>
+                                    <input class="custom-rehive-checkbox pull-right" ng-click="toggleAllBulkNotificationsStatus(bulkEmailEventOptions,'email')"
+                                           ng-model="allBulkNotifications.emailBulkEnabled" type="checkbox">
+                                </div>
+                            </th>
+                        </tr>
+                        <tr ng-repeat="bulkEmailEvent in bulkEmailEventOptions | orderBy: 'name' track by $index" class="editable-row">
+                            <td width="75%" class="transactions-list-element rehive-table-row-first-child" ng-bind="bulkEmailEvent.name"></td>
+                            <td class="transactions-list-element pull-right no-right-padding">
+                                <input class="custom-rehive-checkbox" ng-change="bulkEmailEventChanged()"
+                                       ng-model="bulkEmailEvent.enabled" type="checkbox">
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table custom-table">
+                        <tr>
+                            <th class="rehive-table-row-first-child">SMS templates</th>
+                            <th class="no-right-padding">
+                                <div class="notification-select-all-bulk-checkbox pull-right">
+                                    <label>Select all</label>
+                                    <input class="custom-rehive-checkbox" ng-click="toggleAllBulkNotificationsStatus(bulkSmsEventOptions,'sms')"
+                                           ng-model="allBulkNotifications.smsBulkEnabled" type="checkbox">
+                                </div>
+                            </th>
+                        </tr>
+                        <tr ng-repeat="bulkSmsEvent in bulkSmsEventOptions | orderBy: 'name' track by $index" class="editable-row">
+                            <td width="75%" class="transactions-list-element rehive-table-row-first-child" ng-bind="bulkSmsEvent.name"></td>
+                            <td class="transactions-list-element pull-right  no-right-padding">
+                                <input class="custom-rehive-checkbox pull-right" ng-change="bulkSmsEventChanged()"
+                                       ng-model="bulkSmsEvent.enabled" type="checkbox">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <button ng-click="findEnabledNotifications()" class="btn btn-primary dashboard-btn pull-right">Add</button>
+                    <button ng-click="goBackListView()"
+                            class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div ng-show="addingBulkNotification" class="service-header" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<stellar-testnet-service-navigation></stellar-testnet-service-navigation>
+<div ng-hide="loadingAssets">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Assets</span>
+            <span ng-hide="onchainData" class="small pull-right">
+                <span class="duplicate-transaction">No funded hot wallet detected. A funded hot wallet is required to set up a trustline with an asset.</span>
+            </span>
+            <a ng-show="onchainData" ng-click="openAddAssetsModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAssets/addStellarTestnetAssetsModal/addStellarTestnetAssetsModal.html','md')" class="user-details-panel-link pull-right pointer">Add asset</a>
+        </div>
+        <div class="panel-body">
+            <table ng-show="assetsObj.length > 0" class="table stellar-assets-table">
+                <tr>
+                    <th class="rehive-table-row-first-child">Currency code</th>
+                    <th>Issuer address</th>
+                    <th>Balance</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="asset in assetsObj track by $index">
+                    <td width="15%" class="table-row-center transactions-list-element rehive-table-row-first-child">
+                        <div class="dashboard-currencies-code">
+                            {{asset.currency_code}}
+                        </div>
+                    </td>
+                    <td width="60%" class="table-row-center transactions-list-element"><strong>{{asset.address}}</strong></td>
+                    <td width="15%" class="table-row-center transactions-list-element">{{asset.balance}}</td>
+                    <td width="10%" class="rehive-table-row-last-child">
+                        <a ng-click="openFundAssetsModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAssets/fundStellarTestnetAssetsModal/fundStellarTestnetAssetsModal.html','md', asset.id)"
+                           class="pull-right pointer ">Fund</a>
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="assetsObj.length == 0">
+                <i>No assets added yet.</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingAssets">
+    <loading-image></loading-image>
+</div>

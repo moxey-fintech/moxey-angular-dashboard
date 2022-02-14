@@ -1,0 +1,43 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getUserAccounts()" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearAccountsFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body table-filters-body">
+        <div id="accountNameFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.accountNameFilter">
+                    <span>Account name</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.accountNameFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.accountNameFilter.selectedAccountName"
+                           auto-focus="filtersObj.accountNameFilter"
+                           placeholder="Enter account name"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+        <div id="accountReferenceFilter">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.accountReferenceFilter">
+                    <span>Account reference</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.accountReferenceFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.accountReferenceFilter.selectedAccountReference"
+                           auto-focus="filtersObj.accountReferenceFilter"
+                           placeholder="Enter account reference"
+                           class="transaction-id-input" size="12">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

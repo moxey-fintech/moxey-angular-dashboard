@@ -1,0 +1,61 @@
+<div ng-hide="loadingGroupAccountConfigurations" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Add account configuration</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="accountConfigurationForm" class="custom-form">
+            <div class="form-group">
+                <label>Name <span class="required-icon">*</span></label>
+                <br>
+                <input type="text" class="form-control" ng-change="groupAccountConfigurationNameToLowercase()" ng-model="groupAccountConfigurationParams.name" placeholder="Enter name" required/>
+            </div>
+            <div class="form-group">
+                <label>Label</label>
+                <br>
+                <input type="text" class="form-control" ng-model="groupAccountConfigurationParams.label" placeholder="Enter label" />
+            </div>
+            <div class="form-group">
+                <label>Default</label>
+                <br>
+                <input class="custom-rehive-checkbox" ng-model="groupAccountConfigurationParams.default" type="checkbox">
+            </div>
+            <div class="form-group">
+                <label>Primary</span></label>
+                <br>
+                <input class="custom-rehive-checkbox"
+                       ng-change="groupAccountConfigurationParams.primary ? groupAccountConfigurationParams.default = true: ''"
+                       ng-model="groupAccountConfigurationParams.primary" type="checkbox">
+            </div>
+            <div class="form-group">
+                <label>Currencies <span class="required-icon">*</span>&nbsp;
+                    <span class="no-accounts-available"
+                          ng-hide="companyCurrenciesAvailable">No currencies found.
+                    <span ng-click="goToAddCurrencyModal()"> Add a currency here.</span>
+                </span>
+                </label>
+
+                <div class="reward-multi-select divider">
+                    <select chosen
+                            multiple
+                            data-placeholder-text-multiple="'Choose one or more currencies'"
+                            width="100"
+                            ng-model="newAccountConfigurationCurrencies.list"
+                            ng-options="currency.code for currency in currenciesList | orderBy: 'code'"
+                            required>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-click="addGroupAccountConfigurations(groupAccountConfigurationParams)" ng-disabled="!accountConfigurationForm.$valid"
+                        class="btn btn-primary user-accounts-btn pull-right">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroupAccountConfigurations">
+    <loading-image></loading-image>
+</div>

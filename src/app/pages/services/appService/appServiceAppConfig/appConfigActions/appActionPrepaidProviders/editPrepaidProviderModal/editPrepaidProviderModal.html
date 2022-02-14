@@ -1,0 +1,87 @@
+<div ng-hide="editingPrepaidConfig" class="modal-content" ng-keydown="($event.keyCode === 13) && editCustomCardToConfig()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Edit prepaid config</h4>
+    </div>
+    <div class="modal-body">
+        <form name="editPrepaidConfigForm" class="custom-form">
+            <div class="form-group divider-15">
+                <label>Currency&nbsp;<span class="required-icon">*</span></label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            single
+                            width="100"
+                            ng-model="editPrepaidConfig.currency"
+                            ng-options="currency.code for currency in currenciesList | orderBy: 'code'" required>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group divider-15" ng-disabled="!editPrepaidConfig.currency">
+                <label>Select deposit providers</label>
+                <div class="reward-multi-select">
+                    <select chosen
+                            multiple
+                            width="100"
+                            ng-model="editPrepaidConfig.providers"
+                            ng-change="test()"
+                            ng-options="provider for provider in depositProviders">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div ng-show="editPrepaidConfig.providers.indexOf('Stripe card') > -1" class="form-group divider-20">
+                <div class="form-group setup-groups-tooltip-div">
+                    <label>
+                        <strong class="strong-headers">Stripe settings</strong>
+                        <i class="fa fa-plus-square-o product-prices-add-icon left-margin-12 product-prices-add-icon-near-title"
+                           ng-hide="editPrepaidConfig.fixed.length > 0"
+                           style="left: 8px;" ng-click="addInterval()"></i>
+                    </label>
+                    <div ng-show="editPrepaidConfig.fixed.length > 0" class="form-group">
+                        <table class="table custom-table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="25%" class="no-left-padding">Default option</th>
+                                    <th width="45%">Amount</th>
+                                    <th width="30%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="intervalItem in editPrepaidConfig.fixed track by $index">
+                                    <td width="25%" class="transactions-list-element">
+                                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                                            <label class="pointer" style="margin-right: auto;">
+                                                <input class="pointer" type="radio" ng-checked="editPrepaidConfig.default === $index" ng-click="trackIntervalChanges($index)">
+                                                <span class="custom-radio-btn">&nbsp;</span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td width="45%" class="transactions-list-element">
+                                        <input type="number" ng-model="intervalItem.interval" class="form-control" placeholder="Enter amount">
+                                    </td>
+                                    <td width="30%" class="transactions-list-element no-left-padding">
+                                        <div class="align-items-center" style="height: 35px; justify-content: flex-start; margin-left: 20px;">
+                                            <i class="fa fa-minus-square-o product-prices-remove-icon"
+                                            ng-click="removeInterval(intervalItem)"></i>
+                                            <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" ng-click="addInterval()"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="updatePrepaidConfigToCompanyActionConfig()" ng-disabled="!editPrepaidConfigForm.$valid" class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>
+<div ba-panel ng-show="editingPrepaidConfig">
+    <loading-image></loading-image>
+</div>

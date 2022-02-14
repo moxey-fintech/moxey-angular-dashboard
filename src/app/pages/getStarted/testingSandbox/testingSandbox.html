@@ -1,0 +1,252 @@
+<h2 class="currencies-title get-started-title" ng-style="!inTestingSandboxTutorial && {'margin-top': '36px'}">
+    <button ng-show="inTestingSandboxTutorial" ng-click="goBackToGetStarted()" class="btn btn-default back-button-rounded" style="margin: -2px 8px 0 -50px;">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+    <strong>Testing sandbox</strong>
+</h2>
+<div ng-hide="inTestingSandboxTutorial" class="panel" style="border-radius: 8px;">
+    <div class="panel-body" style="padding: 15px 25px;">
+        <div class="get-started-panel">
+            <div class="flex-columns get-started-icons-container"><img src="assets/img/testing_config.svg" style="width: 50px; margin-top: -15px"></div>
+            <div class="flex-columns">
+                <label>Video tutorials</label>
+                <div>Useful video tutorials to test all the app features for iOS, Android and web. Make sure to first complete all the operational configurations.</div>
+            </div>
+            <div class="flex-columns">
+                <button class="btn btn-primary get-started-buttons pull-right" ng-click="goToTestingSandboxVideos()">Let's go</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="inTestingSandboxTutorial">
+    <h3>As an end-user</h3><br>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Register and complete onboarding as an individual</label>
+                    <div>Unpacking the onboarding progress, customer verification and user management.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/79d9196c58564b059c3dd550d419560a')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Create a manual bank deposit using a reference code</label>
+                    <div>Example of creating a deposit for a user by manually crediting an account via the dashboard.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/08c8c0db204449f69a23485db2448cb9')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Create a currency conversion</label>
+                    <div>How to create a currency conversion and understanding how it works from an operational perspective.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/c10a851fde00429eaf2ccfb59a454acc')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Send money to an email and mobile</label>
+                    <div>How to make peer-to-peer payments between users in the system and new users. This includes sending to an email, mobile number and scanning a QR code.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/004ed75fe056473d82d36045dd9aa9ec')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Profile and settings overview</label>
+                    <div>Learn more about profile set up, local authentication, password management, tiers and limits for users.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/344d0858c0fb4e69b55f6f8af444f16f')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3>As a business</h3><br>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Register and complete business onboarding</label>
+                    <div>How to register a new business and verify the business to enable seller features.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/2a3e203c8d8643c18ea9e6dd603de543')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Creating a manual bank deposit to credit the teller account</label>
+                    <div>Learn more about how the teller account works and create a deposit.</div>
+                </div>
+                <div class="flex-columns">
+                    <!-- <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('')">Watch video</button> -->
+                    <div class="pull-right" style="width: 95px; height: 10px;">
+                        <span class="get-started-text">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Create a teller deposit</label>
+                    <div>Example flow for creating a cash deposit at a teller or agent.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/06854001e4b149bf9187eacfee0bb72d')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Create a point of sale payment</label>
+                    <div>Example flow of creating and processing a point of sale payment.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/3b067330714a4103b1c8996d20a59ac4')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Create an invoice with a wallet payment</label>
+                    <div>Example of creating an invoice and processing a wallet payment.</div>
+                </div>
+                <div class="flex-columns">
+                    <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('https://www.loom.com/share/72930ab0388d418c939fc65f889ac71e')">Watch video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Create an invoice with a crypto payment</label>
+                    <div>Example of creating an invoice and processing a crypto payment.</div>
+                </div>
+                <div class="flex-columns">
+                    <!-- <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('')">Watch video</button> -->
+                    <div class="pull-right" style="width: 95px; height: 10px;">
+                        <span class="get-started-text">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Creating a product as a seller</label>
+                    <div>How to create a product as a seller with product variance, virtual products and physical products.</div>
+                </div>
+                <div class="flex-columns">
+                    <!-- <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('')">Watch video</button> -->
+                    <div class="pull-right" style="width: 95px; height: 10px;">
+                        <span class="get-started-text">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Creating an in-app purchase</label>
+                    <div>Example flow of buying a product directly from the app.</div>
+                </div>
+                <div class="flex-columns">
+                    <!-- <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('')">Watch video</button> -->
+                    <div class="pull-right" style="width: 95px; height: 10px;">
+                        <span class="get-started-text">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Peer-to-peer payment request</label>
+                    <div>Example flow of creating a peer to peer payment request.</div>
+                </div>
+                <div class="flex-columns">
+                    <!-- <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('')">Watch video</button> -->
+                    <div class="pull-right" style="width: 95px; height: 10px;">
+                        <span class="get-started-text">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel" style="border-radius: 8px;">
+        <div class="panel-body" style="padding: 15px 25px;">
+            <div class="get-started-panel">
+                <div class="flex-columns get-started-icons-container"><img src="assets/img/video_tile.svg" style="width: 50px; margin-top: -15px"></div>
+                <div class="flex-columns">
+                    <label>Referral rewards</label>
+                    <div>Example flow of earning a referral reward for sign ups and purchases.</div>
+                </div>
+                <div class="flex-columns">
+                    <!-- <button class="btn btn-primary get-started-buttons pull-right" ng-click="openRehiveUrl('')">Watch video</button> -->
+                    <div class="pull-right" style="width: 95px; height: 10px;">
+                        <span class="get-started-text">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

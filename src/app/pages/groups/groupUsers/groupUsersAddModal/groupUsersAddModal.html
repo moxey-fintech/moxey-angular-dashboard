@@ -1,0 +1,50 @@
+<div ng-hide="loadingGroup" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Add user to group</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="userToGroupForm" class="custom-form" novalidate>
+            <div class="divider-20 custom-form">
+                <label>Search user by</label>
+                <div class="divider-20">
+                    <div class="custom-radio-groups-btn">
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="userGroupParams.inputType" value="Email">
+                            <span class="custom-radio-btn">Email</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="userGroupParams.inputType" value="Mobile">
+                            <span class="custom-radio-btn">Mobile</span>
+                        </label>
+                        <label class="margin-right-10 pointer">
+                            <input class="pointer" type="radio" ng-model="userGroupParams.inputType" value="Id">
+                            <span class="custom-radio-btn">Id</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Search user</label>
+                <input type="text" ng-show="userGroupParams.inputType === 'Email'" ng-model="userGroupParams.email"
+                       placeholder="Enter user id, mobile number or email address" ng-model-options='{ debounce: 800 }'
+                       auto-focus class="form-control" uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)">
+                <input type="text" ng-show="userGroupParams.inputType === 'Mobile'" ng-model="userGroupParams.mobile"
+                       placeholder="Enter user id, mobile number or email address" ng-model-options='{ debounce: 800 }'
+                       uib-typeahead="mobile for mobile in getUsersMobileTypeahead($viewValue)" auto-focus class="form-control">
+                <input type="text" ng-show="userGroupParams.inputType === 'Id'" ng-model="userGroupParams.id"
+                       placeholder="Enter user id, mobile number or email address"
+                       auto-focus class="form-control">
+            </div>
+            <div class="form-group">
+                <button ng-click="getUserToAddToGroup(userGroupParams)" ng-disabled="!userToGroupForm.$valid"
+                        class="btn btn-primary user-accounts-btn pull-right">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroup">
+    <loading-image></loading-image>
+</div>

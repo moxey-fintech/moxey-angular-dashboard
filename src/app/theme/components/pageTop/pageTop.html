@@ -1,0 +1,187 @@
+<div ng-hide="settingUpDemo">
+  <div class="page-top clearfix"
+       ng-style="inCompanySetupViews && {'background-color': '#11ffee00', 'position': 'absolute'}"
+       scroll-position="scrolled" max-height="50">
+
+    <div class="show-above-1200px" style="background-color: #11ffee00;" >
+      <a ng-show="inCompanySetupViews" href="https://moxey.ai/" class="al-rehive-logo clearfix" ng-class="{'body-white': inVerification}">
+        <img style="width: 176px; height:50px; margin-bottom: 3px;" src="../../../../assets/img/moxie_logo.png">
+      </a>
+      <div class="logo-div" ng-hide="inCompanySetupViews" >
+        <a href="https://moxey.ai/" class="al-rehive-logo clearfix">
+          <img style="width: 176px; height:50px; margin: 0 0 3px 20px;" src="../../../../assets/img/moxie_logo.png">
+        </a>
+      </div>
+      <div class="user-profile clearfix">
+        <div class="al-user-profile" uib-dropdown>
+          <a uib-dropdown-toggle class="profile-toggle-link">
+            <!--<div class="alternatePhoto-page-top pointer">{{pageTopObj.userInfoObj.first_name | limitTo: 1 | uppercase}}{{pageTopObj.userInfoObj.last_name | uppercase | limitTo: 1}}</div>-->
+            <div class="pointer">
+              <div id="companyLogo" ng-show="profileImageAvailable" class="show-rehive-logo" ng-style="{'background-image': 'url(' + profileImage + ')'}"></div>
+              <!-- <div id="rehivelogo" ng-show="useRehiveLogo" class="show-rehive-logo floating-cube" ng-style="{'background-image':'url(' + rehiveLogo + ')'}"></div> -->
+              <div id="rehivelogo" ng-show="useRehiveLogo" class="show-rehive-logo floating-cube"><i class="fas fa-user-circle"></i></div>
+              <div class="user-profile-dropdown pull-right"><i class="fa fa-caret-down"></i></div>
+            </div>
+          </a>
+          <ul  class="top-dropdown-menu profile-dropdown" uib-dropdown-menu>
+            <li><i class="dropdown-arr"></i></li>
+            <li ng-show="missing2FA" class="missing-2FA"><a href="#/authentication/multi-factor" class="signout text-center pointer"><i class="profile-navbar-icon fa fa-key"></i>Enable 2FA</a></li>
+            <li ng-hide="inVerification" ng-click="viewProfile()"><a href class="signout text-center"><i class="profile-navbar-icon ion-person"></i>
+              View profile</a></li>
+            <li ng-click="logout()"><a href class="signout text-center"><i class="profile-navbar-icon ion-log-out"></i>Log out</a></li>
+          </ul>
+        </div>
+      </div>
+      <div ng-hide="inCompanySetupViews" class="search-bar-main" 
+      ng-class="{'hide-background-image': tagAdded}" click-outside="hidingSearchBar()">
+          <!-- 
+          <div ng-hide="tagAdded" class="searchtag">
+            <i class="fas fa-search searchbar-glass" style="align: middle"></i>
+          </div>-->
+          <div id="tag" ng-show="tagAdded" class="searchtag searchtag-linked"
+            ng-class="{'linked-tag-accounts': selectedTag == 'accounts', 'linked-tag-transactions': selectedTag == 'transactions', 'linked-tag-users': selectedTag == 'users'}">
+            <span class="searchbar-glass"><i class="fas fa-search" style="font-size: 16px!important; "></i></span>
+            <span class="linked-tag">{{selectedTag}}</span>
+            <span><a class="dismiss-tag" ng-click="resetCaretPosition(); event.stopPropagation();">x</a></span>
+          </div>                  
+          
+          <input id="searchBox" type="text" class="page-top-search" placeholder="Search by email, mobile number, username, transaction ID or account reference"
+              ng-class="{'page-top-search-adjusted': tagAdded}"
+              ng-style="(selectedTag == 'accounts' && {'padding-left': '151px'}) || (selectedTag == 'transactions' && {'padding-left' : '171px'})"
+              ng-model="searchString" ng-blur="trimSearchString()"
+              ng-keydown="detectKeyPress($event.keyCode)"
+              ng-click="displaySearchOptions(); $event.stopPropagation();" />        
+
+        <div ng-show="displayOptions" class="search-bar-div">
+          <div class="panel search-bar-results-box">
+            <div class="panel-body" ng-hide="loadingResults">
+              <div class="search-user-body pointer text-subtle"> Narrow your search results...</div>
+              <div class="search-user-body pointer" ng-repeat="category in selectSearchCategory track by $index" 
+                  ng-click="searchSelectedOption(category)" ng-class="{'selected-filter': category.name === selectedTag}">
+                <div class="search-user-result">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                      <span class="search-user-result-title pull-left" style="color: #00b868">{{category.name}}</span>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                      <span class="search-user-result-extra">{{category.placeholder}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="search-bar-div">
+          <search-bar-results></search-bar-results>
+        </div>
+        <div ng-show="searchString.length > 0" class="helper-text"> Press enter to search</div>
+        <span class="dashboard-tasks-icon" click-outside="closeDashboardTasksBox()">
+          <i class="fa fa-tasks pointer task-icon"  ng-click="openDashboardTasks()"></i>
+          <i ng-hide="transactionSetsExportingInProgress || accountSetsExportingInProgress 
+          || accountCurrencySetsExportingInProgress || allTasksDone 
+          || allAccountSetsDone || allAccountCurrencySetsDone" ng-click="openDashboardTasks()" 
+          class="fa fa-circle pointer task-icon-circle-1"></i>
+          <i ng-show="transactionSetsExportingInProgress || accountSetsExportingInProgress || accountCurrencySetsExportingInProgress" 
+          ng-click="openDashboardTasks()" class="fa fa-circle pointer task-icon-circle-2"></i>
+          <div ng-show="isInTestMode" class="pull-right project-mode project-mode-absolute"><i class="fas fa-vial margin-right-10"></i>Test company</div>
+          <!-- <div class="pull-right pending-docs-icon">
+            <a href class="pointer"><i class="fas fa-file-signature"></i>&nbsp;&nbsp;Pending KYC documents</a>
+          </div> -->
+          <div ng-show="showingDashboardTasks" class="dashboard-tasks-div">
+            <dashboard-tasks></dashboard-tasks>
+          </div>
+        </span>
+      </div>
+      <div class="user-company-overview pull-right">
+        <span ng-class="{'long-text': (pageTopObj.userInfoObj.email.length > 22), 'very-long-text': (pageTopObj.userInfoObj.email.length > 35)}">{{pageTopObj.userInfoObj.email}}</span>
+        <p>App ID: {{pageTopObj.companyObj.id}}</p>
+      </div>
+    </div>
+
+    <div class="show-below-1200">
+      <div>
+        <a ng-hide="inCompanySetupViews" href class="collapse-menu-link ion-navicon" ba-sidebar-toggle-menu></a>
+      </div>
+      <div ng-hide="inCompanySetupViews" class="search-bar-main-below-1200" 
+        ng-class="{'hide-background-image': tagAdded}" click-outside="hidingSearchBar()">
+          <div id="tag" ng-show="tagAdded" class="searchtag searchtag-linked"
+            ng-class="{'linked-tag-accounts': selectedTag == 'accounts', 'linked-tag-transactions': selectedTag == 'transactions', 'linked-tag-users': selectedTag == 'users'}">
+            <span class="searchbar-glass"><i class="fas fa-search"  style="font-size: 16px!important; "></i></span>
+            <span class="linked-tag">{{selectedTag}}</span>
+            <span><a class="dismiss-tag" ng-click="resetCaretPosition(); event.stopPropagation();">x</a></span>
+          </div>                  
+          
+          <input id="searchBox" type="text" class="page-top-search" placeholder="Search by email, mobile number, username, transaction ID or account reference"
+              ng-class="{'page-top-search-adjusted': tagAdded}"
+              ng-style="(selectedTag == 'accounts' && {'padding-left': '150px'}) || (selectedTag == 'transactions' && {'padding-left' : '173px'})"
+              ng-model="searchString"
+              ng-keydown="detectKeyPress($event.keyCode)"
+              ng-click="displaySearchOptions(); $event.stopPropagation();" />        
+        
+        <div ng-show="displayOptions" class="search-bar-div">
+          <div class="panel search-bar-results-box">
+            <div class="panel-body" ng-hide="loadingResults">
+              <div class="search-user-body pointer text-subtle"> Narrow your search results...</div>
+              <div class="search-user-body pointer" ng-repeat="category in selectSearchCategory track by $index" 
+                  ng-click="searchSelectedOption(category)" ng-class="{'selected-filter': category.name === selectedTag}">
+                <div class="search-user-result">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                      <span class="search-user-result-title pull-left" style="color: #00b868">{{category.name}}</span>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                      <span class="search-user-result-extra">{{category.placeholder}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="search-bar-div">
+          <search-bar-results></search-bar-results>
+        </div>
+       <div ng-show="searchString.length > 0" class="helper-text"> Press enter to search</div>
+      </div>
+      <div class="user-profile-below-1200 clearfix">
+        <div class="al-user-profile" uib-dropdown>
+          <a uib-dropdown-toggle class="profile-toggle-link">
+            <div class="pointer">
+              <div id="companyLogo" ng-show="profileImageAvailable" class="show-rehive-logo" ng-style="{'background-image': 'url(' + profileImage + ')'}"></div>
+              <!-- <div id="rehivelogo" ng-show="useRehiveLogo" class="show-rehive-logo floating-cube" ng-style="{'background-image':'url(' + rehiveLogo + ')'}"></div> -->
+              <div id="rehivelogo" ng-show="useRehiveLogo" class="show-rehive-logo floating-cube"><i class="fas fa-user-circle"></i></div>
+              <div class="user-profile-dropdown pull-right"><i class="fa fa-caret-down"></i></div>
+            </div>
+            <!-- <div class="alternatePhoto-page-top pointer">{{pageTopObj.userInfoObj.first_name | limitTo: 1 | uppercase}}{{pageTopObj.userInfoObj.last_name | uppercase | limitTo: 1}}</div> -->
+          </a>
+          <ul  class="top-dropdown-menu profile-dropdown" uib-dropdown-menu>
+            <li><i class="dropdown-arr"></i></li>
+            <li class="missing-2FA"><a href class="signout text-center pointer"><i class="profile-navbar-icon fa fa-key"></i>Add 2FA</a></li>
+            <li><span class="under-1200-user-email" ng-class="{'long-text': (pageTopObj.userInfoObj.email.length > 22), 'very-long-text': (pageTopObj.userInfoObj.email.length > 35)}">{{pageTopObj.userInfoObj.email}}</span></li>
+            <li>
+              <span class="under-1200-company-name">{{pageTopObj.companyObj.id}}</span>              
+            </li>
+            <li><span ng-show="isInTestMode" class="under-1200-company-name project-mode"><i class="fas fa-vial margin-right-10"></i>Test company</span></li>
+            <li ng-click="viewProfile()"><a href class="signout text-center"><i class="profile-navbar-icon ion-person"></i>
+              View profile</a></li>
+            <li ng-click="logout()"><a href class="signout text-center"><i class="profile-navbar-icon ion-log-out"></i>Log out</a></li>
+          </ul>
+        </div>
+        
+        <span class="dashboard-tasks-icon-below-1200" click-outside="closeDashboardBelow1200TasksBox()">
+            <i class="fa fa-tasks pointer task-icon"  ng-click="openDashboardBelow1200Tasks()"></i>
+            <i ng-hide="transactionSetsExportingInProgress || accountSetsExportingInProgress 
+              || accountCurrencySetsExportingInProgress || allTasksDone 
+              || allAccountSetsDone || allAccountCurrencySetsDone" ng-click="openDashboardBelow1200Tasks()" class="fa fa-circle pointer task-icon-circle-1"></i>
+            <i ng-show="transactionSetsExportingInProgress || accountSetsExportingInProgress || accountCurrencySetsExportingInProgress" ng-click="openDashboardBelow1200Tasks()" class="fa fa-circle pointer task-icon-circle-2"></i>
+            <div ng-show="showingDashboardTasks || showingDashboardBelow1200Tasks" class="dashboard-tasks-div-below-1200">
+              <dashboard-tasks></dashboard-tasks>
+            </div>
+          </span>
+          
+      </div>
+    </div>
+
+  </div>
+</div>

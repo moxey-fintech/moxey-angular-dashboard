@@ -1,0 +1,16 @@
+<!--<h1 class="currencies-title">Stellar Testnet Service</h1>-->
+<h1 class="currencies-title">Stellar Testnet Extension</h1>
+<div class="row" >
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <stellar-testnet-service-config-menu></stellar-testnet-service-config-menu>
+    </div>
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+        <stellar-testnet-service-setup-user-defaults ng-show="currentConfigView == 'user defaults'"></stellar-testnet-service-setup-user-defaults>
+        <stellar-testnet-service-setup-hotwallet-and-warmstorage ng-show="currentConfigView == 'hotwallet warmstorage'"></stellar-testnet-service-setup-hotwallet-and-warmstorage>
+        <stellar-testnet-service-setup-custom-asset ng-show="currentConfigView == 'custom asset'"></stellar-testnet-service-setup-custom-asset>
+        <!---->
+        <!--<stellar-testnet-service-config-hotwallet ng-show="currentConfigView == 'hot wallet'"></stellar-testnet-service-config-hotwallet>-->
+        <!--<stellar-testnet-service-config-warm-storage ng-show="currentConfigView == 'warm storage'"></stellar-testnet-service-config-warm-storage>-->
+        <!--<stellar-testnet-service-config-finish ng-show="currentConfigView == 'finish'"></stellar-testnet-service-config-finish>-->
+    </div>
+</div>

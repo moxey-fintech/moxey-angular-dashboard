@@ -1,0 +1,41 @@
+<!--<h1 class="currencies-title">Stellar Service</h1>-->
+<h1 class="currencies-title">Stellar Extension</h1>
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div ng-hide="loadingStellarService" class="panel">
+            <div class="panel-heading">
+                <!--<span class="user-details-panel-title">Configuring Stellar Service</span>-->
+                <span class="user-details-panel-title">Configuring Stellar Extension</span>
+            </div>
+            <div class="panel-body">
+                <div ng-hide="stellarConfigComplete">
+                    <div class="divider-20">
+                        <!--<p>Welcome to the Stellar Service. This setup will guide you through configuration.</p>-->
+                        <p>Welcome to the Stellar Extension. This setup will guide you through configuration.</p>
+                        <!--<p>The Stellar Service will create the following if they do not exist already: </p>-->
+                        <p>The Stellar Extension will create the following if they do not exist already: </p>
+                        <ul class="stellar-setup-ul no-margin">
+                            <li>An <strong>XLM</strong> currency on your default group's primary account.</li>
+                            <!--<li>A group named <strong>user</strong> which is default & public</li>-->
+                            <!--<li>In group user, an account configuration named <strong>default</strong> which is default & primary with XLM currency associated.</li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="divider">
+                        <ul class="ul-no-dot">
+                            <!--<li>Please refer to the <a target="_blank" href="https://stellar.services.rehive.io/redoc/">Stellar service documentation</a>-->
+                            <li>Please refer to the <a target="_blank" href="https://stellar.services.rehive.io/">Stellar extension documentation</a>
+                                if you would like to integrate Stellar into your own front-end or extension.</li>
+                                <!--if you would like to integrate Stellar into your own front-end or service.</li>-->
+                        </ul>
+                    </div>
+                    <button ng-click="checkXLMCurrency()" class="btn btn-primary dashboard-btn pull-right">Start</button>
+                </div>
+            </div>
+        </div>
+        <div class="service-header" ba-panel ng-show="loadingStellarService">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

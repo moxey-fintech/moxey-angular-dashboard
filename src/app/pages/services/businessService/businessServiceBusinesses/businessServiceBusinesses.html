@@ -1,0 +1,56 @@
+<business-service-navigation></business-service-navigation>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Businesses</span>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingBusinesses">
+            <div ng-show="businessesList.length > 0" class="upper-pagination">
+                <p uib-pagination boundary-links="true" items-per-page="businessesPagination.itemsPerPage"  total-items="businessesListData.count" ng-model="businessesPagination.pageNo"
+                   max-size="businessesPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getBusinessesList()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+            <div ng-show="businessesList.length > 0" class="divider">
+                <div>
+                    <table class="table custom-table table-striped draggable-table">
+                        <thead>
+                        <tr>
+                            <th class="rehive-table-row-first-child">Owner id</th>
+                            <th>Business id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Account</th>
+                            <th>Currency</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="business in businessesList | orderBy: '-created' track by $index" class="editable-row center user-details-table-hover pointer" ng-click="goToBusinessDetails(business.id)">
+                            <td class="table-row-center transactions-list-element">{{business.owner}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.id}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.name}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.description}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.category.name}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.account}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.currency.code}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.status}}</td>
+                            <td class="table-row-center transactions-list-element">{{business.created | date:'mediumDate'}} {{business.created | date:'shortTime'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="businessesList.length > 0">
+                    <p uib-pagination boundary-links="true" items-per-page="businessesPagination.itemsPerPage"  total-items="businessesListData.count" ng-model="businessesPagination.pageNo"
+                       max-size="businessesPagination.maxSize" class="pagination-sm pull-right transaction-history-pagination" force-ellipses="true" ng-change="getBusinessesList()"
+                       previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+                </div>
+            </div>
+            <i ng-hide="businessesList.length > 0">No businesses to display.</i>
+        </div>
+        <div ng-show="loadingBusinesses">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

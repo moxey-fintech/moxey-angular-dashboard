@@ -1,0 +1,251 @@
+.account-definition-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: auto;
+}
+
+.account-definition-block{
+  position: relative;
+  border: #e7e7e7;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: white;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.currency-value-size{
+  overflow-wrap: break-word;
+}
+
+.currencies-pagination{
+  height: 70px;
+}
+
+.currencies-panel-rows:hover{
+  box-shadow: 3px 3px 12px 0 rgba(0,0,0,.1);
+}
+
+//hr.sidebar-custom-hr{
+//  margin: 19px 0 19px 0!important;
+//  cursor: default;
+//  border-top: 1px solid rgba(235,235,235,0.44);
+//}
+
+span.sidebar-item-redirect-web-wallet{
+  position: relative;
+  z-index: 100;
+}
+
+span.sidebar-item-download-mobile-wallet {
+  position: relative;
+  z-index: 100;
+}
+
+span.should-be-blue{
+  color: $primary!important;
+}
+
+.clear-filter-btn{
+  margin-right: 17px;
+}
+
+.currencies-title{
+  color: #022b36;
+  font-size: 22px!important;
+  margin: 0 0 19px 0;
+  position: relative;
+  top: -7px;
+}
+
+.main-spinner{
+  display: inline-block;
+  margin: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  vertical-align: middle;
+  height: 100px;
+  width: 100px;
+}
+
+.panel-header-button{
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+.divider-6{
+  margin-bottom: 6px !important;
+}
+
+.divider{
+  margin-bottom: 10px !important;
+}
+
+.divider-15{
+  margin-bottom: 15px !important;
+}
+
+.divider-20{
+  margin-bottom: 20px !important;
+}
+.divider-25{
+  margin-bottom: 25px !important;
+}
+.divider-40{
+  margin-bottom: 40px !important;
+}
+
+.divider-top-6{
+  margin-top: 6px !important;
+}
+
+.currency-logo{
+  height: 60px;
+  width: 60px;
+  margin: 10px 0;
+}
+
+.table > tbody > tr > td{
+  padding: 0 6px;
+  vertical-align: middle;
+}
+
+.hr-top-border{
+  border-top: 1px solid gainsboro;
+}
+
+.rehive-button-no-right-margin{
+  margin: 10px 0 10px 10px;
+}
+
+.table > tbody > tr > .rehive-table-row-first-child:first-child {
+  padding-left: 0;
+}
+
+.table > tbody > tr > .rehive-table-row-last-child:last-child {
+  padding-right: 0;
+}
+
+.table > tbody > tr > .rehive-table-row-last-child > .table-col-two-actions {
+  min-width: 120px;
+  padding-right: 5px
+}
+
+.table > tbody > .dashboard-currencies-table-row > td {
+  line-height: 20px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.dashboard-btn{
+  width: 100px !important;
+  padding: 6px 0 !important;
+  margin-top: 15px;
+}
+
+.home-page-buttons{
+  width: 70px;
+  padding: 6px 0;
+}
+
+.currencies-panel-last-row{
+  margin-bottom: 23px;
+}
+
+.currencies-page-row{
+  position: relative;
+  top: 12px;
+}
+
+.currencies-page-button-filter{
+  height: 34px;
+  width: 70px;
+  padding: 6px 12px;
+}
+
+.currencies-page-buttons-add{
+  line-height: 0;
+  height: 34px;
+  padding: 6px 12px;
+}
+
+.currency-details-row{
+  height: 56px;
+}
+
+.currencies-details-heading{
+  font-size: 12px;
+  color: #A8A8A8;
+  font-weight: normal;
+}
+
+.currencies-options{
+  padding: 5px;
+  position: relative;
+  top: 4px;
+  right: -5px;
+  color: #A8A8A8;
+  &:hover{
+    color: $primary;
+  }
+}
+
+.currencies-options-box{
+  width: 230px;
+  z-index: 100;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px #A8A8A8;
+  padding: 20px 20px 20px 20px;
+  position: absolute;
+  top: 27px;
+  right: 2px;
+  list-style: none;
+  & li{
+    font-weight: 600 !important;
+    line-height: 24px !important;
+  }
+  & li:hover{
+    color: $primary;
+    cursor: pointer;
+  }
+
+  i.dropdown-arr {
+    position: absolute;
+    top: -22px;
+    right: 8px;
+    display: block;
+    width: 0;
+    height: 0;
+    border: 11px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, .15);
+    &:after {
+      top: -9px;
+      left: 0;
+      margin-left: -10px;
+      content: " ";
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-bottom-color: $default;
+    }
+  }
+}
+
+.iti-flag {
+  background-image: url("../../assets/img/flags.png") !important;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .iti-flag {
+    background-image: url("../../assets/img/flags@2x.png") !important;
+  }
+}

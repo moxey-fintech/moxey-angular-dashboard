@@ -1,0 +1,65 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title">Edit currency</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" ng-hide="editingCurrency" name="editCurrencyForm" novalidate>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Code: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <span ng-bind="editCurrencyParams.code"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Display code: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <span ng-bind="editCurrencyParams.display_code"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Description </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <span ng-bind="editCurrencyParams.description"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Symbol: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <p ng-bind="editCurrencyParams.symbol"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding divider">
+                    <p class="text-subtle">Unit: </p>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding">
+                    <p ng-bind="editCurrencyParams.unit"></p>
+                </div>
+            </div>
+            <div class="form-group divider-20">
+                    <label>VoucherMoney code</label>
+                    <input class="form-control terminal-input-text" type="text" ng-change="editCurrencyParams.vouchermoney_code" ng-model="editCurrencyParams.vouchermoney_code" placeholder="e.g. EUR">           
+            </div>          
+        </form>
+        <div ng-show="editingCurrency" class="service-header" ba-panel>
+            <loading-image></loading-image>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="editCurrencyFunction()"
+                ng-disabled="!editCurrencyForm.$valid || editingCurrency"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Save</button>
+    </div>
+</div>

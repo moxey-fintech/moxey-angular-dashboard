@@ -1,0 +1,15 @@
+.uib-datepicker-popup.dropdown-menu .uib-daypicker button.btn-default{
+  border: none;
+}
+
+:focus{
+  outline: none !important;
+}
+
+uib-datepicker-popup button.btn-default{
+  border: none;
+}
+
+table.uib-daypicker > thead > tr:nth-child(2){
+  display: none;
+}

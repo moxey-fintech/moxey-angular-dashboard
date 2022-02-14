@@ -1,0 +1,33 @@
+<div ng-hide="loadingTwilioCreds" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add twilio credentials</h4>
+    </div>
+    <div class="modal-body">
+        <form name="addTwilioForm" class="custom-form">
+            <div class="form-group custom-form">
+                <label>Twilio sid <span class="required-icon">*</span></label>
+                <input type="text" class="form-control divider-20"
+                       ng-model="twilioCredsParams.twilio_sid" placeholder="Enter twilio sid" required/>
+            </div>
+            <div class="form-group custom-form">
+                <label>Twilio token <span class="required-icon">*</span></label>
+                <input type="text" class="form-control divider-20"
+                       ng-model="twilioCredsParams.twilio_token" placeholder="Enter twilio token" required/>
+            </div>
+            <div class="form-group custom-form">
+                <label>Twilio from number<span class="required-icon">*</span></label>
+                <input type="text" class="form-control"
+                       ng-model="twilioCredsParams.twilio_from_number" placeholder="Enter twilio from number" required/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button ng-disabled="!addTwilioForm.$valid" ng-click="addTwilioCredentials(twilioCredsParams)" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>
+<div ba-panel ng-show="loadingTwilioCreds">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,120 @@
+<div class="panel table-filters">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <span class="user-details-panel-title pull-left">Create filter</span>
+            <button ng-click="getRequestLogs('applyFilter')" class="btn btn-primary pull-right">Done</button>
+            <button ng-click="clearFilters()" class="btn btn-default pull-right clear-filter-btn">Clear</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="filterUser">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.userFilter">
+                    <span>User</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.userFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.userFilter.selectedUserOption" placeholder="Enter email"
+                           uib-typeahead="email for email in getUsersEmailTypeahead($viewValue)" ng-model-options='{ debounce: 800 }'
+                           auto-focus="filtersObj.userFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterKey">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.keyFilter">
+                    <span>Key</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.keyFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.keyFilter.selectedKey" placeholder="Enter key"
+                           auto-focus="filtersObj.keyFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterScheme">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.schemeFilter">
+                    <span>Scheme</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.schemeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.schemeFilter.selectedScheme" placeholder="Enter scheme"
+                           auto-focus="filtersObj.schemeFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterPath">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.pathFilter">
+                    <span>Path</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.pathFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.pathFilter.selectedPath" placeholder="Enter path"
+                           auto-focus="filtersObj.pathFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterMethod">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.methodFilter">
+                    <span>Method</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.methodFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <select class="form-control pointer" ng-model="applyFiltersObj.methodFilter.selectedMethod" placeholder="Choose a method"
+                        ng-options="method for method in requestMethodsAvailable | orderBy: 'name'">
+                    </select>
+                    <!-- <input type="text" ng-model="applyFiltersObj.methodFilter.selectedMethod" placeholder="Enter method"
+                           auto-focus="filtersObj.methodFilter"
+                           class="transaction-id-input"> -->
+                </div>
+            </div>
+        </div>
+        <div id="filterContentType">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.contentTypeFilter">
+                    <span>Content type</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.contentTypeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.contentTypeFilter.selectedContentType" placeholder="Enter content type"
+                           auto-focus="filtersObj.contentTypeFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+        <div id="filterStatusCode">
+            <div>
+                <label class="checkbox-inline custom-checkbox nowrap">
+                    <input type="checkbox" ng-model="filtersObj.statusCodeFilter">
+                    <span>Status code</span>
+                </label>
+            </div>
+            <div ng-if="filtersObj.statusCodeFilter" class="row divider-top-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 date-filter-view">
+                    <input type="text" ng-model="applyFiltersObj.statusCodeFilter.selectedStatusCode" placeholder="Enter status code"
+                           auto-focus="filtersObj.statusCodeFilter"
+                           class="transaction-id-input">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

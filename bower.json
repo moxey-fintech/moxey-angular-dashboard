@@ -1,0 +1,75 @@
+{
+  "name": "blur-admin",
+  "version": "1.3.1",
+  "homepage": "https://github.com/1itvinka/blur-admin",
+  "authors": [
+    "akveo"
+  ],
+  "description": "Blur Admin HTML template",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~3.1.1",
+    "Ionicons": "ionicons#~2.0.1",
+    "angular": "~1.5.8",
+    "angular-route": "~1.5.8",
+    "angular-toastr": "~2.1.1",
+    "angular-cookies": "~1.5.9",
+    "animate.css": "~3.5.2",
+    "bootstrap": "~3.3.5",
+    "bootstrap-select": "~1.12.1",
+    "bootstrap-switch": "~3.3.2",
+    "font-awesome": "fontawesome#~4.4.0",
+    "moment": "~2.17.0",
+    "moment-precise-range": "codebox/moment-precise-range#latest",
+    "angular-ui-router": "~0.3.2",
+    "angular-bootstrap": "~1.3.3",
+    "angular-ui-select": "^0.19.6",
+    "angular-sanitize": "~1.5.8",
+    "ng-country-select": "^0.1.4",
+    "ng-file-upload": "^12.2.13",
+    "iso-3166-country-codes-angular": "^1.2.1",
+    "ngclipboard": "^1.1.1",
+    "ng-csv": "^0.3.6",
+    "angular-click-outside": "^2.10.2",
+    "ng-intl-tel-input": "^2.0.0",
+    "angular-chosen-localytics": "^1.8.0",
+    "ng-tags-input": "3.2.0",
+    "angular-ui-codemirror": "^0.3.0",
+    "angular-intercom": "^2.1.1",
+    "angular-raven": "^0.6.2",    
+    "lodash": "^4.17.20"
+  },
+  "resolutions": {
+    "angular": "~1.5.8",
+    "jquery": "~3.1.1",
+    "angular-ui-codemirror": "~0.1.6",
+    "codemirror": "^5.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css",
+        "js/dropdown.js",
+        "./dist/fonts/**.*"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css",
+        "fonts/FontAwesome.otf",
+        "fonts/fontawesome-webfont.eot",
+        "fonts/fontawesome-webfont.svg",
+        "fonts/fontawesome-webfont.ttf",
+        "fonts/fontawesome-webfont.woff",
+        "fonts/fontawesome-webfont.woff2"
+      ]
+    }
+  }
+}

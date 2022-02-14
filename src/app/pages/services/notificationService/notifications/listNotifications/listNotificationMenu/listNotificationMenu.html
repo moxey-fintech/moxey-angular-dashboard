@@ -1,0 +1,25 @@
+<div class="row services-navigation">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="service-list-navigation-ul no-margin">
+                    <li class="service-list-navigation">
+                        <a ng-click="goToListNotificationType('email')">
+                            <h5 ng-class="{'active-notification-nav': listNotificationType == 'email'}" class="pointer">Email</h5>
+                        </a>
+                    </li>
+                    <li class="service-list-navigation">
+                        <a ng-click="goToListNotificationType('sms')">
+                            <h5 ng-class="{'active-notification-nav': listNotificationType == 'sms'}" class="pointer">SMS</h5>
+                        </a>
+                    </li>
+                    <li ng-show="pushEnabled" class="service-list-navigation">
+                        <a ng-click="goToListNotificationType('push')">
+                            <h5 ng-class="{'active-notification-nav': listNotificationType == 'push'}" class="pointer">Push notifications</h5>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

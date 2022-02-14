@@ -1,0 +1,19 @@
+<div ng-hide="loadingUserEmailsList" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Resend password set/reset failed</h4>
+    </div>
+    <div class="modal-body">
+        <i ng-show="emailSituation == 'No primary email'">Please set <a class="pointer" ng-click="openEditUserEmailModal('app/pages/users/user/userDetails/userEmails/editUserEmailModal/editUserEmailModal.html','md',nonPrimaryEmail)">{{nonPrimaryEmail.email}}</a>
+            as the <a class="pointer" ng-click="openEditUserEmailModalFromResendPasswordLink('app/pages/users/user/userDetails/userEmails/editUserEmailModal/editUserEmailModal.html','md',nonPrimaryEmail)">primary email address</a></i>
+        <i ng-show="emailSituation == 'No emails'">No email address found for this user. Please
+            <a class="pointer" ng-click="openAddEmailModal('app/pages/users/user/userDetails/userEmails/addUserEmailModal/addUserEmailModal.html','md')">add an email address</a> before resending a password link.</i>
+    </div>
+    <div class="modal-footer" >
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserEmailsList">
+    <loading-image></loading-image>
+</div>

@@ -1,0 +1,226 @@
+<div ng-hide="loadingWarmstorage || loadingTransactions || loadingHdkeys">
+    <div ng-hide="warmstorageSetupStep > 3" class="panel">
+        <div class="panel-body">
+            <div ng-show="warmstorageSetupStep == 1">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <h2 class="text-subtle" style="margin-top: 0"><strong>Get started</strong></h2>
+                        <p>To accept user deposits in the Bitcoin Extension you'll need to set up an account for your Warm Storage.</p><br>
+                        <h3 class="text-subtle" style="margin-top: 10px;"><strong>What is Warm Storage?</strong></h3>
+                        <p>Warm storage is an account on the Bitcoin network which you use to accept incoming user deposits. You have control over the funds as you control the private key. Rehive only keeps track of the balance and transactions on the account, it does not hold the Secret Key.</p>
+                        <!-- <p><a class="pointer" href="">Read more about Warm Storage</a></p>
+                        <p><a class="pointer" href="">How does my Warm Storage work?</a></p> -->
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="text-align: right;">
+                            <img src="../../../../../../assets/img/warm-storage-btc.svg" width="230" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <h4 class="text-subtle"><strong>Live</strong></h4>
+                        <p>This extension will use only the Bitcoin live network and bitcoin (XBT).</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="margin-top: 50px;">
+                            <button class="btn btn-primary btn-primary-dark pull-right" ng-click="goToWarmstorageSetupStep(2)"
+                            style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                                Set up Warm Storage&nbsp;&nbsp;&nbsp;
+                                <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="warmstorageSetupStep == 2">
+                <h2 class="text-subtle" style="margin-top: 0"><strong>Set up your Warm Storage</strong></h2>
+                <p>To set up your Warm Storage, please enter your HDKey and the first address your wallet generates with it.</p>
+                <p>If you are unsure where to find your HDKey and how to find the first address, <a class="pointer" href="http://rehive.intercom.help/en/articles/5231613-bitcoin-warm-storage-setup" target="_blank">this help center article</a> will guide you through the process.</p><br> 
+                <form name="setupBitcoinTestnetWarmstorageForm" class="custom-form">
+                    <div class="form-group">
+                        <label class="text-subtle">HDKey <span class="required-icon">*</span><a class="small pointer pull-right" href="http://rehive.intercom.help/en/articles/5231613-bitcoin-warm-storage-setup#h_1b32a51042" target="_blank">How do I find this?</a></label>
+                        <input type="text" ng-model="newWarmStorageParams.hdkey" class="form-control" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-subtle">What is the first address your wallet generates? <span class="required-icon">*</span><a class="small pointer pull-right" href="http://rehive.intercom.help/en/articles/5231613-bitcoin-warm-storage-setup#h_b628ab6d03" target="_blank">How do I find this?</a></label>
+                        <input type="text" ng-model="newWarmStorageParams.first_generated_address" class="form-control" placeholder="" required>
+                    </div>
+                    <div ng-hide="showAdvancedSetupOptions" class="form-group">
+                        <a class="pointer" ng-model="showAdvancedSetupOptions" ng-click="showAdvancedSetupOptions = true">Advanced options&nbsp;&nbsp;<i class="fas fa-angle-down"></i></a>
+                    </div>
+                    <div ng-show="showAdvancedSetupOptions" class="form-group">
+                        <label class="text-subtle">
+                            What is the type of address your wallet is generating? 
+                            <span class="small"></span>(optional)&nbsp;&nbsp;<span>
+                                <i uib-tooltip-html="'Legacy (p2pkh) generates addresses beginning with &#8216;1&#8217;<br><br>
+                                Bech32 or Native Segwit (p2wpkh or p2wsh) generates addresses beginning with &#8216;bc1&#8217;<br><br>
+                                P2SH segwit (p2wpkh-p2sh) generates addresses beginning with &#8216;3&#8217;'" class="ion-information-circled setup-groups-tooltip"></i>
+                            <!-- <a class="small pointer pull-right" href>How do I find this?</a> -->
+                        </label>
+                        <div class="overwrite-dropdown-arrow divider"> 
+                            <div class="reward-multi-select">
+                                <select chosen single
+                                        data-placeholder-text-single="'Choose a address type'"
+                                        width="100"
+                                        ng-model="newWarmStorageParams.address_type"
+                                        ng-options="addressType.name for addressType in hdkeyAddressTypeOptions">
+                                        <option value=""></option>
+                                </select>
+                            </div>                               
+                        </div>
+                        <a class="pointer" ng-model="showAdvancedSetupOptions" ng-click="showAdvancedSetupOptions = false">Advanced options&nbsp;&nbsp;<i class="fas fa-angle-up"></i></a>
+                    </div>
+                    <!-- <button class="btn btn-primary btn-primary-dark pull-right align-items-center" ng-click="createWarmstorage()"  -->
+                    <button class="btn btn-primary btn-primary-dark pull-right align-items-center" ng-click="createWarmstorage()" 
+                    style="min-height: 40px; border-radius: 6px; max-width: 180px;" ng-disabled="!setupBitcoinTestnetWarmstorageForm.$valid">
+                        Confirm&nbsp;&nbsp;&nbsp; <span class="template-arrow"><i class="fas fa-check"></i></span>
+                    </button>
+                </form>          
+            </div>
+            <div ng-show="warmstorageSetupStep == 3" class="row">
+                <h1 class="text-subtle" style="text-align: center; margin: 0 auto 20px auto;"><strong>Success!</strong></h1>
+                <div class="align-items-center">
+                    <img src="../../../../../../assets/img/setup-complete-btc.svg" style="max-width: 375px;"/>
+                </div>                
+                <h4 class="get-started-text" style="text-align: center; margin-top: 25px;">Your Warm Storage setup is now complete.</h4>
+                <h4 class="get-started-text" style="text-align: center; margin-top: 10px;">Your app can now accept user deposits on the Bitcoin network.</h4>
+                <div style="margin-top: 24px; padding-right: 15px;">
+                    <button class="btn btn-primary btn-primary-dark pull-right" ng-click="goToWarmstoragePage()"
+                    style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                        Go to Warm Storage&nbsp;&nbsp;&nbsp;
+                        <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="warmstorageSetupStep > 3">
+        <div class="panel">
+            <div class="panel-body crypto-disable-withdrawals-panel">
+                <div class='row crypto-withdrawal-toggle-div' >
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding  margin-left-10">
+                        <span><strong>{{warmstorageObj.rehive_account_reference}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Account reference</span>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding no-left-padding">
+                        <div class="crypto-withdrawal-toggle-div" style="align-items: flex-start">
+                            <div class="warmstorage-address-div">
+                                <span ng-hide="showingWarmstorageDropdown" class='warmstorage-address-span'>
+                                    <strong>{{primaryWarmstorageAccount ? primaryWarmstorageAccount.address: "--"}}</strong>
+                                </span>
+                                <span ng-show="showingWarmstorageDropdown" class='warmstorage-address-span'>
+                                    <div class="reward-multi-select warmstorage-dropdown">
+                                        <select id="bitcoinDropdown" chosen
+                                                data-placeholder-text-single="'Choose an address'"
+                                                width="40"
+                                                ng-model="primaryWarmstorageAccount"
+                                                ng-change="toggleWarmstorageDropdown()"
+                                                ng-options="account.address for account in warmStoragePublicAddressesList">
+                                        </select>
+                                    </div>                                
+                                </span>
+                                <span class="currencies-details-heading" style="display: block;"  
+                                    ng-style="!showingWarmstorageDropdown && {'margin-top': '18px'} || showingWarmstorageDropdown && {'margin-top': '5px'}">HDKey xpub</span>
+                            </div>
+                            <div ng-show="primaryWarmstorageAccount" class="account-address-dropdown" ng-click="toggleWarmstorageDropdown()">
+                                <i ng-hide="showingWarmstorageDropdown" class="fa fa-caret-down"></i>
+                                <i ng-show="showingWarmstorageDropdown" class="fas fa-times revert-changes-cross-icon"></i>
+                            </div>                        
+                        </div>                             
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding margin-left-10">
+                        <div ng-show="primaryWarmstorageAccount" class="crypto-withdrawal-toggle-div" style='padding-right: 12px'>
+                            <button class="btn btn-primary warmstorage-btn"
+                                ng-click="addWarmStoragePublicAddressModal('app/pages/services/bitcoinService/bitcoinServiceAccounts/bitcoinWarmstorage/addBitcoinHdKey/addBitcoinHdKey.html', 'md')">
+                                Add
+                            </button>                        
+                            <button ng-show="primaryWarmstorageAccount.status == 'Active'" class="btn btn-danger warmstorage-btn" style="margin-left: 12px!important;"
+                                    ng-click="updateWarmstorageAccountStatus('Disabled')">
+                                Disable
+                            </button>
+                            <button ng-hide="primaryWarmstorageAccount.status == 'Active'" class="btn btn-primary warmstorage-btn" style="margin-left: 12px!important;"
+                                    ng-click="updateWarmstorageAccountStatus('Active')">
+                                Enable
+                            </button>
+                        </div>
+                        <div ng-hide="primaryWarmstorageAccount" class="crypto-withdrawal-toggle-div" style='padding-right: 12px'>
+                            <button class="btn btn-primary warmstorage-btn pull-right"
+                                ng-click="addWarmStoragePublicAddressModal('app/pages/services/bitcoinService/bitcoinServiceAccounts/bitcoinWarmstorage/addBitcoinHdKey/addBitcoinHdKey.html', 'md')">
+                                Add
+                            </button> 
+                        </div>
+                    </div>
+                </div>
+                <hr ng-show="primaryWarmstorageAccount">
+                <div ng-show="primaryWarmstorageAccount" class='row  crypto-withdrawal-toggle-div'>
+                    <!-- 
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding margin-left-10">
+                        <div style="padding-top: 12px; display: flex; align-items: center; justify-content: space-between;">
+                            <span class="currencies-details-heading">Note:&nbsp;&nbsp;</span>
+                            <span style='overflow-wrap: break-word; word-break: break-all; margin: auto 10px auto 10px;'>{{primaryWarmstorageAccount.note}}&nbsp;</span>
+                            <span>
+                                <a class="divider pointer"
+                                    ng-click="openEditingNoteModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetWarmstorage/editStellarTestnetWarmstorageNoteModal/editStellarTestnetWarmstorageNoteModal.html', 'md', primaryWarmstorageAccount)"><i class="fa fa-pencil"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                    -->
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding no-left-padding margin-left-10">
+                        <span class="pull-right"><strong>{{primaryWarmstorageAccount.current_increment}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading pull-right">Address generated from key</span>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 crypto-withdrawal-toggle-div margin-left-10">
+                        <span>Primary account</span>
+                        <span style="float: right;  margin: 0px 12px auto 10px;">
+                            <div ng-hide="!primaryWarmstorageAccount.primary">
+                                <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleWarmstoragePrimary(primaryWarmstorageAccount)"></i>
+                            </div>
+                            <div ng-show="!primaryWarmstorageAccount.primary">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleWarmstoragePrimary(primaryWarmstorageAccount)"></i>
+                            </div>
+                        </span>
+                    </div> 
+                </div>         
+            </div>
+        </div>
+    
+        <div class="panel" ng-repeat="item in warmstorageCurrencies track by $index"  ng-class="{'missing-currency': !item.exists}">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="dashboard-currencies-code">
+                            {{item.currency.code}}
+                        </div>
+                    </div>
+                    <div class="currencies-page-row">
+                        <div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div>
+                                    <span><strong>{{item.currency.symbol}} {{item.balance | currencyModifiersFilter: item.currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Total</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div>                                   
+                                    <span><strong>
+                                        <span ng-show="primaryWarmstorageAccount.onchain_balance">{{ item.currency.symbol + ' '}}{{ primaryWarmstorageAccount.onchain_balance | currencyModifiersFilter: item.currency.divisibility | commaSeperateNumberFilter }}</span>
+                                        <span ng-hide="primaryWarmstorageAccount.onchain_balance">--</span>                                    
+                                    </strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Onchain balance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingWarmstorage || loadingTransactions || loadingHdkeys">
+    <loading-image></loading-image>
+</div>

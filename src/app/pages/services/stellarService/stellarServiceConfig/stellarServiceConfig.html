@@ -1,0 +1,12 @@
+<!--<h1 class="currencies-title">Stellar Service</h1>-->
+<h1 class="currencies-title">Stellar Extension</h1>
+<div class="row" >
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <stellar-service-config-menu></stellar-service-config-menu>
+    </div>
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+        <stellar-service-config-hotwallet ng-show="currentConfigView == 'hot wallet'"></stellar-service-config-hotwallet>
+        <stellar-service-config-warm-storage ng-show="currentConfigView == 'warm storage'"></stellar-service-config-warm-storage>
+        <stellar-service-config-finish ng-show="currentConfigView == 'finish'"></stellar-service-config-finish>
+    </div>
+</div>

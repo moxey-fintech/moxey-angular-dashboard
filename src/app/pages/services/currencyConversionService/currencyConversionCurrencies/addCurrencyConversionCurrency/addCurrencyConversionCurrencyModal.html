@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Add custom currency</h4>
+    </div>
+    <div class="modal-body">
+        <form class="custom-form" name="currencyForm" novalidate>
+            <div class="form-group divider-20">
+                <label>Code&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control rates-input-text" type="text" ng-model="newCurrencyObj.code" placeholder="e.g. USD" required>           
+            </div>
+            <!-- <div class="form-group divider-20">
+                <label>Display code&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control rates-input-text" type="text" ng-model="newCurrencyObj.dislpay_code" placeholder="e.g. USD" required>           
+            </div> -->
+            <div class="form-group divider-20">
+                <label>Description&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control rates-input-text" type="text" ng-model="newCurrencyObj.description" placeholder="e.g. United States dollar" required>           
+            </div>
+            <div class="form-group divider-20">
+                <label>Symbol&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control rates-input-text" type="text" ng-model="newCurrencyObj.symbol" placeholder="e.g. $" required>           
+            </div>
+            <div class="form-group divider-20">
+                <label>Unit&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control rates-input-text" type="text" ng-model="newCurrencyObj.unit" placeholder="e.g. dollar" required>           
+            </div>
+            <div class="form-group divider-20">
+                <label>Divisibility&nbsp;<span class="required-icon">*</span></label>
+                <input class="form-control rates-input-text" type="number" ng-model="newCurrencyObj.divisibility" placeholder="e.g. 2" required>           
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default dashboard-btn pull-left" ng-click="$dismiss()">Close</button>
+        <button ng-click="addCurrency()"
+                ng-disabled="!currencyForm.$valid || addingCurrency"
+                type="button" class="btn btn-primary dashboard-btn pull-right">Add</button>
+    </div>
+</div>

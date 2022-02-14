@@ -1,0 +1,76 @@
+<div>
+    <div class="panel">
+    <div class="panel-heading">
+        <div class="table-filter-heading">
+            <div>
+                <button ng-click="showAccountCurrencyFilters()" ng-class="{'transactions-filter-btn': (filtersCount > 0), 'transactions-btn': (filtersCount == 0)}"
+                        class="btn btn-default">Filters
+                    <span ng-show="filtersCount > 0">|</span> <span ng-show="filtersCount > 0" class="filter-count">{{filtersCount}}</span>
+                </button>
+                <div ng-show="showingAccountCurrencyFilters">
+                    <account-currency-filters></account-currency-filters>
+                </div>
+            </div>
+            <button ng-click="openExportAccountCurrenciesModal('app/pages/accounts/accountCurrencies/exportAccountCurrenciesModal/exportAccountCurrenciesModal.html', 'md')"
+                    class="btn btn-default panel-header-transaction-export" style="right: 25px!important">Export</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-show="filtersCount > 0" class="divider">
+            <p class="filter-text">Your results are currently being filtered.
+                <span ng-show="showingHistoricalBalance">&nbsp;Historical balances are being displayed.</span>
+            </p>
+        </div>
+        <div ng-show="accountCurrenciesList.length > 0" class="upper-pagination">
+            <p uib-pagination boundary-links="true" items-per-page="accountsPagination.itemsPerPage"  total-items="accountCurrenciesListData.count" ng-model="accountsPagination.pageNo"
+               max-size="accountsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllAccountCurrencies()"
+               previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+        </div>
+        <div ng-show="accountCurrenciesList.length > 0" class="divider">
+            <div class="draggable-table">
+                <!--draggable on-drag-end="tableColDrag($start, $target)"-->
+                <table class="table custom-table table-striped">
+                    <thead>
+                        <tr>
+                            <!--class="pointer"-->
+                            <th>User</th>
+                            <th>User group</th>
+                            <th>Account name</th>
+                            <th>Account reference</th>
+                            <th>Currency</th>
+                            <th>Balance</th>
+                            <th>Available balance</th>
+                            <th>Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="accountCurrency in accountCurrenciesList | orderBy: '-created' track by $index"
+                            ng-class="{'system-users-admin': accountCurrency.group == 'admin','system-users-service': accountCurrency.group == 'service'}"
+                            ng-style="accountCurrency.group_highlight_color && {'color': accountCurrency.group_highlight_color}"
+                            class="editable-row center user-details-table-hover">
+                            <td class="transactions-list-element">{{accountCurrency.user}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.group}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.account.name}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.account.reference}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.currency.display_code}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.currency.symbol}}{{accountCurrency.balance | commaSeperateNumberFilter}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.currency.symbol}}{{accountCurrency.available_balance | commaSeperateNumberFilter}}</td>
+                            <td class="transactions-list-element">{{accountCurrency.updated}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="accountCurrenciesList.length > 0">
+                <p uib-pagination boundary-links="true" items-per-page="accountsPagination.itemsPerPage"  total-items="accountCurrenciesListData.count" ng-model="accountsPagination.pageNo"
+                   max-size="accountsPagination.maxSize" class="pagination-sm pull-right no-margin" force-ellipses="true" ng-change="getAllAccountCurrencies()"
+                   previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></p>
+            </div>
+        </div>
+        <div ng-show="accountCurrenciesList.length == 0">
+            <i ng-hide="accountsCurrenciesStateMessage == ''" ng-bind="accountsCurrenciesStateMessage"></i>
+            <loading-image ng-show="accountsCurrenciesStateMessage == ''"></loading-image>
+        </div>
+    </div>
+</div>
+
+</div>

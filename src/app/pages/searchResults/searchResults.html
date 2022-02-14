@@ -1,0 +1,116 @@
+<h1 class="currencies-title">Search results</h1>
+<div class="panel">
+    <div class="panel-heading">        
+    </div>
+    <div class="panel-body">
+        <div ng-hide="loadingSearchResults">
+            <div>
+                You searched for 
+                <i class="welcome-label3" style="margin-top: 0px; font-size: 14px; font-weight: bold;">"{{searchQueryObj.searchString}}"</i>
+                    &nbsp;and your results are being filtered by   
+                    <i class="welcome-label3" style="margin-top: 0px; font-size: 14px; font-weight: bold;">{{searchQueryObj.resource}}</i>. Top 15 results are below.                    
+            </div>
+            <div ng-show="searchQueryObj.showAccountsOnly">
+                <span><br><br></span>
+                <div>
+                    <div class="welcome-label3" style="margin-top: 0px; font-size: 14px; font-weight: bold;">Accounts</div>
+                </div>
+                <br>
+                <div>
+                    <table class="table custom-table table-striped" >
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>User group</th>
+                                <th>Account name</th>
+                                <th>Reference</th>
+                                <th>Currencies</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="account in searchedAccounts track by $index" ng-click="goToAccounts(account)" style="cursor: pointer;"> 
+                                <td class="transactions-list-element">{{account.user.email}}</td>
+                                <td class="transactions-list-element"><span class="search-list-value" ng-repeat="group in account.user.groups track by $index">{{group.name}}</span></td>
+                                <td class="transactions-list-element">{{account.name}}</td>
+                                <td class="transactions-list-element">{{account.reference}}</td>
+                                <td class="transactions-list-element">
+                                    <span class="search-list-value" ng-repeat="item in account.currencies track by $index">
+                                        {{item.currency.code}}<span ng-hide="$last">,&nbsp;</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+            <div ng-show="searchQueryObj.showTransactionsOnly">
+                <span><br><br></span>            
+                <div>
+                    <div class="welcome-label3" style="margin-top: 0px; font-size: 14px; font-weight: bold;">Transactions</div>
+                </div>
+                <br>
+                <div>
+                    <table class="table custom-table table-striped" >
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Id</th>
+                                <th>User</th>
+                                <th>Status</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="transaction in searchedTransactions track by $index" ng-click="goToTransactionsHistory(transaction)" style="cursor: pointer;"> 
+                                <td class="transactions-list-element">{{transaction.tx_type | uppercase}}</td>
+                                <td class="transactions-list-element">{{transaction.id}}</td>
+                                <td class="transactions-list-element">{{transaction.user.email}}</td>
+                                <td class="transactions-list-element">{{transaction.status | capitalizeWord}}</td>
+                                <td class="transactions-list-element">{{transaction.currency.symbol}} {{transaction.currency.code}}</td>
+                                <td class="transactions-list-element">{{transaction.amount  | currencyModifiersFilter: transaction.currency.divisibility | commaSeperateNumberFilter}}</td>
+                                <td class="transactions-list-element">{{transaction.created | date:'mediumDate'}} {{transaction.created | date:'shortTime'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>            
+            </div>
+            <div ng-show="searchQueryObj.showUsersOnly">
+                <span><br><br></span>
+                <div>
+                    <div class="welcome-label3" style="margin-top: 0px; font-size: 14px; font-weight: bold;">Users</div>
+                </div>
+                <br>
+                <div>
+                    <table class="table custom-table table-striped" >
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>Last login</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in searchedUsers track by $index" ng-click="goToUserProfile(user)" style="cursor: pointer;"> 
+                                <td class="transactions-list-element">{{user.id}}</td>
+                                <td class="transactions-list-element">{{user.email}}</td>
+                                <td class="transactions-list-element">{{user.first_name}} {{user.last_name}}</td>
+                                <td class="transactions-list-element">{{user.created | date:'mediumDate'}} {{user.created | date:'shortTime'}}</td>
+                                <td class="transactions-list-element">{{user.last_login | date:'mediumDate'}} {{user.last_login | date:'shortTime'}}</td>                            
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>              
+            </div>
+        </div>        
+        <div ng-show="loadingSearchResults" class="global-search-loading-panel">
+            <loading-image></loading-image>
+        </div>
+    </div>
+</div>

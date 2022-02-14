@@ -1,0 +1,3 @@
+amount,user,recipient,credit_account,currency,debit_account,debit_note,debit_metadata,debit_reference,credit_note,credit_metadata,credit_reference
+0.001,useremail@example.com,recipientemail@example.com,V55MLP5CN2,TXBT,4AUD3F32LH,"Rate is 12,875.87 CAD for 1 XBT",{"service_mass_send": {"fiat_amount": "50.00 CAD"}},,"Rate is 12,875.87 CAD for 1 XBT",{"service_mass_send": {"fiat_amount": "50.00 CAD"}},
+0.001,useremail@example.com,recipientemail@example.com,G7JE9SB77G,TXBT,4AUD3F32LH,"Rate is 12,875.87 CAD for 1 XBT",{"service_mass_send": {"fiat_amount": "50.00 CAD"}},,"Rate is 12,875.87 CAD for 1 XBT",{"service_mass_send": {"fiat_amount": "50.00 CAD"}},

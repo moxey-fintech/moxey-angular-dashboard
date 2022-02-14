@@ -1,0 +1,45 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3654359, 2018-10-11T15:06:56-0400
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: CamphorPro-Regular by Monotype
+ * URL: https://www.myfonts.com/fonts/mti/camphor/pro-regular/
+ *
+ * Webfont: CamphorPro-Italic by Monotype
+ * URL: https://www.myfonts.com/fonts/mti/camphor/pro-italic/
+ *
+ *
+ * License: https://www.myfonts.com/viewlicense?type=web&buildid=3654359
+ * Licensed pageviews: 250,000
+ * Webfonts copyright: Copyright 2010 Monotype Imaging Inc. All rights reserved. Designed by Nick Job.
+ *
+ * © 2018 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+/*@import url("//hello.myfonts.net/count/37c2d7");*/
+
+
+@font-face {
+    font-family: 'CamphorPro-Regular';
+    src: url('./webfonts/37C2D7_0_0.eot');
+    src: url('./webfonts/37C2D7_0_0.eot?#iefix') format('embedded-opentype'),
+    url('./webfonts/37C2D7_0_0.woff2') format('woff2'),url('./webfonts/37C2D7_0_0.woff') format('woff'),
+    url('./webfonts/37C2D7_0_0.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'CamphorPro-Italic';
+    src: url('./webfonts/37C2D7_1_0.eot');
+    src: url('./webfonts/37C2D7_1_0.eot?#iefix') format('embedded-opentype'),
+    url('./webfonts/37C2D7_1_0.woff2') format('woff2'),url('./webfonts/37C2D7_1_0.woff') format('woff'),
+    url('./webfonts/37C2D7_1_0.ttf') format('truetype');
+}

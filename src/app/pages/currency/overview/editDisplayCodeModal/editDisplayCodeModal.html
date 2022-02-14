@@ -1,0 +1,23 @@
+<div class="panel panel-default" ng-hide="updatingDisplayCode">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Edit currency display code</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="editDIsplayCodeForm" class="custom-form" novalidate>
+            <div class="form-group">
+                <label>Display code</label>
+                <input type="text" class="form-control" ng-model="currencyObj.display_code" placeholder="Enter display code" />
+            </div>
+            <div class="form-group">
+                <button ng-click="updateDisplayCode()" class="btn btn-primary user-accounts-btn pull-right">Save</button>
+                <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="updatingDisplayCode">
+    <loading-image></loading-image>
+</div>

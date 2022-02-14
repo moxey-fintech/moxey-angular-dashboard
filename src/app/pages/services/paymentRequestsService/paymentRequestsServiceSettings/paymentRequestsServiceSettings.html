@@ -1,0 +1,10 @@
+<payment-requests-service-navigation></payment-requests-service-navigation>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <payment-requests-service-settings-menu></payment-requests-service-settings-menu>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <payment-requests-service-settings-item ng-show="paymentRequestsSettingView == 'settings'"></payment-requests-service-settings-item>
+        <payment-requests-service-deactivation ng-show="paymentRequestsSettingView == 'deactivation'"></payment-requests-service-deactivation>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div ng-hide="updatingMassSendSettings" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Deactivation</span>
+    </div>
+    <div class="panel-body">
+        <div>
+            <p class="no-margin">
+                <!--Deactivating this service will disable it. No data or settings will be deleted. You may activate the service again at any point.-->
+                Deactivating this extension will disable it. No data or settings will be deleted. You may activate the extension again at any point.
+            </p>
+            <button ng-disabled="updatingMassSendSettings" ng-click="deactivateServiceConfirm()"
+                    class="btn btn-primary dashboard-btn pull-right">Deactivate</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="updatingMassSendSettings" class="service-header">
+    <loading-image></loading-image>
+</div>

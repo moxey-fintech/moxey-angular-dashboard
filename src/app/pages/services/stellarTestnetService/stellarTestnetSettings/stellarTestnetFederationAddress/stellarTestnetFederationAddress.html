@@ -1,0 +1,28 @@
+<div ng-hide="addingFederationAddress" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Federation address</span>
+    </div>
+    <div class="panel-body">
+        <div class="divider-20">
+            <p class="no-margin">
+                To enable Federation addresses for this company, enter the domain where your stellar.toml file can be found. Read more about 
+                <a href='https://www.stellar.org/developers/guides/concepts/stellar-toml.html' target='_blank'>stellar.toml files</a>
+                 and <a href='https://www.stellar.org/developers/guides/concepts/federation.html' target='_blank'>federation</a>.
+            </p>
+        </div>
+        <div class="divider-20">
+            <label>Current federation domain:&nbsp;</label>
+            <p> {{ currentFederationDomain ? currentFederationDomain : "--" }} </p>
+        </div>
+        <div class="divider-20">
+            <label>Federation domain: </label>
+            <input type="text" ng-model="newFederationDomain" class="form-control delete-button-lifted"
+                   placeholder="e.g. stellar.org" style="width: 40%">
+            <button ng-disabled="!newFederationDomain" ng-click="addStellarTestnetFederationAddress()"
+                    class="btn btn-primary dashboard-btn pull-right">Save</button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="addingFederationAddress" class="service-header">
+    <loading-image></loading-image>
+</div>

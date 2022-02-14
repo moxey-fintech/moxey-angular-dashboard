@@ -1,0 +1,44 @@
+<div ng-hide="loadingGroups" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Reassign user group</span>
+        <a ng-click="$dismiss()" class="panel-modal-close-icon pull-right pointer">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </a>
+    </div>
+    <div class="panel-body">
+        <form name="reassignUserToGroupForm" class="custom-form" novalidate>
+            <div ng-hide="changeUserGroupDecision" class="form-group">
+                <label>Group <span class="required-icon">*</span></label>
+                <select ng-change="checkIfNewGroup()" class="form-control pointer divider" ng-model="groupForReassigning"
+                        ng-options="group.name for group in groups | orderBy: 'name'" required>
+                </select>
+            </div>
+            <div ng-show="changeUserGroupDecision" class="change-group-confirm">
+                <p>You are moving {{userEmail ? '': 'this user '}} <strong>{{userEmail ? userEmail: ''}}</strong>
+                    {{oldGroup.name? 'from group ' : ''}}
+                    <strong>{{oldGroup.name?oldGroup.name : ''}}</strong>
+                    to group <strong>{{groupForReassigning.name}}</strong>.
+                    Account definitions for <strong>{{groupForReassigning.name}}</strong> group will be applied, and any account definition 
+                    configurations that do not align with <strong>{{groupForReassigning.name}}</strong> group's account definitions will be archived.
+                </p>
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="form-group">
+                <div ng-hide="changeUserGroupDecision">
+                    <button ng-click="changeUserGroupConfirm()"
+                            ng-disabled="sameGroup"
+                            class="btn btn-primary user-accounts-btn pull-right">Reassign</button>
+                    <button ng-click="$dismiss()" class="btn btn-default pull-left user-accounts-btn">Close</button>
+                </div>
+                <div ng-show="changeUserGroupDecision">
+                    <button ng-click="deleteUserGroup(groupForReassigning)"
+                            class="btn btn-primary delete-button pull-right">Confirm</button>
+                    <button ng-click="changeUserGroupConfirm()" class="btn btn-default dashboard-btn pull-left user-accounts-btn">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div ba-panel ng-show="loadingGroups">
+    <loading-image></loading-image>
+</div>

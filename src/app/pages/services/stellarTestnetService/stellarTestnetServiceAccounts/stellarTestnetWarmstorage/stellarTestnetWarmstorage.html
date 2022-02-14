@@ -1,0 +1,245 @@
+<div ng-hide="loadingWarmStoragePublicAddresses || loadingWarmstorage || loadingTransactions">
+    <div ng-hide="warmstorageSetupStep > 3" class="panel">
+        <div class="panel-body">
+            <div ng-show="warmstorageSetupStep == 1">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <h2 class="text-subtle" style="margin-top: 0"><strong>Get started</strong></h2>
+                        <p>In order to accept user deposits in the Stellar Testnet Extension you'll need to set up an account for your warm storage.</p><br>
+                        <h3 class="text-subtle" style="margin-top: 10px;"><strong>What is Warm Storage?</strong></h3>
+                        <p>Warm storage is an account on the Stellar network which you use to accept incoming user deposits. You have control over the funds 
+                            as you control the private key. Rehive only keeps track of the balance and transactions on the account, it does not hold the Secret Key.</p>
+                        <p>It exists to minimize risk and allows you to keep a small amount of your total cryptocurrency value in a "live" state at any one point in time.</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="text-align: right;">
+                            <img src="../../../../../../assets/img/warm-storage-stellar.svg" width="230" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <br> <!-- Remove this and add back in line 30 and 31 when this article is written -->
+                        <!-- <p><a class="pointer" href="">Read more about Warm Storage</a></p> -->
+                        <!-- <p><a class="pointer" href="">How does my Warm Storage work?</a></p><br> -->
+                        <h4 class="text-subtle"><strong>Testnet</strong></h4>
+                        <p>This extension will use only the Stellar test network and testnet lumens (TXLM).</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div style="margin-top: 50px;">
+                            <button class="btn btn-primary btn-primary-dark pull-right" ng-click="warmstorageSetupStep = 2"
+                            style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                                Set up Warm Storage&nbsp;&nbsp;&nbsp;
+                                <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="warmstorageSetupStep == 2">
+                <h2 class="text-subtle" style="margin-top: 0"><strong>Set up your Warm Storage</strong></h2><br>
+                <p>If you have already set up and <strong>funded</strong> an account on the Stellar test network for your Warm Storage, enter the <strong>public key</strong> below. 
+                    Your Warm Storage cannot be the same account as your Hot Wallet.</p>
+                <p>If you don't have an account on the Stellar test network to use as your Warm Storage, 
+                    <a class="pointer" href="https://rehive.intercom.help/en/articles/5376906-stellar-testnet-warm-storage-setup" target="_blank">this help center article</a> will guide you through the process of creating one.
+                </p>
+                <form name="addStellarTestnetWarmStorageForm" class="custom-form" style="margin-top: 16px;">
+                    <div class="form-group divider-20">
+                        <label>Warm Storage account public key <span class="required-icon">*</span></label>
+                        <input type="text" ng-model="newWarmstorageParams.account_address" class="form-control" required>
+                    </div>
+                    <div class="form-group divider-20 setup-groups-tooltip-div">
+                        <label style="margin-bottom: 15px;">Checks &nbsp;<span class="required-icon">*</span></label>
+                        <label class="products-checkbox-label" style="margin-bottom: 15px;">
+                            <input class="custom-rehive-checkbox" ng-model="havePrivateKey" type="checkbox" required>
+                            &nbsp;I have my private key stored safely and securely.&nbsp;
+                        </label>
+                        <label class="products-checkbox-label">
+                            <input class="custom-rehive-checkbox" ng-model="warmstorageFunded" type="checkbox" required>
+                            &nbsp;My warm storage account is funded.&nbsp;
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-primary-dark pull-right" ng-click="createWarmstorageAccount()"
+                        ng-disabled="!addStellarTestnetWarmStorageForm.$valid"
+                        style="min-height: 40px; border-radius: 6px; min-width: 180px; margin: 8px -14px auto auto;">
+                            Confirm&nbsp;&nbsp;&nbsp;<span class="template-arrow"><i class="fa fa-check"></i></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div ng-show="warmstorageSetupStep == 3" class="row">
+                <h1 class="text-subtle" style="text-align: center; margin: 0 auto 20px auto;"><strong>Success!</strong></h1>
+                <div class="align-items-center">
+                    <img src="../../../../../../assets/img/setup-complete-stellar.svg" style="max-width: 375px;"/>
+                </div>                
+                <h5 class="get-started-text" style="text-align: center; margin-top: 25px;">Your Warm Storage setup is now complete.</h5>
+                <h5 class="get-started-text" style="text-align: center; margin-top: 25px;">Your app can now accept user deposits on the Stellar test network.</h5>
+                <div style="margin-top: 24px; padding-right: 15px;">
+                    <button class="btn btn-primary btn-primary-dark pull-right" ng-click="goToWarmStoragePage()"
+                    style="min-height: 40px; border-radius: 6px; min-width: 180px;">
+                        Go to Warm Storage&nbsp;&nbsp;&nbsp;
+                        <span class="template-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="warmstorageSetupStep > 3">
+        <div ng-show="!allCurrenciesPresent" uib-alert class="alert-danger missing-currencies-alert">No on-chain trustline detected for currencies highlighted. 
+        Users will not be able to make on-chain deposits. Please broadcast a Stellar transaction trusting the asset code.</div>
+        <div ng-show="warmstorageTransactions.length > 0"
+             uib-alert class="alert-danger pointer missing-currencies-alert" ng-click="scrollToUnassignedTransactions()">
+            Un-assigned on-chain user deposits detected. Click here to view the transactions.
+        </div>
+        <div class="panel">
+            <div class="panel-body crypto-disable-withdrawals-panel">
+                <div class='row crypto-withdrawal-toggle-div' >
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding  margin-left-10">
+                        <span><strong>{{warmstorageObj.rehive_account_reference}}</strong></span>
+                        <br>
+                        <span class="currencies-details-heading">Account reference</span>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding no-left-padding">
+                        <div class="crypto-withdrawal-toggle-div" style="align-items: flex-start">
+                            <div class="warmstorage-address-div">
+                                <span ng-hide="showingWarmstorageDropdown" class='warmstorage-address-span'>
+                                    <strong>{{primaryWarmstorageAccount.account_address}}</strong>
+                                </span>
+                                <span ng-show="showingWarmstorageDropdown" class='warmstorage-address-span'>
+                                    <div class="reward-multi-select warmstorage-dropdown">
+                                        <select id="stellarDropdown"
+                                                chosen
+                                                data-placeholder-text-single="'Choose an address'"
+                                                width="40"
+                                                ng-model="primaryWarmstorageAccount"
+                                                ng-change="toggleWarmstorageDropdown()"
+                                                ng-options="account.account_address for account in warmstorageAccounts">
+                                                <option value=""></option>
+                                        </select>
+                                    </div>                                
+                                </span>
+                                <span class="currencies-details-heading" style="display: block;" 
+                                    ng-style="showingWarmstorageDropdown && {'margin-top': '3px'}">Public address</span>
+                            </div>
+                            <div class="account-address-dropdown" ng-click="toggleWarmstorageDropdown()">
+                                <i ng-hide="showingWarmstorageDropdown" class="fa fa-caret-down"></i>
+                                <i ng-show="showingWarmstorageDropdown" class="fa fa-caret-up"></i>
+                            </div>                        
+                        </div>                             
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-left-padding margin-left-10">
+                        <div class="crypto-withdrawal-toggle-div" style='padding-right: 12px'>
+                            <button class="btn btn-primary warmstorage-btn"
+                                ng-click="addWarmStoragePublicAddressModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetWarmstorage/addStellarTestnetWarmstoragePublicAddressModal/addStellarTestnetWarmstoragePublicAddressModal.html', 'md')">
+                                Add
+                            </button>                        
+                            <button ng-show="primaryWarmstorageAccount.status == 'Active'" class="btn btn-danger warmstorage-btn" style="margin-left: 12px!important;"
+                                    ng-click="updateWarmstorageAccountStatus('Disabled')">
+                                Disable
+                            </button>
+                            <button ng-hide="primaryWarmstorageAccount.status == 'Active'" class="btn btn-primary warmstorage-btn" style="margin-left: 12px!important;"
+                                    ng-click="updateWarmstorageAccountStatus('Active')">
+                                Enable
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class='row crypto-withdrawal-toggle-div'>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding margin-left-10">
+                        <div class="row" style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <span class="currencies-details-heading margin-left-10">Note:&nbsp;&nbsp;</span>
+                                <span>
+                                    <a class="divider pointer"
+                                        ng-click="openEditingNoteModal('app/pages/services/stellarService/stellarServiceAccounts/stellarWarmstorage/editStellarWarmstorageNoteModal/editStellarWarmstorageNoteModal.html', 'md', primaryWarmstorageAccount)"><i class="fa fa-pencil"></i></a>
+                                </span>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <span>{{primaryWarmstorageAccount.note}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 crypto-withdrawal-toggle-div margin-left-10">
+                        <span>Primary account</span>
+                        <span style="float: right;  margin: 0px 12px auto 10px;">
+                            <div ng-hide="!primaryWarmstorageAccount.primary">
+                                <i class="fa fa-toggle-on user-switch-active no-margin" ng-click="toggleWarmstoragePrimary(primaryWarmstorageAccount)"></i>
+                            </div>
+                            <div ng-show="!primaryWarmstorageAccount.primary">
+                                <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive no-margin" ng-click="toggleWarmstoragePrimary(primaryWarmstorageAccount)"></i>
+                            </div>
+                        </span>
+                    </div> 
+                </div>         
+            </div>
+        </div>
+        <div class="panel" ng-repeat="item in warmstorageCurrencies track by $index"  ng-class="{'missing-currency': !item.exists}">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="dashboard-currencies-code">
+                            {{item.currency.code}}
+                        </div>
+                    </div>
+                    <div class="currencies-page-row">
+                        <div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div>
+                                    <span><strong>{{item.currency.symbol}} {{item.balance | currencyModifiersFilter: item.currency.divisibility | commaSeperateNumberFilter}}</strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Total</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div>
+                                    <span><strong>{{item.onchain_balance ? item.currency.symbol + ' ' + item.onchain_balance : '--'}}</strong></span>
+                                    <br>
+                                    <span class="currencies-details-heading">Onchain balance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="unassignedStellarTestnetTransactions" ng-show="warmstorageTransactions.length > 0 && !loadingWarmstorage && !loadingTransactions" class="panel">
+        <div class="panel-heading" style="padding: 25px 15px">
+            <span class="user-details-panel-title">Un-assigned credit transactions</span>
+            <!-- <button class="btn btn-primary pull-right" ng-click="goToWarmstorageTransactions()" style="margin: -8px 0px auto auto;">
+                View more
+            </button> -->
+        </div>
+        <div class="panel-body" style="padding: 25px 15px">
+            <div ng-show="warmstorageTransactions.length > 0" class="divider">
+                <table class="table custom-table">
+                    <tr>
+                        <th width="60%">Transaction hash</th>
+                        <th width="10%">Currency</th>
+                        <th width="20%">Amount</th>
+                        <th width="10%">Created</th>
+                    </tr>
+                    <tr ng-repeat="transaction in warmstorageTransactions | orderBy: '-created' track by $index" data-toggle="modal"
+                        class="editable-row center user-details-table-hover pointer" ng-click="openDisplayUnAssignedTxnModal('app/pages/services/stellarTestnetService/stellarTestnetServiceAccounts/stellarTestnetWarmstorage/displayUnAssignedTxnModal/displayUnAssignedTxnModal.html', 'md', transaction)">
+                        <td width="60%" class="transactions-list-element" title="{{transaction.transaction_hash }}"  ng-bind="transaction.transaction_hash"></td>
+                        <td width="10%" class="transactions-list-element" title="{{transaction.currency}}"  ng-bind="transaction.currency"></td>
+                        <td width="20%" class="transactions-list-element" title="{{transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter}}"
+                            ng-bind="transaction.amount | currencyModifiersFilter: transaction.currency.divisibility || 7 | commaSeperateNumberFilter"></td>
+                        <td width="10%" class="transactions-list-element margin-right-10" >
+                            {{transaction.created | date:'mediumDate'}} {{log.created | date:'shortTime'}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-show="transactions.length == 0">
+                <i ng-hide="transactionsStateMessage == ''" ng-bind="transactionsStateMessage"></i>
+                <loading-image ng-show="transactionsStateMessage == ''"></loading-image>
+            </div>
+        </div>        
+    </div>
+</div>
+<div ba-panel ng-show="loadingWarmStoragePublicAddresses || loadingWarmstorage || loadingTransactions">
+    <loading-image></loading-image>
+</div>

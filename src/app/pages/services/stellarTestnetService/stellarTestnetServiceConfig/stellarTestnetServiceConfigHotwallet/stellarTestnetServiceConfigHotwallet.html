@@ -1,0 +1,59 @@
+<div ng-hide="fundingHotwallet" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Hot wallet</span>
+    </div>
+    <div class="panel-body">
+        <div class=" row divider-25">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <ul class="ul-no-dot">
+                    <li>A hot wallet is a transactional account/float that is used to send transactions on behalf of your users.
+                        It exists to minimize risk and allows you to only keep a small amount of your total cryptocurrency value in a
+                        “live” state at any one point in time. It can also be used as your warm storage (not recommended).</li>
+                    <!--<li>The service has generated a Stellar testnet account on your behalf to act as your company hot wallet.-->
+                    <li>The extension has generated a Stellar testnet account on your behalf to act as your company hot wallet.
+                        In order to activate the account you must fund your hot wallet.</li>
+                </ul>
+                <ul class="group-setup-ul">
+                    <li>
+                        Rehive uses the Stellar Friendbot to fund your hot wallet with testnet lumens.
+                        Click the "Fund my account" button on the right to continue.
+                        When using Friendbot manually, enter your public address into the Friendbot and click "Get test network lumens".
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 custom-form">
+                <div>
+                    <img class="stellar-hotwallet-qr-code" ng-src="{{hotWalletFundObj.qr_code}}">
+                    <p ngclipboard ngclipboard-success="copiedSuccessfully()" data-clipboard-text="{{hotWalletFundObj.account_address}}"
+                       class="text-center stellar-hotwallet-address pointer"><strong>{{hotWalletFundObj.account_address}}</strong></p>
+                    <div class="form-group text-center">
+                        Your hot wallet account above will be funded with 10,000 testnet coins using Friendbot.
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button ng-click="fundAccountUsingFriendbot()"
+                                    ng-disabled="hotwalletHasBeenFunded"
+                                    ng-class="{'btn-primary': !hotwalletHasBeenFunded,'disable-btn': hotwalletHasBeenFunded}" class="btn" style="margin: 20px auto;">
+                                Fund my account <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+                            <loading-image class="stellar-testnet-hotwallet-funding-spinner"
+                                           ng-show="fundingAccountUsingTestnet"></loading-image>
+                            <p ng-show="hotwalletHasBeenFunded" class="stellar-public-key-help-message">
+                                Account successfully funded</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="no-margin-horizontal divider-25">
+        <div class="form-group">
+            <button ng-click="goToConfigView('warm storage')"
+                    class="btn btn-primary setup-skip-btn pull-left dashboard-btn">Skip
+            </button>
+            <button ng-click="goToConfigView('warm storage')" ng-disabled="!hotwalletHasBeenFunded"
+                    class="btn btn-primary pull-right dashboard-btn">Next
+            </button>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="fundingHotwallet">
+    <loading-image></loading-image>
+</div>

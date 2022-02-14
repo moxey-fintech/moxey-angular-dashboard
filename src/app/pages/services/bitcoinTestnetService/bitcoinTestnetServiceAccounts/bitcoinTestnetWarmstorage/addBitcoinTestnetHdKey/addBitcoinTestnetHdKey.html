@@ -1,0 +1,27 @@
+<div ng-hide="loadingHdkeys">
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="user-details-panel-title">Add Xpub HDkey</span>
+        </div>
+        <div class="panel-body">
+            <form name="hdKeyForm" class="custom-form" novalidate>
+                <div class="form-group">
+                    <label>Extended public key for user address generation <span class="required-icon">*</span></label>
+                    <input type="text" ng-model="newHdKey.address" class="form-control"  placeholder="Address" required>
+                </div>
+                <div class="form-group">
+                    <label>Primary</label>
+                    <br>
+                    <input class="custom-rehive-checkbox" ng-model="newHdKey.primary" type="checkbox">
+                </div>
+                <div class="form-group">
+                    <button ng-disabled="!hdKeyForm.$valid" ng-click="createHdKey(newHdKey)" class="btn btn-primary dashboard-btn pull-right">Add</button>
+                    <button ng-click="$dismiss()" class="btn btn-default dashboard-btn pull-right margin-right-10">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ba-panel ng-show="loadingHdkeys">
+    <loading-image></loading-image>
+</div>

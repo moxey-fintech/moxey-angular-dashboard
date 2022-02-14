@@ -1,0 +1,222 @@
+<div ng-hide="loadingTierSettings" class="tier-limits">
+    <uib-tabset ng-show="tierLevelsForSettings.length > 0" active="activeTabIndex">
+        <uib-tab ng-repeat="tierLevel in tierLevelsForSettings track by $index" select="selectTier(tierLevel,$index)" heading="Tier {{tierLevel}}">
+            <div ng-show="disallowedSubtypesByTier.length > 0" class="panel">
+                <div class="panel-heading">
+                    <span class="user-details-panel-title">Tier subtype controls</span>
+                </div>
+                <div class="panel-body">
+                    <table class="table" style="margin-bottom: 15px!important">
+                        <tr>
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow transactions for this tier
+                            </td>
+                            <td class="rehive-table-row-last-child" style="width: 75px;">
+                                <div ng-show="tierSettingsObj.allow_transactions">
+                                    <i class="fa fa-toggle-on user-switch-active pull-left no-margin"  ng-click="toggleTierSettings(false,'allow_transactions')"></i>
+                                </div>
+                                <div ng-hide="tierSettingsObj.allow_transactions">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-left no-margin"  ng-click="toggleTierSettings(true,'allow_transactions')"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow debit transactions for this tier
+                            </td>
+                            <td class="rehive-table-row-last-child" style="width: 75px;">
+                                <div ng-show="tierSettingsObj.allow_debit_transactions">
+                                    <i class="fa fa-toggle-on user-switch-active pull-left no-margin"  ng-click="toggleTierSettings(false,'allow_debit_transactions')"></i>
+                                </div>
+                                <div ng-hide="tierSettingsObj.allow_debit_transactions">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-left no-margin"  ng-click="toggleTierSettings(true,'allow_debit_transactions')"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                                Allow credit transactions for this tier
+                            </td>
+                            <td class="rehive-table-row-last-child" style="width: 75px;">
+                                <div ng-show="tierSettingsObj.allow_credit_transactions">
+                                    <i class="fa fa-toggle-on user-switch-active pull-left no-margin"  ng-click="toggleTierSettings(false,'allow_credit_transactions')"></i>
+                                </div>
+                                <div ng-hide="tierSettingsObj.allow_credit_transactions">
+                                    <i class="fa fa-toggle-on fa-rotate-180 user-switch-inactive pull-left no-margin"  ng-click="toggleTierSettings(true,'allow_credit_transactions')"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div ng-show="disallowedSubtypesByTier.length > 0">
+                        <div style="margin-bottom: 15px!important">
+                            <label>Subtype management&nbsp;&nbsp;
+                                <span><i uib-tooltip-html="'Manage whether subtypes are allowed for all currencies, disallowed for all currencies, 
+                                    or disallowed only for specific currencies. Any setting here will apply only to this tier in this group.'" class="ion-information-circled setup-groups-tooltip"></i></span>
+                            </label>
+                        </div>
+                        <div class="form-group row" style="margin-bottom: 10px!important">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><label>Type</label></div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 no-right-padding"><label>Name</label></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 no-right-padding pull-right">
+                                <div class="row">
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 no-right-padding"></div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-right-padding" style="margin-left: -50px">
+                                        <span ng-show="totalDisallowedTierSubtypeCount > 0" class="pull-right">
+                                            <a ng-hide="displayedDisallowedTierSubtypes < totalDisallowedTierSubtypeCount" 
+                                                class="pointer" ng-click="toggleDisplayOfAllDisallowedCurrencies(false)">Hide all</a>
+                                            <a ng-show="displayedDisallowedTierSubtypes < totalDisallowedTierSubtypeCount" 
+                                                class="pointer" ng-click="toggleDisplayOfAllDisallowedCurrencies(true)">Show all</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-repeat="subtype in disallowedSubtypesByTier track by $index" style="margin-bottom: 10px!important">
+                            <div class="row row-striped" ng-class="{'alt-background': subtype.odd_row}">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" ng-bind="subtype.tx_type | capitalizeWord"></div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-right-padding">
+                                    <span ng-show="subtype.group_disabled" style="margin-left: -27px;margin-right: 5px;">&nbsp;
+                                        <i tooltip-class="duplicate-transction-tooltip" uib-tooltip-html="'There are group rules for this subtype'" 
+                                        class="ion-information-circled setup-groups-tooltip duplicate-transaction"></i>
+                                    </span>
+                                    <div class="tier-subtype-labels">
+                                        <span class="long-subtype-labels" ng-bind="subtype.name"></span>&nbsp;&nbsp;
+                                        <div class="row tier-subtype-descriptions">
+                                            <span ng-show="subtype.description && subtype.description !== ''"><strong>Used for:&nbsp;&nbsp;</strong>{{subtype.description}}</span>
+                                            <span ng-hide="subtype.description && subtype.description !== ''" class="required-info"><i>No subtype description available</i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding pull-right">
+                                <div class="row">
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 no-right-padding">
+                                        <div class="custom-radio-groups-btn" style="width: 100%;">
+                                            <label class="margin-right-10 pointer">
+                                                <input class="pointer" type="radio" value="allow" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                                <span class="custom-radio-btn">Allow</span>
+                                            </label>
+                                            <label class="margin-right-10 pointer" style="margin-left: -55px;">
+                                                <input class="pointer" type="radio" value="disallow" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                                <span class="custom-radio-btn">Disallow</span>
+                                            </label>
+                                            <label class="margin-right-10 pointer" style="margin-left: -35px;">
+                                                <input class="pointer" type="radio" value="custom" ng-model="subtype.setting" ng-change="trackSubtypeSettingChange(subtype)">
+                                                <span class="custom-radio-btn">Set disallow rules&nbsp;&nbsp;<span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding" style="margin-top: -6px;">
+                                        <div ng-show="subtype.setting !== 'custom' || subtype.custom_settings.length > 0">&nbsp;</div>
+                                        <div ng-hide="subtype.setting !== 'custom' || subtype.custom_settings.length > 0" ng-click="addCustomRule(subtype)">
+                                            <i class="fa fa-plus-square-o product-prices-add-icon pointer"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 no-left-padding" style="margin-left: -35px;">
+                                        <span class="pull-right" ng-disabled="subtype.setting !== 'custom'">
+                                            <a ng-show="subtype.show_settings" ng-class="{'anchor-disabled': subtype.setting !== 'custom'}" class="pointer" ng-click="trackDisplayOfDisallowedCurrencies(subtype, false)">Hide</a>
+                                            <a ng-hide="subtype.show_settings" ng-class="{'anchor-disabled': subtype.setting !== 'custom'}" class="pointer" ng-click="trackDisplayOfDisallowedCurrencies(subtype, true)">Show</a>
+                                        </span>
+                                    </div>
+                                </div>                                
+                                </div>
+                            </div>
+                             <div ng-show="subtype.setting === 'custom' && subtype.show_settings" class="row divider" style="background-color: white;" ng-repeat="customSetting in subtype.custom_settings track by $index" ng-style="$first && {'margin-top': '10px'}">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="reward-multi-select">
+                                        <select class="form-control pointer" ng-model="customSetting.setting">
+                                            <option value="currency">Currencies</option>
+                                            <option value="account">Accounts</option>
+                                            <option value="combo">Currency and account combo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-right-padding pull-right">
+                                    <div ng-show="customSetting.setting == 'account'" class="row">    
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                            <div style="width: 100%;">
+                                                <div class="reward-multi-select">
+                                                    <select chosen
+                                                            multiple
+                                                            data-placeholder-text-multiple="'Choose one or more account definitions'"
+                                                            width="100"
+                                                            ng-model="customSetting.accounts"
+                                                            ng-options="accDef.name for accDef in accountDefinitions | orderBy: 'name' track by accDef.name">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">
+                                            <div class="pointer">
+                                                <i class="fa fa-minus-square-o product-prices-remove-icon" 
+                                                ng-click="removeCustomRule(subtype, $index)" style="line-height: 1.2; padding-top: 3px"></i>
+                                                <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" 
+                                                ng-click="addCustomRule(subtype)" style="line-height: 1.2; padding-top: 3px"></i>                                 
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                    <div ng-show="customSetting.setting == 'combo'" class="row divider">    
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                            <div style="width: 100%;">
+                                                <div class="reward-multi-select">
+                                                    <select chosen
+                                                            single
+                                                            data-placeholder-text-single="'Choose an account definition'"
+                                                            width="100"
+                                                            ng-model="customSetting.account"
+                                                            ng-options="accDef.name for accDef in accountDefinitions | orderBy: 'name' track by accDef.name">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">&nbsp;</div>                            
+                                    </div>
+                                    <div ng-show="customSetting.setting == 'combo' || customSetting.setting == 'currency'" class="row">
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                            <div style="width: 100%;">
+                                                <div class="reward-multi-select">
+                                                    <select chosen
+                                                            multiple
+                                                            data-placeholder-text-multiple="'Choose one or more currencies'"
+                                                            width="100"
+                                                            ng-model="customSetting.currencies"
+                                                            ng-options="currency.code for currency in companyCurrencies | orderBy: 'code' track by currency.code">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-left-padding">
+                                            <div class="pointer">
+                                                <i class="fa fa-minus-square-o product-prices-remove-icon" 
+                                                ng-click="removeCustomRule(subtype, $index)" style="line-height: 1.2; padding-top: 3px"></i>
+                                                <i ng-show="$last" class="fa fa-plus-square-o product-prices-last-child" 
+                                                ng-click="addCustomRule(subtype)" style="line-height: 1.2; padding-top: 3px"></i>                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="disallowedSubtypesByTier.length > 0">
+                        <button class="btn btn-primary pull-right" ng-click="updateDisallowedSubtypeChange()">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="disallowedSubtypesByTier.length > 0" class="panel">
+                <div class="panel-body">
+                    <i>No subtypes have been added to the company.</i>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+    <div ba-panel ng-hide="tierLevelsForSettings.length > 0">
+        <i>No tiers are available for this group.</i>
+    </div>
+</div>
+<div ba-panel ng-show="loadingTierSettings">
+    <loading-image></loading-image>
+</div>

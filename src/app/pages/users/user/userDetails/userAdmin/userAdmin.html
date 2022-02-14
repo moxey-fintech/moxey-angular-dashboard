@@ -1,0 +1,23 @@
+<div ng-hide="loadingUserAdmin" class="panel">
+    <div class="panel-heading">
+        <span class="user-details-panel-title">Administration</span>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    <a class="pointer" ng-click="openResendVerifyEmailModal('app/pages/users/user/userDetails/userAdmin/userAdminModal/userAdminModal.html','md')">
+                        Resend verification email</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="table-row-center transactions-list-element rehive-table-row-first-child">
+                    <a class="pointer" ng-click="getUserEmailsFromResendPasswordLink()">Resend password set/reset link</a>
+                </td>
+            </tr>            
+        </table>
+    </div>
+</div>
+<div ba-panel ng-show="loadingUserAdmin">
+    <loading-image></loading-image>
+</div>

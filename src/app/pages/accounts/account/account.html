@@ -1,0 +1,20 @@
+<div class="user-details-view" ng-hide="loadingAccount">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <span class="user-details-breadcrumb"><span>Accounts</span>&nbsp;
+                <span ng-show="settingsTrackedLocation == 'account-limits'" ng-class="{'text-bold': settingsTrackedLocation == 'account-limits'}">&nbsp;/&nbsp; {{standaloneBreadcrumbTitle}} limits</span>
+                <span ng-show="settingsTrackedLocation == 'account-fees'" ng-class="{'text-bold': settingsTrackedLocation == 'account-fees'}">&nbsp;/&nbsp; {{standaloneBreadcrumbTitle}} fees</span>
+                <span ng-show="settingsTrackedLocation == 'currency-settings'" ng-class="{'text-bold': settingsTrackedLocation == 'currency-settings'}">&nbsp;/&nbsp; {{standaloneBreadcrumbTitle}} settings</span>
+            </span>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-default back-to-landing" ng-click="backToAccounts()" style="margin-left: 0px; font-size: 14px;">
+            <span><i class="fas fa-arrow-left"></i></span>&nbsp;&nbsp;&nbsp;Back to accounts
+        </button>
+    </div>
+    <div ui-view="accountDetailsView"></div>
+</div>
+<div ba-panel ng-show="loadingAccount">
+    <loading-image></loading-image>
+</div>

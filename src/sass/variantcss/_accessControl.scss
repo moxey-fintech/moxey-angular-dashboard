@@ -1,0 +1,25 @@
+.access-control-radio-inputs{
+  display: inline-block;
+  & label{
+    display: block;
+  }
+  & .access-control-radio-input-block{
+    display: inline-flex;
+    position: relative;
+    & .access-control-radio-labels1{
+      position: absolute;
+      top: 2px;
+      left: 20px;
+    }
+    & .access-control-radio-labels2{
+      position: absolute;
+      top: 2px;
+      left: 108px;
+    }
+    & .access-control-radio-labels3{
+      position: absolute;
+      top: 2px;
+      left: 172px;
+    }
+  }
+}
